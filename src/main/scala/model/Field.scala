@@ -2,6 +2,7 @@ package de.htwg.se.pokelite.model
 
 @main def run() : Unit =
   println(screen)
+  println("dev branch")
 
 
 def screen: String = row() + col() + colPokemonP1(Pokemon.G) + col() + colPokemonP2(Pokemon.S) + col() + row()
