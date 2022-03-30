@@ -1,7 +1,6 @@
 package de.htwg.se.pokelite
 
 @main def run() : Unit =
-  println("Commit check")
   println(screen)
 
 
