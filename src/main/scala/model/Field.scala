@@ -4,7 +4,6 @@ package de.htwg.se.pokelite.model
   println(screen)
   println("dev branch")
 
-// This is the pokemon screen branch
 def screen: String = row() + col() + colPokemonP1(Pokemon.G) + col() + colPokemonP2(Pokemon.S) + col() + row()
 def row  (width : Int = 60): String = "+"+("-"*width+"+")*2+"\n"
 def col (height: Int = 4): String = (("|"+" "*60)*2+"|\n")*height
