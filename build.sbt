@@ -7,3 +7,6 @@ lazy val root = (project in file("."))
     name := "PokemonLite",
     idePackagePrefix := Some("de.htwg.se.pokelite")
   )
+
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.11"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
