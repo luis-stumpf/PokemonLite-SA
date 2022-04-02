@@ -1,8 +1,16 @@
-package model
+package de.htwg.se.pokelite.model
 
-import org.scalatest._
+import org.scalatest.matchers.should.Matchers._
+import org.scalatest.wordspec.AnyWordSpec
 
+class FieldSpec extends AnyWordSpec {
+  "A PokemonLite Field" when {
+    "empty" should {
+      "have a bar as String of form '+---+---+---+'" in {
+        row should be("+---+---+---+\n")
+        col should be("+---+---+---+\n")
+      }
 
-class FieldSpec extends WordSpec with Matchers {
-
+    }
+  }
 }
