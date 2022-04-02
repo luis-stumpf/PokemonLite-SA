@@ -6,11 +6,10 @@ import org.scalatest.wordspec.AnyWordSpec
 class FieldSpec extends AnyWordSpec {
   "A PokemonLite Field" when {
     "empty" should {
-      "have a bar as String of form '+---+---+---+'" in {
-        row should be("+---+---+---+\n")
-        col should be("+---+---+---+\n")
+      "have a bar as String of form '+---+---+'" in {
+        row should be("+---+---+\n")
+        col should be("|  |  |\n")
       }
-
     }
   }
 }
