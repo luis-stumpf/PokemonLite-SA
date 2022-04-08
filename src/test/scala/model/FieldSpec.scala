@@ -12,12 +12,12 @@ class FieldSpec extends AnyWordSpec {
       "have a cell as String of form '|  |  |'" in {
         col(10, 1) should be("|          |          |\n")
       }
-      "have a scalable cell" in {
+      "have a scalable height" in {
         col(9, 1) should be("|         |         |\n")
         col(11, 1) should be("|           |           |\n")
         col(10, 2) should be("|          |          |\n"*2)
       }
-      "have a scalable bar" in {
+      "have a scalable width" in {
         row(1) should be("+-+-+\n")
         row(2) should be("+--+--+\n")
         row(3) should be("+---+---+\n")
