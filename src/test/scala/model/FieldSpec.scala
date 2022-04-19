@@ -27,7 +27,7 @@ class FieldSpec extends AnyWordSpec {
         "+-+-+" +
         "| | |" +
         "+-+-+" in {
-        mesh(1, 1) should be("+-+-+\n" + "| | |\n" + "+-+-+\n")
+        mesh(1, 1, "Luis", "Timmy") should be("+-+-+\n" + "| | |\n" + "+-+-+\n")
       }
     }
   }
