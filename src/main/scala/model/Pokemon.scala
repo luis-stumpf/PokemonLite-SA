@@ -10,4 +10,4 @@ enum Pokemon(stringRepresentation: String, hp: Int):
   case M extends Pokemon("M", 140);
   case R extends Pokemon("R", 150);
   case S extends Pokemon("S", 160);
-  case Empty extends Pokemon("No Pokemon");
+  case Empty extends Pokemon("No Pokemon", 1000000);
