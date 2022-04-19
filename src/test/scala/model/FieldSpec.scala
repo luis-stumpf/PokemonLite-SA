@@ -1,5 +1,4 @@
-package de.htwg.se.pokelite
-package model
+package de.htwg.se.pokelite.model
 
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.wordspec.AnyWordSpec
