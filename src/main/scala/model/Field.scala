@@ -6,9 +6,11 @@ import scala.io.StdIn.readLine
   val namePlayer1 = readLine()
   println("Enter name of Player 42: ")
   val namePlayer2 = readLine()
-  println(mesh(60, 15))
+  println(mesh(60, 15, namePlayer1, namePlayer2))
 
-def mesh (width : Int, height : Int): String = row(width) + col(width, height) + row(width)
+def mesh (width : Int, height : Int, nP1 : String, nP2 : String): String = row(width) + printPlayer1(width, nP1) + col(width, height) + printPlayer2(width, nP2) + row(width)
 def row  (width : Int): String = "+"+("-"*width+"+")*2+"\n"
 def col (width : Int, height: Int): String = (("|"+" "*width)*2+"|\n")*height
+def printPlayer1 (width: Int, name: String): String = ("|"+" "*(width-20) + name + " "* (20 - name.length))+ "|" + " " * width + "|\n"
+def printPlayer2 (width: Int, name: String): String = ("|"+" "*(width-50) + name + " "* (50 - name.length))+ "|" + " " * width + "|\n"
 
