@@ -13,7 +13,7 @@ class FieldSpec extends AnyWordSpec {
         col(10, 1) should be("|          |          |\n")
       }
       "have a scalable height" in {
-        col(9, 1) should be("|         |         |\n")
+        col(8, 1) should be("|        |        |\n")
         col(11, 1) should be("|           |           |\n")
         col(10, 2) should be("|          |          |\n"*2)
       }
