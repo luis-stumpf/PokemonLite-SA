@@ -14,6 +14,6 @@ import scala.io.StdIn.readLine
 def mesh (width : Int, height : Int, nP1 : String, nP2 : String): String = row(width) + printPlayer1(width, nP1) + col(width, height) + printPlayer2(width, nP2) + row(width)
 def row  (width : Int): String = "+"+("-"*width+"+")*2+"\n"
 def col (width : Int, height: Int): String = (("|"+" "*width)*2+"|\n")*height
-def printPlayer1 (width: Int, name: String): String = ("|"+" "*((width*0.75).floor).toInt + name + " "* ((width*0.25).floor.toInt - name.length))+ "|" + " " * width + "|\n"
-def printPlayer2 (width: Int, name: String): String = ("|"+" "*((width*0.25).floor).toInt + name + " "* ((width*0.75).floor.toInt - name.length))+ "|" + " " * width + "|\n"
+def printPlayer1 (width: Int, name: String): String = ("|"+" "*((width*0.85).floor.toInt - name.length)+ name + " "* ((width*0.15).floor.toInt ))+ "|" + " " * width + "|\n"
+def printPlayer2 (width: Int, name: String): String = ("|"+" "*((width*0.15).floor).toInt + name + " "* ((width*0.85).floor.toInt - name.length))+ "|" + " " * width + "|\n"
 
