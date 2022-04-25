@@ -8,7 +8,7 @@ import scala.io.StdIn.readLine
 
 
 @main def run() : Unit =
-  val field = Field(30, "", "", NoPokemon(), NoPokemon())
+  val field = Field(50, "", "", NoPokemon(), NoPokemon())
   val controller = Controller(field)
   val tui = TUI(controller)
   tui.run
