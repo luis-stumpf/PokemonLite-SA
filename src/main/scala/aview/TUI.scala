@@ -16,8 +16,9 @@ class TUI(controller: Controller) extends Observer:
 
   def run =
     println(controller.field.toString)
-    getInput();
-    chosePokemons()
+    getInput()
+    chosePokemonP1()
+    chosePokemonP2()
 
 
 
@@ -27,10 +28,41 @@ class TUI(controller: Controller) extends Observer:
     val inputP2 = readLine()
     controller.setNameP2(inputP2)
 
-  def chosePokemons(): Unit =
-    val P1 =  Pokemon("Glurak", 150)
-    val P2 = Pokemon("Simsala", 130)
-    controller.setPokemonP1(P1)
-    controller.setPokemonP2(P2)
+
+
+  def chosePokemonP1(): Unit =
+    println("Choose your Pokemon: \n" +
+      "1: Glurak\n" +
+      "2: Simsala\n" +
+      "3: Brutalanda\n")
+
+    val input = readLine
+    val glurak = Pokemon("Glurak", 150)
+    val simsala = Pokemon("Simsala", 130)
+    val brutalanda = Pokemon("Brutalanda", 180)
+    val noPokemon = Pokemon("No Pokemon", -1)
+    input match
+      case "1" => controller.setPokemonP1(glurak)
+      case "2" => controller.setPokemonP1(simsala)
+      case "3" => controller.setPokemonP1(brutalanda)
+      case _ => controller.setPokemonP1(noPokemon)
+
+  def chosePokemonP2(): Unit =
+    println("Choose your Pokemon: \n" +
+      "1: Glurak\n" +
+      "2: Simsala\n" +
+      "3: Brutalanda\n")
+
+    val input = readLine
+    val glurak = Pokemon("Glurak", 150)
+    val simsala = Pokemon("Simsala", 130)
+    val brutalanda = Pokemon("Brutalanda", 180)
+    val noPokemon = Pokemon("No Pokemon", -1)
+
+    input match
+      case "1" => controller.setPokemonP2(glurak)
+      case "2" => controller.setPokemonP2(simsala)
+      case "3" => controller.setPokemonP2(brutalanda)
+      case _ => controller.setPokemonP2(noPokemon)
 
 
