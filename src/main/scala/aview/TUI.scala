@@ -41,10 +41,11 @@ class TUI(controller: Controller) extends Observer:
     val simsala = Pokemon("Simsala", 130)
     val brutalanda = Pokemon("Brutalanda", 180)
     val noPokemon = Pokemon("No Pokemon", -1)
-    input match
-      case "1" => controller.setPokemonP1(glurak)
-      case "2" => controller.setPokemonP1(simsala)
-      case "3" => controller.setPokemonP1(brutalanda)
+    val chars = input.toCharArray
+    chars(0) match
+      case '1' => controller.setPokemonP1(glurak)
+      case '2' => controller.setPokemonP1(simsala)
+      case '3' => controller.setPokemonP1(brutalanda)
       case _ => controller.setPokemonP1(noPokemon)
 
   def chosePokemonP2(): Unit =
@@ -58,11 +59,11 @@ class TUI(controller: Controller) extends Observer:
     val simsala = Pokemon("Simsala", 130)
     val brutalanda = Pokemon("Brutalanda", 180)
     val noPokemon = Pokemon("No Pokemon", -1)
-
-    input match
-      case "1" => controller.setPokemonP2(glurak)
-      case "2" => controller.setPokemonP2(simsala)
-      case "3" => controller.setPokemonP2(brutalanda)
+    val chars = input.toCharArray
+    chars(0) match
+      case '1' => controller.setPokemonP2(glurak)
+      case '2' => controller.setPokemonP2(simsala)
+      case '3' => controller.setPokemonP2(brutalanda)
       case _ => controller.setPokemonP2(noPokemon)
 
 
