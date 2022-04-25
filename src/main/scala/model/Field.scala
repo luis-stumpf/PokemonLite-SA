@@ -12,8 +12,8 @@ case class Field(width: Int):
   def calcSpace (width: Int, start: Double, element: String): Int = (width * start).floor.toInt - element.toString.length
   def calcSpace (width: Int, start: Double): Int = (width * start).floor.toInt
   def cleanSite (width: Int) = "|" + " " * width + "|\n"
-  def printP1left (width: Int, name: String): String = "|"+" "*calcSpace(width, 0.9, name) + name + " " * calcSpace(width, 0.1)
-  def printP2left (width: Int, name: String): String = "|"+" "*calcSpace(width, 0.1) + name + " " * calcSpace(width, 0.9, name)
+  def printP1left (width: Int = 60, name: String): String = "|"+" "*calcSpace(width, 0.9, name) + name + " " * calcSpace(width, 0.1)
+  def printP2left (width: Int = 60, name: String): String = "|"+" "*calcSpace(width, 0.1) + name + " " * calcSpace(width, 0.9, name)
   def printPokeP1left (width: Int, pokemon: Pokemon): String = "|"+" "*calcSpace(width, 0.9, pokemon.toString) + pokemon + " "* calcSpace(width, 0.1)
   def printPokeP2right (width: Int, pokemon: Pokemon): String = "|"+" "* calcSpace(width, 0.1) + pokemon + " "* calcSpace(width, 0.9, pokemon.toString)
 
