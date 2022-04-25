@@ -1,21 +1,21 @@
 package de.htwg.se.pokelite.model
 
 case class Field(width: Int, nP1: String, nP2: String, nP1P: PokemonType, nP2P: PokemonType):
-  def mesh (width : Int = 50, height : Int = 3): String = row(width) + printPlayer1(width, nP1) + printPokemonP1(width, nP1P) + col(width, height) + printPokemonP2(width, nP2P) + printPlayer2(width, nP2) + row(width)
-  def row (width : Int): String = "+"+("-"*width+"+")*2+"\n"
-  def col (width : Int, height: Int): String = (("|"+" "*width)*2+"|\n")*height
-  def printPlayer1 (width: Int, name: String): String = printP1left(width, name) + cleanSite(width)
-  def printPlayer2 (width: Int, name: String): String = printP2left(width, name) + cleanSite(width)
-  def printPokemonP1 (width: Int, pokemon: PokemonType): String = printPokeP1left(width, pokemon) + cleanSite(width)
-  def printPokemonP2 (width: Int, pokemon: PokemonType): String = printPokeP2right(width, pokemon) + cleanSite(width)
+  def mesh (height : Int = 3): String = row() + printPlayer1() + printPokemonP1() + col(height) + printPokemonP2() + printPlayer2() + row()
+  def row (): String = "+"+("-"*width+"+")*2+"\n"
+  def col (height: Int): String = (("|"+" "*width)*2+"|\n")*height
+  def printPlayer1 (): String = printP1left() + cleanSite()
+  def printPlayer2 (): String = printP2left() + cleanSite()
+  def printPokemonP1 (): String = printPokeP1left() + cleanSite()
+  def printPokemonP2 (): String = printPokeP2right() + cleanSite()
 
-  def calcSpace (width: Int, start: Double, element: String): Int = (width * start).floor.toInt - element.toString.length
-  def calcSpace (width: Int, start: Double): Int = (width * start).floor.toInt
-  def cleanSite (width: Int): String = "|" + " " * width + "|\n"
-  def printP1left (width: Int = 50, name: String): String = "|"+" "*calcSpace(width, 0.9, name) + name + " " * calcSpace(width, 0.1)
-  def printP2left (width: Int = 50, name: String): String = "|"+" "*calcSpace(width, 0.1) + name + " " * calcSpace(width, 0.9, name)
-  def printPokeP1left (width: Int, pokemon: PokemonType): String = "|"+" "*calcSpace(width, 0.9, pokemon.toString) + pokemon + " "* calcSpace(width, 0.1)
-  def printPokeP2right (width: Int, pokemon: PokemonType): String = "|"+" "* calcSpace(width, 0.1) + pokemon + " "* calcSpace(width, 0.9, pokemon.toString)
+  def calcSpace (start: Double, element: String): Int = (width * start).floor.toInt - element.toString.length
+  def calcSpace (start: Double): Int = (width * start).floor.toInt
+  def cleanSite (): String = "|" + " " * width + "|\n"
+  def printP1left (): String = "|"+" "* calcSpace(0.9, nP1) + nP1 + " " * calcSpace(0.1)
+  def printP2left (): String = "|"+" "* calcSpace(0.1) + nP2 + " " * calcSpace(0.9, nP2)
+  def printPokeP1left (): String = "|"+" "*calcSpace(0.9, nP1P.toString) + nP1P + " "* calcSpace(0.1)
+  def printPokeP2right (): String = "|"+" "* calcSpace(0.1) + nP2P + " "* calcSpace(0.9, nP2P.toString)
 
   def setP1(name: String): Field = copy(nP1 = name)
   def setP2(name: String): Field = copy(nP2 = name)
