@@ -6,7 +6,7 @@ case class Field(width: Int, namePlayer1: String, namePlayer2: String, pokemonPl
   def col(height: Int): String = (("|"+" "*width)*2+"|\n")*height
   def printPlayer1(): String = printP1left() + cleanSite()
   def printPlayer2(): String = printP2left() + cleanSite()
-  def printPokemonP1(): String = printPokeP1left() + cleanSite()
+  def printPokemonP1(): String = printPokeP1left()
   def printPokemonP2(): String = printPokeP2right() + cleanSite()
 
   def calcSpace(start: Double, element: String): Int = (width * start).floor.toInt - element.toString.length
@@ -16,6 +16,7 @@ case class Field(width: Int, namePlayer1: String, namePlayer2: String, pokemonPl
   def printP2left(): String = "|"+" "* calcSpace(0.1) + namePlayer2 + " " * calcSpace(0.9, namePlayer2)
   def printPokeP1left(): String = "|"+" "*calcSpace(0.9, pokemonPlayer1.toString) + pokemonPlayer1 + " "* calcSpace(0.1)
   def printPokeP2right(): String = "|"+" "* calcSpace(0.1) + pokemonPlayer2 + " "* calcSpace(0.9, pokemonPlayer2.toString)
+  def printAttack(): String = "|" + pokemon.attacks.apply(0).name + "|"
 
   def setNameP1(name: String): Field = copy(namePlayer1 = name)
   def setNameP2(name: String): Field = copy(namePlayer2 = name)

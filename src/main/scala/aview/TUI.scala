@@ -4,7 +4,7 @@ package aview
 import controller.Controller
 import util.Observer
 
-import de.htwg.se.pokelite.model.Pokemon
+import de.htwg.se.pokelite.model.{Attack, Pokemon}
 
 import scala.io.StdIn.readLine
 
@@ -29,18 +29,19 @@ class TUI(controller: Controller) extends Observer:
     controller.setNameP2(inputP2)
 
 
-
   def chosePokemonP1(): Unit =
     println("Choose your Pokemon: \n" +
       "1: Glurak\n" +
       "2: Simsala\n" +
       "3: Brutalanda\n")
 
+    val attackList = List(Attack("Flammewurf", 30))
+
     val input = readLine
-    val glurak = Pokemon("Glurak", 150)
-    val simsala = Pokemon("Simsala", 130)
-    val brutalanda = Pokemon("Brutalanda", 180)
-    val noPokemon = Pokemon("No Pokemon", -1)
+    val glurak = Pokemon("Glurak", 150, attackList)
+    val simsala = Pokemon("Simsala", 130, attackList)
+    val brutalanda = Pokemon("Brutalanda", 180, attackList)
+    val noPokemon = Pokemon("No Pokemon", -1, attackList)
     val chars = input.toCharArray
     chars(0) match
       case '1' => controller.setPokemonP1(glurak)
@@ -54,11 +55,12 @@ class TUI(controller: Controller) extends Observer:
       "2: Simsala\n" +
       "3: Brutalanda\n")
 
+    val attackList = List(Attack("Flammewurf", 30))
     val input = readLine
-    val glurak = Pokemon("Glurak", 150)
-    val simsala = Pokemon("Simsala", 130)
-    val brutalanda = Pokemon("Brutalanda", 180)
-    val noPokemon = Pokemon("No Pokemon", -1)
+    val glurak = Pokemon("Glurak", 150, attackList)
+    val simsala = Pokemon("Simsala", 130, attackList)
+    val brutalanda = Pokemon("Brutalanda", 180, attackList)
+    val noPokemon = Pokemon("No Pokemon", -1, attackList)
     val chars = input.toCharArray
     chars(0) match
       case '1' => controller.setPokemonP2(glurak)
