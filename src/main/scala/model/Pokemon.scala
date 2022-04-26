@@ -1,7 +1,6 @@
 package de.htwg.se.pokelite
 package model
 
-import model.Attack
 
 trait PokemonType{
   val name: String
@@ -9,10 +8,10 @@ trait PokemonType{
   val attacks: List[AttackType]
 }
 
-case class Pokemon(name: String, hp: Int, attacks: List[AttackType]) extends PokemonType:
+case class Pokemon(name: String, hp: Int, attacks: List[Attack]) extends PokemonType:
   override def toString: String = name + " HP: " + hp
   def changeHp(newHp: Int): Pokemon = copy(hp = newHp)
 
-case class NoPokemon(name: String = "", hp: Int = -1, attacks: List[AttackType]) extends PokemonType:
+case class NoPokemon(name: String = "", hp: Int = -1, attacks: List[NoAttack] = List(NoAttack())) extends PokemonType:
   override def toString: String = ""
   

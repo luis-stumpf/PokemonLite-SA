@@ -35,7 +35,7 @@ class TUI(controller: Controller) extends Observer:
       "2: Simsala\n" +
       "3: Brutalanda\n")
 
-    val attackList = List(Attack("Flammewurf", 30))
+    val attackList = List(Attack("Flammenwurf", 30))
 
     val input = readLine
     val glurak = Pokemon("Glurak", 150, attackList)
