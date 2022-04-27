@@ -12,3 +12,7 @@ case class Controller(var field: Field) extends Observable:
   def setPokemonTo(pokemon: Pokemon) =
     field = field.setPokemonTo(pokemon)
     notifyObservers
+
+  def giveControlToNextPlayer() =
+    field = field.setNextTurn()
+    notifyObservers

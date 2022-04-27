@@ -22,6 +22,7 @@ class TUI(controller: Controller) extends Observer:
 
 
   def inputLoop(): Unit =
+    controller.giveControlToNextPlayer()
     val input = readLine
     /*
     input match
@@ -38,13 +39,14 @@ class TUI(controller: Controller) extends Observer:
         val y = chars(2).toString.toInt
         controller.put(stone, x, y)
     */
+    println(input)
     println(controller.toString)
     inputLoop()
 
   def getInput(): Unit =
-    println("Enter name of Player 1: ")
+    print("Enter name of Player 1: ")
     controller.setPlayerNameTo(readLine())
-    println("Enter name of Player 2: ")
+    print("Enter name of Player 2: ")
     controller.setPlayerNameTo(readLine())
 
 
@@ -57,11 +59,12 @@ class TUI(controller: Controller) extends Observer:
       "3: Brutalanda\n")
 
     val attackList = List(Attack("Flammenwurf", 30), Attack("Donnerblitz", 20), Attack("Bite",15), Attack("Tackle", 10))
+    val attackList2 = List(Attack("Kackawurf", 30), Attack("Blitzdonner", 20), Attack("Slap",15), Attack("Nothing", 10))
 
     val input = readLine()
     val glurak = Pokemon("Glurak", 150, attackList)
-    val simsala = Pokemon("Simsala", 130, attackList)
-    val brutalanda = Pokemon("Brutalanda", 180, attackList)
+    val simsala = Pokemon("Simsala", 130, attackList2)
+    val brutalanda = Pokemon("Brutalanda", 180, attackList2)
     val noPokemon = Pokemon("No Pokemon", -1, attackList)
     val chars = input.toCharArray
     chars(0) match
