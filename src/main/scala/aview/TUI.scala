@@ -23,14 +23,14 @@ class TUI(controller: Controller) extends Observer:
 
 
   def getInput(): Unit =
-    val inputP1 = readLine
-    controller.setNameP1(inputP1)
-    val inputP2 = readLine()
-    controller.setNameP2(inputP2)
+    println("Enter name of Player 1: ")
+    controller.setNameP1(readLine())
+    println("Enter name of Player 2: ")
+    controller.setNameP2(readLine())
 
 
   def chosePokemonP1(): Unit =
-    println("Choose your Pokemon: \n" +
+    println(controller.field.namePlayer1 + " Choose your Pokemon: \n" +
       "1: Glurak\n" +
       "2: Simsala\n" +
       "3: Brutalanda\n")
@@ -50,7 +50,7 @@ class TUI(controller: Controller) extends Observer:
       case _ => controller.setPokemonP1(noPokemon)
 
   def chosePokemonP2(): Unit =
-    println("Choose your Pokemon: \n" +
+    println(controller.field.namePlayer2 + " Choose your Pokemon: \n" +
       "1: Glurak\n" +
       "2: Simsala\n" +
       "3: Brutalanda\n")
