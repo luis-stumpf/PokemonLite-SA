@@ -16,8 +16,8 @@ case class Field(width: Int, player1: PokePlayer, player2: PokePlayer, isControl
   def cleanSite(): String = "|" + " " * width + "|\n"
 
   def printTopPlayer(): String = "|"+" "* calcSpace(0.9, player1.name) + player1.name + " " * calcSpace(0.1)
-  def printBottomPlayer(): String = "|"+" "* calcSpace(0.1) + player2.name + " " * calcSpace(0.9, player2.name)
   def printTopPokemon(): String = "|"+" "*calcSpace(0.9, player1.pokemon.toString) + player1.pokemon + " "* calcSpace(0.1)   + printTopAttacks()
+  def printBottomPlayer(): String = "|"+" "* calcSpace(0.1) + player2.name + " " * calcSpace(0.9, player2.name)
   def printBottomPokemon(): String = "|"+" "* calcSpace(0.1) + player2.pokemon + " "* calcSpace(0.9, player2.pokemon.toString)  + printBottomAttacks()
 
   def printTopAttacks(): String = if(isControlledBy == 1) printTopAttacksOf(player1.pokemon) else printTopAttacksOf(player2.pokemon)
