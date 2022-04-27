@@ -33,7 +33,7 @@ class FieldSpec extends AnyWordSpec {
       }
     }
     "with input" should {
-      val field = new Field(50, "Luis", "Luis", NoPokemon(), NoPokemon())
+      val field = Field(50, "Luis", "Luis", NoPokemon(), NoPokemon())
       val attackList = List(Attack("Flammenwurf", 30), Attack("Donnerblitz", 20), Attack("Bite",15), Attack("Tackle", 10))
 
       "calc space Int" in {
