@@ -48,9 +48,9 @@ class FieldSpec extends AnyWordSpec {
       "have a mesh in form of \n" +
       "+----------------+----------------+\n" +
       "|          Luis  |                |\n" +
+      "|         poke   |  0        1    |\n" +
       "|                |                |\n" +
-      "|                |                |\n" +
-      "|                |                |\n" +
+      "|  poke          |  2        3    |\n" +
       "|  Luis          |                |\n" +
       "+----------------+----------------+\n" in {
         field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(Pokemon("Glurak", 150, attackList)).setPokemonTo(Pokemon("Simsala", 130, attackList1)).mesh() should be(
@@ -65,7 +65,13 @@ class FieldSpec extends AnyWordSpec {
             "+--------------------------------------------------+--------------------------------------------------+\n"
         )
       }
-      "have a mesh at next step" in {
+      "have a mesh at next step\n" +
+        "+----------------+----------------+\n" +
+        "|          Luis  |                |\n" +
+        "|         poke   |  0        1    |\n" +
+        "|                |                |\n" +
+        "|  poke          |  2        3    |\n" +
+        "|  Luis          |                |\n" in {
         field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(Pokemon("Glurak", 150, attackList)).setPokemonTo(Pokemon("Simsala", 130, attackList1)).setNextTurn().mesh() should be(
           "+--------------------------------------------------+--------------------------------------------------+\n"+
           "|                                         Luis     |                                                  |\n"+
