@@ -2,13 +2,13 @@ package de.htwg.se.pokelite
 
 import aview.TUI
 import controller.Controller
-import model.{Field, Pokemon, NoPokemon}
+import model.{Field, NoPokemon, PokePlayer, Pokemon}
 
 import scala.io.StdIn.readLine
 
 
 @main def run() : Unit =
-  val field = Field(50, "", "", NoPokemon(), NoPokemon())
+  val field = Field(50, PokePlayer("",1,NoPokemon(), true),PokePlayer("",2,NoPokemon()))
   val controller = Controller(field)
   val tui = TUI(controller)
   tui.run

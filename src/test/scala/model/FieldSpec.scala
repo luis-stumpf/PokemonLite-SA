@@ -48,7 +48,7 @@ class FieldSpec extends AnyWordSpec {
       "|                |                |\n" +
       "|  Luis          |                |\n" +
       "+----------------+----------------+\n" in {
-        field.setNameP1("Luis").setNameP2("Luis").setPokemonP1(Pokemon("Glurak", 150, attackList)).setPokemonP2(Pokemon("Simsala", 130, attackList)).mesh() should be(
+        field.setPlayerNameTo("Luis").setNameP2("Luis").setPokemonP1(Pokemon("Glurak", 150, attackList)).setPokemonP2(Pokemon("Simsala", 130, attackList)).mesh() should be(
             "+--------------------------------------------------+--------------------------------------------------+\n"+
             "|                                         Luis     |                                                  |\n"+
             "|                               Glurak HP: 150     |     Flammenwurf         Donnerblitz              |\n"+
