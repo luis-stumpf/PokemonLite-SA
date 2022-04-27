@@ -5,7 +5,7 @@ import org.scalatest.wordspec.AnyWordSpec
 class FieldSpec extends AnyWordSpec {
   "A PokemonLite Field" when {
     "empty" should {
-      val field = new Field(50, "", "", NoPokemon(), NoPokemon())
+      val field = new Field(50, PokePlayer("",1,NoPokemon()), PokePlayer("",2,NoPokemon()))
       "have a bar as String of form '+---+---+'" in {
         field.row() should be("+--------------------------------------------------+--------------------------------------------------+\n")
       }
@@ -33,12 +33,17 @@ class FieldSpec extends AnyWordSpec {
       }
     }
     "with input" should {
-      val field = Field(50, "Luis", "Luis", NoPokemon(), NoPokemon())
+      val field = Field(50, PokePlayer("Luis", 1, NoPokemon()), PokePlayer("Luis", 2, NoPokemon()))
       val attackList = List(Attack("Flammenwurf", 30), Attack("Donnerblitz", 20), Attack("Bite",15), Attack("Tackle", 10))
+      val attackList1 = List(Attack("Simsala", 30), Attack("Simsala", 20), Attack("Simsala",15), Attack("Simsala", 10))
 
       "calc space Int" in {
         field.calcSpace(0.9) should be(45)
         field.calcSpace(0.9, "Luis") should be(41)
+      }
+      "Field state '1 or 2'" in{
+        field.isControlledBy should be(1)
+        field.setNextTurn().isControlledBy should be(2)
       }
       "have a mesh in form of \n" +
       "+----------------+----------------+\n" +
@@ -48,7 +53,7 @@ class FieldSpec extends AnyWordSpec {
       "|                |                |\n" +
       "|  Luis          |                |\n" +
       "+----------------+----------------+\n" in {
-        field.setPlayerNameTo("Luis").setNameP2("Luis").setPokemonP1(Pokemon("Glurak", 150, attackList)).setPokemonP2(Pokemon("Simsala", 130, attackList)).mesh() should be(
+        field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(Pokemon("Glurak", 150, attackList)).setPokemonTo(Pokemon("Simsala", 130, attackList1)).mesh() should be(
             "+--------------------------------------------------+--------------------------------------------------+\n"+
             "|                                         Luis     |                                                  |\n"+
             "|                               Glurak HP: 150     |     Flammenwurf         Donnerblitz              |\n"+
@@ -56,8 +61,21 @@ class FieldSpec extends AnyWordSpec {
             "|                                                  |                                                  |\n"+
             "|                                                  |                                                  |\n"+
             "|     Simsala HP: 130                              |     Bite                Tackle                   |\n"+
-            "|     Luis                                         |                                                  |\n"+
+            "|     Timmy                                        |                                                  |\n"+
             "+--------------------------------------------------+--------------------------------------------------+\n"
+        )
+      }
+      "have a mesh at next step" in {
+        field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(Pokemon("Glurak", 150, attackList)).setPokemonTo(Pokemon("Simsala", 130, attackList1)).setNextTurn().mesh() should be(
+          "+--------------------------------------------------+--------------------------------------------------+\n"+
+          "|                                         Luis     |                                                  |\n"+
+          "|                               Glurak HP: 150     |     Simsala             Simsala                  |\n"+
+          "|                                                  |                                                  |\n"+
+          "|                                                  |                                                  |\n"+
+          "|                                                  |                                                  |\n"+
+          "|     Simsala HP: 130                              |     Simsala             Simsala                  |\n"+
+          "|     Timmy                                        |                                                  |\n"+
+          "+--------------------------------------------------+--------------------------------------------------+\n"
         )
       }
     }

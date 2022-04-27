@@ -60,12 +60,13 @@ class TUI(controller: Controller) extends Observer:
 
     val attackList = List(Attack("Flammenwurf", 30), Attack("Donnerblitz", 20), Attack("Bite",15), Attack("Tackle", 10))
     val attackList2 = List(Attack("Kackawurf", 30), Attack("Blitzdonner", 20), Attack("Slap",15), Attack("Nothing", 10))
+    val attackList3 = List(Attack("Simsala", 30), Attack("Simsala", 20), Attack("Simsala",15), Attack("Simsala", 10))
     
     val input = readLine()
     
     // TODO: ich glaube das zeug muss der Controller setzen die TUI sollte nicht direkt auf ein Model zugreifen
     val glurak = Pokemon("Glurak", 150, attackList)
-    val simsala = Pokemon("Simsala", 130, attackList2)
+    val simsala = Pokemon("Simsala", 130, attackList3)
     val brutalanda = Pokemon("Brutalanda", 180, attackList2)
     val noPokemon = Pokemon("No Pokemon", -1, attackList)
     val chars = input.toCharArray
