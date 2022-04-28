@@ -2,6 +2,7 @@ package de.htwg.se.pokelite
 package model
 
 import model.PokePlayer
+import model.PokemonType
 
 case class Field(width: Int, player1: PokePlayer, player2: PokePlayer, isControlledBy: Int = 1):
   def mesh(height : Int = 3): String = row() + printPlayer1Stats() + col(height) + printPlayer2Stats() + row()
@@ -23,7 +24,7 @@ case class Field(width: Int, player1: PokePlayer, player2: PokePlayer, isControl
   def printTopAttacks(): String = if(isControlledBy == 1) printTopAttacksOf(player1.pokemon) else printTopAttacksOf(player2.pokemon)
   def printBottomAttacks(): String = if(isControlledBy == 1) printBottomAttacksOf(player1.pokemon) else printBottomAttacksOf(player2.pokemon)
 
-  def printTopAttacksOf(pokemon: PokemonType): String = "|" + " " * calcSpace(0.1) + pokemon.attacks.apply(0).name + " " *calcSpace(0.4, pokemon.attacks.apply(0).toString) +
+  def printTopAttacksOf(pokemon: PokemonType): String = "|" + " " * calcSpace(0.1) + pokemon.attacks.apply(0).toString + " " *calcSpace(0.4, pokemon.attacks.apply(0).toString) +
     pokemon.attacks.apply(1).name + " " *calcSpace(0.5, pokemon.attacks.apply(1).toString)+ "|\n"
   def printBottomAttacksOf(pokemon: PokemonType): String = "|" + " " * calcSpace(0.1) + pokemon.attacks.apply(2).name + " " *calcSpace(0.4, pokemon.attacks.apply(2).toString) +
     pokemon.attacks.apply(3).name + " " *calcSpace(0.5, pokemon.attacks.apply(3).toString)+ "|\n"

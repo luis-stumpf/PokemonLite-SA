@@ -15,7 +15,7 @@ class PokePlayerSpec extends AnyWordSpec {
       p3.toString should be("Otto")
     }
     "set Pokemon in form new PokePlayer" in {
-      p1.setPokemonTo(Pokemon("Glurak",150, List(Attack("test", 30)))).pokemon should be(Pokemon("Glurak", 150, List(Attack("test", 30))))
+      p1.setPokemonTo(Glurak()).pokemon should be(Glurak())
     }
     "set Player Name in form new PokePlayer" in {
       p1.setPokePlayerNameTo("Udo").name should be("Udo")

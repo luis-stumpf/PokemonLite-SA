@@ -9,16 +9,28 @@ class PokemonSpec extends AnyWordSpec {
     val noPokemon = NoPokemon()
     "have a String of form ''" in {
       noPokemon.toString should be("")
+      noPokemon.attacks.apply(0) should be(NoAttack())
     }
   }
-  "A Pokemon" should {
-    val attackList = List(Attack("Flammenwurf", 30), Attack("Donnerblitz", 20), Attack("Bite",15), Attack("Tackle", 10))
-    val pokemon = Pokemon("Glurak", 150, attackList)
+  "A Glurak" should {
+    val pokemon = Glurak()
     "have a String of form 'name HP: Int'" in {
       pokemon.toString should be("Glurak HP: 150")
+      pokemon.attacks.apply(0) should be(Attack("Flammenwurf", 30))
     }
-    "have a def changeHp 'name HP: newHP'" in {
-      pokemon.changeHp(100).toString should be("Glurak HP: 100")
+  }
+  "A Simsala" should {
+    val pokemon = Simsala()
+    "have a String of form 'name HP: Int'" in {
+      pokemon.toString should be("Simsala HP: 130")
+      pokemon.attacks.apply(0) should be(Attack("Simsala", 30))
+    }
+  }
+  "A Brutalanda" should {
+    val pokemon = Brutalanda()
+    "have a String of form 'name HP: Int'" in {
+      pokemon.toString should be("Brutalanda HP: 180")
+      pokemon.attacks.apply(0) should be(Attack("Flammenwurf", 30))
     }
   }
 }

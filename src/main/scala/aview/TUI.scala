@@ -2,10 +2,9 @@ package de.htwg.se.pokelite
 package aview
 
 import controller.Controller
-import model.{Attack, NoPokemon, Pokemon}
+import model.{Attack, NoPokemon, Glurak, Simsala, Brutalanda}
 import util.Observer
 
-import de.htwg.se.pokelite.model.pokemons.{Brutalanda, Glurak, Simsala}
 
 import scala.io.StdIn.readLine
 
@@ -45,20 +44,16 @@ class TUI(controller: Controller) extends Observer:
       "2: Simsala\n" +
       "3: Brutalanda\n")
 
-    val attackList = List(Attack("Flammenwurf", 30), Attack("Donnerblitz", 20), Attack("Bite",15), Attack("Tackle", 10))
-    val attackList2 = List(Attack("Kackawurf", 30), Attack("Blitzdonner", 20), Attack("Slap",15), Attack("Nothing", 10))
-    val attackList3 = List(Attack("Simsala", 30), Attack("Simsala", 20), Attack("Simsala",15), Attack("Simsala", 10))
-    
     val input = readLine()
     
     // TODO: ich glaube das zeug muss der Controller setzen die TUI sollte nicht direkt auf ein Model zugreifen
 
     val chars = input.toCharArray
     chars(0) match
-      case '1' => controller.setPokemonTo(Glurak)
-      case '2' => controller.setPokemonTo(Simsala)
-      case '3' => controller.setPokemonTo(Brutalanda)
-      case _ => controller.setPokemonTo(NoPokemon)
+      case '1' => controller.setPokemonTo(Glurak())
+      case '2' => controller.setPokemonTo(Simsala())
+      case '3' => controller.setPokemonTo(Brutalanda())
+      case _ => controller.setPokemonTo(NoPokemon())
 
 
 

@@ -34,8 +34,6 @@ class FieldSpec extends AnyWordSpec {
     }
     "with input" should {
       val field = Field(50, PokePlayer("Luis", 1, NoPokemon()), PokePlayer("Luis", 2, NoPokemon()))
-      val attackList = List(Attack("Flammenwurf", 30), Attack("Donnerblitz", 20), Attack("Bite",15), Attack("Tackle", 10))
-      val attackList1 = List(Attack("Simsala", 30), Attack("Simsala", 20), Attack("Simsala",15), Attack("Simsala", 10))
 
       "calc space Int" in {
         field.calcSpace(0.9) should be(45)
@@ -53,7 +51,7 @@ class FieldSpec extends AnyWordSpec {
       "|  poke          |  2        3    |\n" +
       "|  Luis          |                |\n" +
       "+----------------+----------------+\n" in {
-        field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(Pokemon("Glurak", 150, attackList)).setPokemonTo(Pokemon("Simsala", 130, attackList1)).mesh() should be(
+        field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(Glurak()).setPokemonTo(Simsala()).mesh() should be(
             "+--------------------------------------------------+--------------------------------------------------+\n"+
             "|                                         Luis     |                                                  |\n"+
             "|                               Glurak HP: 150     |     Flammenwurf         Donnerblitz              |\n"+
@@ -72,7 +70,7 @@ class FieldSpec extends AnyWordSpec {
         "|                |                |\n" +
         "|  poke          |  2        3    |\n" +
         "|  Luis          |                |\n" in {
-        field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(Pokemon("Glurak", 150, attackList)).setPokemonTo(Pokemon("Simsala", 130, attackList1)).setNextTurn().mesh() should be(
+        field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(Glurak()).setPokemonTo(Simsala()).setNextTurn().mesh() should be(
           "+--------------------------------------------------+--------------------------------------------------+\n"+
           "|                                         Luis     |                                                  |\n"+
           "|                               Glurak HP: 150     |     Simsala             Simsala                  |\n"+
