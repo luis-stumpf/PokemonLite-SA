@@ -5,6 +5,8 @@ import controller.Controller
 import model.{Attack, NoPokemon, Pokemon}
 import util.Observer
 
+import de.htwg.se.pokelite.model.pokemons.{Brutalanda, Glurak, Simsala}
+
 import scala.io.StdIn.readLine
 
 
@@ -24,21 +26,6 @@ class TUI(controller: Controller) extends Observer:
   def inputLoop(): Unit =
     controller.giveControlToNextPlayer()
     val input = readLine
-    /*
-    input match
-      case "q" =>
-      case _ => {
-        val chars = input.toCharArray
-        val stone = chars(0) match
-          case 'X' => Stone.X
-          case 'x' => Stone.X
-          case 'O' => Stone.O
-          case 'o' => Stone.O
-          case _   => Stone.Empty
-        val x = chars(1).toString.toInt
-        val y = chars(2).toString.toInt
-        controller.put(stone, x, y)
-    */
     println(input)
     println(controller.toString)
     inputLoop()
@@ -65,16 +52,13 @@ class TUI(controller: Controller) extends Observer:
     val input = readLine()
     
     // TODO: ich glaube das zeug muss der Controller setzen die TUI sollte nicht direkt auf ein Model zugreifen
-    val glurak = Pokemon("Glurak", 150, attackList)
-    val simsala = Pokemon("Simsala", 130, attackList3)
-    val brutalanda = Pokemon("Brutalanda", 180, attackList2)
-    val noPokemon = Pokemon("No Pokemon", -1, attackList)
+
     val chars = input.toCharArray
     chars(0) match
-      case '1' => controller.setPokemonTo(glurak)
-      case '2' => controller.setPokemonTo(simsala)
-      case '3' => controller.setPokemonTo(brutalanda)
-      case _ => controller.setPokemonTo(noPokemon)
+      case '1' => controller.setPokemonTo(Glurak)
+      case '2' => controller.setPokemonTo(Simsala)
+      case '3' => controller.setPokemonTo(Brutalanda)
+      case _ => controller.setPokemonTo(NoPokemon)
 
 
 

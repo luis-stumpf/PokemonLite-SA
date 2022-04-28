@@ -5,13 +5,20 @@ package model
 trait PokemonType{
   val name: String
   val hp: Int
-  val attacks: List[AttackType]
+  override def toString: String = name + " HP: " + hp
 }
 
-case class Pokemon(name: String, hp: Int, attacks: List[Attack]) extends PokemonType:
-  override def toString: String = name + " HP: " + hp
-  def changeHp(newHp: Int): Pokemon = copy(hp = newHp)
-
-case class NoPokemon(name: String = "", hp: Int = -1, attacks: List[NoAttack] = List(NoAttack(), NoAttack(), NoAttack(), NoAttack())) extends PokemonType:
+case class NoPokemon(name: String = "", hp: Int = -1) extends PokemonType:
   override def toString: String = ""
-  
+
+case class Glurak(name: String = "Glurak", hp: Int = 150) extends PokemonType {
+
+}
+
+case class Simsala(name: String = "Simsala", hp: Int = 130){
+
+}
+
+case class Brutalanda(name: String = "Brutalanda", hp: Int = 180){
+
+}
