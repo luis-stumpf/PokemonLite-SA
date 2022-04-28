@@ -12,9 +12,9 @@ import scala.io.StdIn.readLine
 class TUI(controller: Controller) extends Observer:
   controller.add(this)
 
-  override def update = println(controller.field.toString)
+  override def update: Unit = println(controller.field.toString)
 
-  def run =
+  def run(): Unit =
     println(controller.field.toString)
     getInput()
     choosePokemon()

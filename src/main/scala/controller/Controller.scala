@@ -5,14 +5,14 @@ import util.Observable
 import model.{Field, PokemonType}
 
 case class Controller(var field: Field) extends Observable:
-  override def toString = field.toString;
-  def setPlayerNameTo(name: String) =
+  override def toString: String = field.toString
+  def setPlayerNameTo(name: String): Unit =
     field = field.setPlayerNameTo(name)
     notifyObservers
-  def setPokemonTo(pokemon: PokemonType) =
+  def setPokemonTo(pokemon: PokemonType): Unit =
     field = field.setPokemonTo(pokemon)
     notifyObservers
 
-  def giveControlToNextPlayer() =
+  def giveControlToNextPlayer(): Unit =
     field = field.setNextTurn()
     notifyObservers

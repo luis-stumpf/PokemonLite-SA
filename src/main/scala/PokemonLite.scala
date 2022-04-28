@@ -11,4 +11,4 @@ import scala.io.StdIn.readLine
   val field = Field(50, PokePlayer("",1, NoPokemon()),PokePlayer("",2,NoPokemon()))
   val controller = Controller(field)
   val tui = TUI(controller)
-  tui.run
+  tui.run()
