@@ -2,9 +2,8 @@ package de.htwg.se.pokelite
 package aview
 
 import controller.Controller
-import model.{Attack, NoPokemon, Glurak, Simsala, Brutalanda}
+import model.{Attack, Brutalanda, Glurak, Move, NoPokemon, Simsala}
 import util.Observer
-
 
 import scala.io.StdIn.readLine
 
@@ -23,7 +22,7 @@ class TUI(controller: Controller) extends Observer:
 
 
   def inputLoop(): Unit =
-    controller.giveControlToNextPlayer()
+    controller.doAndPublish(controller.giveControlToNextPlayer, Move())
     val input = readLine
     println(input)
     println(controller.toString)
@@ -31,9 +30,9 @@ class TUI(controller: Controller) extends Observer:
 
   def getInput(): Unit =
     print("Enter name of Player 1: ")
-    controller.setPlayerNameTo(readLine())
+    controller.doAndPublish(controller.setPlayerNameTo, Move(name = readLine()))
     print("Enter name of Player 2: ")
-    controller.setPlayerNameTo(readLine())
+    controller.doAndPublish(controller.setPlayerNameTo, Move(name = readLine()))
 
 
   def choosePokemon(): Unit =
@@ -50,10 +49,10 @@ class TUI(controller: Controller) extends Observer:
 
     val chars = input.toCharArray
     chars(0) match
-      case '1' => controller.setPokemonTo(Glurak())
-      case '2' => controller.setPokemonTo(Simsala())
-      case '3' => controller.setPokemonTo(Brutalanda())
-      case _ => controller.setPokemonTo(NoPokemon())
+      case '1' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Glurak()))
+      case '2' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Simsala()))
+      case '3' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Brutalanda()))
+      case _ => controller.doAndPublish(controller.setPokemonTo, Move())
 
 
 
