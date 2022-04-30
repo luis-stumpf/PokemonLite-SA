@@ -21,7 +21,7 @@ class ControllerSpec extends AnyWordSpec {
       val fieldControlledNext = controller.giveControlToNextPlayer(Move())
       fieldControlledNext.isControlledBy should be(2)
     }
-    "have a string" in {
+    "have a  string" in {
       controller.toString should be(
         "+--------------------------------------------------+--------------------------------------------------+\n"+
         "|                                                  |                                                  |\n"+
