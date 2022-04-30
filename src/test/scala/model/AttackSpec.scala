@@ -15,6 +15,7 @@ class AttackSpec extends AnyWordSpec {
     val attack1 = Attack("Tackle", 30)
     val attack2 = Attack("Slam", 10)
     val attack3 = Attack("Flash", 50)
+    val attack4 = Attack("Flas", 30)
     "have a String of form 'name'" in {
       attack1.toString should be("Tackle")
       attack2.toString should be("Slam")
@@ -24,6 +25,7 @@ class AttackSpec extends AnyWordSpec {
       attack1.damage should be(30)
       attack2.damage should be(10)
       attack3.damage should be(50)
+      attack4.damage should be(30)
     }
   }
 
