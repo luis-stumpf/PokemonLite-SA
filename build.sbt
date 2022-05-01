@@ -18,7 +18,7 @@ jacocoReportSettings := JacocoReportSettings(
   JacocoThresholds(),
   Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
   "utf-8")
-commands += Command.command("cls") { state =>
+commands += Command.command("clear") { state =>
   print("\033c")
   state
 }
