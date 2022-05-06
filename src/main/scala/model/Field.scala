@@ -37,4 +37,6 @@ case class Field(width: Int, player1: PokePlayer, player2: PokePlayer, isControl
   def setPlayerNameTo(newName: String): Field = if (player1.name == "") copy(player1 = player1.setPokePlayerNameTo(newName)) else copy(player2 = player2.setPokePlayerNameTo(newName))
   def setPokemonTo(newPokemon: Pokemon): Field = if (player1.pokemon.isEmpty)  copy(player1 = player1.setPokemonTo(newPokemon)) else copy(player2 = player2.setPokemonTo(newPokemon))
   def setNextTurn(): Field = if (isControlledBy == 1) copy(isControlledBy = 2) else copy(isControlledBy = 1)
+  def attack(attack: Int): Field = if(isControlledBy == 1) copy(player2 = player2.copy(pokemon = Some(player2.pokemon.get.copy().changeHp(player2.pokemon.get.pType.attacks.apply(attack)) ) ) ) 
+    else copy(player1 = player1.copy(pokemon = Some(player1.pokemon.get.copy().changeHp(player1.pokemon.get.pType.attacks.apply(attack)) ) ) )
   override def toString: String = mesh()

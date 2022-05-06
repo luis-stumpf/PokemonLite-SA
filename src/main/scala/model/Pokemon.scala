@@ -6,7 +6,7 @@ object Pokemon {
 }
 
 case class Pokemon( pType: PokemonType, hp: Int ){
-  def changeHp(attack: Attack): Pokemon = copy(hp = hp - attack.damage)
+  def changeHp(attack: AttackType): Pokemon = copy(hp = hp - attack.damage)
 
   override def toString:String = pType.name + " HP: " + hp
 }
