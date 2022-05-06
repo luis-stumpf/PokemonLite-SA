@@ -9,4 +9,6 @@ case class Controller(var field: Field) extends Observable:
   def doAndPublish(doThis: Move => Field = put, move: Move) =
     field = doThis(move)
     notifyObservers
+  def onlyDo(doThis: Move => Field = put, move: Move) =
+    field = doThis(move)
   def put(move: Move): Field = move.doStep(field)
