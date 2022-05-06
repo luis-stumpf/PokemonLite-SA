@@ -2,7 +2,7 @@ package de.htwg.se.pokelite
 
 import aview.TUI
 import controller.Controller
-import model.{Field, NoPokemon, PokePlayer}
+import model.{Field, PokePlayer}
 
 import scala.io.StdIn.readLine
 
