@@ -16,6 +16,8 @@ class FieldSpec extends AnyWordSpec {
         field.col(1) should be("|                                                  |                                                  |\n")
         field.col(2) should be("|                                                  |                                                  |\n"*2)
         field.col(3) should be("|                                                  |                                                  |\n"*3)
+        field.col(4) should be("|                                                  |                                                  |\n"*4)
+
       }
       "have a mesh in the form " +
         "+-+-+" +
