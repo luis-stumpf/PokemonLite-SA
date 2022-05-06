@@ -57,10 +57,10 @@ class TUI(controller: Controller) extends Observer:
     val input = readLine()
     val char = input.toCharArray
     char(0) match
-      case '1' => controller.doAndPublish(controller.put, AttackMove(1))
-      case '2' => controller.doAndPublish(controller.put, AttackMove(2))
-      case '3' => controller.doAndPublish(controller.put, AttackMove(3))
-      case '4' => controller.doAndPublish(controller.put, AttackMove(4))
+      case '1' => controller.doAndPublish(controller.put, AttackMove(0))
+      case '2' => controller.doAndPublish(controller.put, AttackMove(1))
+      case '3' => controller.doAndPublish(controller.put, AttackMove(2))
+      case '4' => controller.doAndPublish(controller.put, AttackMove(3))
       case _ => chooseAttack()
 
 
