@@ -45,8 +45,6 @@ class TUI(controller: Controller) extends Observer:
 
     val input = readLine()
     
-    // TODO: ich glaube das zeug muss der Controller setzen die TUI sollte nicht direkt auf ein Model zugreifen
-
     val chars = input.toCharArray
     chars(0) match
       case '1' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Glurak()))
