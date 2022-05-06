@@ -2,8 +2,10 @@ package de.htwg.se.pokelite
 package aview
 
 import controller.Controller
-import model.{Attack, Brutalanda, Glurak, Move, NoPokemon, Simsala}
+import model.{Attack, Brutalanda, Glurak, Move, NoPokemon, Pokemon, Simsala}
 import util.Observer
+
+import de.htwg.se.pokelite.model.PokemonType.Glurak
 
 import scala.io.StdIn.readLine
 
@@ -44,7 +46,7 @@ class TUI(controller: Controller) extends Observer:
       "3: Brutalanda\n")
 
     val input = readLine()
-    
+    val p = Pokemon( Glurak )
     val chars = input.toCharArray
     chars(0) match
       case '1' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Glurak()))

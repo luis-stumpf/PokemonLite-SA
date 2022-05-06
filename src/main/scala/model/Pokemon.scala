@@ -1,12 +1,15 @@
 package de.htwg.se.pokelite
 package model
 
-case class Pokemon( pType: PokemonType, hp: Int ){
-  def changeHp(attack: Attack): Pokemon = copy(hp = hp - attack.damage)
-
+object Pokemon {
+  def apply( pType: PokemonType ):Pokemon = Pokemon( pType = pType, hp = pType.hp )
 }
 
-enum PokemonType(name: String, hp: Int, attacks: List[AttackType]) {
+case class Pokemon( pType: PokemonType, hp: Int ){
+  def changeHp(attack: Attack): Pokemon = copy(hp = hp - attack.damage)
+}
+
+enum PokemonType(val name: String, val hp: Int, val attacks: List[AttackType]) {
   override def toString: String = name + " HP: " + hp
   case NoPokemon extends PokemonType(name ="", hp = -1,
     attacks = List(NoAttack(), NoAttack(), NoAttack(), NoAttack()))
