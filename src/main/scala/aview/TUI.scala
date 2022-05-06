@@ -49,7 +49,7 @@ class TUI(controller : Controller) extends Observer :
       case '2' => controller.doAndPublish( controller.put, PokeMove( Pokemon( Simsala ) ) )
       case '3' => controller.doAndPublish( controller.put, PokeMove( Pokemon( Brutalanda ) ) )
       case _ => choosePokemon()
-    controller.onlyDo( controller.put, ControlMove() )
+    controller.doAndPublish( controller.put, ControlMove() )
 
   def chooseAttack() : Unit =
     println( controller.field.toString )
@@ -65,7 +65,7 @@ class TUI(controller : Controller) extends Observer :
       case '3' => controller.doAndPublish( controller.put, AttackMove( 2 ) )
       case '4' => controller.doAndPublish( controller.put, AttackMove( 3 ) )
       case _ => chooseAttack()
-    controller.onlyDo( controller.put, ControlMove() )
+    controller.doAndPublish( controller.put, ControlMove() )
 
 
 
