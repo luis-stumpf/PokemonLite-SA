@@ -1,8 +1,6 @@
 package de.htwg.se.pokelite
 package model
 
-import model.PokePlayer
-import model.PokemonType
 
 case class Field(width: Int, player1: PokePlayer, player2: PokePlayer, isControlledBy: Int = 1):
   def mesh(height : Int = 3): String = row() + printPlayer1Stats() + col(height) + printPlayer2Stats() + row()
@@ -17,20 +15,23 @@ case class Field(width: Int, player1: PokePlayer, player2: PokePlayer, isControl
   def cleanSite(): String = "|" + " " * width + "|\n"
 
   def printTopPlayer(): String = "|"+" "* calcSpace(0.9, player1.name) + player1.name + " " * calcSpace(0.1)
-  def printTopPokemon(): String = "|"+" "*calcSpace(0.9, player1.pokemon.map( _.toString ).getOrElse( "" )) + player1.pokemon + " "* calcSpace(0.1)   + printTopAttacks()
+  def printTopPokemon(): String = "|"+" "*calcSpace(0.9, player1.pokemon.map( _.toString ).getOrElse( "" )) + player1.pokemon.map( _.toString ).getOrElse( "" ) + " "* calcSpace(0.1)   + printTopAttacks()
   def printBottomPlayer(): String = "|"+" "* calcSpace(0.1) + player2.name + " " * calcSpace(0.9, player2.name)
-  def printBottomPokemon(): String = "|"+" "* calcSpace(0.1) + player2.pokemon + " "* calcSpace(0.9, player2.pokemon.toString)  + printBottomAttacks()
+  def printBottomPokemon(): String = "|"+" "* calcSpace(0.1) + player2.pokemon.map( _.toString ).getOrElse( "" ) + " "* calcSpace(0.9, player2.pokemon.map( _.toString ).getOrElse( "" ))  + printBottomAttacks()
 
   def printTopAttacks(): String = if(isControlledBy == 1) printTopAttacksOf(player1.pokemon) else printTopAttacksOf(player2.pokemon)
   def printBottomAttacks(): String = if(isControlledBy == 1) printBottomAttacksOf(player1.pokemon) else printBottomAttacksOf(player2.pokemon)
 
-  def printTopAttacksOf(pokemon: PokemonType): String = "|" + " " * calcSpace(0.1) + pokemon.attacks.head.toString + " " *calcSpace(0.4, pokemon.attacks.head.toString) +
-    pokemon.attacks.apply(1).name + " " *calcSpace(0.5, pokemon.attacks.apply(1).toString)+ "|\n"
-  def printBottomAttacksOf(pokemon: PokemonType): String = "|" + " " * calcSpace(0.1) + pokemon.attacks.apply(2).name + " " *calcSpace(0.4, pokemon.attacks.apply(2).toString) +
-    pokemon.attacks.apply(3).name + " " *calcSpace(0.5, pokemon.attacks.apply(3).toString)+ "|\n"
+  def printTopAttacksOf(pokemon: Option[Pokemon]): String =
+    if( pokemon.isDefined )
+      "|" + " " * calcSpace(0.1) + pokemon.get.pType.attacks.head + " " *calcSpace(0.4, pokemon.get.pType.attacks.head.toString) +
+      pokemon.get.pType.attacks.apply(1).name + " " *calcSpace(0.5, pokemon.get.pType.attacks.apply(1).name)+ "|\n"
+    else ""
+  def printBottomAttacksOf(pokemon: Option[Pokemon]): String = "|" + " " * calcSpace(0.1) + pokemon.get.pType.attacks.apply(2).name + " " *calcSpace(0.4, pokemon.get.pType.attacks.apply(2).name) +
+    pokemon.get.pType.attacks.apply(3).name + " " *calcSpace(0.5, pokemon.get.pType.attacks.apply(3).name)+ "|\n"
 
 
   def setPlayerNameTo(newName: String): Field = if (player1.name == "") copy(player1 = player1.setPokePlayerNameTo(newName)) else copy(player2 = player2.setPokePlayerNameTo(newName))
-  def setPokemonTo(newPokemon: PokemonType): Field = if (player1.pokemon == NoPokemon()) copy(player1 = player1.setPokemonTo(newPokemon)) else copy(player2 = player2.setPokemonTo(newPokemon))
+  //def setPokemonTo(newPokemon: Pokemon): Field = if (player1.pokemon ==  copy(player1 = player1.setPokemonTo(newPokemon))) else copy(player2 = player2.setPokemonTo(newPokemon))
   def setNextTurn(): Field = if (isControlledBy == 1) copy(isControlledBy = 2) else copy(isControlledBy = 1)
   override def toString: String = mesh()

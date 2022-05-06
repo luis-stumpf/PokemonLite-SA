@@ -8,16 +8,11 @@ object Pokemon {
 case class Pokemon( pType: PokemonType, hp: Int ){
   def changeHp(attack: Attack): Pokemon = copy(hp = hp - attack.damage)
 
-  override def toString:String = pType.name
+  override def toString:String = pType.name + " HP: " + hp
 }
 
 enum PokemonType(val name: String, val hp: Int, val attacks: List[AttackType]) {
   override def toString: String = name + " HP: " + hp
-  case NoPokemon extends PokemonType(name ="", hp = -1,
-    attacks = List(NoAttack(), NoAttack(), NoAttack(), NoAttack()))
-  {
-    def toString: String = ""
-  }
 
   case Glurak extends PokemonType(name= "Glurak", hp = 150,
     attacks = List(Attack( "Flammenwurf", 30), Attack("Donnerblitz", 20), Attack("Bite", 15), Attack("Tackle", 10)))

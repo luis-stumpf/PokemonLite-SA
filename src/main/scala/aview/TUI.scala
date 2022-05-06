@@ -2,10 +2,10 @@ package de.htwg.se.pokelite
 package aview
 
 import controller.Controller
-import model.{Attack, Brutalanda, Glurak, Move, NoPokemon, Pokemon, Simsala}
+import model.{Attack, Move, Pokemon}
 import util.Observer
 
-import de.htwg.se.pokelite.model.PokemonType.Glurak
+import de.htwg.se.pokelite.model.PokemonType.{Glurak, Simsala, Brutalanda}
 
 import scala.io.StdIn.readLine
 
@@ -38,7 +38,7 @@ class TUI(controller: Controller) extends Observer:
 
 
   def choosePokemon(): Unit =
-    if (controller.field.player1.pokemon == NoPokemon()) print(controller.field.player1.name)
+    if (controller.field.player1.pokemon == None ) print(controller.field.player1.name)
     else print(controller.field.player2.name)
     println(" Choose your Pokemon: \n" +
       "1: Glurak\n" +
@@ -46,12 +46,11 @@ class TUI(controller: Controller) extends Observer:
       "3: Brutalanda\n")
 
     val input = readLine()
-    val p = Pokemon( Glurak )
     val chars = input.toCharArray
     chars(0) match
-      case '1' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Glurak()))
-      case '2' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Simsala()))
-      case '3' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Brutalanda()))
+      case '1' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Pokemon( Glurak )))
+      case '2' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Pokemon( Simsala )))
+      case '3' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Pokemon( Brutalanda )))
       case _ => controller.doAndPublish(controller.setPokemonTo, Move())
 
 
