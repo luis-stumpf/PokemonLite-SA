@@ -25,7 +25,6 @@ class TUI(controller: Controller) extends Observer:
 
   def inputLoop(): Unit =
     controller.doAndPublish(controller.put, ControlMove())
-    val input = readLine
     chooseAttack()
     inputLoop()
 
