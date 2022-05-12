@@ -68,8 +68,6 @@ class TUI(controller : Controller) extends Observer :
       case '2' => controller.doAndPublish( controller.put, AttackMove( 1 ) )
       case '3' => controller.doAndPublish( controller.put, AttackMove( 2 ) )
       case '4' => controller.doAndPublish( controller.put, AttackMove( 3 ) )
-      case _ => chooseAttack()
-    controller.doAndPublish( controller.put, ControlMove() )
 
 
 
