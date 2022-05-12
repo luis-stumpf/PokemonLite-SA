@@ -33,9 +33,6 @@ class ControllerSpec extends AnyWordSpec {
         "+--------------------------------------------------+--------------------------------------------------+\n"
       )
     }
-    "have do and publish" in {
-      controller.doAndPublish()
-    }
     "notify its observers on change" in {
       class TestObserver(controller: Controller) extends Observer:
         controller.add(this)
