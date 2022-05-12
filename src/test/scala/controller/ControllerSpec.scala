@@ -20,6 +20,10 @@ class ControllerSpec extends AnyWordSpec {
       val fieldWithPokemon = controller.put(PokeMove(pokemons = pokeList1))
       fieldWithPokemon.player1.pokemons should be(List(Some( Pokemon( Glurak ) ), Some( Pokemon( Glurak ) ) ))
     }
+    "doAndPublisch" in {
+      controller.doAndPublish(controller.put, PlayerMove(""))
+      controller.field.player1.name should be("")
+    }
     "have a string" in {
       controller.toString should be(
         "+--------------------------------------------------+--------------------------------------------------+\n"+
