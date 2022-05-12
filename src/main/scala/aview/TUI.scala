@@ -35,8 +35,11 @@ class TUI(controller : Controller) extends Observer :
 
 
   def choosePokemon() : Unit =
+
     if ( controller.field.player1.pokemons.isEmpty ) print( controller.field.player1.name )
     else print( controller.field.player2.name )
+
+
     println( " Choose your Pokemon: \n" +
       "1: Glurak\n" +
       "2: Simsala\n" +
@@ -54,10 +57,14 @@ class TUI(controller : Controller) extends Observer :
       case '3' => controller.doAndPublish( controller.put, PokeMove( pokeList3 ) )
       case _ => choosePokemon()
 
+
+
   def chooseAttack() : Unit =
+    /*
     if ( controller.field.isControlledBy == 1 ) println( controller.field.player1.name + " du bist dran!!!" )
     else println( controller.field.player2.name + " du bist dran!!!" )
-    println( "Choose your Attack 1, 2, 3, 4" )
+    */
+    println( GetName.ofPlayer + ", choose your Attack 1, 2, 3, 4" )
 
     val input = readLine()
     val char = input.toCharArray
@@ -66,6 +73,16 @@ class TUI(controller : Controller) extends Observer :
       case '2' => controller.doAndPublish( controller.put, AttackMove( 1 ) )
       case '3' => controller.doAndPublish( controller.put, AttackMove( 2 ) )
       case '4' => controller.doAndPublish( controller.put, AttackMove( 3 ) )
+
+
+  object GetName {
+
+    var ofPlayer = if (controller.field.isControlledBy == 1) ofPlayer1 else ofPlayer2
+
+    def ofPlayer1: String = controller.field.player1.name
+    def ofPlayer2: String = controller.field.player2.name
+
+  }
 
 
 
