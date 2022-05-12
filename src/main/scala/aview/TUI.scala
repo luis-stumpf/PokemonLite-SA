@@ -2,7 +2,7 @@ package de.htwg.se.pokelite
 package aview
 
 import controller.Controller
-import model.{ Attack, AttackMove, ControlMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType }
+import model.{ Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType }
 import util.Observer
 
 import de.htwg.se.pokelite.model.PokemonType.{ Brutalanda, Glurak, Simsala }

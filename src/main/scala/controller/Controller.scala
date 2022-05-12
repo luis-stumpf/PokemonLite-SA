@@ -2,7 +2,7 @@ package de.htwg.se.pokelite
 package controller
 
 import util.Observable
-import model.{ControlMove, Field, Move, PlayerMove, PokeMove, PokemonType}
+import model.{Field, Move, PlayerMove, PokeMove, PokemonType}
 
 case class Controller(var field: Field) extends Observable:
   override def toString: String = field.toString
