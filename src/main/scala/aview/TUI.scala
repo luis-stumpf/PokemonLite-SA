@@ -53,10 +53,8 @@ class TUI(controller : Controller) extends Observer :
       case '2' => controller.doAndPublish( controller.put, PokeMove( pokeList2 ) )
       case '3' => controller.doAndPublish( controller.put, PokeMove( pokeList3 ) )
       case _ => choosePokemon()
-    controller.doAndPublish( controller.put, ControlMove() )
 
   def chooseAttack() : Unit =
-    println( controller.field.toString )
     if ( controller.field.isControlledBy == 1 ) println( controller.field.player1.name + " du bist dran!!!" )
     else println( controller.field.player2.name + " du bist dran!!!" )
     println( "Choose your Attack 1, 2, 3, 4" )
