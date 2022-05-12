@@ -20,7 +20,7 @@ class PokePlayerSpec extends AnyWordSpec {
     }
     "check Pokemons" in {
       p1.pokemons should be(List(None))
-      p2.pokemons should be(Some( Pokemon( Brutalanda ) ), Some( Pokemon( Simsala ) ))
+      p2.pokemons should be(List(Some( Pokemon( Brutalanda ) ), Some( Pokemon( Simsala ) )))
       p1.currentPoke should be(0)
       p3.currentPoke should be(2)
       p1.number should be(1)
@@ -30,8 +30,8 @@ class PokePlayerSpec extends AnyWordSpec {
       p1.setPokePlayerNameTo("Udo").name should be("Udo")
     }
     "set Pokemons to" in {
-      p1.setPokemonTo(pokeList1) should be(pokeList1)
-      p2.setPokemonTo(pokeList3) should be(pokeList3)
+      p1.setPokemonTo(pokeList1) should be(p1.copy(pokemons = pokeList1))
+      p2.setPokemonTo(pokeList3) should be(p2.copy(pokemons = pokeList3))
     }
   }
 }

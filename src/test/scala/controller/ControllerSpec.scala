@@ -18,7 +18,7 @@ class ControllerSpec extends AnyWordSpec {
     "set Pokemon" in {
       val pokeList1 = List( Some( Pokemon( Glurak ) ), Some( Pokemon( Glurak ) ) )
       val fieldWithPokemon = controller.put(PokeMove(pokemons = pokeList1))
-      fieldWithPokemon.player1.pokemons should be(Some( Pokemon( Glurak ) ), Some( Pokemon( Glurak ) ) )
+      fieldWithPokemon.player1.pokemons should be(List(Some( Pokemon( Glurak ) ), Some( Pokemon( Glurak ) ) ))
     }
     "have a string" in {
       controller.toString should be(
@@ -32,6 +32,9 @@ class ControllerSpec extends AnyWordSpec {
         "|                                                  |                                                  |\n"+
         "+--------------------------------------------------+--------------------------------------------------+\n"
       )
+    }
+    "have do and publish" in {
+      controller.doAndPublish()
     }
     "notify its observers on change" in {
       class TestObserver(controller: Controller) extends Observer:

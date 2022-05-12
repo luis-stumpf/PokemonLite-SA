@@ -13,13 +13,13 @@ class MoveSpec extends AnyWordSpec {
     }
 
     "A PokeMove" should{
-      val move = PokeMove(Some(Glurak()))
-      move.pokemons should be(Some(Glurak()))
+      val move = PokeMove(List(Some(Pokemon(Glurak))))
+      move.pokemons should be(List(Some(Pokemon(Glurak))))
     }
 
     "A AttackMove" should{
       val move = AttackMove(3)
-      move.name should be(3)
+      move.attack should be(3)
     }
   }
 }
