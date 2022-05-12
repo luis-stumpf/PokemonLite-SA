@@ -21,15 +21,15 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
 
   def printTopPlayer() : String = "|" + " " * calcSpace( 0.9, player1.name ) + player1.name + " " * calcSpace( 0.1 )
 
-  def printTopPokemon() : String = "|" + " " * calcSpace( 0.9, player1.pokemon.map( _.toString ).getOrElse( "" ) ) + player1.pokemon.map( _.toString ).getOrElse( "" ) + " " * calcSpace( 0.1 ) + printTopAttacks()
+  def printTopPokemon() : String = "|" + " " * calcSpace( 0.9, player1.pokemons.apply( player1.currentPoke ).map( _.toString ).getOrElse( "" ) ) + player1.pokemons.apply( player1.currentPoke ).map( _.toString ).getOrElse( "" ) + " " * calcSpace( 0.1 ) + printTopAttacks()
 
   def printBottomPlayer() : String = "|" + " " * calcSpace( 0.1 ) + player2.name + " " * calcSpace( 0.9, player2.name )
 
-  def printBottomPokemon() : String = "|" + " " * calcSpace( 0.1 ) + player2.pokemon.map( _.toString ).getOrElse( "" ) + " " * calcSpace( 0.9, player2.pokemon.map( _.toString ).getOrElse( "" ) ) + printBottomAttacks()
+  def printBottomPokemon() : String = "|" + " " * calcSpace( 0.1 ) + player2.pokemons.apply( player2.currentPoke ).map( _.toString ).getOrElse( "" ) + " " * calcSpace( 0.9, player2.pokemons.apply( player2.currentPoke ).map( _.toString ).getOrElse( "" ) ) + printBottomAttacks()
 
-  def printTopAttacks() : String = if ( isControlledBy == 1 ) printTopAttacksOf( player1.pokemon ) else printTopAttacksOf( player2.pokemon )
+  def printTopAttacks() : String = if ( isControlledBy == 1 ) printTopAttacksOf( player1.pokemons.apply( player1.currentPoke ) ) else printTopAttacksOf( player2.pokemons.apply( player2.currentPoke ) )
 
-  def printBottomAttacks() : String = if ( isControlledBy == 1 ) printBottomAttacksOf( player1.pokemon ) else printBottomAttacksOf( player2.pokemon )
+  def printBottomAttacks() : String = if ( isControlledBy == 1 ) printBottomAttacksOf( player1.pokemons.apply( player1.currentPoke ) ) else printBottomAttacksOf( player2.pokemons.apply( player2.currentPoke ) )
 
   def printTopAttacksOf(pokemon : Option[ Pokemon ]) : String =
     if ( pokemon.isDefined )
@@ -46,11 +46,12 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
 
   def setPlayerNameTo(newName : String) : Field = if ( player1.name == "" ) copy( player1 = player1.setPokePlayerNameTo( newName ) ) else copy( player2 = player2.setPokePlayerNameTo( newName ) )
 
-  def setPokemonTo(newPokemons : List[Option[Pokemon]]) : Field = if ( player1.pokemons.isEmpty ) copy( player1 = player1.setPokemonTo( newPokemons ) ) else copy( player2 = player2.setPokemonTo( newPokemons ) )
+  def setPokemonTo(newPokemons : List[ Option[ Pokemon ] ]) : Field = if ( player1.pokemons.head.isEmpty ) copy( player1 = player1.setPokemonTo( newPokemons ) ) else copy( player2 = player2.setPokemonTo( newPokemons ) )
 
   def setNextTurn() : Field = if ( isControlledBy == 1 ) copy( isControlledBy = 2 ) else copy( isControlledBy = 1 )
 
-  def attack(attack : Int) : Field = if ( isControlledBy == 1 ) copy( player2 = player2.copy( pokemon = Some( player2.pokemon.get.copy().changeHp( player2.pokemon.get.pType.attacks.apply( attack ) ) ) ) )
-  else copy( player1 = player1.copy( pokemon = Some( player1.pokemon.get.copy().changeHp( player1.pokemon.get.pType.attacks.apply( attack ) ) ) ) )
+  def attack(attack : Int) : Field = if ( isControlledBy == 1 ) copy(
+    player2 = player2.copy( pokemons = player2.pokemons.updated( player2.currentPoke, Some( player2.pokemons.apply( player2.currentPoke ).get.changeHp( player2.pokemons.apply( player2.currentPoke ).get.pType.attacks.apply( attack ) ) ) ) ) )
+  else copy( player1 = player1.copy( pokemons = player1.pokemons.updated( player1.currentPoke, Some( player1.pokemons.apply( player1.currentPoke ).get.changeHp( player1.pokemons.apply( player1.currentPoke ).get.pType.attacks.apply( attack ) ) ) ) ) )
 
   override def toString : String = mesh()
