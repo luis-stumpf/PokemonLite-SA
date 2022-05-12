@@ -1,11 +1,12 @@
 package de.htwg.se.pokelite.model
 
-import org.scalatest.matchers.should.Matchers._
+import de.htwg.se.pokelite.model.PokemonType.{ Glurak, Simsala }
+import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 class FieldSpec extends AnyWordSpec {
   "A PokemonLite Field" when {
     "empty" should {
-      val field = new Field(50, PokePlayer("",1,NoPokemon()), PokePlayer("",2,NoPokemon()))
+      val field = new Field(50, PokePlayer("",1), PokePlayer("",2))
       "have a bar as String of form '+---+---+'" in {
         field.row() should be("+--------------------------------------------------+--------------------------------------------------+\n")
       }
@@ -35,7 +36,7 @@ class FieldSpec extends AnyWordSpec {
       }
     }
     "with input" should {
-      val field = Field(50, PokePlayer("Luis", 1, NoPokemon()), PokePlayer("Luis", 2, NoPokemon()))
+      val field = Field(50, PokePlayer("Luis", 1), PokePlayer("Luis", 2))
 
       "calc space Int" in {
         field.calcSpace(0.9) should be(45)
@@ -53,14 +54,14 @@ class FieldSpec extends AnyWordSpec {
       "|  poke          |  2        3    |\n" +
       "|  Luis          |                |\n" +
       "+----------------+----------------+\n" in {
-        field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(Glurak()).setPokemonTo(Simsala()).mesh() should be(
+        field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(List(Some(Pokemon(Glurak)))).setPokemonTo(List(Some(Pokemon(Simsala)))).mesh() should be(
             "+--------------------------------------------------+--------------------------------------------------+\n"+
             "|                                         Luis     |                                                  |\n"+
-            "|                               Glurak HP: 150     |     Flammenwurf         Donnerblitz              |\n"+
+            "|                               Glurak HP: 150     |     1. Flammenwurf      2. Donnerblitz           |\n"+
             "|                                                  |                                                  |\n"+
             "|                                                  |                                                  |\n"+
             "|                                                  |                                                  |\n"+
-            "|     Simsala HP: 130                              |     Bite                Tackle                   |\n"+
+            "|     Simsala HP: 130                              |     3. Bite             4. Tackle                |\n"+
             "|     Timmy                                        |                                                  |\n"+
             "+--------------------------------------------------+--------------------------------------------------+\n"
         )
@@ -72,14 +73,14 @@ class FieldSpec extends AnyWordSpec {
         "|                |                |\n" +
         "|  poke          |  2        3    |\n" +
         "|  Luis          |                |\n" in {
-        field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(Glurak()).setPokemonTo(Simsala()).setNextTurn().mesh() should be(
+        field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(List(Some(Pokemon(Glurak)))).setPokemonTo(List(Some(Pokemon(Simsala)))).setNextTurn().mesh() should be(
           "+--------------------------------------------------+--------------------------------------------------+\n"+
           "|                                         Luis     |                                                  |\n"+
-          "|                               Glurak HP: 150     |     Simsala             Simsala                  |\n"+
+          "|                               Glurak HP: 150     |     1. Simsala          2. Simsala               |\n"+
           "|                                                  |                                                  |\n"+
           "|                                                  |                                                  |\n"+
           "|                                                  |                                                  |\n"+
-          "|     Simsala HP: 130                              |     Simsala             Simsala                  |\n"+
+          "|     Simsala HP: 130                              |     3. Simsala          4. Simsala               |\n"+
           "|     Timmy                                        |                                                  |\n"+
           "+--------------------------------------------------+--------------------------------------------------+\n"
         )
