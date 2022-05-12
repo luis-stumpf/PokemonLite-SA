@@ -60,11 +60,16 @@ class TUI(controller : Controller) extends Observer :
 
 
   def chooseAttack() : Unit =
-    /*
-    if ( controller.field.isControlledBy == 1 ) println( controller.field.player1.name + " du bist dran!!!" )
-    else println( controller.field.player2.name + " du bist dran!!!" )
-    */
-    println( GetName.ofPlayer + ", choose your Attack 1, 2, 3, 4" )
+
+    object GetName {
+      val ofPlayer: String = if (controller.field.isControlledBy == 1) ofPlayer1 else ofPlayer2
+
+      def ofPlayer1: String = controller.field.player1.name
+      def ofPlayer2: String = controller.field.player2.name
+    }
+
+
+    println(GetName.ofPlayer + ", choose your Attack 1, 2, 3, 4" )
 
     val input = readLine()
     val char = input.toCharArray
@@ -75,14 +80,8 @@ class TUI(controller : Controller) extends Observer :
       case '4' => controller.doAndPublish( controller.put, AttackMove( 3 ) )
 
 
-  object GetName {
 
-    var ofPlayer = if (controller.field.isControlledBy == 1) ofPlayer1 else ofPlayer2
 
-    def ofPlayer1: String = controller.field.player1.name
-    def ofPlayer2: String = controller.field.player2.name
-
-  }
 
 
 
