@@ -35,6 +35,7 @@ class TUI(controller : Controller) extends Observer :
 
     chooseAttack(readLine) match
       case Some(move) => controller.doAndPublish(controller.put, move)
+      case None =>
     inputLoop()
 
   def getInput() : Unit =
