@@ -17,5 +17,8 @@ class TUISpec extends AnyWordSpec {
     "rec attach input 1" in {
       tui.chooseAttack("2") should be(Some(AttackMove(1)))
     }
+    "choose pokemon 1" in{
+      tui.inputAnalysisPokemon("1") should be(Some(PokeMove(List( Some( Pokemon( Glurak ) ), Some( Pokemon( Glurak ) ) ))))
+    }
   }
 }
