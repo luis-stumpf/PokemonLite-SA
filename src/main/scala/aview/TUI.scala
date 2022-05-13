@@ -24,7 +24,17 @@ class TUI(controller : Controller) extends Observer :
 
 
   def inputLoop() : Unit =
-    chooseAttack()
+    object GetName {
+      val ofPlayer : String = if ( controller.field.isControlledBy == 1 ) ofPlayer1 else ofPlayer2
+
+      def ofPlayer1 : String = controller.field.player1.name
+
+      def ofPlayer2 : String = controller.field.player2.name
+    }
+    println( GetName.ofPlayer + ", choose your Attack 1, 2, 3, 4" )
+
+    chooseAttack(readLine) match
+      case Some(move) => controller.doAndPublish(controller.put, move)
     inputLoop()
 
   def getInput() : Unit =
@@ -58,26 +68,14 @@ class TUI(controller : Controller) extends Observer :
       case _ => choosePokemon()
 
 
-
-  def chooseAttack() : Unit =
-
-    object GetName {
-      val ofPlayer: String = if (controller.field.isControlledBy == 1) ofPlayer1 else ofPlayer2
-
-      def ofPlayer1: String = controller.field.player1.name
-      def ofPlayer2: String = controller.field.player2.name
-    }
-
-
-    println(GetName.ofPlayer + ", choose your Attack 1, 2, 3, 4" )
-
-    val input = readLine()
+  def chooseAttack(input: String) : Option[ AttackMove ] =
     val char = input.toCharArray
-    char( 0 ) match
-      case '1' => controller.doAndPublish( controller.put, AttackMove( 0 ) )
-      case '2' => controller.doAndPublish( controller.put, AttackMove( 1 ) )
-      case '3' => controller.doAndPublish( controller.put, AttackMove( 2 ) )
-      case '4' => controller.doAndPublish( controller.put, AttackMove( 3 ) )
+    val attack = char( 0 ) match
+      case '1' => AttackMove( 0 )
+      case '2' => AttackMove( 1 )
+      case '3' => AttackMove( 2 )
+      case '4' => AttackMove( 3 )
+    Some( attack )
 
 
 
