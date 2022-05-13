@@ -43,7 +43,7 @@ class TUI(controller : Controller) extends Observer :
     controller.doAndPublish( controller.put, PlayerMove( readLine() ) )
     print( "Enter name of Player 2: " )
     controller.doAndPublish( controller.put, PlayerMove( readLine() ) )
-
+//lol
 
   def choosePokemon() : Unit =
     object GetName {
