@@ -10,7 +10,7 @@ case class PokeMove(pokemons: List[Option[Pokemon]]) extends Move {
 }
 
 case class PlayerMove(name : String) extends Move {
-  override def doStep(field : Field) : Field = field.setPlayerNameTo( name )
+  override def doStep(field : Field) : Field = field.setPlayerNameTo( name ).setNextTurn()
 }
 
 case class AttackMove(attack : Int) extends Move {

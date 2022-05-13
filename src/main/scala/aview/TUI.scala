@@ -15,8 +15,6 @@ class TUI(controller : Controller) extends Observer :
 
   override def update : Unit = println( controller.field.toString )
 
-
-
   def run() : Unit =
     println( controller.field.toString )
     getInput()
@@ -24,23 +22,20 @@ class TUI(controller : Controller) extends Observer :
     choosePokemon()
     inputLoop()
 
-  object GetNameOf {
-    var player : String = if ( controller.field.isControlledBy == 1 ) player1 else player2
-    var playerWithoutPokemon : String =  if ( controller.field.player1.pokemons.isEmpty ) player1 else player2
-
-    def player1 : String = controller.field.player1.name
-
-    def player2 : String = controller.field.player2.name
-  }
 
   def inputLoop() : Unit =
+    object GetName {
+      val ofPlayer : String = if ( controller.field.isControlledBy == 1 ) ofPlayer1 else ofPlayer2
 
-    println( GetNameOf.player + ", choose your Attack 1, 2, 3, 4" )
+      def ofPlayer1 : String = controller.field.player1.name
+
+      def ofPlayer2 : String = controller.field.player2.name
+    }
+    println( GetName.ofPlayer + ", choose your Attack 1, 2, 3, 4" )
 
     chooseAttack(readLine) match
       case Some(move) => controller.doAndPublish(controller.put, move)
       case None =>
-
     inputLoop()
 
   def getInput() : Unit =
@@ -51,8 +46,17 @@ class TUI(controller : Controller) extends Observer :
 
 
   def choosePokemon() : Unit =
+    object GetName {
+      val ofPlayer : String = if ( controller.field.isControlledBy == 1 ) ofPlayer1 else ofPlayer2
 
-    println( GetNameOf.playerWithoutPokemon + " Choose your Pokemon: \n" +
+      def ofPlayer1 : String = controller.field.player1.name
+
+      def ofPlayer2 : String = controller.field.player2.name
+    }
+    print(GetName.ofPlayer)
+
+
+    println( " Choose your Pokemon: \n" +
       "1: Glurak\n" +
       "2: Simsala\n" +
       "3: Brutalanda\n" )
@@ -83,12 +87,3 @@ class TUI(controller : Controller) extends Observer :
       case '3' => AttackMove( 2 )
       case '4' => AttackMove( 3 )
     Some( attack )
-
-
-
-
-
-
-
-
-
