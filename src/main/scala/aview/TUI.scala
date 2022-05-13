@@ -35,7 +35,6 @@ class TUI(controller : Controller) extends Observer :
 
 
   def choosePokemon() : Unit =
-
     if ( controller.field.player1.pokemons.isEmpty ) print( controller.field.player1.name )
     else print( controller.field.player2.name )
 
@@ -45,17 +44,22 @@ class TUI(controller : Controller) extends Observer :
       "2: Simsala\n" +
       "3: Brutalanda\n" )
 
-    val input = readLine()
+    inputAnalysisPokemon(readLine) match
+      case None       =>
+      case Some(move) => controller.doAndPublish(controller.put, move)
+
+
+  def inputAnalysisPokemon(input: String): Option[PokeMove] =
     val chars = input.toCharArray
     val pokeList1 = List( Some( Pokemon( Glurak ) ), Some( Pokemon( Glurak ) ) )
     val pokeList2 = List( Some( Pokemon( Brutalanda ) ), Some( Pokemon( Simsala ) ) )
     val pokeList3 = List( Some( Pokemon( Simsala ) ), Some( Pokemon( Simsala ) ) )
 
     chars( 0 ) match
-      case '1' => controller.doAndPublish( controller.put, PokeMove( pokeList1 ) )
-      case '2' => controller.doAndPublish( controller.put, PokeMove( pokeList2 ) )
-      case '3' => controller.doAndPublish( controller.put, PokeMove( pokeList3 ) )
-      case _ => choosePokemon()
+      case '1' => Some(PokeMove(pokeList1 ) )
+      case '2' => Some(PokeMove( pokeList2 ))
+      case '3' => Some(PokeMove( pokeList3 ))
+      case _ => None
 
 
 
