@@ -24,14 +24,8 @@ class TUI(controller : Controller) extends Observer :
 
 
   def inputLoop() : Unit =
-    object GetName {
-      val ofPlayer : String = if ( controller.field.isControlledBy == 1 ) ofPlayer1 else ofPlayer2
 
-      def ofPlayer1 : String = controller.field.player1.name
-
-      def ofPlayer2 : String = controller.field.player2.name
-    }
-    println( GetName.ofPlayer + ", choose your Attack 1, 2, 3, 4" )
+    println( getName + ", choose your Attack 1, 2, 3, 4" )
 
     chooseAttack(readLine) match
       case Some(move) => controller.doAndPublish(controller.put, move)
@@ -43,20 +37,14 @@ class TUI(controller : Controller) extends Observer :
     controller.doAndPublish( controller.put, PlayerMove( readLine() ) )
     print( "Enter name of Player 2: " )
     controller.doAndPublish( controller.put, PlayerMove( readLine() ) )
-//lol
+
+  def getName: String = if ( controller.field.isControlledBy == 1 ) ofPlayer1 else ofPlayer2
+  def ofPlayer1 : String = controller.field.player1.name
+  def ofPlayer2 : String = controller.field.player2.name
 
   def choosePokemon() : Unit =
-    object GetName {
-      val ofPlayer : String = if ( controller.field.isControlledBy == 1 ) ofPlayer1 else ofPlayer2
 
-      def ofPlayer1 : String = controller.field.player1.name
-
-      def ofPlayer2 : String = controller.field.player2.name
-    }
-    print(GetName.ofPlayer)
-
-
-    println( " Choose your Pokemon: \n" +
+    println( getName +  " Choose your Pokemon: \n" +
       "1: Glurak\n" +
       "2: Simsala\n" +
       "3: Brutalanda\n" )
