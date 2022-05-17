@@ -2,7 +2,7 @@ package de.htwg.se.pokelite
 package aview
 
 import controller.Controller
-import model.{ Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType }
+import model.{ Attack, AttackMove, PlayerMove, PokeMove, Pokemon, PokemonType }
 import util.Observer
 
 import de.htwg.se.pokelite.model.PokemonType.{ Brutalanda, Glurak, Simsala }
@@ -28,15 +28,15 @@ class TUI(controller : Controller) extends Observer :
     println( getName + ", choose your Attack 1, 2, 3, 4" )
 
     chooseAttack(readLine) match
-      case Some(move) => controller.doAndPublish(controller.put, move)
+      case Some(move) => controller.doAndPublish(controller.putAttack, move)
       case None =>
     inputLoop()
 
   def getInput() : Unit =
     print( "Enter name of Player 1: " )
-    controller.doAndPublish( controller.put, PlayerMove( readLine() ) )
+    controller.doAndPublish( controller.putPlayer, PlayerMove( readLine() ) )
     print( "Enter name of Player 2: " )
-    controller.doAndPublish( controller.put, PlayerMove( readLine() ) )
+    controller.doAndPublish( controller.putPlayer, PlayerMove( readLine() ) )
 
 
   def choosePokemon() : Unit =
@@ -48,7 +48,7 @@ class TUI(controller : Controller) extends Observer :
 
     inputAnalysisPokemon(readLine) match
       case None       =>
-      case Some(move) => controller.doAndPublish(controller.put, move)
+      case Some(move) => controller.doAndPublish(controller.putPoke, move)
 
 
   def inputAnalysisPokemon(input: String): Option[PokeMove] =
