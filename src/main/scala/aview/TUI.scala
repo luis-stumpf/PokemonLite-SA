@@ -38,9 +38,6 @@ class TUI(controller : Controller) extends Observer :
     print( "Enter name of Player 2: " )
     controller.doAndPublish( controller.put, PlayerMove( readLine() ) )
 
-  def getName: String = if ( controller.field.isControlledBy == 1 ) ofPlayer1 else ofPlayer2
-  def ofPlayer1 : String = controller.field.player1.name
-  def ofPlayer2 : String = controller.field.player2.name
 
   def choosePokemon() : Unit =
 
@@ -75,3 +72,7 @@ class TUI(controller : Controller) extends Observer :
       case '3' => AttackMove( 2 )
       case '4' => AttackMove( 3 )
     Some( attack )
+
+  def getName: String = if ( controller.field.isControlledBy == 1 ) ofPlayer1 else ofPlayer2
+  def ofPlayer1 : String = controller.field.player1.name
+  def ofPlayer2 : String = controller.field.player2.name
