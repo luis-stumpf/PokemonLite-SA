@@ -65,7 +65,6 @@ class TUI(controller : Controller) extends Observer :
     false
 
   def inputAnalysisPokemon(input: String): Option[PokeMove] =
-    // Warning: Max allowed number of available Pokemon is 9. Because of toChar: '1','9'
     val chars = input.toCharArray.toList
     val pokeList  : List[Option[Pokemon]] = chars.filter(x => x.isDigit
         && x.asDigit <= ANZAHL_POKEMON
@@ -82,10 +81,16 @@ class TUI(controller : Controller) extends Observer :
 
 
   def chooseAttack(input: String) : Option[ AttackMove ] =
-    val char = input.toCharArray
-    val attack = char( 0 ) match
-      case '1' => AttackMove( 0 )
-      case '2' => AttackMove( 1 )
-      case '3' => AttackMove( 2 )
-      case '4' => AttackMove( 3 )
-    Some( attack )
+    input match
+      case "q" => None
+      case "z" => controller.doAndPublish(controller.redo); None
+      case "y" => controller.doAndPublish(controller.undo); None
+      case _ => {
+        val char = input.toCharArray
+        val attack = char( 0 ) match
+          case '1' => AttackMove( 0 )
+          case '2' => AttackMove( 1 )
+          case '3' => AttackMove( 2 )
+          case '4' => AttackMove( 3 )
+        Some( attack )
+      }
