@@ -5,14 +5,14 @@ import controller.Controller
 import model.{Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType}
 import util.Observer
 
-import de.htwg.se.pokelite.model.PokemonType.{Brutalanda, Glurak, Simsala}
+import de.htwg.se.pokelite.model.PokemonType.{Brutalanda, Glurak, Simsala, Bisaflor, Turtok}
 
 import java.util
 import scala.io.StdIn.readLine
 
 
 class TUI(controller : Controller) extends Observer :
-  val ANZAHL_POKEMON = 3
+  val ANZAHL_POKEMON = 6
   controller.add( this )
 
   override def update : Unit = println( controller.field.toString )
@@ -53,7 +53,9 @@ class TUI(controller : Controller) extends Observer :
     println( getName +  " Choose your Pokemon: \n" +
       "1: Glurak\n" +
       "2: Simsala\n" +
-      "3: Brutalanda\n" )
+      "3: Brutalanda\n" +
+      "4: Bisaflor\n" +
+      "5: Turtok\n")
 
     inputAnalysisPokemon(readLine) match
       case None       =>
@@ -72,6 +74,8 @@ class TUI(controller : Controller) extends Observer :
       case '1' => Some(Pokemon(Glurak))
       case '2' => Some(Pokemon(Simsala))
       case '3' => Some(Pokemon(Brutalanda))
+      case '4' => Some(Pokemon(Bisaflor))
+      case '5' => Some(Pokemon(Turtok))
       case _ => None
     }
 

@@ -50,12 +50,40 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
 
   def setNextTurn() : Field = if ( isControlledBy == 1 ) copy( isControlledBy = 2 ) else copy( isControlledBy = 1 )
 
-  def attack(attack : Int) : Field = if ( isControlledBy == 1 ) copy(
-    player2 = player2.copy( pokemons = player2.pokemons.updated( player2.currentPoke, Some( player2.pokemons.apply( player2.currentPoke ).get.changeHp( player2.pokemons.apply( player2.currentPoke ).get.pType.attacks.apply( attack ) ) ) ) ) )
-  else copy( player1 = player1.copy( pokemons = player1.pokemons.updated( player1.currentPoke, Some( player1.pokemons.apply( player1.currentPoke ).get.changeHp( player1.pokemons.apply( player1.currentPoke ).get.pType.attacks.apply( attack ) ) ) ) ) )
+  def attack(attack : Int) : Field = if ( isControlledBy == 1 )
+    var mult = calcDamage(player1.pokemons.apply(player1.currentPoke).get.pType.pokemonArt, player2.pokemons.apply(player2.currentPoke).get.pType.pokemonArt)
+    copy(
+    player2 = player2.copy( pokemons = player2.pokemons.updated( player2.currentPoke, Some( player2.pokemons.apply( player2.currentPoke ).get.changeHp( player2.pokemons.apply( player2.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) )
+  else
+    var mult = calcDamage(player1.pokemons.apply(player2.currentPoke).get.pType.pokemonArt, player2.pokemons.apply(player1.currentPoke).get.pType.pokemonArt)
+    copy(
+      player1 = player1.copy( pokemons = player1.pokemons.updated( player1.currentPoke, Some( player1.pokemons.apply( player1.currentPoke ).get.changeHp( player1.pokemons.apply( player1.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) )
 
   def attackInv(attack : Int) : Field = if ( isControlledBy == 1 ) copy(
     player2 = player2.copy( pokemons = player2.pokemons.updated( player2.currentPoke, Some( player2.pokemons.apply( player2.currentPoke ).get.changeHpInv( player2.pokemons.apply( player2.currentPoke ).get.pType.attacks.apply( attack ) ) ) ) ) )
   else copy( player1 = player1.copy( pokemons = player1.pokemons.updated( player1.currentPoke, Some( player1.pokemons.apply( player1.currentPoke ).get.changeHpInv( player1.pokemons.apply( player1.currentPoke ).get.pType.attacks.apply( attack ) ) ) ) ) )
-  
+
+  def calcDamage(pokemonArt1: PokemonArt, pokemonArt2: PokemonArt) : Double =
+    pokemonArt1 match
+      case PokemonArt.Wasser => pokemonArt2 match
+          case PokemonArt.Wasser => 0.5
+          case PokemonArt.Feuer => 0.8
+          case PokemonArt.Blatt => 0.2
+          case PokemonArt.Psycho => 0.5
+      case PokemonArt.Feuer => pokemonArt2 match
+          case PokemonArt.Wasser => 0.2
+          case PokemonArt.Feuer => 0.5
+          case PokemonArt.Blatt => 0.8
+          case PokemonArt.Psycho => 0.5
+      case PokemonArt.Blatt => pokemonArt2 match
+          case PokemonArt.Wasser => 0.6
+          case PokemonArt.Feuer => 0.8
+          case PokemonArt.Blatt => 0.5
+          case PokemonArt.Psycho => 0.5
+      case PokemonArt.Psycho => pokemonArt2 match
+          case PokemonArt.Wasser => 0.5
+          case PokemonArt.Feuer => 0.5
+          case PokemonArt.Blatt => 0.5
+          case PokemonArt.Psycho => 0.4
+
   override def toString : String = mesh()
