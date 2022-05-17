@@ -64,17 +64,19 @@ class TUI(controller : Controller) extends Observer :
     false
 
   def inputAnalysisPokemon(input: String): Option[PokeMove] =
-    val chars = input.toCharArray
-    val pokeListe : List[Option[Pokemon]] = List()
+    val chars = input.toCharArray.toList
+    // val pokeListe : List[Option[Pokemon]] = List(Some(Pokemon(Glurak)))
 
     // List("a", "b", "c").foreach(x => {col = x :: col})
-    chars.foreach(x => {x match
-      case '1' => pokeListe :+ Some(Pokemon( Glurak ))
-      case '2' => pokeListe :+ Some(Pokemon( Brutalanda ))
-      case '3' => pokeListe :+ Some(Pokemon( Simsala ) )
-      case _ =>})
 
-    pokeListe.foreach(x=>println(x))
+    val pokeListe  : List[Option[Pokemon]] = chars.map(x => x match {
+      case '1' => Some(Pokemon(Glurak))
+      case '2' => Some(Pokemon(Simsala))
+      case '3' => Some(Pokemon(Brutalanda))
+      case _ => None // alter was nen käs, irgendwie müssen wir noch die none werte rausbekommen
+    })
+
+    pokeListe.foreach(println)
 
     Some(PokeMove(pokeListe))
 
