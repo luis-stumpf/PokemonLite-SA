@@ -26,16 +26,16 @@ class TUI(controller : Controller) extends Observer :
 
 
   def inputLoop() : Unit =
-
-    if aPlayerHasWon then
-      println(getName + " has won the game!")
-      return null
-
     println( getName + ", choose your Attack 1, 2, 3, 4" )
 
     chooseAttack(readLine) match
       case Some(move) => controller.doAndPublish(controller.putAttack, move)
       case None =>
+
+    if aPlayerHasWon then
+      println(getName + " has won the game!")
+      return null
+
     inputLoop()
 
   def getPlayerNames() : Unit =
