@@ -34,7 +34,7 @@ class TUI(controller : Controller) extends Observer :
     println( getName + ", choose your Attack 1, 2, 3, 4" )
 
     chooseAttack(readLine) match
-      case Some(move) => controller.doAndPublish(controller.put, move)
+      case Some(move) => controller.doAndPublish(controller.putAttack, move)
       case None =>
     inputLoop()
 
