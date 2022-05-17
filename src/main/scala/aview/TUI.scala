@@ -81,8 +81,6 @@ class TUI(controller : Controller) extends Observer :
     Some(PokeMove(pokeList.take(ANZAHL_POKEMON)))
 
 
-
-
   def chooseAttack(input: String) : Option[ AttackMove ] =
     val char = input.toCharArray
     val attack = char( 0 ) match
