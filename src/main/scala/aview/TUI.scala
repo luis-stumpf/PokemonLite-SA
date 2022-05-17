@@ -17,13 +17,13 @@ class TUI(controller : Controller) extends Observer :
 
   def run() : Unit =
     println( controller.field.toString )
-    getPlayerNames
-    choosePokemon
-    choosePokemon
-    inputLoop
+    getPlayerNames()
+    choosePokemon()
+    choosePokemon()
+    inputLoop()
 
 
-  def inputLoop : Unit =
+  def inputLoop() : Unit =
 
     if aPlayerHasWon then
       println(getName + " has won the game!")
@@ -34,9 +34,9 @@ class TUI(controller : Controller) extends Observer :
     chooseAttack(readLine) match
       case Some(move) => controller.doAndPublish(controller.put, move)
       case None =>
-    inputLoop
+    inputLoop()
 
-  def getPlayerNames : Unit =
+  def getPlayerNames() : Unit =
     print( "Enter name of Player 1: " )
     controller.doAndPublish( controller.put, PlayerMove( readLine() ) )
     print( "Enter name of Player 2: " )
@@ -46,7 +46,7 @@ class TUI(controller : Controller) extends Observer :
   def ofPlayer1 : String = controller.field.player1.name
   def ofPlayer2 : String = controller.field.player2.name
 
-  def choosePokemon : Unit =
+  def choosePokemon() : Unit =
 
     println( getName +  " Choose your Pokemon: \n" +
       "1: Glurak\n" +
