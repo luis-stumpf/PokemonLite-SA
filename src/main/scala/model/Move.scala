@@ -15,4 +15,5 @@ case class PlayerMove(name : String) extends Move {
 
 case class AttackMove(attack : Int) extends Move {
   override def doStep(field : Field) : Field = field.attack( attack ).setNextTurn()
+  
 }

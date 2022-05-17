@@ -2,10 +2,11 @@ package de.htwg.se.pokelite
 package aview
 
 import controller.Controller
-import model.{ Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType }
+import model.{ Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType, StateContext }
 import util.Observer
 
 import de.htwg.se.pokelite.model.PokemonType.{ Brutalanda, Glurak, Simsala }
+import org.w3c.dom.events.Event
 
 import scala.io.StdIn.readLine
 
@@ -16,10 +17,12 @@ class TUI(controller : Controller) extends Observer :
   override def update : Unit = println( controller.field.toString )
 
   def run() : Unit =
+    StateContext.state
     println( controller.field.toString )
     getInput()
     choosePokemon()
     choosePokemon()
+    StateContext.midState
     inputLoop()
 
 
@@ -75,3 +78,5 @@ class TUI(controller : Controller) extends Observer :
       case '3' => AttackMove( 2 )
       case '4' => AttackMove( 3 )
     Some( attack )
+
+
