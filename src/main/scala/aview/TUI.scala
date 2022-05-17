@@ -34,9 +34,9 @@ class TUI(controller : Controller) extends Observer :
 
   def getInput() : Unit =
     print( "Enter name of Player 1: " )
-    controller.doAndPublish( controller.putPlayer, PlayerMove( readLine() ) )
+    controller.doAndPublish( controller.put, PlayerMove( readLine() ) )
     print( "Enter name of Player 2: " )
-    controller.doAndPublish( controller.putPlayer, PlayerMove( readLine() ) )
+    controller.doAndPublish( controller.put, PlayerMove( readLine() ) )
 
 
   def choosePokemon() : Unit =
@@ -48,7 +48,7 @@ class TUI(controller : Controller) extends Observer :
 
     inputAnalysisPokemon(readLine) match
       case None       =>
-      case Some(move) => controller.doAndPublish(controller.putPoke, move)
+      case Some(move) => controller.doAndPublish(controller.put, move)
 
 
   def inputAnalysisPokemon(input: String): Option[PokeMove] =
@@ -56,17 +56,11 @@ class TUI(controller : Controller) extends Observer :
     val pokeList1 = List( Some( Pokemon( Glurak ) ), Some( Pokemon( Glurak ) ) )
     val pokeList2 = List( Some( Pokemon( Brutalanda ) ), Some( Pokemon( Simsala ) ) )
     val pokeList3 = List( Some( Pokemon( Simsala ) ), Some( Pokemon( Simsala ) ) )
-    input match
-      case "q" => None
-      case "z" => controller.doAndPublish(controller.redo); None
-      case "y" => controller.doAndPublish(controller.undo); None
-      case _ => {
-        chars( 0 ) match
-          case '1' => Some( PokeMove( pokeList1 ) )
-          case '2' => Some( PokeMove( pokeList2 ) )
-          case '3' => Some( PokeMove( pokeList3 ) )
-          case _ => None
-      }
+    chars( 0 ) match
+      case '1' => Some( PokeMove( pokeList1 ) )
+      case '2' => Some( PokeMove( pokeList2 ) )
+      case '3' => Some( PokeMove( pokeList3 ) )
+      case _ => None
 
   def chooseAttack(input: String) : Option[ AttackMove ] =
     input match
