@@ -75,8 +75,6 @@ class TUI(controller : Controller) extends Observer :
       case _ => None
     }
 
-    pokeList.foreach(println)
-
     Some(PokeMove(pokeList.take(ANZAHL_POKEMON)))
 
 
