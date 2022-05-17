@@ -70,7 +70,7 @@ class TUI(controller : Controller) extends Observer :
       case '1' => Some(Pokemon(Glurak))
       case '2' => Some(Pokemon(Simsala))
       case '3' => Some(Pokemon(Brutalanda))
-      case _ => None
+      case _ => None    //TODO: In den filter noch alle zahlen ausschliessen die nicht valide sind ansonsten füllt sich die liste mit None werten!!
     }
 
     Some(PokeMove(pokeListe.take(ANZAHL_POKEMON)))
