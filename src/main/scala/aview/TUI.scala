@@ -67,14 +67,16 @@ class TUI(controller : Controller) extends Observer :
     val chars = input.toCharArray
     val pokeListe : List[Option[Pokemon]] = List()
 
-    for( a <- 1 to chars.length){
-      chars( a ) match
-        case '1' => Some(Pokemon( Glurak )) :: pokeListe
-        case '2' => Some(Pokemon( Brutalanda ))  :: pokeListe
-        case '3' => Some(Pokemon( Simsala ) )  :: pokeListe
-        case _ => None
-    }
-    return Some(PokeMove(pokeListe))
+    // List("a", "b", "c").foreach(x => {col = x :: col})
+    chars.foreach(x => {x match
+      case '1' => pokeListe :+ Some(Pokemon( Glurak ))
+      case '2' => pokeListe :+ Some(Pokemon( Brutalanda ))
+      case '3' => pokeListe :+ Some(Pokemon( Simsala ) )
+      case _ =>})
+
+    pokeListe.foreach(x=>println(x))
+
+    Some(PokeMove(pokeListe))
 
 
 
