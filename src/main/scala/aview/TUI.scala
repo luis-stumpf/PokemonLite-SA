@@ -65,15 +65,20 @@ class TUI(controller : Controller) extends Observer :
     false
 
   def inputAnalysisPokemon(input: String): Option[PokeMove] =
+    // Warning: Max allowed number of available Pokemon is 9. Because of toChar: '1','9'
     val chars = input.toCharArray.toList
-    val pokeListe  : List[Option[Pokemon]] = chars.filter(x => x.isDigit).map {
+    val pokeList  : List[Option[Pokemon]] = chars.filter(x => x.isDigit
+        && x.asDigit <= ANZAHL_POKEMON
+        && x.asDigit > 0).map {
       case '1' => Some(Pokemon(Glurak))
       case '2' => Some(Pokemon(Simsala))
       case '3' => Some(Pokemon(Brutalanda))
-      case _ => None    //TODO: In den filter noch alle zahlen ausschliessen die nicht valide sind ansonsten füllt sich die liste mit None werten!!
+      case _ => None
     }
 
-    Some(PokeMove(pokeListe.take(ANZAHL_POKEMON)))
+    pokeList.foreach(println)
+
+    Some(PokeMove(pokeList.take(ANZAHL_POKEMON)))
 
 
 
