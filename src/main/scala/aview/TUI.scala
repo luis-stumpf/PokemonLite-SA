@@ -27,7 +27,7 @@ class TUI(controller : Controller) extends Observer :
 
     if aPlayerHasWon then
       println(getName + " has won the game!")
-      return
+      return null
 
     println( getName + ", choose your Attack 1, 2, 3, 4" )
 
