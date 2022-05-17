@@ -17,12 +17,10 @@ class TUI(controller : Controller) extends Observer :
   override def update : Unit = println( controller.field.toString )
 
   def run() : Unit =
-    StateContext.state
     println( controller.field.toString )
     getInput()
     choosePokemon()
     choosePokemon()
-    StateContext.midState
     inputLoop()
 
 
