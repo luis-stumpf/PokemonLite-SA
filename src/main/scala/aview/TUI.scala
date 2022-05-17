@@ -2,11 +2,12 @@ package de.htwg.se.pokelite
 package aview
 
 import controller.Controller
-import model.{ Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType }
+import model.{Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType}
 import util.Observer
 
-import de.htwg.se.pokelite.model.PokemonType.{ Brutalanda, Glurak, Simsala }
+import de.htwg.se.pokelite.model.PokemonType.{Brutalanda, Glurak, Simsala}
 
+import java.util
 import scala.io.StdIn.readLine
 
 
@@ -64,15 +65,18 @@ class TUI(controller : Controller) extends Observer :
 
   def inputAnalysisPokemon(input: String): Option[PokeMove] =
     val chars = input.toCharArray
-    val pokeList1 = List( Some( Pokemon( Glurak ) ), Some( Pokemon( Glurak ) ) )
-    val pokeList2 = List( Some( Pokemon( Brutalanda ) ), Some( Pokemon( Simsala ) ) )
-    val pokeList3 = List( Some( Pokemon( Simsala ) ), Some( Pokemon( Simsala ) ) )
+    val pokeListe : List[Option[Pokemon]] = List()
 
-    chars( 0 ) match
-      case '1' => Some(PokeMove(pokeList1 ) )
-      case '2' => Some(PokeMove( pokeList2 ))
-      case '3' => Some(PokeMove( pokeList3 ))
-      case _ => None
+    for( a <- 1 to chars.length){
+      chars( a ) match
+        case '1' => Some(Pokemon( Glurak )) :: pokeListe
+        case '2' => Some(Pokemon( Brutalanda ))  :: pokeListe
+        case '3' => Some(Pokemon( Simsala ) )  :: pokeListe
+        case _ => None
+    }
+    return Some(PokeMove(pokeListe))
+
+
 
 
   def chooseAttack(input: String) : Option[ AttackMove ] =
