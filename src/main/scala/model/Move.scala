@@ -13,15 +13,4 @@ case class PlayerMove(name : String) extends Move {
   override def doStep(field : Field) : Field = field.setPlayerNameTo( name ).setNextTurn()
 }
 
-case class AttackMove(attack : Int) extends Move {
-  override def doStep(field : Field) : Field =
-    if(field.isControlledBy == 1)
-      StateContext.p1State
-    else
-      StateContext.p2State
-    field.attack( attack ).setNextTurn()
-
-
-
-  
-}
+case class AttackMove(attack : Int) 
