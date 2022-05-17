@@ -6,22 +6,46 @@ object Pokemon {
 }
 
 case class Pokemon(pType : PokemonType, hp : Int) {
-  def changeHp(attack : AttackType) : Pokemon = copy( hp = hp - attack.damage )
+  def changeHp(attack : AttackType, damageMult : Double) : Pokemon = copy( hp = (hp - (attack.damage * damageMult)).floor.toInt )
   def changeHpInv(attack : AttackType) : Pokemon = copy( hp = hp + attack.damage )
+  
 
   override def toString : String = pType.name + " HP: " + hp
 }
 
-enum PokemonType(val name : String, val hp : Int, val attacks : List[ AttackType ]) {
+enum PokemonType(val name : String, val hp : Int, val attacks : List[ AttackType ], val pokemonArt: PokemonArt) {
   override def toString : String = name + " HP: " + hp
 
-  case Glurak extends PokemonType( name = "Glurak", hp = 150,
-    attacks = List( Attack( "Flammenwurf", 30 ), Attack( "Donnerblitz", 20 ), Attack( "Bite", 15 ), Attack( "Tackle", 10 ) ) )
+  case Glurak extends PokemonType( 
+    name = "Glurak", 
+    hp = 150,
+    attacks = List( Attack( "Glut", 10 ), Attack( "Flammenwurf", 20 ), Attack( "Biss", 15 ), Attack( "Inferno", 10 ) ), 
+    pokemonArt = PokemonArt.Feuer )
 
-  case Simsala extends PokemonType( name = "Simsala", hp = 130,
-    attacks = List( Attack( "Simsala", 30 ), Attack( "Simsala", 20 ), Attack( "Simsala", 15 ), Attack( "Simsala", 10 ) ) )
+  case Simsala extends PokemonType( 
+    name = "Simsala", 
+    hp = 130,
+    attacks = List( Attack( "Konfusion", 10 ), Attack( "Psychoklinge", 15 ), Attack( "Psychokinese", 30 ), Attack( "Eishieb", 15 ) ), 
+    pokemonArt = PokemonArt.Psycho)
 
-  case Brutalanda extends PokemonType( name = "Brutalanda", hp = 180,
-    attacks = List( Attack( "Flammenwurf", 30 ), Attack( "Donnerblitz", 20 ), Attack( "Bite", 15 ), Attack( "Tackle", 10 ) ) )
+  case Brutalanda extends PokemonType( 
+    name = "Brutalanda", 
+    hp = 170,
+    attacks = List( Attack( "Fliegen", 20 ), Attack( "Drachenklaue", 30 ), Attack( "Glut", 10 ), Attack( "Flammenwurf", 35 ) ), 
+    pokemonArt = PokemonArt.Feuer)
+
+  case Bisaflor extends PokemonType( 
+    name = "Bisaflor",
+    hp = 180,
+    attacks = List( Attack( "Rasierblatt", 20 ), Attack( "Tackle", 10 ), Attack( "Solarstrahl", 30 ), Attack( "Matschbombe", 15 ) ), 
+    pokemonArt = PokemonArt.Blatt)
+
+  case Turtok extends PokemonType( 
+    name = "Turtok", 
+    hp = 130,
+    attacks = List( Attack( "Aquaknarre", 20 ), Attack( "Biss", 15 ), Attack( "Hydropumpe", 110 ), Attack( "Matschbombe", 15 ) ), 
+    pokemonArt = PokemonArt.Wasser )
 }
 end PokemonType
+
+
