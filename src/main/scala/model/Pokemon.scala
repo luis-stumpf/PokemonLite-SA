@@ -6,7 +6,7 @@ object Pokemon {
 }
 
 case class Pokemon(pType : PokemonType, hp : Int) {
-  def changeHp(attack : AttackType, damageMult : Double) : Pokemon = copy( hp = hp - (attack.damage * damageMult).floor.toInt )
+  def changeHp(attack : AttackType, damageMult : Double) : Pokemon = copy( hp = hp - (attack.damage * damageMult).toInt )
   def changeHpInv(attack : AttackType) : Pokemon = copy( hp = hp + attack.damage )
   
 
@@ -19,7 +19,7 @@ enum PokemonType(val name : String, val hp : Int, val attacks : List[ AttackType
   case Glurak extends PokemonType( 
     name = "Glurak", 
     hp = 150,
-    attacks = List( Attack( "Glut", 10 ), Attack( "Flammenwurf", 20 ), Attack( "Biss", 10 ), Attack( "Inferno", 30 ) ), 
+    attacks = List( Attack( "Glut", 20 ), Attack( "Flammenwurf", 60 ), Attack( "Biss", 10 ), Attack( "Inferno", 30 ) ),
     pokemonArt = PokemonArt.Feuer )
 
   case Simsala extends PokemonType( 
