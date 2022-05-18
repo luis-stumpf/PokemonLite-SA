@@ -13,7 +13,7 @@ case class PokePlayer(name : String, number : Int, pokemons : PokePack[Option[Po
 
   def getCurrentPokemons() : List[Pokemon] =
     val list = List[Pokemon]()
-    for ( pokemon <- pokePack.pokemons ) yield pokemon match {
+    for ( content <- pokemons.contents ) yield content match {
       case Some( b ) => b :: list
       case None =>
     }

@@ -38,6 +38,7 @@ class TUI(controller : Controller) extends Observer :
       println( getName + " has won the game!" )
       return null
 
+    println(controller.field.player1.pokemons.contents.apply(2))
     inputLoop()
 
   def readPlayerNames() : Unit =
@@ -83,7 +84,7 @@ class TUI(controller : Controller) extends Observer :
       case _ => None
     }
 
-    Some( PokeMove( PokePack(pokeList.take( ANZAHL_POKEMON )) ) )
+    Some( PokeMove( pokeList.take( ANZAHL_POKEMON )) )
 
 
   def chooseAttack(input : String) : Option[ AttackMove ] =

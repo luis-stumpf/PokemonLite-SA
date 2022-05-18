@@ -46,7 +46,11 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
 
   def setPlayerNameTo(newName : String) : Field = if ( player1.name == "" ) copy( player1 = player1.setPokePlayerNameTo( newName ) ) else copy( player2 = player2.setPokePlayerNameTo( newName ) )
 
-  def setPokemonTo(newPokemons : PokePack[ Option[ Pokemon ] ]) : Field = if ( player1.pokemons.contents.head.isEmpty ) copy( player1 = player1.setPokemonTo( newPokemons ) ) else copy( player2 = player2.setPokemonTo( newPokemons ) )
+  def setPokemonTo(newPokemons : List[ Option[ Pokemon ] ]) : Field =
+    if ( player1.pokemons.contents.head.isEmpty )
+      copy( player1 = player1.setPokemonTo( new PokePack[Option[Pokemon]](newPokemons) ) )
+    else
+      copy( player2 = player2.setPokemonTo( new PokePack[Option[Pokemon]](newPokemons) ) )
 
   def setNextTurn() : Field = if ( isControlledBy == 1 ) copy( isControlledBy = 2 ) else copy( isControlledBy = 1 )
 
