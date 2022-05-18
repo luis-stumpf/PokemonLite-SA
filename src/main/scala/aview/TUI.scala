@@ -2,10 +2,9 @@ package de.htwg.se.pokelite
 package aview
 
 import controller.Controller
-import model.{ Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType }
-import util._
-
-import de.htwg.se.pokelite.model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
+import model.PokemonType.*
+import model.*
+import util.*
 
 import java.util
 import scala.io.StdIn.readLine
@@ -90,7 +89,7 @@ class TUI(controller : Controller) extends Observer :
       case "q" => None
       case "z" => controller.doAndPublish(controller.redo); None
       case "y" => controller.doAndPublish(controller.undo); None
-      case _ => {
+      case _ =>
         val char = input.toCharArray
         val attack = char( 0 ) match
           case '1' => AttackMove( 0 )
@@ -98,4 +97,3 @@ class TUI(controller : Controller) extends Observer :
           case '3' => AttackMove( 2 )
           case '4' => AttackMove( 3 )
         Some( attack )
-      }
