@@ -12,7 +12,7 @@ import scala.io.StdIn.readLine
 
 
 class TUI(controller : Controller) extends Observer :
-  val ANZAHL_POKEMON = 6
+  val ANZAHL_POKEMON = 3
   controller.add( this )
 
   override def update : Unit = println( controller.field.toString )
@@ -69,7 +69,7 @@ class TUI(controller : Controller) extends Observer :
   def inputAnalysisPokemon(input: String): Option[PokeMove] =
     val chars = input.toCharArray.toList
     val pokeList  : List[Option[Pokemon]] = chars.filter(x => x.isDigit
-        && x.asDigit <= ANZAHL_POKEMON
+        && x.asDigit <= PokemonType.values.length
         && x.asDigit > 0).map {
       case '1' => Some(Pokemon(Glurak))
       case '2' => Some(Pokemon(Simsala))
@@ -80,6 +80,8 @@ class TUI(controller : Controller) extends Observer :
     }
 
     Some(PokeMove(pokeList.take(ANZAHL_POKEMON)))
+
+
 
 
   def chooseAttack(input: String) : Option[ AttackMove ] =
