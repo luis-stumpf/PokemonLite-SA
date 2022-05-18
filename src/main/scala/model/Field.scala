@@ -87,3 +87,5 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
           case PokemonArt.Psycho => 0.7
 
   override def toString : String = mesh()
+
+  

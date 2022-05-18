@@ -2,10 +2,10 @@ package de.htwg.se.pokelite
 package aview
 
 import controller.Controller
-import model.{Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType}
-import util.Observer
+import model.{ Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType }
+import util._
 
-import de.htwg.se.pokelite.model.PokemonType.{Brutalanda, Glurak, Simsala, Bisaflor, Turtok}
+import de.htwg.se.pokelite.model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
 
 import java.util
 import scala.io.StdIn.readLine
@@ -19,9 +19,11 @@ class TUI(controller : Controller) extends Observer :
 
   def run() : Unit =
     println( controller.field.toString )
+    println(controller.handle(PreEvent()).get.toString)
     readPlayerNames()
     choosePokemon()
     choosePokemon()
+    println(controller.handle(MidEvent()).get.toString)
     inputLoop()
 
 
@@ -33,6 +35,7 @@ class TUI(controller : Controller) extends Observer :
       case None =>
 
     if aPlayerHasWon then
+      println(controller.handle(EndEvent()).get.toString)
       println(getName + " has won the game!")
       return null
 
@@ -80,8 +83,6 @@ class TUI(controller : Controller) extends Observer :
     }
 
     Some(PokeMove(pokeList.take(ANZAHL_POKEMON)))
-
-
 
 
   def chooseAttack(input: String) : Option[ AttackMove ] =
