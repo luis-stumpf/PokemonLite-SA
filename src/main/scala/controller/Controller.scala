@@ -1,10 +1,10 @@
 package de.htwg.se.pokelite
 package controller
 
-import util.{ Command, Event, Observable, P1Event, P2Event, PreEvent, UndoManager }
+import util.{ Command, Event, MidEvent, Observable, P1Event, P2Event, PreEvent, UndoManager }
 import model.{ AttackMove, Field, Move, P1State, P2State, PlayerMove, PokeMove, PokemonType, PreState, State, Stateable }
 
-case class Controller(var field: Field) extends Observable:
+case class Controller(var field: Field) extends Observable, Stateable:
 
   val undoManager = new UndoManager[Field]
   override def toString: String = field.toString
@@ -25,5 +25,15 @@ case class Controller(var field: Field) extends Observable:
   def putAttack(move: AttackMove): Field = undoManager.doStep(field, AttackCommand(move))
   def undo: Field = undoManager.undoStep(field)
   def redo: Field = undoManager.redoStep(field)
+
+
+  override def handle(e : Event) : Option[State] =
+    e match {
+      case pre : PreEvent => state = Some(PreState( field ))
+      case mid : MidEvent => state = Some(MidState( field ))
+      case end : EndEvent => state = Some(EndState( field ))
+    }
+    state
+
 
 

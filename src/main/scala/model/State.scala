@@ -12,10 +12,10 @@ trait State:
 
 
 case class PreState(field: Field) extends State:
-  override def toString = "Pre game\n"
+  override def toString = "Pregame\n"
 
-case class P1State(field: Field) extends State:
-  override def toString = field.player1.name + " ist dran!\n"
+case class MidState(field: Field) extends State:
+  override def toString = "MidGame!\n"
 
-case class P2State(field: Field) extends State:
-  override def toString = field.player2.name + " ist dran!\n"
+case class EndState(field: Field) extends State:
+  override def toString = "EndGame!\n"

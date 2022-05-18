@@ -7,8 +7,8 @@ import model.State
 
 
 
-case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isControlledBy : Int = 1) extends Stateable:
-  def mesh(height : Int = 3) : String = row() + printPlayer1Stats() + col( height ) + printPlayer2Stats() + row() + state.getOrElse("PreGame").toString
+case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isControlledBy : Int = 1):
+  def mesh(height : Int = 3) : String = row() + printPlayer1Stats() + col( height ) + printPlayer2Stats() + row()
 
   def row() : String = "+" + ( "-" * width + "+" ) * 2 + "\n"
 
@@ -93,10 +93,4 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
 
   override def toString : String = mesh()
 
-  override def handle(e : Event) : Option[State] =
-    e match {
-      case pre : PreEvent => state = Some(PreState( this ))
-      case p1 : P1Event => state = Some(P1State( this ))
-      case p2 : P2Event => state = Some(P2State( this ))
-    }
-    state
+  

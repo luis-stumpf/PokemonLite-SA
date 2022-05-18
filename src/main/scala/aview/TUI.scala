@@ -3,7 +3,7 @@ package aview
 
 import controller.Controller
 import model.{ Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType }
-import util.{ Observer, P1Event, P2Event }
+import util.{ EndEvent, MidEvent, Observer, P1Event, P2Event }
 
 import de.htwg.se.pokelite.model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
 
@@ -19,6 +19,7 @@ class TUI(controller : Controller) extends Observer :
 
   def run() : Unit =
     println( controller.field.toString )
+    println(controller.handle(PreEvent()).get.toString)
     getPlayerNames()
     choosePokemon()
     choosePokemon()
@@ -26,6 +27,7 @@ class TUI(controller : Controller) extends Observer :
 
 
   def inputLoop() : Unit =
+    println(controller.handle(MidEvent()).get.toString)
     println( getName + ", choose your Attack 1, 2, 3, 4" )
 
     chooseAttack(readLine) match
@@ -33,6 +35,7 @@ class TUI(controller : Controller) extends Observer :
       case None =>
 
     if aPlayerHasWon then
+      println(controller.handle(EndEvent()).get.toString)
       println(getName + " has won the game!")
       return null
 
