@@ -3,7 +3,7 @@ package model
 
 import model.*
 
-def getDamageMultiplikator(pokemonArt1: PokemonArt, pokemonArt2: PokemonArt): Double =
+def getDamageMultiplikator(pokemonArt1 : PokemonArt, pokemonArt2 : PokemonArt) : Double =
   pokemonArt1 match
     case PokemonArt.Wasser => pokemonArt2 match
       case PokemonArt.Wasser => 1

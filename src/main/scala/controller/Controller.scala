@@ -4,34 +4,38 @@ package controller
 import util._
 import model._
 
-case class Controller(var field: Field) extends Observable, Stateable:
+case class Controller(var field : Field) extends Observable, Stateable :
 
-  val undoManager = new UndoManager[Field]
-  override def toString: String = field.toString
+  val undoManager = new UndoManager[ Field ]
 
-  def doAndPublish(doThis: AttackMove => Field, move: AttackMove) =
-    field = doThis(move)
+  override def toString : String = field.toString
+
+  def doAndPublish(doThis : AttackMove => Field, move : AttackMove) =
+    field = doThis( move )
     notifyObservers
 
-  def doAndPublish(doThis: => Field) =
+  def doAndPublish(doThis : => Field) =
     field = doThis
     notifyObservers
 
-  def doAndPublish(doThis: Move => Field, move: Move) =
-    field = doThis(move)
+  def doAndPublish(doThis : Move => Field, move : Move) =
+    field = doThis( move )
     notifyObservers
-    
-  def put(move: Move): Field = move.doStep(field)
-  def putAttack(move: AttackMove): Field = undoManager.doStep(field, AttackCommand(move))
-  def undo: Field = undoManager.undoStep(field)
-  def redo: Field = undoManager.redoStep(field)
+
+  def put(move : Move) : Field = move.doStep( field )
+
+  def putAttack(move : AttackMove) : Field = undoManager.doStep( field, AttackCommand( move ) )
+
+  def undo : Field = undoManager.undoStep( field )
+
+  def redo : Field = undoManager.redoStep( field )
 
 
-  override def handle(e : Event) : Option[State] =
+  override def handle(e : Event) : Option[ State ] =
     e match {
-      case pre : PreEvent => state = Some(PreState( field ))
-      case mid : MidEvent => state = Some(MidState( field ))
-      case end : EndEvent => state = Some(EndState( field ))
+      case pre : PreEvent => state = Some( PreState( field ) )
+      case mid : MidEvent => state = Some( MidState( field ) )
+      case end : EndEvent => state = Some( EndState( field ) )
     }
     state
 
