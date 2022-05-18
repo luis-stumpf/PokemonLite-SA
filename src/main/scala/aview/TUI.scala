@@ -66,8 +66,8 @@ class TUI(controller : Controller) extends Observer :
       case Some( move ) => controller.doAndPublish( controller.put, move )
 
   def aPlayerHasWon : Boolean =
-    if ( controller.field.player1.pokemons( 0 ).get.hp <= 0
-      || controller.field.player2.pokemons( 0 ).get.hp <= 0 ) return true
+    if ( controller.field.player1.pokemons.contents( 0 ).get.hp <= 0
+      || controller.field.player2.pokemons.contents( 0 ).get.hp <= 0 ) return true
     false
 
   def inputAnalysisPokemon(input : String) : Option[ PokeMove ] =
@@ -83,7 +83,7 @@ class TUI(controller : Controller) extends Observer :
       case _ => None
     }
 
-    Some( PokeMove( pokeList.take( ANZAHL_POKEMON ) ) )
+    Some( PokeMove( PokePack(pokeList.take( ANZAHL_POKEMON )) ) )
 
 
   def chooseAttack(input : String) : Option[ AttackMove ] =

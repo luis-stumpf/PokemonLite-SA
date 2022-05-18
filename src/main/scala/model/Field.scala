@@ -21,15 +21,15 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
 
   def printTopPlayer() : String = "|" + " " * calcSpace( 0.9, player1.name ) + player1.name + " " * calcSpace( 0.1 )
 
-  def printTopPokemon() : String = "|" + " " * calcSpace( 0.9, player1.pokemons.apply( player1.currentPoke ).map( _.toString ).getOrElse( "" ) ) + player1.pokemons.apply( player1.currentPoke ).map( _.toString ).getOrElse( "" ) + " " * calcSpace( 0.1 ) + printTopAttacks()
+  def printTopPokemon() : String = "|" + " " * calcSpace( 0.9, player1.pokemons.contents.apply( player1.currentPoke ).map( _.toString ).getOrElse( "" ) ) + player1.pokemons.contents.apply( player1.currentPoke ).map( _.toString ).getOrElse( "" ) + " " * calcSpace( 0.1 ) + printTopAttacks()
 
   def printBottomPlayer() : String = "|" + " " * calcSpace( 0.1 ) + player2.name + " " * calcSpace( 0.9, player2.name )
 
-  def printBottomPokemon() : String = "|" + " " * calcSpace( 0.1 ) + player2.pokemons.apply( player2.currentPoke ).map( _.toString ).getOrElse( "" ) + " " * calcSpace( 0.9, player2.pokemons.apply( player2.currentPoke ).map( _.toString ).getOrElse( "" ) ) + printBottomAttacks()
+  def printBottomPokemon() : String = "|" + " " * calcSpace( 0.1 ) + player2.pokemons.contents.apply( player2.currentPoke ).map( _.toString ).getOrElse( "" ) + " " * calcSpace( 0.9, player2.pokemons.contents.apply( player2.currentPoke ).map( _.toString ).getOrElse( "" ) ) + printBottomAttacks()
 
-  def printTopAttacks() : String = if ( isControlledBy == 1 ) printTopAttacksOf( player1.pokemons.apply( player1.currentPoke ) ) else printTopAttacksOf( player2.pokemons.apply( player2.currentPoke ) )
+  def printTopAttacks() : String = if ( isControlledBy == 1 ) printTopAttacksOf( player1.pokemons.contents.apply( player1.currentPoke ) ) else printTopAttacksOf( player2.pokemons.contents.apply( player2.currentPoke ) )
 
-  def printBottomAttacks() : String = if ( isControlledBy == 1 ) printBottomAttacksOf( player1.pokemons.apply( player1.currentPoke ) ) else printBottomAttacksOf( player2.pokemons.apply( player2.currentPoke ) )
+  def printBottomAttacks() : String = if ( isControlledBy == 1 ) printBottomAttacksOf( player1.pokemons.contents.apply( player1.currentPoke ) ) else printBottomAttacksOf( player2.pokemons.contents.apply( player2.currentPoke ) )
 
   def printTopAttacksOf(pokemon : Option[ Pokemon ]) : String =
     if ( pokemon.isDefined )
@@ -46,7 +46,7 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
 
   def setPlayerNameTo(newName : String) : Field = if ( player1.name == "" ) copy( player1 = player1.setPokePlayerNameTo( newName ) ) else copy( player2 = player2.setPokePlayerNameTo( newName ) )
 
-  def setPokemonTo(newPokemons : List[ Option[ Pokemon ] ]) : Field = if ( player1.pokemons.head.isEmpty ) copy( player1 = player1.setPokemonTo( newPokemons ) ) else copy( player2 = player2.setPokemonTo( newPokemons ) )
+  def setPokemonTo(newPokemons : PokePack[ Option[ Pokemon ] ]) : Field = if ( player1.pokemons.contents.head.isEmpty ) copy( player1 = player1.setPokemonTo( newPokemons ) ) else copy( player2 = player2.setPokemonTo( newPokemons ) )
 
   def setNextTurn() : Field = if ( isControlledBy == 1 ) copy( isControlledBy = 2 ) else copy( isControlledBy = 1 )
 
@@ -62,14 +62,14 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
     var strategy = if ( isControlledBy == 1 ) strategy1 else strategy2
 
     def strategy1(attack : Int) =
-      var mult = getDamageMultiplikator( player1.pokemons.apply( player1.currentPoke ).get.pType.pokemonArt, player2.pokemons.apply( player2.currentPoke ).get.pType.pokemonArt )
+      var mult = getDamageMultiplikator( player1.pokemons.contents.apply( player1.currentPoke ).get.pType.pokemonArt, player2.pokemons.contents.apply( player2.currentPoke ).get.pType.pokemonArt )
       copy(
-        player2 = player2.copy( pokemons = player2.pokemons.updated( player2.currentPoke, Some( player2.pokemons.apply( player2.currentPoke ).get.changeHp( player1.pokemons.apply( player1.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) )
+        player2 = player2.copy( pokemons = player2.pokemons.copy(player2.pokemons.contents.updated( player2.currentPoke, Some( player2.pokemons.contents.apply( player2.currentPoke ).get.changeHp( player1.pokemons.contents.apply( player1.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ))
 
     def strategy2(attack : Int) =
-      var mult = getDamageMultiplikator( player2.pokemons.apply( player2.currentPoke ).get.pType.pokemonArt, player1.pokemons.apply( player1.currentPoke ).get.pType.pokemonArt )
+      var mult = getDamageMultiplikator( player2.pokemons.contents.apply( player2.currentPoke ).get.pType.pokemonArt, player1.pokemons.contents.apply( player1.currentPoke ).get.pType.pokemonArt )
       copy(
-        player1 = player1.copy( pokemons = player1.pokemons.updated( player1.currentPoke, Some( player1.pokemons.apply( player1.currentPoke ).get.changeHp( player2.pokemons.apply( player2.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) )
+        player1 = player1.copy( pokemons = player1.pokemons.copy(player1.pokemons.contents.updated( player1.currentPoke, Some( player1.pokemons.contents.apply( player1.currentPoke ).get.changeHp( player2.pokemons.contents.apply( player2.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ))
 
   }
 
@@ -77,13 +77,13 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
     var strategy = if ( isControlledBy == 1 ) strategy1 else strategy2
 
     def strategy1(attack : Int) =
-      var mult = getDamageMultiplikator( player1.pokemons.apply( player1.currentPoke ).get.pType.pokemonArt, player2.pokemons.apply( player2.currentPoke ).get.pType.pokemonArt )
+      var mult = getDamageMultiplikator( player1.pokemons.contents.apply( player1.currentPoke ).get.pType.pokemonArt, player2.pokemons.contents.apply( player2.currentPoke ).get.pType.pokemonArt )
       copy(
-        player2 = player2.copy( pokemons = player2.pokemons.updated( player2.currentPoke, Some( player2.pokemons.apply( player2.currentPoke ).get.changeHpInv( player1.pokemons.apply( player1.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) )
+        player2 = player2.copy( pokemons = player2.pokemons.copy(player2.pokemons.contents.updated( player2.currentPoke, Some( player2.pokemons.contents.apply( player2.currentPoke ).get.changeHpInv( player1.pokemons.contents.apply( player1.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ))
 
     def strategy2(attack : Int) =
-      var mult = getDamageMultiplikator( player2.pokemons.apply( player2.currentPoke ).get.pType.pokemonArt, player1.pokemons.apply( player1.currentPoke ).get.pType.pokemonArt )
-      copy( player1 = player1.copy( pokemons = player1.pokemons.updated( player1.currentPoke, Some( player1.pokemons.apply( player1.currentPoke ).get.changeHpInv( player2.pokemons.apply( player2.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) )
+      var mult = getDamageMultiplikator( player2.pokemons.contents.apply( player2.currentPoke ).get.pType.pokemonArt, player1.pokemons.contents.apply( player1.currentPoke ).get.pType.pokemonArt )
+      copy( player1 = player1.copy( pokemons = player1.pokemons.copy(player1.pokemons.contents.updated( player1.currentPoke, Some( player1.pokemons.contents.apply( player1.currentPoke ).get.changeHpInv( player2.pokemons.contents.apply( player2.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ))
 
 
   }

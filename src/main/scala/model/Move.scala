@@ -5,7 +5,7 @@ trait Move {
   def doStep(field : Field) : Field
 }
 
-case class PokeMove(pokemons : List[ Option[ Pokemon ] ]) extends Move {
+case class PokeMove(pokemons : PokePack[ Option[ Pokemon ] ]) extends Move {
   override def doStep(field : Field) : Field = field.setPokemonTo( pokemons ).setNextTurn()
 }
 
