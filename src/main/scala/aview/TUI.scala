@@ -2,10 +2,10 @@ package de.htwg.se.pokelite
 package aview
 
 import controller.Controller
-import model.{Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType}
-import util.Observer
+import model.{ Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType }
+import util.{ Observer, P1Event, P2Event }
 
-import de.htwg.se.pokelite.model.PokemonType.{Brutalanda, Glurak, Simsala, Bisaflor, Turtok}
+import de.htwg.se.pokelite.model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
 
 import java.util
 import scala.io.StdIn.readLine
