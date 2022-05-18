@@ -35,10 +35,9 @@ class TUI(controller : Controller) extends Observer :
 
     if aPlayerHasWon then
       println( controller.handle( EndEvent() ).get.toString )
-      println( getName + " has won the game!" )
+      println( getName + " has lost the game und rennt zum nächsen PokeCenter!" )
       return null
 
-    println(controller.field.player1.pokemons.contents.apply(2))
     inputLoop()
 
   def readPlayerNames() : Unit =
@@ -52,6 +51,8 @@ class TUI(controller : Controller) extends Observer :
   def ofPlayer1 : String = controller.field.player1.name
 
   def ofPlayer2 : String = controller.field.player2.name
+
+
 
   def choosePokemon() : Unit =
 
@@ -84,7 +85,7 @@ class TUI(controller : Controller) extends Observer :
       case _ => None
     }
 
-    Some( PokeMove( pokeList.take( ANZAHL_POKEMON )) )
+    Some( PokeMove( pokeList.take( ANZAHL_POKEMON ) ) )
 
 
   def chooseAttack(input : String) : Option[ AttackMove ] =
@@ -92,6 +93,7 @@ class TUI(controller : Controller) extends Observer :
       case "q" => None
       case "z" => controller.doAndPublish( controller.redo ); None
       case "y" => controller.doAndPublish( controller.undo ); None
+      case "s" => println(controller.field.getCurrentPokemons); None
       case _ =>
         val char = input.toCharArray
         val attack = char( 0 ) match

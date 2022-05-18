@@ -58,6 +58,19 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
 
   def attackInv(attack : Int) : Field = AttackInvStrat.strategy( attack )
 
+  def getCurrentPokemons : List[Pokemon] =
+    var list : List[Pokemon] = List()
+    if (this.isControlledBy == 1)
+      for ( content <- this.player1.pokemons.contents ) yield content match
+        case Some( b ) => list = list :+ b
+        case None =>
+    else
+      for ( content <- this.player2.pokemons.contents ) yield content match {
+        case Some( b ) => list = list :+ b
+        case None =>
+      }
+    list
+
 
   override def toString : String = mesh()
 
@@ -68,12 +81,12 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
     def strategy1(attack : Int) =
       var mult = getDamageMultiplikator( player1.pokemons.contents.apply( player1.currentPoke ).get.pType.pokemonArt, player2.pokemons.contents.apply( player2.currentPoke ).get.pType.pokemonArt )
       copy(
-        player2 = player2.copy( pokemons = player2.pokemons.copy(player2.pokemons.contents.updated( player2.currentPoke, Some( player2.pokemons.contents.apply( player2.currentPoke ).get.changeHp( player1.pokemons.contents.apply( player1.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ))
+        player2 = player2.copy( pokemons = player2.pokemons.copy(player2.pokemons.contents.updated( player2.currentPoke, player2.pokemons.contents.apply( player2.currentPoke ).get.changeHp( player1.pokemons.contents.apply( player1.currentPoke ).get.pType.attacks.apply( attack ), mult )  ) ) ))
 
     def strategy2(attack : Int) =
       var mult = getDamageMultiplikator( player2.pokemons.contents.apply( player2.currentPoke ).get.pType.pokemonArt, player1.pokemons.contents.apply( player1.currentPoke ).get.pType.pokemonArt )
       copy(
-        player1 = player1.copy( pokemons = player1.pokemons.copy(player1.pokemons.contents.updated( player1.currentPoke, Some( player1.pokemons.contents.apply( player1.currentPoke ).get.changeHp( player2.pokemons.contents.apply( player2.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ))
+        player1 = player1.copy( pokemons = player1.pokemons.copy(player1.pokemons.contents.updated( player1.currentPoke, player1.pokemons.contents.apply( player1.currentPoke ).get.changeHp( player2.pokemons.contents.apply( player2.currentPoke ).get.pType.attacks.apply( attack ), mult )  ) ) ))
 
   }
 

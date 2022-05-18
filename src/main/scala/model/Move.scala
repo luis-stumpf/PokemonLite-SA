@@ -14,3 +14,5 @@ case class PlayerMove(name : String) extends Move {
 }
 
 case class AttackMove(attack : Int) 
+
+case class GetPokeMove()

@@ -39,5 +39,7 @@ case class Controller(var field : Field) extends Observable, Stateable :
     }
     state
 
+  
+
 
 

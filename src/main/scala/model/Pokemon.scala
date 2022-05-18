@@ -6,10 +6,16 @@ object Pokemon {
 }
 
 case class Pokemon(pType : PokemonType, hp : Int) {
-  def changeHp(attack : AttackType, damageMult : Double) : Pokemon = copy( hp = hp - ( attack.damage * damageMult ).toInt )
-
+  var isDead = false
   def changeHpInv(attack : AttackType, damageMult : Double) : Pokemon = copy( hp = hp + ( attack.damage * damageMult ).toInt )
 
+  def changeHp(attack : AttackType, damageMult : Double) : Option[Pokemon] =
+    val newHP =  hp - ( attack.damage * damageMult ).toInt
+    if newHP <= 0 then
+      isDead = true
+      Some(copy(hp = 0))
+    else
+      Some(copy( hp = newHP))
 
   override def toString : String = pType.name + " HP: " + hp
 }

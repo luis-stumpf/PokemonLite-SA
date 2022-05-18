@@ -3,7 +3,6 @@ package model
 
 import model.Pokemon
 
-
 case class PokePlayer(name : String, number : Int, pokemons : PokePack[Option[Pokemon]] = PokePack(List( None )), currentPoke : Int = 0):
   override def toString = name
 
@@ -11,10 +10,5 @@ case class PokePlayer(name : String, number : Int, pokemons : PokePack[Option[Po
 
   def setPokePlayerNameTo(newName : String) : PokePlayer = copy( name = newName )
 
-  def getCurrentPokemons() : List[Pokemon] =
-    val list = List[Pokemon]()
-    for ( content <- pokemons.contents ) yield content match {
-      case Some( b ) => b :: list
-      case None =>
-    }
-    list
+
+
