@@ -52,8 +52,6 @@ class TUI(controller : Controller) extends Observer :
 
   def ofPlayer2 : String = controller.field.player2.name
 
-
-
   def choosePokemon() : Unit =
 
     println( getName + " Choose your Pokemon: \n" +
@@ -86,7 +84,6 @@ class TUI(controller : Controller) extends Observer :
     }
 
     Some( PokeMove( pokeList.take( ANZAHL_POKEMON ) ) )
-
 
   def chooseAttack(input : String) : Option[ AttackMove ] =
     input match
