@@ -66,7 +66,6 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
       copy(
         player2 = player2.copy( pokemons = player2.pokemons.updated( player2.currentPoke, Some( player2.pokemons.apply( player2.currentPoke ).get.changeHp( player1.pokemons.apply( player1.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) )
 
-
     def strategy2(attack : Int) =
       var mult = getDamageMultiplikator( player2.pokemons.apply( player2.currentPoke ).get.pType.pokemonArt, player1.pokemons.apply( player1.currentPoke ).get.pType.pokemonArt )
       copy(
