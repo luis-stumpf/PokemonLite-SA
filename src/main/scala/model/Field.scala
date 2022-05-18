@@ -66,13 +66,13 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
     var strategy = if (isControlledBy == 1) strategy1 else strategy2
 
     def strategy1(attack: Int) =
-      var mult = calcDamage( player1.pokemons.apply( player1.currentPoke ).get.pType.pokemonArt, player2.pokemons.apply( player2.currentPoke ).get.pType.pokemonArt )
+      var mult = getDamageMultiplikator( player1.pokemons.apply( player1.currentPoke ).get.pType.pokemonArt, player2.pokemons.apply( player2.currentPoke ).get.pType.pokemonArt )
       copy(
         player2 = player2.copy( pokemons = player2.pokemons.updated( player2.currentPoke, Some( player2.pokemons.apply( player2.currentPoke ).get.changeHp( player1.pokemons.apply( player1.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) )
 
 
     def strategy2(attack: Int) =
-      var mult = calcDamage( player2.pokemons.apply( player2.currentPoke ).get.pType.pokemonArt, player1.pokemons.apply( player1.currentPoke ).get.pType.pokemonArt )
+      var mult = getDamageMultiplikator( player2.pokemons.apply( player2.currentPoke ).get.pType.pokemonArt, player1.pokemons.apply( player1.currentPoke ).get.pType.pokemonArt )
       copy(
         player1 = player1.copy( pokemons = player1.pokemons.updated( player1.currentPoke, Some( player1.pokemons.apply( player1.currentPoke ).get.changeHp( player2.pokemons.apply( player2.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) )
 
