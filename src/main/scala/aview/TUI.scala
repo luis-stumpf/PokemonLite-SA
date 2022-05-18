@@ -12,14 +12,14 @@ import scala.io.StdIn.readLine
 
 
 class TUI(controller : Controller) extends Observer :
-  val ANZAHL_POKEMON = 3
+  val ANZAHL_POKEMON = 3 // TODO: Move Game-Logic Constants to a config file or seperate class
   controller.add( this )
 
   override def update : Unit = println( controller.field.toString )
 
   def run() : Unit =
     println( controller.field.toString )
-    getPlayerNames()
+    readPlayerNames()
     choosePokemon()
     choosePokemon()
     inputLoop()
@@ -38,7 +38,7 @@ class TUI(controller : Controller) extends Observer :
 
     inputLoop()
 
-  def getPlayerNames() : Unit =
+  def readPlayerNames() : Unit =
     print( "Enter name of Player 1: " )
     controller.doAndPublish( controller.put, PlayerMove( readLine() ) )
     print( "Enter name of Player 2: " )
