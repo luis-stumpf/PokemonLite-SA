@@ -4,7 +4,8 @@ package controller
 import model.Field
 import model.{ AttackMove, Field }
 
-import de.htwg.se.pokelite.util.{ Command, P1Event, P2Event }
+import de.htwg.se.pokelite.util.Command
+
 
 class AttackCommand(move: AttackMove) extends Command[Field]:
   override def noStep(field: Field): Field = field

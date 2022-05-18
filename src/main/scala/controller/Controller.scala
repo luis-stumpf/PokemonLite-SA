@@ -1,8 +1,8 @@
 package de.htwg.se.pokelite
 package controller
 
-import util.{ Command, Event, MidEvent, Observable, P1Event, P2Event, PreEvent, UndoManager }
-import model.{ AttackMove, Field, Move, P1State, P2State, PlayerMove, PokeMove, PokemonType, PreState, State, Stateable }
+import util._
+import model._
 
 case class Controller(var field: Field) extends Observable, Stateable:
 

@@ -3,7 +3,7 @@ package aview
 
 import controller.Controller
 import model.{ Attack, AttackMove, Move, PlayerMove, PokeMove, Pokemon, PokemonType }
-import util.{ EndEvent, MidEvent, Observer, P1Event, P2Event }
+import util._
 
 import de.htwg.se.pokelite.model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
 
@@ -23,11 +23,11 @@ class TUI(controller : Controller) extends Observer :
     getPlayerNames()
     choosePokemon()
     choosePokemon()
+    println(controller.handle(MidEvent()).get.toString)
     inputLoop()
 
 
   def inputLoop() : Unit =
-    println(controller.handle(MidEvent()).get.toString)
     println( getName + ", choose your Attack 1, 2, 3, 4" )
 
     chooseAttack(readLine) match
