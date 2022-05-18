@@ -10,3 +10,11 @@ case class PokePlayer(name : String, number : Int, pokemons : PokePack[Option[Po
   def setPokemonTo(newPokemons : PokePack[ Option[ Pokemon ] ]) : PokePlayer = copy( pokemons = newPokemons )
 
   def setPokePlayerNameTo(newName : String) : PokePlayer = copy( name = newName )
+
+  def getCurrentPokemons() : List[Pokemon] =
+    val list = List[Pokemon]()
+    for ( pokemon <- pokePack.pokemons ) yield pokemon match {
+      case Some( b ) => b :: list
+      case None =>
+    }
+    list
