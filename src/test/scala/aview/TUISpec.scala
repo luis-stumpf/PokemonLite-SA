@@ -36,6 +36,9 @@ class TUISpec extends AnyWordSpec {
     "recognize input s" in {
       tui.chooseAttack( "s" ) should be( None )
     }
+    "recognize input q" in {
+      tui.chooseAttack( "q" ) should be( None )
+    }
     "choose pokemon 1" in {
       tui.inputAnalysisPokemon( "1" ) should be( Some( PokeMove( List( Some( Pokemon( PokemonType.Glurak ) ) ) ) ) )
     }
