@@ -1,7 +1,7 @@
 package de.htwg.se.pokelite
 package controller
 
-import model.{ Field, Move, PlayerMove, PokeMove, PokePlayer, Pokemon }
+import model.{ Field, Move, PlayerMove, PokeMove, PokePlayer, Pokemon, PokePack }
 import util.Observer
 
 import de.htwg.se.pokelite.model.PokemonType.Glurak
@@ -18,7 +18,7 @@ class ControllerSpec extends AnyWordSpec {
     "set Pokemon" in {
       val pokeList1 = List( Some( Pokemon( Glurak ) ), Some( Pokemon( Glurak ) ) )
       val fieldWithPokemon = controller.put(PokeMove(pokemons = pokeList1))
-      fieldWithPokemon.player1.pokemons should be(List(Some( Pokemon( Glurak ) ), Some( Pokemon( Glurak ) ) ))
+      fieldWithPokemon.player1.pokemons should be(PokePack(List(Some( Pokemon( Glurak ) ), Some( Pokemon( Glurak ) ) )))
     }
     "doAndPublisch" in {
       controller.doAndPublish(controller.put, PlayerMove(""))

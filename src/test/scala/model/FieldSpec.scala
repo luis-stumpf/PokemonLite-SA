@@ -57,11 +57,11 @@ class FieldSpec extends AnyWordSpec {
         field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(List(Some(Pokemon(Glurak)))).setPokemonTo(List(Some(Pokemon(Simsala)))).mesh() should be(
             "+--------------------------------------------------+--------------------------------------------------+\n"+
             "|                                         Luis     |                                                  |\n"+
-            "|                               Glurak HP: 150     |     1. Flammenwurf      2. Donnerblitz           |\n"+
+            "|                               Glurak HP: 150     |     1. Glut             2. Flammenwurf           |\n"+
             "|                                                  |                                                  |\n"+
             "|                                                  |                                                  |\n"+
             "|                                                  |                                                  |\n"+
-            "|     Simsala HP: 130                              |     3. Bite             4. Tackle                |\n"+
+            "|     Simsala HP: 130                              |     3. Biss             4. Inferno               |\n"+
             "|     Timmy                                        |                                                  |\n"+
             "+--------------------------------------------------+--------------------------------------------------+\n"
         )
@@ -76,25 +76,25 @@ class FieldSpec extends AnyWordSpec {
         field.setPlayerNameTo("Luis").setPlayerNameTo("Timmy").setPokemonTo(List(Some(Pokemon(Glurak)))).setPokemonTo(List(Some(Pokemon(Simsala)))).setNextTurn().mesh() should be(
           "+--------------------------------------------------+--------------------------------------------------+\n"+
           "|                                         Luis     |                                                  |\n"+
-          "|                               Glurak HP: 150     |     1. Simsala          2. Simsala               |\n"+
+          "|                               Glurak HP: 150     |     1. Konfusion        2. Psychoklinge          |\n"+
           "|                                                  |                                                  |\n"+
           "|                                                  |                                                  |\n"+
           "|                                                  |                                                  |\n"+
-          "|     Simsala HP: 130                              |     3. Simsala          4. Simsala               |\n"+
+          "|     Simsala HP: 130                              |     3. Psychokinese     4. Eishieb               |\n"+
           "|     Timmy                                        |                                                  |\n"+
           "+--------------------------------------------------+--------------------------------------------------+\n"
         )
       }
-      val newField = Field(50, PokePlayer("Luis",1, List(Some(Pokemon(Glurak)))), PokePlayer("Timmy", 2, List(Some(Pokemon(Simsala))))).setNextTurn().attack(0)
+      val newField = Field(50, PokePlayer("Luis",1, PokePack(List(Some(Pokemon(Glurak))))), PokePlayer("Timmy", 2, PokePack(List(Some(Pokemon(Simsala)))))).setNextTurn().attack(0)
       "attack" in{
         newField.toString should be(
           "+--------------------------------------------------+--------------------------------------------------+\n"+
             "|                                         Luis     |                                                  |\n"+
-            "|                               Glurak HP: 120     |     1. Simsala          2. Simsala               |\n"+
+            "|                               Glurak HP: 140     |     1. Konfusion        2. Psychoklinge          |\n"+
             "|                                                  |                                                  |\n"+
             "|                                                  |                                                  |\n"+
             "|                                                  |                                                  |\n"+
-            "|     Simsala HP: 130                              |     3. Simsala          4. Simsala               |\n"+
+            "|     Simsala HP: 130                              |     3. Psychokinese     4. Eishieb               |\n"+
             "|     Timmy                                        |                                                  |\n"+
             "+--------------------------------------------------+--------------------------------------------------+\n"
         )
@@ -103,11 +103,11 @@ class FieldSpec extends AnyWordSpec {
         newField.setNextTurn().attack(2).mesh() should be(
           "+--------------------------------------------------+--------------------------------------------------+\n"+
             "|                                         Luis     |                                                  |\n"+
-            "|                               Glurak HP: 120     |     1. Flammenwurf      2. Donnerblitz           |\n"+
+            "|                               Glurak HP: 140     |     1. Glut             2. Flammenwurf           |\n"+
             "|                                                  |                                                  |\n"+
             "|                                                  |                                                  |\n"+
             "|                                                  |                                                  |\n"+
-            "|     Simsala HP: 115                              |     3. Bite             4. Tackle                |\n"+
+            "|     Simsala HP: 120                              |     3. Biss             4. Inferno               |\n"+
             "|     Timmy                                        |                                                  |\n"+
             "+--------------------------------------------------+--------------------------------------------------+\n"
         )
