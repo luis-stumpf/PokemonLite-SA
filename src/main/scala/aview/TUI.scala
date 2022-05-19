@@ -92,7 +92,7 @@ class TUI(controller : Controller) extends Observer :
 
 
   def changePokemon():Unit=
-    println(controller.field.getCurrentPokemons)
+    controller.field.getCurrentPokemons.foreach(print)
     print("Enter Number of Pokemon you want to choose: ")
     val chars = readLine.toCharArray
 
