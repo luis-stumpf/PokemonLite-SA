@@ -97,7 +97,7 @@ class TUI(controller : Controller) extends Observer :
     val chars = readLine.toCharArray
 
     if controller.field.getCurrentPokemons.indices.map(x => (x+1).toString).contains(chars(0).toString)
-      && !controller.field.getCurrentPokemons(chars(0).asDigit).isDead then
+      && !controller.field.getCurrentPokemons.apply(chars(0).asDigit - 1).isDead then
       controller.doAndPublish(controller.put, ChangePokeMove(chars(0).asDigit - 1))
     else println("False Input!")
 
