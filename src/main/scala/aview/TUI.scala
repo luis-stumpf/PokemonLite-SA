@@ -93,10 +93,11 @@ class TUI(controller : Controller) extends Observer :
 
   def changePokemon():Unit=
     controller.field.getCurrentPokemons.foreach(print)
-    print("Enter Number of Pokemon you want to choose: ")
+    print(" || Enter Number of Pokemon you want to choose: ")
     val chars = readLine.toCharArray
 
-    if controller.field.getCurrentPokemons.indices.map(x => (x+1).toString).contains(chars(0).toString) then
+    if controller.field.getCurrentPokemons.indices.map(x => (x+1).toString).contains(chars(0).toString)
+      && !controller.field.getCurrentPokemons(chars(0).asDigit).isDead then
       controller.doAndPublish(controller.put, ChangePokeMove(chars(0).asDigit - 1))
     else println("False Input!")
 
