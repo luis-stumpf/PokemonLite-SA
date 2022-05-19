@@ -22,7 +22,9 @@ class TUI(controller : Controller) extends Observer :
 
 
   def inputLoop() : Unit =
-    println( getName + ", choose your Attack 1, 2, 3, 4" )
+    println(controller.field.player1.pokemons.contents.apply(controller.field.player1.currentPoke).get.isDead)
+    println( getName.toString + ", choose your Attack 1, 2, 3, 4" )
+
 
     chooseAttack( readLine ) match
       case Some( move ) => controller.doAndPublish( controller.putAttack, move )
@@ -36,15 +38,15 @@ class TUI(controller : Controller) extends Observer :
     print( "Enter name of Player 2: " )
     controller.doAndPublish( controller.put, PlayerMove( readLine() ) )
 
-  def getName : String = if ( controller.field.isControlledBy == 1 ) ofPlayer1 else ofPlayer2
+  def getName : PokePlayer = if ( controller.field.isControlledBy == 1 ) ofPlayer1 else ofPlayer2
 
-  def ofPlayer1 : String = controller.field.player1.name
+  def ofPlayer1 : PokePlayer = controller.field.player1
 
-  def ofPlayer2 : String = controller.field.player2.name
+  def ofPlayer2 : PokePlayer = controller.field.player2
 
   def choosePokemon() : Unit =
 
-    println( getName + " Choose your Pokemon: \n" +
+    println( getName.toString + " Choose your Pokemon: \n" +
       "1: Glurak\n" +
       "2: Simsala\n" +
       "3: Brutalanda\n" +
@@ -89,7 +91,7 @@ class TUI(controller : Controller) extends Observer :
 
 
   def changePokemon():Unit=
-
+    println(controller.field.getCurrentPokemons)
     print("Enter Number of Pokemon you want to choose: ")
     val chars = readLine.toCharArray
 

@@ -20,6 +20,7 @@ case class Controller(var field : Field) extends Observable, Stateable :
 
   def doAndPublish(doThis : Move => Field, move : Move) =
     field = doThis( move )
+    notifyObservers
 
   def put(move : Move) : Field = move.doStep( field )
 

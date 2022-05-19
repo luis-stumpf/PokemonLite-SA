@@ -27,5 +27,8 @@ def getDamageMultiplikator(pokemonArt1 : PokemonArt, pokemonArt2 : PokemonArt) :
       case PokemonArt.Feuer => 1
       case PokemonArt.Blatt => 1
       case PokemonArt.Psycho => 0.7  
+      
+      
+
           
 

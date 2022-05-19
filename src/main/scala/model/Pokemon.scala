@@ -2,18 +2,16 @@ package de.htwg.se.pokelite
 package model
 
 object Pokemon {
-  def apply(pType : PokemonType) : Pokemon = Pokemon( pType = pType, hp = pType.hp )
+  def apply(pType : PokemonType) : Pokemon = Pokemon( pType = pType, hp = pType.hp  )
 }
 
-case class Pokemon(pType : PokemonType, hp : Int) {
-  var isDead = false
+case class Pokemon(pType : PokemonType, hp : Int, isDead: Boolean = false) {
   def changeHpInv(attack : AttackType, damageMult : Double) : Pokemon = copy( hp = hp + ( attack.damage * damageMult ).toInt )
 
   def changeHp(attack : AttackType, damageMult : Double) : Option[Pokemon] =
     val newHP =  hp - ( attack.damage * damageMult ).toInt
     if newHP <= 0 then
-      isDead = true
-      Some(copy(hp = 0))
+      Some(copy(hp = 0, isDead = true))
     else
       Some(copy( hp = newHP))
 
