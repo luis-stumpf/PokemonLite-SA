@@ -17,7 +17,7 @@ case class Pokemon(pType : PokemonType, hp : Int) {
     else
       Some(copy( hp = newHP))
 
-  override def toString : String = pType.name + " HP: " + hp
+  override def toString : String = if hp == 0 then pType.name + " is dead" else pType.name + " HP: " + hp
 }
 
 enum PokemonType(val name : String, val hp : Int, val attacks : List[ AttackType ], val pokemonArt : PokemonArt) {

@@ -91,6 +91,7 @@ class TUI(controller : Controller) extends Observer :
       case "z" => controller.doAndPublish( controller.redo ); None
       case "y" => controller.doAndPublish( controller.undo ); None
       case "s" => println(controller.field.getCurrentPokemons); None
+      case "c" => controller.doAndPublish(controller.put(changePoke(choosePokeCrate)))
       case _ =>
         val char = input.toCharArray
         val attack = char( 0 ) match
