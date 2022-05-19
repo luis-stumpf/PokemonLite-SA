@@ -1,6 +1,6 @@
 package de.htwg.se.pokelite.model
 
-import de.htwg.se.pokelite.model.PokemonType.{ Glurak, Simsala }
+import de.htwg.se.pokelite.model.PokemonType.{ Glurak, Simsala, Turtok }
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 class FieldSpec extends AnyWordSpec {
@@ -85,7 +85,7 @@ class FieldSpec extends AnyWordSpec {
           "+--------------------------------------------------+--------------------------------------------------+\n"
         )
       }
-      val newField = Field(50, PokePlayer("Luis",1, PokePack(List(Some(Pokemon(Glurak))))), PokePlayer("Timmy", 2, PokePack(List(Some(Pokemon(Simsala)))))).setNextTurn().attack(0)
+      val newField = Field(50, PokePlayer("Luis",1, PokePack(List(Some(Pokemon(Glurak)), Some(Pokemon(Simsala))))), PokePlayer("Timmy", 2, PokePack(List(Some(Pokemon(Simsala)), Some(Pokemon(Turtok)))))).setNextTurn().attack(0)
       "attack" in{
         newField.toString should be(
           "+--------------------------------------------------+--------------------------------------------------+\n"+
@@ -125,8 +125,34 @@ class FieldSpec extends AnyWordSpec {
           "+--------------------------------------------------+--------------------------------------------------+\n"
         )
       }
+      "attack inv 2" in {
+        newField.setNextTurn().attackInv(2).mesh() should be(
+          "+--------------------------------------------------+--------------------------------------------------+\n"+
+            "|                                         Luis     |                                                  |\n"+
+            "|                               Glurak HP: 140     |     1. Glut             2. Flammenwurf           |\n"+
+            "|                                                  |                                                  |\n"+
+            "|                                                  |                                                  |\n"+
+            "|                                                  |                                                  |\n"+
+            "|     Simsala HP: 140                              |     3. Biss             4. Inferno               |\n"+
+            "|     Timmy                                        |                                                  |\n"+
+            "+--------------------------------------------------+--------------------------------------------------+\n"
+        )
+      }
       "get Current Pokemons" in {
-        newField.getCurrentPokemons should be(List(Pokemon(Simsala)))
+        newField.getCurrentPokemons should be(List(Pokemon(Simsala), Pokemon(Turtok)))
+      }
+      "change Pokemon" in {
+        newField.changePokemon(1).toString should be(
+          "+--------------------------------------------------+--------------------------------------------------+\n"+
+            "|                                         Luis     |                                                  |\n"+
+            "|                               Glurak HP: 140     |     1. Aquaknarre       2. Biss                  |\n"+
+            "|                                                  |                                                  |\n"+
+            "|                                                  |                                                  |\n"+
+            "|                                                  |                                                  |\n"+
+            "|     Turtok HP: 130                               |     3. Hydropumpe       4. Matschbombe           |\n"+
+            "|     Timmy                                        |                                                  |\n"+
+            "+--------------------------------------------------+--------------------------------------------------+\n"
+        )
       }
     }
   }
