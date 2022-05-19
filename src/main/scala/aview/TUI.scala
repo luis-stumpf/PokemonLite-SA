@@ -11,7 +11,7 @@ import scala.io.StdIn.readLine
 
 
 class TUI(controller : Controller) extends Observer :
-  val ANZAHL_POKEMON = 3 // TODO: Move Game-Logic Constants to a config file or seperate class
+
   controller.add( this )
 
   override def update : Unit = println( controller.field.toString )
@@ -83,7 +83,7 @@ class TUI(controller : Controller) extends Observer :
       case _ => None
     }
 
-    Some( PokeMove( pokeList.take( ANZAHL_POKEMON ) ) )
+    Some( PokeMove( pokeList) )
 
   def chooseAttack(input : String) : Option[ AttackMove ] =
     input match

@@ -1,6 +1,7 @@
 package de.htwg.se.pokelite
 package model
 
+import model.*
 
 case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isControlledBy : Int = 1):
   def mesh(height : Int = 3) : String = row() + printPlayer1Stats() + col( height ) + printPlayer2Stats() + row()
@@ -69,7 +70,7 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
         case Some( b ) => list = list :+ b
         case None =>
       }
-    list
+    list.take(POKEPACK_SIZE)
 
 
   override def toString : String = mesh()
