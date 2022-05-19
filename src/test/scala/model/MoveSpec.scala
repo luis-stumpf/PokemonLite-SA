@@ -21,5 +21,9 @@ class MoveSpec extends AnyWordSpec {
       val move = AttackMove(3)
       move.attack should be(3)
     }
+    "A ChangePokeMove" should{
+      val move = ChangePokeMove(1)
+      move.i should be(1)
+    }
   }
 }

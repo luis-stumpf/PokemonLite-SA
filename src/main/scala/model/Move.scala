@@ -19,5 +19,3 @@ case class ChangePokeMove(i: Int) extends Move {
 
 
 case class AttackMove(attack : Int) 
-
-case class GetPokeMove()

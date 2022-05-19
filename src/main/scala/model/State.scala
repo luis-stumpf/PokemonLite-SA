@@ -13,7 +13,7 @@ trait State:
 
 
 case class PreState(field : Field) extends State :
-  override def toString = "Pregame\n"
+  override def toString = "PreGame!\n"
 
 case class MidState(field : Field) extends State :
   override def toString = "MidGame!\n"

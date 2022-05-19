@@ -11,6 +11,7 @@ class PokemonSpec extends AnyWordSpec {
     "have a String of form ''" in {
       pokemon.toString should be("Glurak HP: 150")
       pokemon.changeHp(NoAttack(), 0) should be(Some(Pokemon(Glurak, 150)))
+      pokemon.changeHp(Attack("Tackle", 200), 1).get.toString should be("Glurak is dead")
     }
   }
   "A Glurak" should {
@@ -31,7 +32,7 @@ class PokemonSpec extends AnyWordSpec {
     val pokemon = PokemonType.Brutalanda
     "have a String of form 'name HP: Int'" in {
       pokemon.toString should be("Brutalanda HP: 170")
-      pokemon.attacks.apply(0) should be(Attack("Fliegen", 20))
+      Pokemon.toString should be("Pokemon")
     }
   }
 }
