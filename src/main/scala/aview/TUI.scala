@@ -91,7 +91,7 @@ class TUI(controller : Controller) extends Observer :
       case "z" => controller.doAndPublish( controller.redo ); None
       case "y" => controller.doAndPublish( controller.undo ); None
       case "s" => println(controller.field.getCurrentPokemons); None
-      case "c" => controller.doAndPublish(controller.put(changePoke(choosePokeCrate)))
+      case "c" =>  changePokemon(); None
       case _ =>
         val char = input.toCharArray
         val attack = char( 0 ) match
@@ -100,3 +100,14 @@ class TUI(controller : Controller) extends Observer :
           case '3' => AttackMove( 2 )
           case '4' => AttackMove( 3 )
         Some( attack )
+
+
+  def changePokemon():Unit=
+    //TODO: schleife modula
+    var input = readLine
+    var chars = input.toCharArray
+    val newP = chars(0) match
+      case '1' => ChangePokeMove(0)
+      case '2' => ChangePokeMove(1)
+      case '3' => ChangePokeMove(2)
+    controller.doAndPublish(controller.put, newP)
