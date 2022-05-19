@@ -12,9 +12,9 @@ import org.scalatest.wordspec.AnyWordSpec
 class TUISpec extends AnyWordSpec {
   "Tui" should {
     val tui = TUI( Controller( Field( 50, PokePlayer( "Hans", 1 ), PokePlayer( "Peter", 2 ) ) ) )
-    /*"recognize attack input 1" in {
+    "recognize attack input 1" in {
       tui.chooseAttack( "1" ) should be( Some( AttackMove( 0 ) ) )
-    }*/
+    }
     "rec attach input 2" in {
       tui.chooseAttack( "2" ) should be( Some( AttackMove( 1 ) ) )
     }
