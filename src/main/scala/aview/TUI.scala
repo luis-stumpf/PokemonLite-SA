@@ -22,7 +22,8 @@ class TUI(controller : Controller) extends Observer :
 
 
   def inputLoop() : Unit =
-    println(controller.field.player1.pokemons.contents.apply(controller.field.player1.currentPoke).get.isDead)
+    if getName.pokemons.contents.apply(getName.currentPoke).get.isDead then
+      changePokemon()
     println( getName.toString + ", choose your Attack 1, 2, 3, 4" )
 
 
