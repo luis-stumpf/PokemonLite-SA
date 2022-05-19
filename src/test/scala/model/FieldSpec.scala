@@ -112,6 +112,9 @@ class FieldSpec extends AnyWordSpec {
             "+--------------------------------------------------+--------------------------------------------------+\n"
         )
       }
+      "get Current Pokemons" in {
+        newField.getCurrentPokemons should be(List(Pokemon(Simsala)))
+      }
     }
   }
 }
