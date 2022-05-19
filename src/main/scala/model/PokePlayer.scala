@@ -10,13 +10,8 @@ case class PokePlayer(name : String, number : Int, pokemons : PokePack[Option[Po
 
   def setPokePlayerNameTo(newName : String) : PokePlayer = copy( name = newName )
 
-  def checkForDead() : Boolean =
-    //TODO: clean this schit
-    var tot = true
-    for ( content <- pokemons.contents ) yield content match
-      case Some( b ) => if !b.isDead then tot = false
-      case None =>
-    tot
+  def checkForDead() : Boolean = pokemons.contents.forall( x => x.get.isDead )
+
 
 
 
