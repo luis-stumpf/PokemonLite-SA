@@ -17,12 +17,7 @@ class TUI(controller : Controller) extends Observer :
   override def update : Unit = println( controller.field.toString )
 
   def run() : Unit =
-    println( controller.field.toString )
-    println( controller.handle( PreEvent() ).get.toString )
-    readPlayerNames()
-    choosePokemon()
-    choosePokemon()
-    println( controller.handle( MidEvent() ).get.toString )
+    pregame()
     inputLoop()
 
 
@@ -102,3 +97,12 @@ class TUI(controller : Controller) extends Observer :
       controller.doAndPublish(controller.put, ChangePokeMove(chars(0).asDigit - 1))
     else println("False Input!")
 
+
+
+  def pregame(): Unit =
+    println( controller.handle( PreEvent() ).get.toString )
+    readPlayerNames()
+    choosePokemon()
+    choosePokemon()
+    println( controller.handle( MidEvent() ).get.toString )
+    println(controller.field.toString)
