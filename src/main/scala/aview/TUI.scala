@@ -33,11 +33,6 @@ class TUI(controller : Controller) extends Observer :
       case Some( move ) => controller.doAndPublish( controller.putAttack, move )
       case None =>
 
-    if aPlayerHasWon then
-      println( controller.handle( EndEvent() ).get.toString )
-      println( getName + " has lost the game und rennt zum nächsen PokeCenter!" )
-      return null
-
     inputLoop()
 
   def readPlayerNames() : Unit =
@@ -65,10 +60,6 @@ class TUI(controller : Controller) extends Observer :
       case None =>
       case Some( move ) => controller.doAndPublish( controller.put, move )
 
-  def aPlayerHasWon : Boolean =
-    if ( controller.field.player1.pokemons.contents( 0 ).get.hp <= 0
-      || controller.field.player2.pokemons.contents( 0 ).get.hp <= 0 ) return true
-    false
 
   def inputAnalysisPokemon(input : String) : Option[ PokeMove ] =
     val chars = input.toCharArray.toList
