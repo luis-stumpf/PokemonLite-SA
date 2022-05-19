@@ -22,9 +22,9 @@ class TUI(controller : Controller) extends Observer :
 
 
   def inputLoop() : Unit =
-    if getName.pokemons.contents.apply(getName.currentPoke).get.isDead then
+    if getCurrentPlayer.pokemons.contents.apply(getCurrentPlayer.currentPoke).get.isDead then
       changePokemon()
-    println( getName.toString + ", choose your Attack 1, 2, 3, 4" )
+    println( getCurrentPlayer.toString + ", choose your Attack 1, 2, 3, 4" )
 
 
     chooseAttack( readLine ) match
@@ -39,7 +39,7 @@ class TUI(controller : Controller) extends Observer :
     print( "Enter name of Player 2: " )
     controller.doAndPublish( controller.put, PlayerMove( readLine() ) )
 
-  def getName : PokePlayer = if ( controller.field.isControlledBy == 1 ) ofPlayer1 else ofPlayer2
+  def getCurrentPlayer : PokePlayer = if ( controller.field.isControlledBy == 1 ) ofPlayer1 else ofPlayer2
 
   def ofPlayer1 : PokePlayer = controller.field.player1
 
@@ -47,7 +47,7 @@ class TUI(controller : Controller) extends Observer :
 
   def choosePokemon() : Unit =
 
-    println( getName.toString + " Choose your Pokemon: \n" +
+    println( getCurrentPlayer.toString + " Choose your Pokemon: \n" +
       "1: Glurak\n" +
       "2: Simsala\n" +
       "3: Brutalanda\n" +
@@ -61,9 +61,7 @@ class TUI(controller : Controller) extends Observer :
 
   def inputAnalysisPokemon(input : String) : Option[ PokeMove ] =
     val chars = input.toCharArray.toList
-    val pokeList : List[ Option[ Pokemon ] ] = chars.filter( x => x.isDigit
-      && x.asDigit <= PokemonType.values.length
-      && x.asDigit > 0 ).map {
+    val pokeList : List[ Option[ Pokemon ] ] = chars.map {
       case '1' => Some( Pokemon( Glurak ) )
       case '2' => Some( Pokemon( Simsala ) )
       case '3' => Some( Pokemon( Brutalanda ) )
@@ -74,14 +72,15 @@ class TUI(controller : Controller) extends Observer :
 
     Some( PokeMove( pokeList) )
 
-  def printCurrentPokemnon(): Unit = controller.field.getCurrentPokemons.foreach(x => print(x.toString+" "))
+
+  def currentPokePackContent(): String = controller.field.getCurrentPokemons.map( x => x.toString + "   ").mkString
 
   def chooseAttack(input : String) : Option[ AttackMove ] =
     input match
       case "q" => None
       case "z" => controller.doAndPublish( controller.redo ); None
       case "y" => controller.doAndPublish( controller.undo ); None
-      case "s" => printCurrentPokemnon(); None
+      case "s" => println(currentPokePackContent()); None
       case "c" =>  changePokemon(); None
       case _ =>
         val char = input.toCharArray
@@ -90,11 +89,12 @@ class TUI(controller : Controller) extends Observer :
           case '2' => AttackMove( 1 )
           case '3' => AttackMove( 2 )
           case '4' => AttackMove( 3 )
+          case _ => AttackMove( 0 )
         Some( attack )
 
 
   def changePokemon():Unit=
-    printCurrentPokemnon()
+    println(currentPokePackContent())
     print(" || Enter Number of Pokemon you want to choose: ")
     val chars = readLine.toCharArray
 
