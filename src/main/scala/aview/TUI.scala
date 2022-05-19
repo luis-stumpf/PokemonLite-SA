@@ -74,12 +74,14 @@ class TUI(controller : Controller) extends Observer :
 
     Some( PokeMove( pokeList) )
 
+  def printCurrentPokemnon(): Unit = controller.field.getCurrentPokemons.foreach(x => print(x.toString+" "))
+
   def chooseAttack(input : String) : Option[ AttackMove ] =
     input match
       case "q" => None
       case "z" => controller.doAndPublish( controller.redo ); None
       case "y" => controller.doAndPublish( controller.undo ); None
-      case "s" => println(controller.field.getCurrentPokemons); None
+      case "s" => printCurrentPokemnon(); None
       case "c" =>  changePokemon(); None
       case _ =>
         val char = input.toCharArray
@@ -92,7 +94,7 @@ class TUI(controller : Controller) extends Observer :
 
 
   def changePokemon():Unit=
-    controller.field.getCurrentPokemons.foreach(print)
+    printCurrentPokemnon()
     print(" || Enter Number of Pokemon you want to choose: ")
     val chars = readLine.toCharArray
 
