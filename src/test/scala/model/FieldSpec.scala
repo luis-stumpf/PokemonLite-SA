@@ -112,6 +112,19 @@ class FieldSpec extends AnyWordSpec {
             "+--------------------------------------------------+--------------------------------------------------+\n"
         )
       }
+      "attack inv" in {
+        newField.attackInv(2).mesh() should be(
+          "+--------------------------------------------------+--------------------------------------------------+\n"+
+          "|                                         Luis     |                                                  |\n"+
+          "|                               Glurak HP: 170     |     1. Konfusion        2. Psychoklinge          |\n"+
+          "|                                                  |                                                  |\n"+
+          "|                                                  |                                                  |\n"+
+          "|                                                  |                                                  |\n"+
+          "|     Simsala HP: 130                              |     3. Psychokinese     4. Eishieb               |\n"+
+          "|     Timmy                                        |                                                  |\n"+
+          "+--------------------------------------------------+--------------------------------------------------+\n"
+        )
+      }
       "get Current Pokemons" in {
         newField.getCurrentPokemons should be(List(Pokemon(Simsala)))
       }
