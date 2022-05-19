@@ -105,12 +105,9 @@ class TUI(controller : Controller) extends Observer :
   def changePokemon():Unit=
 
     print("Enter Number of Pokemon you want to choose: ")
-    val chars = readLine().toCharArray
+    val chars = readLine.toCharArray
 
-    if controller.field.getCurrentPokemons
-      .indices
-      .map(x => x.toString)
-      .contains(chars(0).toString) then
+    if controller.field.getCurrentPokemons.indices.map(x => (x+1).toString).contains(chars(0).toString) then
       controller.doAndPublish(controller.put, ChangePokeMove(chars(0).asDigit - 1))
     else println("False Input!")
 
