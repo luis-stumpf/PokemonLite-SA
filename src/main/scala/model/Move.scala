@@ -1,7 +1,6 @@
 package de.htwg.se.pokelite
 package model
 
-import scala.util.Failure
 
 trait Move {
   def doStep(field : Field) : Field
