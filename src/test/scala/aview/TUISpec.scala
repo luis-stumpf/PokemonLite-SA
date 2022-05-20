@@ -25,7 +25,7 @@ class TUISpec extends AnyWordSpec {
       tui.chooseAttack( "4" ) should be( Some( AttackMove( 3 ) ) )
     }
     "recognize a wron input" in {
-      tui.chooseAttack( "a" ) should be( Some( AttackMove( 0 ) ) )
+      tui.chooseAttack( "a" ) should be( None  )
     }
     "recognize input z" in {
       tui.chooseAttack( "z" ) should be( None )

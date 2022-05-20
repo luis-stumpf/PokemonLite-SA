@@ -56,11 +56,11 @@ class TUI(controller : Controller) extends Observer :
       "5: Turtok\n" )
 
     inputAnalysisPokemon( readLine ) match
-      case Failure(exception) => println("Falsche eingabe" + exception)
-      case Success(m) => controller.doAndPublish( controller.put, m )
+      case None =>
+      case Some(move) => controller.doAndPublish( controller.put, move )
 
 
-  def inputAnalysisPokemon(input : String) : Try[ PokeMove ] =
+  def inputAnalysisPokemon(input : String) : Option[ PokeMove ] =
     val chars = input.toCharArray.toList
     val pokeList : List[ Option[ Pokemon ] ] = chars.map {
       case '1' => Some( Pokemon( Glurak ) )
@@ -68,9 +68,10 @@ class TUI(controller : Controller) extends Observer :
       case '3' => Some( Pokemon( Brutalanda ) )
       case '4' => Some( Pokemon( Bisaflor ) )
       case '5' => Some( Pokemon( Turtok ) )
+      case _ => None
     }
 
-    Try(PokeMove( pokeList) )
+    Some(PokeMove( pokeList) )
 
 
   def currentPokePackContent(): String = controller.field.getCurrentPokemons.map( x => x.toString + "   ").mkString
