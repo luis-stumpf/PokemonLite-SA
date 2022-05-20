@@ -94,7 +94,6 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
       val kopie = copy(
         player2 = player2.copy( pokemons = player2.pokemons.copy( player2.pokemons.contents.updated( player2.currentPoke, player2.pokemons.contents.apply( player2.currentPoke ).get.changeHp( player1.pokemons.contents.apply( player1.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) )
       if player2.checkForDead() then
-        println("Spiel vorbei player 1 hat gewinnt")
         System.exit(0)
       kopie
     def strategy2(attack : Int) =
@@ -102,7 +101,6 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
       val kopie = copy(
         player1 = player1.copy( pokemons = player1.pokemons.copy( player1.pokemons.contents.updated( player1.currentPoke, player1.pokemons.contents.apply( player1.currentPoke ).get.changeHp( player2.pokemons.contents.apply( player2.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) )
       if player1.checkForDead() then
-        println("Spiel vorbei player 2 hat gewinnt")
         System.exit(0)
       kopie
   }
