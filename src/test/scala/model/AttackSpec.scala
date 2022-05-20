@@ -25,9 +25,6 @@ class AttackSpec extends AnyWordSpec {
       attack2.damage should be(10)
       attack3.damage should be(50)
     }
-    "create a attack" in{
-      Attack("Tackle", 30) should be(Attack("Tackle", 30))
-    }
   }
 
 }
