@@ -93,7 +93,6 @@ class TUI(controller : Controller) extends Observer :
 
   def attackInput(i: Char): Try[AttackMove] = {
     SaveAttackMove(AttackMove(i.asDigit-1))
-
   }
 
 
