@@ -8,6 +8,7 @@ import util.*
 
 import java.util
 import scala.io.StdIn.readLine
+import scala.util.{ Failure, Try, Success }
 
 
 class TUI(controller : Controller) extends Observer :
@@ -55,11 +56,11 @@ class TUI(controller : Controller) extends Observer :
       "5: Turtok\n" )
 
     inputAnalysisPokemon( readLine ) match
-      case None =>
-      case Some( move ) => controller.doAndPublish( controller.put, move )
+      case Failure(exception) => println("Falsche eingabe" + exception)
+      case Success(m) => controller.doAndPublish( controller.put, m )
 
 
-  def inputAnalysisPokemon(input : String) : Option[ PokeMove ] =
+  def inputAnalysisPokemon(input : String) : Try[ PokeMove ] =
     val chars = input.toCharArray.toList
     val pokeList : List[ Option[ Pokemon ] ] = chars.map {
       case '1' => Some( Pokemon( Glurak ) )
@@ -67,10 +68,9 @@ class TUI(controller : Controller) extends Observer :
       case '3' => Some( Pokemon( Brutalanda ) )
       case '4' => Some( Pokemon( Bisaflor ) )
       case '5' => Some( Pokemon( Turtok ) )
-      case _ => None
     }
 
-    Some( PokeMove( pokeList) )
+    Try(PokeMove( pokeList) )
 
 
   def currentPokePackContent(): String = controller.field.getCurrentPokemons.map( x => x.toString + "   ").mkString
@@ -84,13 +84,16 @@ class TUI(controller : Controller) extends Observer :
       case "c" =>  changePokemon(); None
       case _ =>
         val char = input.toCharArray
-        val attack = char( 0 ) match
-          case '1' => AttackMove( 0 )
-          case '2' => AttackMove( 1 )
-          case '3' => AttackMove( 2 )
-          case '4' => AttackMove( 3 )
-          case _ => AttackMove( 0 )
-        Some( attack )
+        val attack = char(0)
+        attackInput(attack) match
+          case Success(m) => Some(m)
+          case Failure(n) => println("Falsche eingabe: " + n.getMessage); None
+
+
+  def attackInput(i: Char): Try[AttackMove] = Try {
+    SaveAttackMove(AttackMove(i.asDigit-1))
+
+  }
 
 
   def changePokemon():Unit=

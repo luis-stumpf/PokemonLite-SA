@@ -1,6 +1,8 @@
 package de.htwg.se.pokelite
 package model
 
+import scala.util.Failure
+
 trait Move {
   def doStep(field : Field) : Field
 }
@@ -18,4 +20,12 @@ case class ChangePokeMove(i: Int) extends Move {
 }
 
 
-case class AttackMove(attack : Int) 
+case class AttackMove(attack : Int)
+
+object SaveAttackMove {
+  def apply(move: AttackMove): AttackMove = {
+    if (move.attack <=3 && move.attack >=0) then
+      AttackMove(move.attack)
+    else throw new IndexOutOfBoundsException("index kaputt")
+  }
+}
