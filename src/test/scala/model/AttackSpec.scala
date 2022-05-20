@@ -7,9 +7,9 @@ import org.scalatest.wordspec.AnyWordSpec
 class AttackSpec extends AnyWordSpec {
   "A Attack" should {
     val noAttack = NoAttack()
-    "have a String of form ''" in {
+    /*"have a String of form ''" in {
       noAttack.toString should be("")
-    }
+    }*/
   }
   "A Attack" should {
     val attack1 = Attack("Tackle", 30)
