@@ -91,7 +91,7 @@ class TUI(controller : Controller) extends Observer :
           case Failure(n) => println("Falsche eingabe: " + n.getMessage); None
 
 
-  def attackInput(i: Char): Try[AttackMove] = Try {
+  def attackInput(i: Char): Try[AttackMove] = {
     SaveAttackMove(AttackMove(i.asDigit-1))
 
   }
