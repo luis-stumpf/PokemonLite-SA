@@ -1,6 +1,7 @@
 package de.htwg.se.pokelite
 
 import aview.TUI
+import aview.gui.GUIApp
 import controller.Controller
 import model.{ Field, PokePlayer }
 
@@ -12,6 +13,9 @@ def run() : Unit =
   val field = Field( 50, PokePlayer( "", 1 ), PokePlayer( "", 2 ) )
   val controller = Controller( field )
   val tui = TUI( controller )
+  val gui = GUIApp(controller)
   tui.run()
+  new GUIApp(controller)
+
 
 
