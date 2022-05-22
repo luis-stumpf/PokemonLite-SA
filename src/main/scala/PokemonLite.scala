@@ -13,9 +13,9 @@ def run() : Unit =
   val field = Field( 50, PokePlayer( "", 1 ), PokePlayer( "", 2 ) )
   val controller = Controller( field )
   val tui = TUI( controller )
-  val gui = GUIApp(controller)
+  GUIApp(controller)
   tui.run()
-  new GUIApp(controller)
+
 
 
 
