@@ -2,7 +2,7 @@ package de.htwg.se.pokelite
 package util
 
 trait Observer:
-  def update(e: Event) : Unit
+  def update: Unit
 
 trait Observable:
   var subscribers : Vector[ Observer ] = Vector()
@@ -11,4 +11,4 @@ trait Observable:
 
   def remove(s : Observer) = subscribers = subscribers.filterNot( o => o == s )
 
-  def notifyObservers(e: Event) = subscribers.foreach( o => o.update(e) )
+  def notifyObservers = subscribers.foreach( o => o.update )
