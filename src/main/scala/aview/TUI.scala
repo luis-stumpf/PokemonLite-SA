@@ -1,7 +1,7 @@
 package de.htwg.se.pokelite
 package aview
 
-import controller.Controller
+import controller.*
 import model.PokemonType.*
 import model.*
 import util.*
@@ -17,7 +17,7 @@ class TUI(controller : Controller) extends Observer :
 
   controller.add( this )
 
-  override def update() : Unit =
+  override def update : Unit =
     controller.game.state match
       case InitState() => println("PokemonLite has begun")
       case InitPlayerState() => readPlayerName()
