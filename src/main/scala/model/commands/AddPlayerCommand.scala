@@ -1,8 +1,9 @@
 package de.htwg.se.pokelite
 package model.commands
 
-import model.state.InitPlayerState
+import model.State.*
 import model.Game
+import model.Error
 
 import scala.util.{ Failure, Success, Try }
 
@@ -22,7 +23,6 @@ case class AddPlayerCommand(name:String, state:InitPlayerState) extends Command 
   }
 
   override def undoStep( game:Game ):Game = game.copy(
-    state = state,
-    players = game.players.init
+    state = state, if game.player2.isDefined then player2 = None else player1 = None
   )
 }

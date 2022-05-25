@@ -1,45 +1,39 @@
 package de.htwg.se.pokelite
 package controller
 
-import util._
-import model._
+import util.UndoManager
+import model.Game
 
-case class Controller(var field : Field) extends Observable, Stateable, Event :
+import scala.util.{ Failure, Success }
 
-  val undoManager = new UndoManager[ Field ]
-
-  override def toString : String = field.toString
-
-  def doAndPublish(doThis : AttackMove => Field, move : AttackMove) =
-    field = doThis( move )
-    notifyObservers(MidEvent())
-
-  def doAndPublish(doThis : => Field) =
-    field = doThis
-    notifyObservers(PreEvent())
-
-  def doAndPublish(doThis : Move => Field, move : Move) =
-    field = doThis( move )
-    notifyObservers(MidEvent())
-
-  def put(move : Move) : Field = move.doStep( field )
-
-  def putAttack(move : AttackMove) : Field = undoManager.doStep( field, AttackCommand( move ) )
-
-  def undo : Field = undoManager.undoStep( field )
-
-  def redo : Field = undoManager.redoStep( field )
+case class Controller() extends Observable, Stateable, Event :
+  var game = Game()
+  val undoManager = new UndoManager
 
 
-  override def handle(e : Event) : Option[ State ] =
-    e match {
-      case pre : PreEvent => state = Some( PreState( field ) )
-      case mid : MidEvent => state = Some( MidState( field ) )
-      case end : EndEvent => state = Some( EndState( field ) )
+  def moveDone(newGame:Game, command:Command): Unit = {
+    game = newGame
+    undoManager.doStep(game, command)
+    notifyAll()
+  }
+
+  def move(command:Option[Command]): Unit = {
+    command.get.doStep(game) match {
+      case Success( game ) => moveDone( game, command.get )
+      case Failure( ) =>
     }
-    state
+  }
 
-  def initPlayers():Unit =
+  def undoMove(): Unit = {
+    command: Command = undoManager.undoStep()
+  }
+
+  def redoMove(): Unit = {
+    undoManager.redoStep().get.doStep()
+    doAndPublish(undoManager.redoStep(game))
+  }
+
+  def initPlayers():Unit = move ( game.state.initPlayers() )
 
   
 
