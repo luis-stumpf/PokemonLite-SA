@@ -1,15 +1,15 @@
 package de.htwg.se.pokelite
 package model.commands
 
-import model._
+import model.*
 
-import scala.util.{ Success, Try }
+import de.htwg.se.pokelite.util.Command
 
 
-case class ChangeStateCommand( state:State, nextState:State, info:Option[Info] = None ) extends Command {
+case class ChangeStateCommand(state : State, nextState : State) extends Command {
 
-  override def doStep( game:Game ):Try[(Game, Option[Info])] = Success( game.setState( nextState ), info )
+  override def doStep(game : Game) : Game = game.setState( nextState )
 
-  override def undoStep( game:Game ):Game = game.setState( state )
-  
+  override def undoStep(game : Game) : Game = game.setState( state )
+
 }

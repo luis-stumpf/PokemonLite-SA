@@ -48,9 +48,10 @@ case class Game(state: State = InitState(),
           winner: Option[PokePlayer] = winner
           ): Game = Game(state, player1, player2, turn, winner)
 
-  def setState(state: State): Game = copy(state = state)
+  def setStateTo(state: State): Game = copy(state = state)
 
   def setNextTurn(): Game =
+
     if turn.isEmpty then copy(turn = player1)
     else if turn.get == player1 then copy(turn = player2)
     else copy(turn = player1)
