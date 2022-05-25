@@ -14,13 +14,17 @@ class TUI(controller : Controller) extends Observer :
 
   override def update : Unit =
     controller.game.state match
-      case InitState() => println("PokemonLite has begun")
+      case InitState() => initialState()
       case InitPlayerState() => readPlayerName()
-      case InitPlayerPokemonState() => readPokemon()
+      case InitPlayerPokemonState() => readPokemons()
       case FightingState() => readAttack()
       case GameOverState() => theGameIsOver()
 
 
+  def initialState(): Unit =
+    println("PokemonLite has begun")
+    contoller.initPlayers()
+    
   def readPlayerName() : Unit =
     print( "Enter name: " )
     controller.addPlayer(readLine())
