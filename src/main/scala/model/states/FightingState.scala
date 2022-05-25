@@ -9,4 +9,8 @@ case class FightingState() extends State {
     AttackCommand( input, this )
   )
 
+  override def switchPokemon(input: String): Option[Command] = Some(
+    SwitchPokemonCommand(input, this)
+  )
+
 }

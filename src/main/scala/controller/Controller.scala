@@ -7,13 +7,11 @@ import de.htwg.se.pokelite.model.*
 
 import scala.util.{ Failure, Success }
 
-case class Controller() extends Observable :
-  var game = Game()
+case class Controller(game: Game) extends Observable :
   val undoManager = new UndoManager
 
-
   def moveDone(newGame:Game, command:Command): Unit = {
-    game = newGame
+    copy(game = newGame.setNextTurn())
     undoManager.doStep(game, command)
     notifyObservers
   }
@@ -21,7 +19,7 @@ case class Controller() extends Observable :
   def move(command:Option[Command]): Unit = {
     command.get.doStep(game) match {
       case Success( game ) => moveDone( game, command.get )
-      case Failure( NoCommandFound ) =>
+      case Failure( t ) => error( t )
     }
   }
 
