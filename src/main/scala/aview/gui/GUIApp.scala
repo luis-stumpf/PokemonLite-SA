@@ -4,10 +4,8 @@ package aview.gui
 import util.Observer
 import controller.Controller
 
-object GUIApp{
 
 
-}
 
 class GUIApp(val controller: Controller) extends Observer{
 
