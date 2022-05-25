@@ -11,9 +11,8 @@ import scala.io.StdIn.readLine
 @main
 def run() : Unit =
   val controller = Controller(Game())
-  val tui = TUI( controller )
+  TUI( controller )
   GUIApp(controller)
-  tui.run()
 
 
 
