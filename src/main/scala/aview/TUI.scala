@@ -15,7 +15,12 @@ class TUI(controller : Controller) extends Observer :
 
   controller.add( this )
 
-  override def update : Unit = println( controller.field.toString )
+  override def update(e: Event) : Unit = 
+    e match {
+      case PreEvent() =>  pregame()
+      case MidEvent() =>  println( controller.field.toString )
+      case EndEvent() =>  println( controller.field.toString )
+    }
 
   def run() : Unit =
     pregame()

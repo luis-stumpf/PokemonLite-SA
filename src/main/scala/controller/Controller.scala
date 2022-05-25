@@ -4,7 +4,7 @@ package controller
 import util._
 import model._
 
-case class Controller(var field : Field) extends Observable, Stateable :
+case class Controller(var field : Field) extends Observable, Stateable, Event :
 
   val undoManager = new UndoManager[ Field ]
 
@@ -12,15 +12,15 @@ case class Controller(var field : Field) extends Observable, Stateable :
 
   def doAndPublish(doThis : AttackMove => Field, move : AttackMove) =
     field = doThis( move )
-    notifyObservers
+    notifyObservers(MidEvent())
 
   def doAndPublish(doThis : => Field) =
     field = doThis
-    notifyObservers
+    notifyObservers(PreEvent())
 
   def doAndPublish(doThis : Move => Field, move : Move) =
     field = doThis( move )
-    notifyObservers
+    notifyObservers(MidEvent())
 
   def put(move : Move) : Field = move.doStep( field )
 
