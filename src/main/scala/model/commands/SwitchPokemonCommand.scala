@@ -4,6 +4,7 @@ package model.commands
 import model.Game
 
 import de.htwg.se.pokelite.model.states.FightingState
+import model.Error
 
 import scala.util.{ Failure, Success, Try }
 
@@ -13,11 +14,10 @@ case class SwitchPokemonCommand(input:String, state:FightingState) extends Comma
     if( input.isEmpty )
       Failure( NoInput )
     else {
-      val newGame = game.selectPokemon(input)
+      Success(game.selectPokemon(input))
     }
   }
 
-  override def undoStep( game:Game ):Game = game.copy(
-    state = state, if game.player2.isDefined then player2 = None else player1 = None
-  )
+  override def undoStep( game:Game ): Game = game.selectPokemon(input)
+
 }

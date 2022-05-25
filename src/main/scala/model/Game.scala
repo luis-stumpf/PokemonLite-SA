@@ -82,8 +82,8 @@ case class Game(state: State = InitState(),
 
   def attackWith(input:String): Game = this //TODO: Implement that the input gets read and chooses an attack and updates the pplayers pokemon
   
-  def reverseAttackWith(input:String): Game = this //TODO: implement reverse attack with this input 
-  
+  def reverseAttackWith(input:String): Game = this //TODO: implement reverse attack with this input
+
   def selectPokemon(input: String): Game = this //TODO switch pokemon of current player to input
     
 
