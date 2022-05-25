@@ -1,22 +1,12 @@
 package de.htwg.se.pokelite
 package model
 
-import util.{ Event, PreEvent }
+import util.{ Event, PreEvent, Command }
 
-trait Stateable:
-  var state : Option[ State ] = None
+abstract class State {
+  
+  def initState() : Option[ Command ] = None
+  def initPlayers() : Option[ Command ] = None
 
-  def handle(e : Event) : Option[ State ]
+}
 
-trait State:
-  def toString : String
-
-
-case class PreState(field : Field) extends State :
-  override def toString = "PreGame!\n"
-
-case class MidState(field : Field) extends State :
-  override def toString = "MidGame!\n"
-
-case class EndState(field : Field) extends State :
-  override def toString = "EndGame!\n"

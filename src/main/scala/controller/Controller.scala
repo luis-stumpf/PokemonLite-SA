@@ -39,6 +39,8 @@ case class Controller(var field : Field) extends Observable, Stateable, Event :
     }
     state
 
+  def initPlayers():Unit =
+
   
 
 
