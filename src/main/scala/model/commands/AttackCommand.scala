@@ -3,17 +3,17 @@ package model.commands
 
 import model.{ Game, PokePlayer }
 
-import de.htwg.se.pokelite.model.state.InitPlayerPokemonState
+import de.htwg.se.pokelite.model.state.{ FightingState, InitPlayerPokemonState }
 
 import scala.util.{ Failure, Success, Try }
 
-case class AddPokemonCommand(list:String, state:InitPlayerPokemonState) extends Command {
+case class AttackCommand(input:String, state:FightingState) extends Command {
 
   override def doStep( game:Game ):Try[Game] = {
-    if( list.isEmpty )
-      Failure( NoPokemonSelected )
+    if( input.isEmpty )
+      Failure( NoAttackSelected )
     else {
-      val newGame = game.addPokemonToPlayer(list)
+      val newGame = game.attackWith(input)
       if ( newGame.player2.get.pokemons.contents.isEmpty)
         Success(newGame.setStateTo( InitPlayerPokemonState() ))
       else

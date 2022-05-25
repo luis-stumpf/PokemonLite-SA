@@ -74,6 +74,10 @@ case class Game(state: State = InitState(),
 
     if player1.get.pokemons.contents.isEmpty then copy(player1 = Some(PokePlayer(player1.get.name, PokePack(pokeList))))
     else copy(player2 = Some(PokePlayer(player2.get.name, PokePack(pokeList))))
+
+
+  def attackPlayer(input:String): Game =
+
 }
       
 
