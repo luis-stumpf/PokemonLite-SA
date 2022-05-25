@@ -2,6 +2,8 @@ package de.htwg.se.pokelite
 package model.states
 
 import util.*
+import model.*
+import model.commands.*
 
 import de.htwg.se.pokelite.model.Command
 

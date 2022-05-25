@@ -1,9 +1,9 @@
 package de.htwg.se.pokelite
 package model.commands
 
-import model.{ Game, PokePlayer }
+import model.{ Command, Game, NoAttackSelected, PokePlayer }
 
-import de.htwg.se.pokelite.model.states.{ FightingState, InitPlayerPokemonState }
+import de.htwg.se.pokelite.model.states.{ FightingState, GameOverState, InitPlayerPokemonState }
 
 import scala.util.{ Failure, Success, Try }
 

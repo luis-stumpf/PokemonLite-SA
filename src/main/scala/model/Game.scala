@@ -6,7 +6,8 @@ import model.State
 import model.PokemonArt
 import model.Field
 
-import de.htwg.se.pokelite.model.Pokemon
+import model.*
+import model.PokemonType.{Glurak, Simsala,Brutalanda,Bisaflor,Turtok}
 
 import scala.util.{ Failure, Success }
 

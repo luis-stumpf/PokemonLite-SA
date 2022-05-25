@@ -1,9 +1,9 @@
 package de.htwg.se.pokelite
 package model.commands
 
-import model.{ Game, PokePlayer }
+import model.{ Command, Game, NoPokemonSelected, PokePlayer, PokePack }
 
-import de.htwg.se.pokelite.model.states.InitPlayerPokemonState
+import de.htwg.se.pokelite.model.states.*
 
 import scala.util.{ Failure, Success, Try }
 
@@ -17,16 +17,15 @@ case class AddPokemonCommand(list:String, state:InitPlayerPokemonState) extends 
       if ( newGame.player2.get.pokemons.contents.isEmpty)
         Success(newGame.setStateTo( InitPlayerPokemonState() ))
       else
-        Success( newGame.setStateTo( FightingState ) )
+        Success( newGame.setStateTo( FightingState() ) )
     }
   }
 
   override def undoStep( game:Game ):Game =
     if game.player1.get.pokemons.contents.isEmpty then
-      game.copy(state = InitPlayerState)
+      game.copy(state = InitPlayerState())
     else if game.player2.get.pokemons.contents.nonEmpty then
-      copy(state = state, player2 = PokePlayer(game.player2.get.name, PokePack(None)))
+      game.copy(state = state, player2 = Some(PokePlayer(game.player2.get.name, PokePack(List(None)))))
     else
-      copy(state = state, player1 = PokePlayer(game.player1.get.name, PokePack(None)))
-  )
+      game.copy(state = state, player1 = Some(PokePlayer(game.player1.get.name, PokePack(List(None)))))
 }

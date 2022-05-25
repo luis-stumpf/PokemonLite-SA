@@ -1,9 +1,9 @@
 package de.htwg.se.pokelite
 package controller
 
-import util.UndoManager
-
-import de.htwg.se.pokelite.model.*
+import util.{ Observable, UndoManager }
+import model.{Game, State, Command}
+import model.states.*
 
 import scala.util.{ Failure, Success }
 
@@ -19,7 +19,7 @@ case class Controller(game: Game) extends Observable :
   def move(command:Option[Command]): Unit = {
     command.get.doStep(game) match {
       case Success( game ) => moveDone( game, command.get )
-      case Failure( t ) => error( t )
+      case Failure( t ) =>
     }
   }
 

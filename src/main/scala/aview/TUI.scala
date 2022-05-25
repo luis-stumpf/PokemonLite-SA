@@ -3,6 +3,9 @@ package aview
 
 import model.*
 import util.*
+import controller.Controller
+
+import de.htwg.se.pokelite.model.states.*
 
 import scala.io.StdIn.readLine
 import scala.util.{ Failure, Success, Try }
@@ -23,7 +26,7 @@ class TUI(controller : Controller) extends Observer :
 
   def initialState(): Unit =
     println("PokemonLite has begun")
-    contoller.initPlayers()
+    controller.initPlayers()
     
   def readPlayerName() : Unit =
     print( "Enter name: " )
@@ -41,7 +44,7 @@ class TUI(controller : Controller) extends Observer :
   def readAttack(): Unit =
     println(controller.game.toString)
     println("choose your Attack 1, 2, 3, 4" )
-    contoller.attackWith(readLine())
+    controller.attackWith(readLine())
 
   def theGameIsOver(): Unit =
     println("GameOver, " + controller.game.winner.get.name + " has won the Game!")

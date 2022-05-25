@@ -1,10 +1,9 @@
 package de.htwg.se.pokelite
 package model.commands
 
-import model.Game
+import model.{ Command, Error, Game, NoInput }
 
 import de.htwg.se.pokelite.model.states.FightingState
-import model.Error
 
 import scala.util.{ Failure, Success, Try }
 
