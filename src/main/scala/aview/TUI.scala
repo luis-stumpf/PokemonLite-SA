@@ -1,14 +1,9 @@
 package de.htwg.se.pokelite
 package aview
 
-import controller.*
-import model.PokemonType.*
 import model.*
 import util.*
 
-import de.htwg.se.pokelite.model.states.InitPlayerPokemonState
-
-import java.util
 import scala.io.StdIn.readLine
 import scala.util.{ Failure, Success, Try }
 
