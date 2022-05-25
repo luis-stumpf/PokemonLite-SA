@@ -34,6 +34,8 @@ case class Controller() extends Observable, Stateable, Event :
   }
 
   def initPlayers():Unit = move ( game.state.initPlayers() )
+  def addPlayer(name: String):Unit = move ( game.state.addPlayer(name))
+  def addPokemons(list: String)Unit = move ( game.sate.Ini)
 
   
 
