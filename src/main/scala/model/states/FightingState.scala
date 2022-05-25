@@ -1,5 +1,5 @@
 package de.htwg.se.pokelite
-package model.state
+package model.states
 
 import model.{ Command, State }
 

@@ -3,8 +3,6 @@ package model.commands
 
 import model.*
 
-import de.htwg.se.pokelite.util.Command
-
 
 case class ChangeStateCommand(state : State, nextState : State) extends Command {
 

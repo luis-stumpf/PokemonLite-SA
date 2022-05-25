@@ -3,7 +3,7 @@ package model.commands
 
 import model.{ Game, PokePlayer }
 
-import de.htwg.se.pokelite.model.state.InitPlayerPokemonState
+import de.htwg.se.pokelite.model.states.InitPlayerPokemonState
 
 import scala.util.{ Failure, Success, Try }
 

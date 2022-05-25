@@ -1,7 +1,7 @@
 package de.htwg.se.pokelite
 package model
 
-import model._
+import model.{Pokemon, Game}
 
 case class PokePlayer(name : String, pokemons : PokePack[Option[Pokemon]] = PokePack(List( None )), currentPoke : Int = 0):
   override def toString = name

@@ -1,12 +1,16 @@
 package de.htwg.se.pokelite
 package model
 
-import model.*
+import model.states.InitState
+import model.State
+import model.PokemonArt
 
-import de.htwg.se.pokelite.model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
+import de.htwg.se.pokelite.model.Pokemon
+
+import scala.util.{ Failure, Success }
 
 
-object Game{
+object Game {
 
   val pokePackSize = 3
 
@@ -76,7 +80,10 @@ case class Game(state: State = InitState(),
     else copy(player2 = Some(PokePlayer(player2.get.name, PokePack(pokeList))))
 
 
-  def attackPlayer(input:String): Game =
+  def attackWith(input:String): Game = this //TODO: Implement that the input gets read and chooses an attack and updates the pplayers pokemon
+  
+  def reverseAttackWith(input:String): Game = this //TODO: implement reverse attack with this input 
+    
 
 }
       

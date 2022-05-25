@@ -1,10 +1,12 @@
 package de.htwg.se.pokelite
-package model.state
+package model.states
 
-import util._
+import util.*
+
+import de.htwg.se.pokelite.model.Command
 
 case class InitState() extends State{
-  
+
   override def initPlayers():Option[Command] = Some(
     ChangeStateCommand( this, InitPlayerState() )
   )

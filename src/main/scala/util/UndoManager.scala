@@ -1,9 +1,7 @@
 package de.htwg.se.pokelite
 package util
 
-import util.Command
-
-import de.htwg.se.pokelite.model.Game
+import de.htwg.se.pokelite.model.{ Command, Game }
 
 import scala.util.{ Failure, Success, Try }
 

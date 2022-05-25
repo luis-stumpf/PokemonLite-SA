@@ -1,10 +1,7 @@
 package de.htwg.se.pokelite
 package controller
 
-import model.Field
-import model.{ AttackMove, Field }
-
-import de.htwg.se.pokelite.util.Command
+import model.{ AttackMove, Command, Field }
 
 
 class AttackCommand(move : AttackMove) extends Command[ Field ] :
