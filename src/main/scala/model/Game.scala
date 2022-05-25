@@ -4,6 +4,7 @@ package model
 import model.states.InitState
 import model.State
 import model.PokemonArt
+import model.Field
 
 import de.htwg.se.pokelite.model.Pokemon
 
@@ -85,8 +86,9 @@ case class Game(state: State = InitState(),
   def reverseAttackWith(input:String): Game = this //TODO: implement reverse attack with this input
 
   def selectPokemon(input: String): Game = this //TODO switch pokemon of current player to input
-    
 
+  override def toString : String = Field(50, player1.get , player2.get ,if turn == player1 then 1 else 2).toString
+  
 }
       
 

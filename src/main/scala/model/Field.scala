@@ -1,9 +1,11 @@
 package de.htwg.se.pokelite
 package model
 
-import model.*
+import model.{PokePlayer, Game, Pokemon}
 
-case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isControlledBy : Int = 1):
+case class Field(width : Int, player1 : PokePlayer , player2 : PokePlayer, isControlledBy : Int = 1):
+  override def toString: String = mesh()
+  
   def mesh(height : Int = 3) : String = row() + printPlayer1Stats() + col( height ) + printPlayer2Stats() + row()
 
   def row() : String = "+" + ( "-" * width + "+" ) * 2 + "\n"
@@ -80,7 +82,7 @@ case class Field(width : Int, player1 : PokePlayer, player2 : PokePlayer, isCont
         case Some( b ) => list = list :+ b
         case None =>
       }
-    list.take( POKEPACK_SIZE )
+    list.take( Game.pokePackSize )
 
 
   override def toString : String = mesh()
