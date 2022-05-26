@@ -14,7 +14,7 @@ case class AddPokemonCommand(list:String, state:InitPlayerPokemonState) extends 
       Failure( NoPokemonSelected )
     else {
       val newGame = game.addPokemonToPlayer(list)
-      if ( newGame.player2.get.pokemons.contents.isEmpty)
+      if ( newGame.player2.get.pokemons == PokePack(List(None)))
         Success(newGame.setStateTo( InitPlayerPokemonState() ))
       else
         Success( newGame.setStateTo( FightingState() ) )
