@@ -83,10 +83,12 @@ case class Game(state: State = InitState(),
 
 
   def attackWith(input:String): Game =
-    val i = input.charAt(0).asDigit
+    val i = input.charAt(0).asDigit -1
     AttackPlayerStrat.strategy(i)
   
-  def reverseAttackWith(input:String): Game = this //TODO: implement reverse attack with this input
+  def reverseAttackWith(input:String): Game =
+    val i = input.charAt(0).asDigit -1
+    AttackInvStrat.strategy(i)
 
   def selectPokemon(input: String): Game = this //TODO switch pokemon of current player to input
 
@@ -98,15 +100,30 @@ case class Game(state: State = InitState(),
     var strategy = if ( turn == 1 ) strategy1 else strategy2
 
     def strategy1(attack : Int) =
-      val mult = getDamageMultiplikator( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt )
+      val mult = Game.getDamageMultiplikator( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt )
       val kopie = copy(
         player2 = Some(player2.get.copy( pokemons = player2.get.pokemons.copy( player2.get.pokemons.contents.updated( player2.get.currentPoke, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.changeHp( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ))
       kopie
     def strategy2(attack : Int) =
-      val mult = getDamageMultiplikator( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt )
+      val mult = Game.getDamageMultiplikator( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt )
       val kopie = copy(
         player1 = Some(player1.get.copy( pokemons = player1.get.pokemons.copy( player1.get.pokemons.contents.updated( player1.get.currentPoke, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.changeHp( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ))
       kopie
+  }
+
+  object AttackInvStrat {
+    var strategy = if ( turn == 1 ) strategy1 else strategy2
+
+    def strategy1(attack : Int) =
+      var mult = Game.getDamageMultiplikator( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt )
+      copy(
+        player2 = Some(player2.get.copy( pokemons = player2.get.pokemons.copy( player2.get.pokemons.contents.updated( player2.get.currentPoke, Some( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.changeHpInv( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ) ))
+
+    def strategy2(attack : Int) =
+      var mult = Game.getDamageMultiplikator( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt )
+      copy( player1 = Some(player1.get.copy( pokemons = player1.get.pokemons.copy( player1.get.pokemons.contents.updated( player1.get.currentPoke, Some( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.changeHpInv( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ) ))
+
+
   }
 
 }
