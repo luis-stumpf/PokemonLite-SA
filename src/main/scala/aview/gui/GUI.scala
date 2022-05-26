@@ -28,21 +28,21 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
   controller.add(this)
 
   override def update : Unit =
-    fieldPane.children = List(text1,text2)
+    fieldPane.children = new GridPane() {
 
-  var text1 = new Text(controller.game.player1.map(_.toString).getOrElse(""))
-  var text2 = new Text("Turtok HP: 200")
+      val glurakImg: Image = new Image("/pokemons/GlurakFront.gif", 250, 250, true, true)
+      val turtokImg: Image = new Image("/pokemons/TurtokBack.gif", 250, 250, true, true)
+      val imgView = new ImageView( glurakImg )
+      val imgView2 = new ImageView( turtokImg )
+      add( imgView, 2, 0 )
+      add( imgView2, 0, 1 )
+      add(new Text(controller.game.player1.map(_.name).getOrElse("1")), 1, 0)
+      add(new Text(controller.game.player2.map(_.name).getOrElse("2")), 1, 1)
+    }
+
   var fieldPane: VBox = new VBox() {
     padding = Insets(10, 10, 10, 100)
 
-    /*val glurakImg: Image = new Image("/pokemons/GlurakFront.gif", 250, 250, true, true)
-    val turtokImg: Image = new Image("/pokemons/TurtokBack.gif", 250, 250, true, true)
-    val imgView = new ImageView( glurakImg )
-    val imgView2 = new ImageView( turtokImg )
-    add( imgView, 2, 0 )
-    */
-    children = List(text1, text2)
-    /*add( imgView2, 0, 1 )*/
 
   }
 
