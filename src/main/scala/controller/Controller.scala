@@ -11,12 +11,9 @@ case class Controller() extends Observable :
   val undoManager = new UndoManager
   var game:Game = Game()
 
-  def copy(game:Game = game): Game = game
-
   def moveDone(newGame:Game, command:Command): Unit = {
-   game = newGame
-    //setnexxtturn
-    println(this.game.state)
+    game = newGame
+    game.setNextTurn()
     undoManager.doStep(game, command)
     notifyObservers
   }
