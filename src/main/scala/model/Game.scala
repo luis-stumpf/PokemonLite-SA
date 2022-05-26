@@ -44,7 +44,7 @@ object Game {
 case class Game(state: State = InitState(),
                 player1: Option[PokePlayer] = None,
                 player2: Option[PokePlayer] = None,
-                turn: Int = 1,
+                turn: Int = 2,
                 winner: Option[PokePlayer] = None){
   def copy(
           state:State = state,
