@@ -11,5 +11,5 @@ case object NoInput extends Error
 case object NoPokemonSelected extends Error
 case object NoAttackSelected extends Error
 case class WrongInput(input: String) extends Error:
-  println("Error: The Input\" "+input+"\" is not valid.")
+  println("Error: The Input \""+input+"\" is not valid.")
 case object NoDesicionMade extends Error

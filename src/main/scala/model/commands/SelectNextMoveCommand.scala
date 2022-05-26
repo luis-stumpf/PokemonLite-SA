@@ -13,9 +13,10 @@ case class SelectNextMoveCommand(input:String, state:DesicionState) extends Comm
     if( input.isEmpty )
       Failure( NoDesicionMade )
     else {
+      val newGame = game.setNextTurn()
       input.charAt(0).asDigit match
-        case 1 => Success(game.setStateTo(FightingState()))
-        case 2 => Success(game.setStateTo(SwitchPokemonState()))
+        case 1 => Success(newGame.setStateTo(FightingState()))
+        case 2 => Success(newGame.setStateTo(SwitchPokemonState()))
         case _ => Failure( WrongInput(input) )
     }
   }

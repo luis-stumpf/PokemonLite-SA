@@ -19,6 +19,7 @@ class TUI(controller : Controller) extends Observer :
     update
 
   override def update : Unit =
+    println("Current Player is: " + controller.game.turn)
     controller.game.state match
       case InitState() => initialState()
       case InitPlayerState() => readPlayerName()
@@ -47,7 +48,8 @@ class TUI(controller : Controller) extends Observer :
     controller.addPokemons(readLine())
 
   def choosePokemon(): Unit =
-
+    println("your available pokemon are.... choose 1,2 or 3")
+    controller.selectPokemon(readLine())
 
 
   def readNextMove(): Unit =

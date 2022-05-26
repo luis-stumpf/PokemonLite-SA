@@ -43,6 +43,7 @@ case class Controller() extends Observable :
   def addPokemons(list: String): Unit = move ( game.state.addPokemons(list))
   def nextMove(input:String): Unit = move( game.state.nextMove(input))
   def attackWith(input: String): Unit = move(game.state.attackWith(input))
+  def selectPokemon(input: String): Unit = move(game.state.switchPokemonTo(input))
 
   
 

@@ -84,11 +84,14 @@ case class Game(state: State = InitState(),
 
   def attackWith(input:String): Game =
     val i = input.charAt(0).asDigit
-    AttackPlayerStrat.strategy(i)
+    AttackPlayerStrat.strategy(i-1)
   
   def reverseAttackWith(input:String): Game = this //TODO: implement reverse attack with this input
 
-  def selectPokemon(input: String): Game = this //TODO switch pokemon of current player to input
+  def selectPokemon(input: Int): Game =
+    if turn == 1 then copy(player1 = Some(player1.get.setCurrentPokeTo(input)))
+    else copy(player2 = Some(player2.get.setCurrentPokeTo(input)))
+
 
   override def toString : String = Field(50, player1.get, player2.get, turn).toString
 

@@ -3,7 +3,7 @@ package model.commands
 
 import model.{Command, Error, Game, NoInput}
 
-import de.htwg.se.pokelite.model.states.{FightingState, SwitchPokemonState}
+import de.htwg.se.pokelite.model.states.{DesicionState, FightingState, SwitchPokemonState}
 
 import scala.util.{Failure, Success, Try}
 
@@ -14,10 +14,13 @@ case class SwitchPokemonCommand(input:String, state:SwitchPokemonState) extends 
       Failure( NoInput )
       //TODO: Richtige if abrage
     else {
-      Success(game.selectPokemon(input))
+      val newGame = game.selectPokemon((input.charAt(0).asDigit))
+      Success(newGame.setStateTo(DesicionState()))
     }
   }
 
-  override def undoStep( game:Game ): Game = game.selectPokemon(input)
+  override def undoStep( game:Game ): Game =
+    val newGame = game.selectPokemon(input.charAt(0).asDigit)
+    newGame.setStateTo(state)
 
 }
