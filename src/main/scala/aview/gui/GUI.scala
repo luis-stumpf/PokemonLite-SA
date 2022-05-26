@@ -22,8 +22,6 @@ class GUI(GUIApp : GUIApp, val controller : Controller) extends JFXApp3 {
 
   def setInitPlayerPane(): Unit = {
     val fieldPane:FieldPane = new FieldPane(controller.game)
-    val initPane:InitPane = new InitPane(controller)
-    val menuPane:MenuPane = new MenuPane
     val nameInputPane:NameInputPane = new NameInputPane(controller)
     stage = new JFXApp3.PrimaryStage {
       title = "PokemonLite"
@@ -42,8 +40,6 @@ class GUI(GUIApp : GUIApp, val controller : Controller) extends JFXApp3 {
   override def start() : Unit = {
     val fieldPane:FieldPane = new FieldPane(controller.game)
     val initPane:InitPane = new InitPane(controller)
-    val menuPane:MenuPane = new MenuPane
-    val nameInputPane:NameInputPane = new NameInputPane(controller)
     stage = new JFXApp3.PrimaryStage {
       title = "PokemonLite"
       scene = new Scene(1600, 480) {

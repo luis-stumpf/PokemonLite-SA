@@ -37,7 +37,7 @@ class GUIApp(val controller : Controller) extends Observer {
 
   override def update : Unit =
     controller.game.state match
-      case InitState() => thread.start()
+      case InitState() => thread.start
       case InitPlayerState() => gui.setInitPlayerPane()
       case InitPlayerPokemonState() =>
       case DesicionState() =>
