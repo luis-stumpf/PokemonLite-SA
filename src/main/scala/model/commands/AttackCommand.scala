@@ -1,11 +1,11 @@
 package de.htwg.se.pokelite
 package model.commands
 
-import model.{ Command, Game, NoAttackSelected, PokePlayer }
+import model.{Command, Game, NoAttackSelected, PokePlayer}
 
-import de.htwg.se.pokelite.model.states.{ FightingState, GameOverState, InitPlayerPokemonState }
+import de.htwg.se.pokelite.model.states.{DesicionState, FightingState, GameOverState, InitPlayerPokemonState}
 
-import scala.util.{ Failure, Success, Try }
+import scala.util.{Failure, Success, Try}
 
 case class AttackCommand(input:String, state:FightingState) extends Command {
 
@@ -15,7 +15,7 @@ case class AttackCommand(input:String, state:FightingState) extends Command {
     else {
       val newGame = game.attackWith(input)
       if ( newGame.winner.isEmpty)
-        Success(newGame.setStateTo( FightingState() ))
+        Success(newGame.setStateTo( DesicionState() ))
       else
         Success( newGame.setStateTo( GameOverState() ) )
     }

@@ -17,7 +17,7 @@ case class AddPokemonCommand(list:String, state:InitPlayerPokemonState) extends 
       if ( newGame.player2.get.pokemons == PokePack(List(None)))
         Success(newGame.setStateTo( InitPlayerPokemonState() ))
       else
-        Success( newGame.setStateTo( FightingState() ) )
+        Success( newGame.setStateTo( DesicionState() ) )
     }
   }
 
