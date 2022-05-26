@@ -82,7 +82,9 @@ case class Game(state: State = InitState(),
     else copy(player2 = Some(PokePlayer(player2.get.name, PokePack(pokeList), 2)))
 
 
-  def attackWith(input:String): Game = this //TODO: Implement that the input gets read and chooses an attack and updates the pplayers pokemon
+  def attackWith(input:String): Game =
+    val i = input.charAt(0).asDigit
+    AttackPlayerStrat.strategy(i)
   
   def reverseAttackWith(input:String): Game = this //TODO: implement reverse attack with this input
 
@@ -90,28 +92,23 @@ case class Game(state: State = InitState(),
 
   override def toString : String = Field(50, player1.get, player2.get, turn).toString
 
-  /*
+
   object AttackPlayerStrat {
 
-    var strategy = if ( turn == player1 ) strategy1 else strategy2
+    var strategy = if ( turn == 1 ) strategy1 else strategy2
 
     def strategy1(attack : Int) =
-      val mult = getDamageMultiplikator( player1.pokemons.contents.apply( player1.currentPoke ).get.pType.pokemonArt, player2.pokemons.contents.apply( player2.currentPoke ).get.pType.pokemonArt )
+      val mult = getDamageMultiplikator( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt )
       val kopie = copy(
-        player2 = player2.copy( pokemons = player2.pokemons.copy( player2.pokemons.contents.updated( player2.currentPoke, player2.pokemons.contents.apply( player2.currentPoke ).get.changeHp( player1.pokemons.contents.apply( player1.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) )
-      if player2.checkForDead() then
-        System.exit(0)
+        player2 = Some(player2.get.copy( pokemons = player2.get.pokemons.copy( player2.get.pokemons.contents.updated( player2.get.currentPoke, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.changeHp( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ))
       kopie
     def strategy2(attack : Int) =
-      val mult = getDamageMultiplikator( player2.pokemons.contents.apply( player2.currentPoke ).get.pType.pokemonArt, player1.pokemons.contents.apply( player1.currentPoke ).get.pType.pokemonArt )
+      val mult = getDamageMultiplikator( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt )
       val kopie = copy(
-        player1 = player1.copy( pokemons = player1.pokemons.copy( player1.pokemons.contents.updated( player1.currentPoke, player1.pokemons.contents.apply( player1.currentPoke ).get.changeHp( player2.pokemons.contents.apply( player2.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) )
-      if player1.checkForDead() then
-        System.exit(0)
+        player1 = Some(player1.get.copy( pokemons = player1.get.pokemons.copy( player1.get.pokemons.contents.updated( player1.get.currentPoke, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.changeHp( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ))
       kopie
   }
-  */
-  
+
 }
       
 
