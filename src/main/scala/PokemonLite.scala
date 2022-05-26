@@ -9,8 +9,9 @@ import scala.io.StdIn.readLine
 
 @main
 def run() : Unit =
-  val controller = Controller(Game())
-  TUI( controller )
+  val controller = Controller()
+  val tui = TUI( controller )
+  tui.start
   // GUIApp(controller) TODO: Enable when gui is ready
 
 

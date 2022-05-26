@@ -14,6 +14,9 @@ import scala.util.{ Failure, Success, Try }
 class TUI(controller : Controller) extends Observer :
 
   controller.add( this )
+  
+  def start: Unit =
+    update
 
   override def update : Unit =
     controller.game.state match

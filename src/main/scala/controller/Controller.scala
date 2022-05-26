@@ -7,18 +7,24 @@ import model.states.*
 
 import scala.util.{ Failure, Success }
 
-case class Controller(game: Game) extends Observable :
+case class Controller() extends Observable :
   val undoManager = new UndoManager
+  var game:Game = Game()
+
+  def copy(game:Game = game): Game = game
 
   def moveDone(newGame:Game, command:Command): Unit = {
-    copy(game = newGame.setNextTurn())
+   game = newGame
+    //setnexxtturn
+    println(this.game.state)
     undoManager.doStep(game, command)
     notifyObservers
   }
 
   def move(command:Option[Command]): Unit = {
-    command.get.doStep(game) match {
-      case Success( game ) => moveDone( game, command.get )
+    command.get.doStep(this.game) match {
+      case Success( game ) =>
+        moveDone( game, command.get )
       case Failure( t ) =>
     }
   }
