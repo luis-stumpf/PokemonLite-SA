@@ -19,11 +19,11 @@ import scalafx.scene.layout.GridPane
 import scalafx.scene.shape.Rectangle
 
 class GUI(GUIApp : GUIApp, val controller : Controller) extends JFXApp3 {
-  val fieldPane:FieldPane = new FieldPane(controller.game)
-  val initPane:InitPane = new InitPane(controller)
-  val menuPane:MenuPane = new MenuPane
-  val nameInputPane:NameInputPane = new NameInputPane(controller)
   override def start() : Unit = {
+    val fieldPane:FieldPane = new FieldPane(controller.game)
+    val initPane:InitPane = new InitPane(controller)
+    val menuPane:MenuPane = new MenuPane
+    val nameInputPane:NameInputPane = new NameInputPane(controller)
     stage = new JFXApp3.PrimaryStage {
       title = "PokemonLite"
       scene = new Scene(1600, 480) {
@@ -39,9 +39,9 @@ class GUI(GUIApp : GUIApp, val controller : Controller) extends JFXApp3 {
         }
       }
     }
+    def update(game: State): Unit = ???
   }
 
-  def update(game: State): Unit = ???
 
 
 }

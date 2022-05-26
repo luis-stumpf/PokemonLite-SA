@@ -4,7 +4,8 @@ package aview.gui
 import util.Observer
 import controller.Controller
 
-import scalafx.scene.layout.{Background, BackgroundImage, BackgroundPosition, BackgroundSize, BackgroundRepeat}
+import scalafx.application.Platform
+import scalafx.scene.layout.{ Background, BackgroundImage, BackgroundPosition, BackgroundRepeat, BackgroundSize }
 import scalafx.scene.image.Image
 import scalafx.geometry.Side
 
@@ -30,13 +31,14 @@ class GUIApp(val controller : Controller) extends Observer {
       gui.main( Array() )
     }
   }
+
+  Platform.startup(thread)
   thread.start()
 
   controller.add( this )
 
   def exit():Unit = gui.stopApp()
 
-  override def update : Unit =
-    gui.update(controller.game.state)
+  override def update : Unit = ???
 
 }
