@@ -95,7 +95,7 @@ case class Game(state: State = InitState(),
     else copy(player2 = Some(player2.get.setCurrentPokeTo(input)))
 
 
-  override def toString : String = Field(50, player1.get, player2.get, turn).toString
+  override def toString : String = Field(50, player1.getOrElse(PokePlayer("",PokePack(List(None)))), player2.getOrElse(PokePlayer("",PokePack(List(None)))), turn).toString
 
 
   object AttackPlayerStrat {
