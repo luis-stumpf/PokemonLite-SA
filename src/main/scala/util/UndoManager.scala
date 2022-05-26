@@ -15,7 +15,7 @@ class UndoManager:
 
   def undoStep() : Try[Command] =
     undoStack match {
-      // TODO: Anstatt None, Fehlerbehandlung
+      // TODO: Anstatt Nne, Fehlerbehandlung
       case Nil => Failure( NothingToUndo )
       case head :: stack => {
         val result = head
