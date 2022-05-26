@@ -8,6 +8,8 @@ abstract class State {
   def addPokemons(name : String) : Option[ Command ] = None
   def attackWith(input: String) : Option[Command] = None
   def switchPokemon(input: String): Option[Command] = None
+  def nextMove(input: String): Option[Command] = None
+  def switchPokemonTo(input: String): Option[Command] = None
 
 }
 
