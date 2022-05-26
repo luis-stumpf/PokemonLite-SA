@@ -32,7 +32,6 @@ class GUIApp(val controller : Controller) extends Observer {
     }
   }
 
-  Platform.startup(thread)
   thread.start()
 
   controller.add( this )
