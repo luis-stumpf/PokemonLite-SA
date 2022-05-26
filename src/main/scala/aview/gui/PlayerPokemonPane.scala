@@ -10,6 +10,9 @@ import scalafx.geometry.Insets
 import scalafx.scene.layout.HBox
 
 case class PlayerPokemonPane(controller: Controller) extends HBox {
+  spacing = 10
+  margin = Insets( 200, 500, 100, 200 )
+
   val comboBox1 : ComboBox[ String ] = new ComboBox[ String ]( PokemonType.values.map( _.name ) ) {
     margin = Insets(20, 20, 20, 20)
   }
@@ -32,6 +35,7 @@ case class PlayerPokemonPane(controller: Controller) extends HBox {
       case "Brutalanda" => "3"
       case "Bisaflor" => "4"
       case "Turtok" => "5"
+      case _ => ""
 
 }
 
