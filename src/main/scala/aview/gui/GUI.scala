@@ -40,11 +40,23 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
       add(new Text(controller.game.player2.map(_.name).getOrElse("2")), 1, 1)
     }
 
+    menuPane.children =
+      controller.game.state match
+        case InitState() => new InitPane(controller)
+        case InitPlayerState() => new NameInputPane(controller)
+        case InitPlayerPokemonState() => new PlayerPokemonPane(controller)
+        case FightingState() => new FightingPane(controller)
+        case DesicionState() => DesicionPane(controller)
+
   var fieldPane: VBox = new VBox() {
     padding = Insets(10, 10, 10, 100)
 
+  }
+
+  var menuPane: VBox = new VBox() {
 
   }
+
 
 
   override def start() : Unit = {
@@ -54,7 +66,7 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
         root = new BorderPane {
           left = fieldPane
           val menu = false
-          right = new InitPane(controller)
+          right = menuPane
         }
       }
     }
