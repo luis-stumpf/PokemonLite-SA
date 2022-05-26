@@ -36,5 +36,7 @@ class GUIApp(val controller : Controller) extends Observer {
 
   def exit():Unit = gui.stopApp()
 
-  override def update : Unit = controller.field
+  override def update : Unit =
+    gui.update(controller.game.state)
+
 }

@@ -6,7 +6,7 @@ import scalafx.geometry.Insets
 import scalafx.scene.control.Button
 
 
-class MenuPane extends GridPane{
+case class MenuPane() extends GridPane{
   padding = Insets(100, 100, 100, 100)
 
   val attack1 = new Button("Attack 1"){
