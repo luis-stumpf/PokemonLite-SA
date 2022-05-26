@@ -17,51 +17,58 @@ class TUI(controller : Controller) extends Observer :
 
   def processInputLine(input : String) : Unit = {
     controller.game.state match
-      case InitState() => initialState( input )
-      case InitPlayerState() => readPlayerName( input )
-      case InitPlayerPokemonState() => readPokemons( input )
-      case DesicionState() => readNextMove( input )
-      case FightingState() => readAttack( input )
-      case SwitchPokemonState() => choosePokemon( input )
+      case InitState() =>  controller.initPlayers()
+      case InitPlayerState() => controller.addPlayer(input)
+      case InitPlayerPokemonState() => controller.addPokemons(input)
+      case DesicionState() => controller.nextMove(input)
+      case FightingState() => controller.attackWith(input)
+      case SwitchPokemonState() => controller.selectPokemon(input)
       case GameOverState() => theGameIsOver()
   }
 
   override def update : Unit = {
-    println(controller.game.toString)
+    controller.game.state match
+      case InitState() => initialState()
+      case InitPlayerState() => readPlayerName(  )
+      case InitPlayerPokemonState() => readPokemons(  )
+      case DesicionState() => readNextMove(  )
+      case FightingState() => readAttack(  )
+      case SwitchPokemonState() => choosePokemon(  )
+      case GameOverState() => theGameIsOver()
   }
 
 
 
-  def initialState(input: String): Unit =
+  def initialState(): Unit =
     println("PokemonLit, type anyting to behin")
     controller.initPlayers()
     
-  def readPlayerName(input: String) : Unit =
+  def readPlayerName() : Unit =
     print( "Enter name: " )
-    controller.addPlayer(input)
 
-  def readPokemons(input: String): Unit =
+
+  def readPokemons(): Unit =
     println("Choose your Pokemon: \n" +
       "1: Glurak\n" +
       "2: Simsala\n" +
       "3: Brutalanda\n" +
       "4: Bisaflor\n" +
       "5: Turtok\n" )
-    controller.addPokemons(input)
 
-  def choosePokemon(input: String): Unit =
+
+  def choosePokemon(): Unit =
     println("your available pokemon are.... choose 1,2 or 3")
-    controller.selectPokemon(input)
 
 
-  def readNextMove(input: String): Unit =
+
+  def readNextMove(): Unit =
     println(controller.game.toString)
     println("These are all possible desicions: 1: Attack, 2: Switch Pokemon" )
-    controller.nextMove(input)
 
-  def readAttack(input: String): Unit =
+
+  def readAttack(): Unit =
     println("You Possible Attacks are: 1, 2, 3, 4")
-    controller.attackWith(input)
+
 
   def theGameIsOver(): Unit =
     println("GameOver, " + controller.game.winner.get.name + " has won the Game!")
