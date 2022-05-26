@@ -12,8 +12,7 @@ case class Controller() extends Observable :
   var game:Game = Game()
 
   def moveDone(newGame:Game, command:Command): Unit = {
-    game = newGame
-    game.setNextTurn()
+    game = newGame.setNextTurn()
     undoManager.doStep(game, command)
     notifyObservers
   }
