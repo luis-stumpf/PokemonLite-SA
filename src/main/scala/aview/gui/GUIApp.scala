@@ -3,9 +3,11 @@ package aview.gui
 
 import util.Observer
 import controller.Controller
+import model.states.*
 
+import de.htwg.se.pokelite.model.states.{DesicionState, FightingState, GameOverState, InitPlayerPokemonState, InitPlayerState, InitState, SwitchPokemonState}
 import scalafx.application.Platform
-import scalafx.scene.layout.{ Background, BackgroundImage, BackgroundPosition, BackgroundRepeat, BackgroundSize }
+import scalafx.scene.layout.{Background, BackgroundImage, BackgroundPosition, BackgroundRepeat, BackgroundSize}
 import scalafx.scene.image.Image
 import scalafx.geometry.Side
 
@@ -31,13 +33,16 @@ class GUIApp(val controller : Controller) extends Observer {
       gui.main( Array() )
     }
   }
-
-  thread.start()
-
   controller.add( this )
 
-  def exit():Unit = gui.stopApp()
-
-  override def update : Unit = ???
+  override def update : Unit =
+    controller.game.state match
+      case InitState() => thread.start()
+      case InitPlayerState() => gui.setInitPlayerPane()
+      case InitPlayerPokemonState() => 
+      case DesicionState() => 
+      case FightingState() => 
+      case SwitchPokemonState() => 
+      case GameOverState() => gui.stopApp()
 
 }

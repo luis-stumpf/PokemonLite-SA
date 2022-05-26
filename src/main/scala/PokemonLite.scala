@@ -12,9 +12,10 @@ import aview.gui.GUIApp
 def run() : Unit =
   val controller = Controller()
 
-  val tui = TUI( controller )
+  //val tui = TUI( controller )
   //tui.start
-  GUIApp(controller)
+  GUIApp(controller).update
+
 
 
 
