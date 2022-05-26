@@ -39,10 +39,10 @@ class GUIApp(val controller : Controller) extends Observer {
     controller.game.state match
       case InitState() => thread.start()
       case InitPlayerState() => gui.setInitPlayerPane()
-      case InitPlayerPokemonState() => 
-      case DesicionState() => 
-      case FightingState() => 
-      case SwitchPokemonState() => 
+      case InitPlayerPokemonState() =>
+      case DesicionState() =>
+      case FightingState() =>
+      case SwitchPokemonState() =>
       case GameOverState() => gui.stopApp()
 
 }

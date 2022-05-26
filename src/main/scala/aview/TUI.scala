@@ -31,12 +31,12 @@ class TUI(controller : Controller) extends Observer :
 
 
   def initialState(): Unit =
-    println("PokemonLite has begun")
-    //controller.initPlayers()
+    println("PokemonLit, type anyting to behin")
+
     
   def readPlayerName() : Unit =
     print( "Enter name: " )
-    controller.addPlayer(readLine())
+    //controller.addPlayer(readLine())
 
   def readPokemons(): Unit =
     println("Choose your Pokemon: \n" +

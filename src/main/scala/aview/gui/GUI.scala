@@ -57,7 +57,6 @@ class GUI(GUIApp : GUIApp, val controller : Controller) extends JFXApp3 {
         }
       }
     }
-    def update(game: State): Unit = ???
   }
 
 
