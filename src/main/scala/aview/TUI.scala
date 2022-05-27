@@ -61,8 +61,8 @@ class TUI(controller : Controller) extends Observer :
       "5: Turtok\n" )
 
   def getCurrentPlayerPokemons(): String =
-    if controller.game.turn == 1 then controller.game.player1.get.pokemons.contents.mkString("   ")
-    else controller.game.player2.get.pokemons.contents.mkString("   ")
+    if controller.game.turn == 1 then controller.game.player1.get.pokemons.contents.map(p=> p.get).mkString("   ")
+    else controller.game.player2.get.pokemons.contents.map(p=>p.get).mkString("   ")
 
   def choosePokemon(): Unit =
 
