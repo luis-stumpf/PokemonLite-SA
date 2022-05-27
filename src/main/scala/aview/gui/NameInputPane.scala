@@ -17,7 +17,8 @@ case class NameInputPane(controller: Controller) extends VBox {
   }
   children = List(
     textField,
-    new Button( "Add Player" ){
+    new Button( "Add Player"+ getCurrentPlayerNumber() ){
       onAction = _ => controller.addPlayer(textField.getText())
     } )
+  def getCurrentPlayerNumber(): Int = controller.game.turn
 }

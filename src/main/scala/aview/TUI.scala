@@ -45,7 +45,6 @@ class TUI(controller : Controller) extends Observer :
 
   def initialState(): Unit =
     println("PokemonLit, type anyting to behin")
-    controller.initPlayers()
     
   def readPlayerName() : Unit =
     println( "Enter name of Player "+controller.game.turn+": " )
