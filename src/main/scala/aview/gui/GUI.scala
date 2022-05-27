@@ -36,8 +36,10 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
       val imgView2 = new ImageView( turtokImg )
       add( imgView, 2, 0 )
       add( imgView2, 0, 1 )
-      add(new Text(controller.game.player1.map(_.pokemons.contents.apply(controller.game.player1.get.currentPoke).map(_.pType.toString).getOrElse("")).getOrElse("")), 1, 0)
-      add(new Text(controller.game.player2.map(_.pokemons.contents.apply(controller.game.player2.get.currentPoke).map(_.pType.toString).getOrElse("")).getOrElse("")), 1, 1)
+      val text1:Text = new Text(controller.game.player1.map(_.pokemons.contents.apply(controller.game.player1.get.currentPoke).map(_.toString).getOrElse("")).getOrElse(""))
+      val text2:Text = new Text(controller.game.player2.map(_.pokemons.contents.apply(controller.game.player2.get.currentPoke).map(_.toString).getOrElse("")).getOrElse(""))
+      add(text1, 1, 0)
+      add(text2, 1, 1)
     }
 
     menuPane.children =
@@ -47,6 +49,7 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
         case InitPlayerPokemonState() => new PlayerPokemonPane(controller)
         case FightingState() => new FightingPane(controller)
         case DesicionState() => DesicionPane(controller)
+        case SwitchPokemonState() => new SwitchPokemonPane(controller)
 
   var fieldPane: VBox = new VBox() {
     padding = Insets(10, 10, 10, 100)
