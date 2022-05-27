@@ -16,14 +16,17 @@ class TUI(controller : Controller) extends Observer :
   controller.add( this )
 
   def processInputLine(input : String) : Unit = {
-    controller.game.state match
-      case InitState() =>  controller.initPlayers()
-      case InitPlayerState() => controller.addPlayer(input)
-      case InitPlayerPokemonState() => controller.addPokemons(input)
-      case DesicionState() => controller.nextMove(input)
-      case FightingState() => controller.attackWith(input)
-      case SwitchPokemonState() => controller.selectPokemon(input)
-      case GameOverState() => theGameIsOver()
+    if input.charAt(0) == 'y' then controller.undoMove()
+    else if input.charAt(0) == 'z' then controller.redoMove()
+    else
+      controller.game.state match
+        case InitState() =>  controller.initPlayers()
+        case InitPlayerState() => controller.addPlayer(input)
+        case InitPlayerPokemonState() => controller.addPokemons(input)
+        case DesicionState() => controller.nextMove(input)
+        case FightingState() => controller.attackWith(input)
+        case SwitchPokemonState() => controller.selectPokemon(input)
+        case GameOverState() => theGameIsOver()
   }
 
   override def update : Unit = {
