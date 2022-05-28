@@ -26,8 +26,12 @@ case class Controller() extends Observable :
   }
 
   def undoMove(): Unit = {
-    game = undoManager.undoStep().get.undoStep(this.game)
-    notifyObservers
+   undoManager.undoStep() match
+        case Success(command) =>
+          game = command.undoStep(this.game)
+          notifyObservers
+        case Failure(x) => x.getMessage
+
   }
 
   def redoMove(): Unit = {

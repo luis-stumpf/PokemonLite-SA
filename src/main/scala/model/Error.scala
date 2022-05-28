@@ -4,8 +4,10 @@ package model
 trait Error extends Throwable
 
 case object NoPlayerName extends Error
-case object NothingToUndo extends Error
-case object NothingToRedo extends Error
+case object NothingToUndo extends Error:
+  println("Error: There is nothing to undo.")
+case object NothingToRedo extends Error:
+  println("Error: There is nothing to redo.")
 case object NoCommandFound extends Error
 case object NoInput extends Error
 case object NoPokemonSelected extends Error
