@@ -21,7 +21,7 @@ case class Controller() extends Observable :
     command.get.doStep(this.game) match {
       case Success( game ) =>
         moveDone( game, command.get )
-      case Failure( t ) =>
+      case Failure( x ) => x.getMessage
     }
   }
 
@@ -35,8 +35,11 @@ case class Controller() extends Observable :
   }
 
   def redoMove(): Unit = {
-    game = undoManager.redoStep().get.doStep(game).get
-    notifyObservers
+    undoManager.redoStep() match
+      case Success(command) =>
+        game = command.doStep(game).get
+        notifyObservers
+      case Failure(x) => x.getMessage
   }
 
   def initPlayers():Unit = move ( game.state.initPlayers() )
