@@ -7,7 +7,7 @@ import model.PokemonArt
 import model.Field
 
 import model.*
-import model.PokemonType.{Glurak, Simsala,Brutalanda,Bisaflor,Turtok}
+import model.PokemonType.{ Glurak, Simsala, Brutalanda, Bisaflor, Turtok }
 
 import scala.util.{ Failure, Success }
 
@@ -41,34 +41,34 @@ object Game {
 
 }
 
-case class Game(state: State = InitState(),
-                player1: Option[PokePlayer] = None,
-                player2: Option[PokePlayer] = None,
-                turn: Int = 2,
-                winner: Option[PokePlayer] = None){
+case class Game(state : State = InitState(),
+                player1 : Option[ PokePlayer ] = None,
+                player2 : Option[ PokePlayer ] = None,
+                turn : Int = 2,
+                winner : Option[ PokePlayer ] = None) {
   def copy(
-          state:State = state,
-          player1: Option[PokePlayer] = player1,
-          player2: Option[PokePlayer] = player2,
-          turn: Int = turn,
-          winner: Option[PokePlayer] = winner
-          ): Game = Game(state, player1, player2, turn, winner)
+            state : State = state,
+            player1 : Option[ PokePlayer ] = player1,
+            player2 : Option[ PokePlayer ] = player2,
+            turn : Int = turn,
+            winner : Option[ PokePlayer ] = winner
+          ) : Game = Game( state, player1, player2, turn, winner )
 
-  def setStateTo(newState: State): Game = copy(state = newState)
+  def setStateTo(newState : State) : Game = copy( state = newState )
 
-  def setNextTurn(): Game =
-    if(turn == 1)
-      copy(turn = 2)
+  def setNextTurn() : Game =
+    if ( turn == 1 )
+      copy( turn = 2 )
     else
-      copy(turn = 1)
+      copy( turn = 1 )
 
-  def addPlayer(name: String): Game =
+  def addPlayer(name : String) : Game =
     if player1.isEmpty then
-      copy(player1 = Some(PokePlayer(name)))
+      copy( player1 = Some( PokePlayer( name ) ) )
     else
-      copy(player2 = Some(PokePlayer(name)))
+      copy( player2 = Some( PokePlayer( name ) ) )
 
-  def addPokemonToPlayer(input: String): Game =
+  def addPokemonToPlayer(input : String) : Game =
     val pokeList : List[ Option[ Pokemon ] ] = input.toCharArray.toList.map {
       case '1' => Some( Pokemon( Glurak ) )
       case '2' => Some( Pokemon( Simsala ) )
@@ -78,24 +78,20 @@ case class Game(state: State = InitState(),
       case _ => None
     }
 
-    if player1.get.pokemons == PokePack(List( None )) then copy(player1 = Some(PokePlayer(player1.get.name, PokePack(pokeList))))
-    else copy(player2 = Some(PokePlayer(player2.get.name, PokePack(pokeList))))
+    if player1.get.pokemons == PokePack( List( None ) ) then copy( player1 = Some( PokePlayer( player1.get.name, PokePack( pokeList ) ) ) )
+    else copy( player2 = Some( PokePlayer( player2.get.name, PokePack( pokeList ) ) ) )
 
 
-  def attackWith(input:String): Game =
-    val i = input.charAt(0).asDigit
-    AttackPlayerStrat.strategy(i-1)
-  
-  def reverseAttackWith(input:String): Game =
-    val i = input.charAt(0).asDigit -1
-    AttackInvStrat.strategy(i)
+  def attackWith(i : String) : Game = AttackPlayerStrat.strategy( i.charAt( 0 ).asDigit - 1 )
 
-  def selectPokemon(input: Int): Game =
-    if turn == 1 then copy(player1 = Some(player1.get.setCurrentPokeTo(input)))
-    else copy(player2 = Some(player2.get.setCurrentPokeTo(input)))
+  def reverseAttackWith(i : String) : Game = AttackInvStrat.strategy( i.charAt( 0 ).asDigit - 1 )
+
+  def selectPokemon(input : Int) : Game =
+    if turn == 1 then copy( player1 = Some( player1.get.setCurrentPokeTo( input ) ) )
+    else copy( player2 = Some( player2.get.setCurrentPokeTo( input ) ) )
 
 
-  override def toString : String = Field(50, player1.getOrElse(PokePlayer("",PokePack(List(None)))), player2.getOrElse(PokePlayer("",PokePack(List(None)))), turn).toString
+  override def toString : String = Field( 50, player1.getOrElse( PokePlayer( "", PokePack( List( None ) ) ) ), player2.getOrElse( PokePlayer( "", PokePack( List( None ) ) ) ), turn ).toString
 
 
   object AttackPlayerStrat {
@@ -105,12 +101,13 @@ case class Game(state: State = InitState(),
     def strategy1(attack : Int) =
       val mult = Game.getDamageMultiplikator( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt )
       val kopie = copy(
-        player2 = Some(player2.get.copy( pokemons = player2.get.pokemons.copy( player2.get.pokemons.contents.updated( player2.get.currentPoke, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.changeHp( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ))
+        player2 = Some( player2.get.copy( pokemons = player2.get.pokemons.copy( player2.get.pokemons.contents.updated( player2.get.currentPoke, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.changeHp( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ) )
       kopie
+
     def strategy2(attack : Int) =
       val mult = Game.getDamageMultiplikator( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt )
       val kopie = copy(
-        player1 = Some(player1.get.copy( pokemons = player1.get.pokemons.copy( player1.get.pokemons.contents.updated( player1.get.currentPoke, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.changeHp( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ))
+        player1 = Some( player1.get.copy( pokemons = player1.get.pokemons.copy( player1.get.pokemons.contents.updated( player1.get.currentPoke, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.changeHp( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ) )
       kopie
   }
 
@@ -120,11 +117,11 @@ case class Game(state: State = InitState(),
     def strategy1(attack : Int) =
       var mult = Game.getDamageMultiplikator( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt )
       copy(
-        player2 = Some(player2.get.copy( pokemons = player2.get.pokemons.copy( player2.get.pokemons.contents.updated( player2.get.currentPoke, Some( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.changeHpInv( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ) ))
+        player2 = Some( player2.get.copy( pokemons = player2.get.pokemons.copy( player2.get.pokemons.contents.updated( player2.get.currentPoke, Some( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.changeHpInv( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ) ) )
 
     def strategy2(attack : Int) =
       var mult = Game.getDamageMultiplikator( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt )
-      copy( player1 = Some(player1.get.copy( pokemons = player1.get.pokemons.copy( player1.get.pokemons.contents.updated( player1.get.currentPoke, Some( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.changeHpInv( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ) ))
+      copy( player1 = Some( player1.get.copy( pokemons = player1.get.pokemons.copy( player1.get.pokemons.contents.updated( player1.get.currentPoke, Some( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.changeHpInv( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ) ) )
 
 
   }
