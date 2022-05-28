@@ -6,33 +6,31 @@ import de.htwg.se.pokelite.model.{ Command, Game, NothingToRedo, NothingToUndo }
 import scala.util.{ Failure, Success, Try }
 
 class UndoManager:
-  private var undoStack : List[ Command] = Nil
-  private var redoStack : List[ Command] = Nil
+  private var undoStack : List[ Command ] = Nil
+  private var redoStack : List[ Command ] = Nil
 
   def doStep(game : Game, command : Command) : Unit =
     undoStack = command :: undoStack
     command.doStep( game )
 
-  def undoStep() : Try[Command] =
+  def undoStep() : Try[ Command ] =
     undoStack match {
-      // TODO: Anstatt Nne, Fehlerbehandlung
       case Nil => Failure( NothingToUndo )
       case head :: stack => {
         val result = head
         undoStack = stack
         redoStack = head :: redoStack
-        Success(result)
+        Success( result )
       }
     }
 
-  def redoStep() : Try[Command] =
+  def redoStep() : Try[ Command ] =
     redoStack match {
-      // TODO: Anstatt None, Fehlerbehandlung
-      case Nil =>  Failure(NothingToRedo)
+      case Nil => Failure( NothingToRedo )
       case head :: stack => {
         val result = head
         redoStack = stack
         undoStack = head :: undoStack
-        Success(result)
+        Success( result )
       }
     }
