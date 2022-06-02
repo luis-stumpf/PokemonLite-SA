@@ -25,6 +25,14 @@ class GameSpec extends AnyWordSpec {
       "be able to add a Player" in {
         game.addPlayer("Luis") should be(Game(InitState(), Some(PokePlayer("Luis"))))
       }
+      "be able to remove a Player" in {
+        game = game.addPlayer("Luis")
+        game.removePlayer() should be(Game(InitState()))
+      }
+      "be able to remove a Pokemon from a Player" in {
+        game = game.addPokemonToPlayer("1")
+        game.removePokemonFromPlayer() should be(Game(InitState(), Some(PokePlayer("Luis"))))
+      }
     }
   }
   "The Game Object" should {

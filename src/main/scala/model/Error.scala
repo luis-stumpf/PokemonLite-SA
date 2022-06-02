@@ -23,3 +23,5 @@ case class WrongInput(input : String) extends Error :
   println( "Error: The Input \"" + input + "\" is not valid." )
 
 case object NoDesicionMade extends Error
+
+case object NoPlayerExists extends Error

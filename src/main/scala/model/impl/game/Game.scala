@@ -1,11 +1,10 @@
 package de.htwg.se.pokelite
 package model.impl.game
 
-import model.GameInterface
-import model.PokemonType.{Bisaflor, Brutalanda, Glurak, Simsala, Turtok}
-import model.{PokePack, PokePlayerInterface, Pokemon, PokemonArt, State}
+import model.{ GameInterface, NoPlayerExists, PokePack, PokePlayerInterface, Pokemon, PokemonArt, State }
+import model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
 import model.impl.field.Field
-import model.states.{InitPlayerState, InitState}
+import model.states.{ InitPlayerState, InitState }
 
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 
@@ -87,10 +86,19 @@ case class Game(state : State = InitState(),
     else copy( player2 = Some( PokePlayer( player2.get.name, PokePack( pokeList ) ) ) )
 
   def removePokemonFromPlayer(): Game =
-    if player2.get.getPokemons.contents.nonEmpty then
-      copy(player2 = Some(PokePlayer(player2.get.name, PokePack(List(None)))))
-    else
-      copy(player1 = Some(PokePlayer(player1.get.name, PokePack(List(None)))))
+
+    player2 match
+      case Some(x) =>
+        if !x.getPokemons.contents. then
+          copy( player2 = Some( PokePlayer( player2.get.name, PokePack( List( None ) ) ) ) )
+        else
+          player1 match
+            case Some(y) =>
+              if !y.getPokemons.contents.equals(List(None)) then
+                copy( player1 = Some( PokePlayer( player1.get.name, PokePack( List( None ) ) ) ) )
+              else this
+            case None => this
+      case None => this
 
 
   def attackWith(i : String) : Game = AttackPlayerStrat.strategy( i.charAt( 0 ).asDigit - 1 )
