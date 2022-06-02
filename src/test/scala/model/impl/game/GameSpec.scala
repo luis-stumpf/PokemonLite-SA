@@ -3,6 +3,9 @@ package model.impl.game
 
 import model.PokemonArt
 
+import de.htwg.se.pokelite.model.PokemonType.Glurak
+import model.Pokemon
+import model.PokePack
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 import de.htwg.se.pokelite.model.states.{ InitPlayerState, InitState }
 import org.scalatest.matchers.should.Matchers.*
@@ -29,10 +32,14 @@ class GameSpec extends AnyWordSpec {
         game = game.addPlayer("Luis")
         game.removePlayer() should be(Game(InitState()))
       }
-      "be able to remove a Pokemon from a Player" in {
+      "be able to remove a Pokemon from a Player 1" in {
         game = game.addPlayer("timmy")
         game = game.addPokemonToPlayer("1")
         game.removePokemonFromPlayer() should be(Game(InitState(), Some(PokePlayer("Luis")), Some(PokePlayer("timmy"))))
+      }
+      "be able to remove a Pokemon from a Player 2" in {
+        game = game.addPokemonToPlayer("1")
+        game.removePokemonFromPlayer() should be(Game(InitState(), Some(PokePlayer("Luis", PokePack(List(Some(Pokemon.apply(Glurak)))))), Some(PokePlayer("timmy"))))
       }
     }
   }

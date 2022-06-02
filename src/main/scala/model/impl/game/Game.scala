@@ -86,20 +86,10 @@ case class Game(state : State = InitState(),
     else copy( player2 = Some( PokePlayer( player2.get.name, PokePack( pokeList ) ) ) )
 
   def removePokemonFromPlayer(): Game =
-
-    player2 match
-      case Some(x) =>
-        if x.pokemons.contents.head.isDefined then
+        if player2.get.pokemons.contents.head.isDefined then
           copy( player2 = Some( PokePlayer( player2.get.name, PokePack( List( None ) ) ) ) )
         else
-          player1 match
-            case Some(y) =>
-              if y.pokemons.contents.head.isDefined then
-                copy( player1 = Some( PokePlayer( player1.get.name, PokePack( List( None ) ) ) ) )
-              else this
-            case None => this
-      case None => this
-
+          copy( player1 = Some( PokePlayer( player1.get.name, PokePack( List( None ) ) ) ) )
 
   def attackWith(i : String) : Game = AttackPlayerStrat.strategy( i.charAt( 0 ).asDigit - 1 )
 
