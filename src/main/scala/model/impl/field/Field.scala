@@ -1,11 +1,11 @@
 package de.htwg.se.pokelite
-package model
+package model.impl.field
 
-import model.{PokePlayer, Game, Pokemon}
+import model.{FieldInterface, PokePlayer, Pokemon}
 
-case class Field(width : Int, player1 : PokePlayer , player2 : PokePlayer, isControlledBy : Int = 1):
+case class Field(width : Int, player1 : PokePlayer , player2 : PokePlayer, isControlledBy : Int = 1) extends FieldInterface:
   override def toString: String = mesh()
-  
+
   def mesh(height : Int = 3) : String = row() + printPlayer1Stats() + col( height ) + printPlayer2Stats() + row()
 
   def row() : String = "+" + ( "-" * width + "+" ) * 2 + "\n"

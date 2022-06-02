@@ -4,10 +4,11 @@ package model
 import model.states.InitState
 import model.State
 import model.PokemonArt
-import model.Field
+import model.FieldInterface
 
 import model.*
 import model.PokemonType.{ Glurak, Simsala, Brutalanda, Bisaflor, Turtok }
+import model.impl.field.Field
 
 import scala.util.{ Failure, Success }
 
