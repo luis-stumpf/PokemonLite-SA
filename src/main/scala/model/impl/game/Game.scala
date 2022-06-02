@@ -70,7 +70,7 @@ case class Game(state : State = InitState(),
     if player2.isEmpty then
       copy( player1 = None )
     else
-      copy( player2 = None )
+      copy( player2 = None, state = InitPlayerState())
 
   def addPokemonToPlayer(input : String) : Game =
     val pokeList : List[ Option[ Pokemon ] ] = input.toCharArray.toList.map {

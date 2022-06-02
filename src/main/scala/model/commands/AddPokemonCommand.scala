@@ -10,7 +10,7 @@ import scala.util.{ Failure, Success, Try }
 case class AddPokemonCommand(list:String, state:InitPlayerPokemonState) extends Command {
 
   override def doStep( game:GameInterface ):Try[GameInterface] = {
-    if( list.isEmpty )
+    if( list.isEmpty)
       Failure( NoPokemonSelected )
     else {
       val newGame = game.addPokemonToPlayer(list)

@@ -10,7 +10,7 @@ import scala.util.{Failure, Success, Try}
 case class SelectNextMoveCommand(input:String, state:DesicionState) extends Command {
 
   override def doStep( game:GameInterface ):Try[GameInterface] = {
-    if( input.isEmpty )
+    if( input.isEmpty || input == "" )
       Failure( NoDesicionMade )
     else {
       val newGame = game.setNextTurn()

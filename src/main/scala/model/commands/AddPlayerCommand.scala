@@ -10,7 +10,7 @@ import scala.util.{ Failure, Success, Try }
 case class AddPlayerCommand(name:String, state:InitPlayerState) extends Command {
 
   override def doStep( game:GameInterface ):Try[GameInterface] = {
-    if( name == "" )
+    if( name.isEmpty )
       Failure( NoInput )
     else {
       val newGame = game.addPlayer(name)
