@@ -39,7 +39,7 @@ object Game {
 
 }
 
-case class Game(state : State = InitPlayerState(),
+case class Game(state : State = InitState(),
                 player1 : Option[ PokePlayer] = None,
                 player2 : Option[ PokePlayer] = None,
                 turn : Int = 2,
@@ -69,7 +69,7 @@ case class Game(state : State = InitPlayerState(),
 
   def addPlayer(name : String) : Game =
     if player1.isEmpty then
-      copy( player1 = Some( PokePlayer( name ) ) )
+      copy( state = state, player1 = Some( PokePlayer( name ) ) )
     else
       copy( player2 = Some( PokePlayer( name ) ) )
 
