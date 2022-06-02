@@ -34,7 +34,10 @@ jacocoReportSettings := JacocoReportSettings(
 
 jacocoExcludes := Seq(
   "de.htwg.se.pokelite.aview*",
-  "de.htwg.se.pokelite.util.Observable*"
+  "de.htwg.se.pokelite.util.Observable*",
+  "de.htwg.se.pokelite.model.FieldInterface",
+  "de.htwg.se.pokelite.PokemonLite*"
+
 )
 
 commands += Command.command("clear") { state =>
