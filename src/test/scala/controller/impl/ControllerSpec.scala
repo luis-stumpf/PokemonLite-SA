@@ -1,16 +1,15 @@
 package de.htwg.se.pokelite
-package controller
+package controller.impl
 
-import model.{ Field, Game, PokePack, PokePlayer, Pokemon }
-import util.Observer
+import model.PokemonType.Glurak
+import model.commands.ChangeStateCommand
+import model.states.{ InitPlayerState, InitState }
+import model.impl.pokePlayer.*
+import util.{ Observer, UndoManager }
 
-import de.htwg.se.pokelite.model.PokemonType.Glurak
+import de.htwg.se.pokelite.model.impl.game.Game
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
-import util.UndoManager
-
-import de.htwg.se.pokelite.model.commands.ChangeStateCommand
-import de.htwg.se.pokelite.model.states.{ InitPlayerState, InitState }
 
 class ControllerSpec extends AnyWordSpec {
   "The Controller" should {
@@ -50,14 +49,14 @@ class ControllerSpec extends AnyWordSpec {
     "undo a command" in {
       controller.moveDone(controller.game, ChangeStateCommand(InitState(), InitPlayerState()))
       controller.undoMove()
-      assert(controller.game.state === InitState())
+      assert(controller.game.gameState === InitState())
     }
 
     "redo a command" in {
       controller.moveDone(controller.game, ChangeStateCommand(InitState(), InitPlayerState()))
       controller.undoMove()
       controller.redoMove()
-      assert(controller.game.state === InitPlayerState())
+      assert(controller.game.gameState === InitPlayerState())
     }
   }
 

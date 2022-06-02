@@ -1,8 +1,14 @@
-package de.htwg.se.pokelite.model
+package de.htwg.se.pokelite
+package model.impl.field
 
-import de.htwg.se.pokelite.model.PokemonType.{ Glurak, Simsala, Turtok }
+import model.PokemonType.{ Glurak, Simsala, Turtok }
+import model.{ PokePack, Pokemon }
+
+import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
+
+
 class FieldSpec extends AnyWordSpec {
   "A PokemonLite Field" when {
     "empty" should {
