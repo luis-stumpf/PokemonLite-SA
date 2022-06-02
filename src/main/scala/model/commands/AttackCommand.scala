@@ -14,7 +14,7 @@ case class AttackCommand(input:String, state:FightingState) extends Command {
       Failure( NoAttackSelected )
     else {
       val newGame = game.attackWith(input)
-      if ( newGame.gameWinner.isEmpty)
+      if ( newGame.winner.isEmpty)
         Success(newGame.setStateTo( DesicionState() ))
       else
         Success( newGame.setStateTo( GameOverState() ) )

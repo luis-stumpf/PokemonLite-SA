@@ -45,20 +45,14 @@ case class Game(state : State = InitState(),
                 turn : Int = 2,
                 winner : Option[ PokePlayer] = None) extends GameInterface{
 
-  val gameState: State = state
-  val gameTurn: Int = turn
-  val gamePlayer1: Option[PokePlayer] = player1
-  val gamePlayer2: Option[PokePlayer] = player2
-  val gameWinner: Option[PokePlayer] = winner
-
-  /*def copy(
+  def copy(
             state : State = state,
             player1 : Option[ PokePlayer] = player1,
             player2 : Option[ PokePlayer] = player2,
             turn : Int = turn,
             winner : Option[ PokePlayer] = winner
           ) : Game = Game( state, player1, player2, turn, winner )
-*/
+
   def setStateTo(newState : State) : Game = copy( state = newState )
 
   def setNextTurn() : Game =

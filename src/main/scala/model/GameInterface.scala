@@ -4,21 +4,23 @@ package model
 import model.State
 import model.PokemonArt
 import model.FieldInterface
-
-import model.PokemonType.{ Glurak, Simsala, Brutalanda, Bisaflor, Turtok }
+import model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
 import model.impl.field.Field
 import model.PokePlayerInterface
+
+import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 
 import scala.util.{ Failure, Success }
 
 
 
 trait GameInterface {
-  val gameState: State
-  val gameTurn: Int
-  val gamePlayer1: Option[PokePlayerInterface]
-  val gamePlayer2: Option[PokePlayerInterface]
-  val gameWinner: Option[PokePlayerInterface]
+
+  def state:State
+  def player1: Option[PokePlayer]
+  def player2: Option[PokePlayer]
+  def winner: Option[PokePlayer]
+  def turn: Int
 
   def setStateTo(newState : State) : GameInterface
 

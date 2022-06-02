@@ -44,9 +44,9 @@ case class Controller() extends ControllerInterface() :
       case Failure(x) => x.getMessage
   }
 
-  def initPlayers():Unit = move ( game.gameState.initPlayers() )
-  def addPlayer(name: String):Unit = move ( game.gameState.addPlayer(name))
-  def addPokemons(list: String): Unit = move ( game.gameState.addPokemons(list))
-  def nextMove(input:String): Unit = move( game.gameState.nextMove(input))
-  def attackWith(input: String): Unit = move(game.gameState.attackWith(input))
-  def selectPokemon(input: String): Unit = move(game.gameState.switchPokemonTo(input))
+  def initPlayers():Unit = move ( game.state.initPlayers() )
+  def addPlayer(name: String):Unit = move ( game.state.addPlayer(name))
+  def addPokemons(list: String): Unit = move ( game.state.addPokemons(list))
+  def nextMove(input:String): Unit = move( game.state.nextMove(input))
+  def attackWith(input: String): Unit = move(game.state.attackWith(input))
+  def selectPokemon(input: String): Unit = move(game.state.switchPokemonTo(input))

@@ -49,14 +49,14 @@ class ControllerSpec extends AnyWordSpec {
     "undo a command" in {
       controller.moveDone(controller.game, ChangeStateCommand(InitState(), InitPlayerState()))
       controller.undoMove()
-      assert(controller.game.gameState === InitState())
+      assert(controller.game.state === InitState())
     }
 
     "redo a command" in {
       controller.moveDone(controller.game, ChangeStateCommand(InitState(), InitPlayerState()))
       controller.undoMove()
       controller.redoMove()
-      assert(controller.game.gameState === InitPlayerState())
+      assert(controller.game.state === InitPlayerState())
     }
   }
 

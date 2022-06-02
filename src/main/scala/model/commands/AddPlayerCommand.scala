@@ -14,7 +14,7 @@ case class AddPlayerCommand(name:String, state:InitPlayerState) extends Command 
       Failure( NoInput )
     else {
       val newGame = game.addPlayer(name)
-      if ( newGame.gamePlayer2.isEmpty)
+      if ( newGame.player2.isEmpty)
         Success(newGame.setStateTo( InitPlayerState() ))
       else
         Success( newGame.setStateTo( InitPlayerPokemonState() ) )
@@ -22,7 +22,7 @@ case class AddPlayerCommand(name:String, state:InitPlayerState) extends Command 
   }
 
   override def undoStep( game:GameInterface ):GameInterface =
-    if game.gamePlayer2.isDefined then
+    if game.player2.isDefined then
       game.removePlayer()
     else game.removePlayer()
 }
