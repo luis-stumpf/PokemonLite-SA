@@ -14,6 +14,11 @@ import scala.util.Success
 
 class AddPlayerCommandSpec extends AnyWordSpec {
   "AddPlayerCommand" when {
+    "A player command " should {
+      val playerCommand = AddPlayerCommand("Luis", InitPlayerState())
+      playerCommand.name should be("Luis")
+      playerCommand.state should be(InitPlayerState())
+    }
     val newGame:Game = Game()
     val newGameWithPlayer = Game(player2 = Some(PokePlayer("name")))
     "doStep" should {
