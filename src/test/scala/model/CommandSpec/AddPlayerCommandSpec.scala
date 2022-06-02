@@ -1,16 +1,15 @@
 package de.htwg.se.pokelite
 package model.CommandSpec
 import de.htwg.se.pokelite.model.impl.game.Game
-import de.htwg.se.pokelite.model.states.{InitPlayerPokemonState, InitPlayerState}
+import de.htwg.se.pokelite.model.states.{InitPlayerPokemonState, InitPlayerState, InitState}
 import model.commands.AddPlayerCommand
 
 import de.htwg.se.pokelite.model.NoInput
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
-import scala.util.Try
 
-import scala.util.Success
+import scala.util.{Failure, Success, Try}
 
 class AddPlayerCommandSpec extends AnyWordSpec {
   "AddPlayerCommand" when {
@@ -27,24 +26,17 @@ class AddPlayerCommandSpec extends AnyWordSpec {
       "success" in {
         val command = AddPlayerCommand("Luis", state)
         val res = command.doStep(newGame)
-        res.get.toString should be("" +
-          "+--------------------------------------------------+--------------------------------------------------+\n" +
-          "|                                         Luis     |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "+--------------------------------------------------+--------------------------------------------------+\n")
+        val game = newGame.addPlayer("Luis")
+        res should be (Success(game.setStateTo(InitPlayerState())))
         val res1 = command.doStep(res.get)
-        res1.get.state should be(InitPlayerPokemonState())
+        val newNewGame = game.addPlayer("Luis")
+        res1 should be (Success(newNewGame.setStateTo(InitPlayerPokemonState())))
 
       }
       "failure" in {
         val command = AddPlayerCommand("", state = state)
         val res = command.doStep(newGame)
-        res.isFailure should be(true)
+        res shouldBe Failure(NoInput)
       }
     }
     "undo Step" should{
@@ -53,28 +45,10 @@ class AddPlayerCommandSpec extends AnyWordSpec {
         val command = AddPlayerCommand("Luis", state)
         val res = command.doStep(newGame)
         val res1 = command.undoStep(res.get)
-        res1.toString should be("" +
-          "+--------------------------------------------------+--------------------------------------------------+\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "+--------------------------------------------------+--------------------------------------------------+\n")
+        res1 should be(Game(state = InitPlayerState()))
         val res2 = command.doStep(res.get)
         val res3 = command.undoStep(res2.get)
-        res3.toString should be("" +
-          "+--------------------------------------------------+--------------------------------------------------+\n" +
-          "|                                         Luis     |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "|                                                  |                                                  |\n" +
-          "+--------------------------------------------------+--------------------------------------------------+\n")
+        res3 should be(Game(player1 = Some(PokePlayer("Luis")), state = InitPlayerPokemonState()))
 
 
 
