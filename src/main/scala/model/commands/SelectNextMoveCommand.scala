@@ -1,7 +1,7 @@
 package de.htwg.se.pokelite
 package model.commands
 
-import model.{Command, Game, NoAttackSelected, NoDesicionMade, PokePlayer, WrongInput}
+import model.{Command, GameInterface, NoAttackSelected, NoDesicionMade, PokePlayerInterface, WrongInput}
 
 import de.htwg.se.pokelite.model.states.{DesicionState, FightingState, GameOverState, InitPlayerPokemonState, SwitchPokemonState}
 
@@ -9,7 +9,7 @@ import scala.util.{Failure, Success, Try}
 
 case class SelectNextMoveCommand(input:String, state:DesicionState) extends Command {
 
-  override def doStep( game:Game ):Try[Game] = {
+  override def doStep( game:GameInterface ):Try[GameInterface] = {
     if( input.isEmpty )
       Failure( NoDesicionMade )
     else {
@@ -21,5 +21,5 @@ case class SelectNextMoveCommand(input:String, state:DesicionState) extends Comm
     }
   }
 
-  override def undoStep( game:Game ):Game = game.setStateTo(state)
+  override def undoStep( game:GameInterface ):GameInterface = game.setStateTo(state)
 }

@@ -1,9 +1,9 @@
 package de.htwg.se.pokelite
 package model.impl.field
 
-import model.{FieldInterface, PokePlayer, Pokemon}
+import model.{FieldInterface, PokePlayerInterface, Pokemon}
 
-case class Field(width : Int, player1 : PokePlayer , player2 : PokePlayer, isControlledBy : Int = 1) extends FieldInterface:
+case class Field(width : Int, player1 : PokePlayerInterface, player2 : PokePlayerInterface, isControlledBy : Int = 1) extends FieldInterface:
   override def toString: String = mesh()
 
   def mesh(height : Int = 3) : String = row() + printPlayer1Stats() + col( height ) + printPlayer2Stats() + row()
@@ -22,17 +22,17 @@ case class Field(width : Int, player1 : PokePlayer , player2 : PokePlayer, isCon
 
   def cleanSite() : String = "|" + " " * width + "|\n"
 
-  def printTopPlayer() : String = "|" + " " * calcSpace( 0.9, player1.name ) + player1.name + " " * calcSpace( 0.1 )
+  def printTopPlayer() : String = "|" + " " * calcSpace( 0.9, player1.getName ) + player1.getName + " " * calcSpace( 0.1 )
 
-  def printTopPokemon() : String = "|" + " " * calcSpace( 0.9, player1.pokemons.contents.apply( player1.currentPoke ).map( _.toString ).getOrElse( "" ) ) + player1.pokemons.contents.apply( player1.currentPoke ).map( _.toString ).getOrElse( "" ) + " " * calcSpace( 0.1 ) + printTopAttacks()
+  def printTopPokemon() : String = "|" + " " * calcSpace( 0.9, player1.getPokemons.contents.apply( player1.getCurrentPoke ).map( _.toString ).getOrElse( "" ) ) + player1.getPokemons.contents.apply( player1.getCurrentPoke ).map( _.toString ).getOrElse( "" ) + " " * calcSpace( 0.1 ) + printTopAttacks()
 
-  def printBottomPlayer() : String = "|" + " " * calcSpace( 0.1 ) + player2.name + " " * calcSpace( 0.9, player2.name )
+  def printBottomPlayer() : String = "|" + " " * calcSpace( 0.1 ) + player2.getName + " " * calcSpace( 0.9, player2.getName )
 
-  def printBottomPokemon() : String = "|" + " " * calcSpace( 0.1 ) + player2.pokemons.contents.apply( player2.currentPoke ).map( _.toString ).getOrElse( "" ) + " " * calcSpace( 0.9, player2.pokemons.contents.apply( player2.currentPoke ).map( _.toString ).getOrElse( "" ) ) + printBottomAttacks()
+  def printBottomPokemon() : String = "|" + " " * calcSpace( 0.1 ) + player2.getPokemons.contents.apply( player2.getCurrentPoke ).map( _.toString ).getOrElse( "" ) + " " * calcSpace( 0.9, player2.getPokemons.contents.apply( player2.getCurrentPoke ).map( _.toString ).getOrElse( "" ) ) + printBottomAttacks()
 
-  def printTopAttacks() : String = if ( isControlledBy == 1 ) printTopAttacksOf( player1.pokemons.contents.apply( player1.currentPoke ) ) else printTopAttacksOf( player2.pokemons.contents.apply( player2.currentPoke ) )
+  def printTopAttacks() : String = if ( isControlledBy == 1 ) printTopAttacksOf( player1.getPokemons.contents.apply( player1.getCurrentPoke ) ) else printTopAttacksOf( player2.getPokemons.contents.apply( player2.getCurrentPoke ) )
 
-  def printBottomAttacks() : String = if ( isControlledBy == 1 ) printBottomAttacksOf( player1.pokemons.contents.apply( player1.currentPoke ) ) else printBottomAttacksOf( player2.pokemons.contents.apply( player2.currentPoke ) )
+  def printBottomAttacks() : String = if ( isControlledBy == 1 ) printBottomAttacksOf( player1.getPokemons.contents.apply( player1.getCurrentPoke ) ) else printBottomAttacksOf( player2.getPokemons.contents.apply( player2.getCurrentPoke ) )
 
   def printTopAttacksOf(pokemon : Option[ Pokemon ]) : String =
     if ( pokemon.isDefined )

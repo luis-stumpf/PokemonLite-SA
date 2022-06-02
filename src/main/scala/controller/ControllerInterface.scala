@@ -2,16 +2,16 @@ package de.htwg.se.pokelite
 package controller
 
 import util.{Observable, UndoManager}
-import model.{Command, Game, NothingToRedo, State}
+import model.{Command, GameInterface, NothingToRedo, State}
 import model.states.*
 
 import scala.util.{Failure, Success}
 
 trait ControllerInterface() extends Observable :
   val undoManager: UndoManager
-  var game:Game
+  var game:GameInterface
 
-  def moveDone(newGame:Game, command:Command): Unit
+  def moveDone(newGame:GameInterface, command:Command): Unit
 
   def move(command:Option[Command]): Unit
 

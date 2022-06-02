@@ -1,7 +1,7 @@
 package de.htwg.se.pokelite
 
 import aview.TUI
-import model.{FieldInterface, Game, PokePlayer}
+import model.{FieldInterface, GameInterface, PokePlayerInterface}
 import controller.impl
 import controller.impl.Controller
 

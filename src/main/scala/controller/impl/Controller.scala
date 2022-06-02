@@ -1,16 +1,19 @@
 package de.htwg.se.pokelite.controller.impl
 
 import de.htwg.se.pokelite.controller.ControllerInterface
-import de.htwg.se.pokelite.model.{Command, Game}
+import de.htwg.se.pokelite.model.impl.game.Game
+import de.htwg.se.pokelite.model.states.InitPlayerState
+import de.htwg.se.pokelite.model.{Command, GameInterface}
 import de.htwg.se.pokelite.util.UndoManager
 
 import scala.util.{Failure, Success}
 
 case class Controller() extends ControllerInterface() :
   val undoManager = new UndoManager
-  var game:Game = Game()
+  var gameVal:Game = Game()
+  var game:GameInterface = gameVal
 
-  def moveDone(newGame:Game, command:Command): Unit = {
+  def moveDone(newGame:GameInterface, command:Command): Unit = {
     game = newGame.setNextTurn()
     undoManager.doStep(game, command)
     notifyObservers
@@ -41,9 +44,9 @@ case class Controller() extends ControllerInterface() :
       case Failure(x) => x.getMessage
   }
 
-  def initPlayers():Unit = move ( game.state.initPlayers() )
-  def addPlayer(name: String):Unit = move ( game.state.addPlayer(name))
-  def addPokemons(list: String): Unit = move ( game.state.addPokemons(list))
-  def nextMove(input:String): Unit = move( game.state.nextMove(input))
-  def attackWith(input: String): Unit = move(game.state.attackWith(input))
-  def selectPokemon(input: String): Unit = move(game.state.switchPokemonTo(input))
+  def initPlayers():Unit = move ( game.gameState.initPlayers() )
+  def addPlayer(name: String):Unit = move ( game.gameState.addPlayer(name))
+  def addPokemons(list: String): Unit = move ( game.gameState.addPokemons(list))
+  def nextMove(input:String): Unit = move( game.gameState.nextMove(input))
+  def attackWith(input: String): Unit = move(game.gameState.attackWith(input))
+  def selectPokemon(input: String): Unit = move(game.gameState.switchPokemonTo(input))

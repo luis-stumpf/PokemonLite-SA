@@ -1,7 +1,7 @@
 package de.htwg.se.pokelite
 package model
 
-import model.{PokePlayer, Game, Pokemon}
+import model.{PokePlayerInterface, GameInterface, Pokemon}
 
 trait FieldInterface:
   override def toString: String

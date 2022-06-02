@@ -5,6 +5,6 @@ import scala.util.Try
 
 trait Command:
 
-  def doStep(game : Game) : Try[ Game ]
+  def doStep(game : GameInterface) : Try[ GameInterface ]
 
-  def undoStep(game : Game) : Game
+  def undoStep(game : GameInterface) : GameInterface
