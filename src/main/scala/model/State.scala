@@ -1,7 +1,7 @@
 package de.htwg.se.pokelite
 package model
 
-abstract class State {
+trait State {
 
   def initPlayers() : Option[ Command ] = None
   def addPlayer(name: String): Option[Command] = None
