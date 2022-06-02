@@ -1,12 +1,12 @@
 package de.htwg.se.pokelite
 package aview.gui
 
-import de.htwg.se.pokelite.controller.Controller
+import de.htwg.se.pokelite.controller.ControllerInterface
 import scalafx.scene.control.Button
 import scalafx.scene.Node
 import scalafx.scene.layout.VBox
 
-class SwitchPokemonPane(controller : Controller) extends VBox {
+class SwitchPokemonPane(controller : ControllerInterface) extends VBox {
   def getPokemons : List[ Button ] = {
     if ( controller.game.turn == 1 )
       controller.game.player1.get.pokemons.contents.map[ Button ]( p => new Button() {

@@ -1,13 +1,12 @@
-package de.htwg.se.pokelite
-package controller
+package de.htwg.se.pokelite.controller.impl
 
-import util.{Observable, UndoManager}
-import model.{Command, Game, NothingToRedo, State}
-import model.states.*
+import de.htwg.se.pokelite.controller.ControllerInterface
+import de.htwg.se.pokelite.model.{Command, Game}
+import de.htwg.se.pokelite.util.UndoManager
 
 import scala.util.{Failure, Success}
 
-case class Controller() extends Observable :
+case class Controller() extends ControllerInterface() :
   val undoManager = new UndoManager
   var game:Game = Game()
 
@@ -26,11 +25,11 @@ case class Controller() extends Observable :
   }
 
   def undoMove(): Unit = {
-   undoManager.undoStep() match
-        case Success(command) =>
-          game = command.undoStep(this.game)
-          notifyObservers
-        case Failure(x) => x.getMessage
+    undoManager.undoStep() match
+      case Success(command) =>
+        game = command.undoStep(this.game)
+        notifyObservers
+      case Failure(x) => x.getMessage
 
   }
 
@@ -48,8 +47,3 @@ case class Controller() extends Observable :
   def nextMove(input:String): Unit = move( game.state.nextMove(input))
   def attackWith(input: String): Unit = move(game.state.attackWith(input))
   def selectPokemon(input: String): Unit = move(game.state.switchPokemonTo(input))
-
-  
-
-
-

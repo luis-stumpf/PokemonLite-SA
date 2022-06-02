@@ -3,7 +3,7 @@ package aview
 
 import model.*
 import util.*
-import controller.Controller
+import controller.impl.Controller
 
 import de.htwg.se.pokelite.model.states.*
 

@@ -3,13 +3,13 @@ package aview.gui
 
 import scalafx.scene.control.ComboBox
 import model.PokemonType
-import controller.Controller
+import controller.ControllerInterface
 
 import scalafx.scene.control.Button
 import scalafx.geometry.Insets
 import scalafx.scene.layout.HBox
 
-case class PlayerPokemonPane(controller: Controller) extends HBox {
+case class PlayerPokemonPane(controller: ControllerInterface) extends HBox {
   spacing = 10
   margin = Insets( 200, 500, 100, 200 )
 

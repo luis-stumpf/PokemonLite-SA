@@ -1,7 +1,7 @@
 package de.htwg.se.pokelite
 package aview.gui
 
-import controller.Controller
+import controller.impl.Controller
 import model.State
 import model.states.*
 
