@@ -11,9 +11,6 @@ import de.htwg.se.pokelite.model.impl.game.Game
 
 case class PokePlayer(name : String, pokemons : PokePack[Option[Pokemon]] = PokePack(List( None )), currentPoke : Int = 0) extends PokePlayerInterface:
 
-  def getName: String = name
-  def getPokemons: PokePack[Option[Pokemon]] = pokemons
-  def getCurrentPoke: Int = currentPoke
   override def toString = name
 
 

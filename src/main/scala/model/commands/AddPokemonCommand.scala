@@ -14,7 +14,7 @@ case class AddPokemonCommand(list:String, state:InitPlayerPokemonState) extends 
       Failure( NoPokemonSelected )
     else {
       val newGame = game.addPokemonToPlayer(list)
-      if ( newGame.player2.get.getPokemons == PokePack(List(None)))
+      if ( newGame.player2.get.pokemons == PokePack(List(None)))
         Success(newGame.setStateTo( InitPlayerPokemonState() ))
       else
         Success( newGame.setStateTo( DesicionState() ) )
@@ -22,7 +22,7 @@ case class AddPokemonCommand(list:String, state:InitPlayerPokemonState) extends 
   }
 
   override def undoStep( game:GameInterface ):GameInterface =
-    if game.player1.get.getPokemons.contents.isEmpty then
+    if game.player1.get.pokemons.contents.isEmpty then
       game.setStateTo(InitPlayerState())
     else game.removePokemonFromPlayer()
 }

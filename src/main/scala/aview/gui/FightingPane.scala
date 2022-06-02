@@ -12,9 +12,9 @@ case class FightingPane(controller: ControllerInterface) extends GridPane{
 
   def getAttackName(i: Int):String =
     if(controller.game.turn == 1)
-      controller.game.player1.get.getPokemons.contents.apply(controller.game.player1.get.getCurrentPoke).get.pType.attacks.apply(i).name
+      controller.game.player1.get.pokemons.contents.apply(controller.game.player1.get.currentPoke).get.pType.attacks.apply(i).name
     else
-      controller.game.player2.get.getPokemons.contents.apply(controller.game.player2.get.getCurrentPoke).get.pType.attacks.apply(i).name
+      controller.game.player2.get.pokemons.contents.apply(controller.game.player2.get.currentPoke).get.pType.attacks.apply(i).name
 
 
   val attack1 = new Button(getAttackName(0)){

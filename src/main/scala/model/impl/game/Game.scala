@@ -89,12 +89,12 @@ case class Game(state : State = InitState(),
 
     player2 match
       case Some(x) =>
-        if !x.getPokemons.contents. then
+        if x.pokemons.contents.head.isDefined then
           copy( player2 = Some( PokePlayer( player2.get.name, PokePack( List( None ) ) ) ) )
         else
           player1 match
             case Some(y) =>
-              if !y.getPokemons.contents.equals(List(None)) then
+              if y.pokemons.contents.head.isDefined then
                 copy( player1 = Some( PokePlayer( player1.get.name, PokePack( List( None ) ) ) ) )
               else this
             case None => this
@@ -118,15 +118,15 @@ case class Game(state : State = InitState(),
     var strategy = if ( turn == 1 ) strategy1 else strategy2
 
     def strategy1(attack : Int) =
-      val mult = Game.getDamageMultiplikator( player1.get.getPokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt, player2.get.getPokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt )
+      val mult = Game.getDamageMultiplikator( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt )
       val kopie = copy(
-        player2 = Some( player2.get.copy( pokemons = player2.get.getPokemons.copy( player2.get.pokemons.contents.updated( player2.get.currentPoke, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.changeHp( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ) )
+        player2 = Some( player2.get.copy( pokemons = player2.get.pokemons.copy( player2.get.pokemons.contents.updated( player2.get.currentPoke, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.changeHp( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ) )
       kopie
 
     def strategy2(attack : Int) =
-      val mult = Game.getDamageMultiplikator( player2.get.getPokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt, player1.get.getPokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt )
+      val mult = Game.getDamageMultiplikator( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt )
       val kopie = copy(
-        player1 = Some( player1.get.copy( pokemons = player1.get.getPokemons.copy( player1.get.pokemons.contents.updated( player1.get.currentPoke, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.changeHp( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ) )
+        player1 = Some( player1.get.copy( pokemons = player1.get.pokemons.copy( player1.get.pokemons.contents.updated( player1.get.currentPoke, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.changeHp( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ) )
       kopie
   }
 

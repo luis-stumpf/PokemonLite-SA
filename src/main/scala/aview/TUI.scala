@@ -50,8 +50,8 @@ class TUI(controller : Controller) extends Observer :
     println( "Enter name of Player "+controller.game.turn+": " )
 
   def getCurrentPlayerName() : String =
-    if controller.game.turn == 1 then controller.game.player1.get.getName
-    else controller.game.player2.get.getName
+    if controller.game.turn == 1 then controller.game.player1.get.name
+    else controller.game.player2.get.name
 
   def readPokemons(): Unit =
 
@@ -63,8 +63,8 @@ class TUI(controller : Controller) extends Observer :
       "5: Turtok\n" )
 
   def getCurrentPlayerPokemons(): String =
-    if controller.game.turn == 1 then controller.game.player1.get.getPokemons.contents.map(p=> p.get).mkString("   ")
-    else controller.game.player2.get.getPokemons.contents.map(p=>p.get).mkString("   ")
+    if controller.game.turn == 1 then controller.game.player1.get.pokemons.contents.map(p=> p.get).mkString("   ")
+    else controller.game.player2.get.pokemons.contents.map(p=>p.get).mkString("   ")
 
   def choosePokemon(): Unit =
 
@@ -81,5 +81,5 @@ class TUI(controller : Controller) extends Observer :
 
 
   def theGameIsOver(): Unit =
-    println("GameOver, " + controller.game.winner.get.getName + " has won the Game!")
+    println("GameOver, " + controller.game.winner.get.name + " has won the Game!")
 

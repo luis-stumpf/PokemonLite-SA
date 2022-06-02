@@ -6,9 +6,9 @@ import model.{GameInterface, Pokemon}
 import model.PokePack
 
 trait PokePlayerInterface:
-  def getName: String
-  def getPokemons: PokePack[Option[Pokemon]]
-  def getCurrentPoke: Int
+  def name: String
+  def pokemons: PokePack[Option[Pokemon]]
+  def currentPoke: Int
   override def toString: String
 
   def setPokemonTo(newPokemons : PokePack[ Option[ Pokemon ] ]) : PokePlayerInterface
