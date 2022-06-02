@@ -6,7 +6,7 @@ import model.{PokePlayerInterface, GameInterface, Pokemon}
 trait FieldInterface:
   override def toString: String
   
-  def mesh(height : Int = 3) : String
+  def mesh(height : Int) : String
 
   def row() : String
 
