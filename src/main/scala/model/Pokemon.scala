@@ -1,6 +1,7 @@
 package de.htwg.se.pokelite
 package model
 
+
 object Pokemon {
   def apply(pType : PokemonType) : Pokemon = Pokemon( pType = pType, hp = pType.hp  )
 }

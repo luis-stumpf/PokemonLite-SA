@@ -3,7 +3,7 @@ package aview
 
 import model.*
 import util.*
-import controller.Controller
+import controller.impl.Controller
 
 import de.htwg.se.pokelite.model.states.*
 
@@ -19,7 +19,7 @@ class TUI(controller : Controller) extends Observer :
     if input.charAt(0) == 'y' then controller.undoMove()
     else if input.charAt(0) == 'z' then controller.redoMove()
     else
-      controller.game.state match
+      controller.game.gameState match
         case InitState() =>  controller.initPlayers()
         case InitPlayerState() => controller.addPlayer(input)
         case InitPlayerPokemonState() => controller.addPokemons(input)
@@ -31,7 +31,7 @@ class TUI(controller : Controller) extends Observer :
 
   override def update : Unit = {
     println(controller.game.toString)
-    controller.game.state match
+    controller.game.gameState match
       case InitState() => initialState()
       case InitPlayerState() => readPlayerName(  )
       case InitPlayerPokemonState() => readPokemons(  )
@@ -47,11 +47,11 @@ class TUI(controller : Controller) extends Observer :
     println("PokemonLit, type anyting to behin")
     
   def readPlayerName() : Unit =
-    println( "Enter name of Player "+controller.game.turn+": " )
+    println( "Enter name of Player "+controller.game.gameTurn+": " )
 
   def getCurrentPlayerName() : String =
-    if controller.game.turn == 1 then controller.game.player1.get.name
-    else controller.game.player2.get.name
+    if controller.game.gameTurn == 1 then controller.game.gamePlayer1.get.getName
+    else controller.game.gamePlayer2.get.getName
 
   def readPokemons(): Unit =
 
@@ -63,8 +63,8 @@ class TUI(controller : Controller) extends Observer :
       "5: Turtok\n" )
 
   def getCurrentPlayerPokemons(): String =
-    if controller.game.turn == 1 then controller.game.player1.get.pokemons.contents.map(p=> p.get).mkString("   ")
-    else controller.game.player2.get.pokemons.contents.map(p=>p.get).mkString("   ")
+    if controller.game.gameTurn == 1 then controller.game.gamePlayer1.get.getPokemons.contents.map(p=> p.get).mkString("   ")
+    else controller.game.gamePlayer2.get.getPokemons.contents.map(p=>p.get).mkString("   ")
 
   def choosePokemon(): Unit =
 
@@ -81,5 +81,5 @@ class TUI(controller : Controller) extends Observer :
 
 
   def theGameIsOver(): Unit =
-    println("GameOver, " + controller.game.winner.get.name + " has won the Game!")
+    println("GameOver, " + controller.game.gameWinner.get.getName + " has won the Game!")
 

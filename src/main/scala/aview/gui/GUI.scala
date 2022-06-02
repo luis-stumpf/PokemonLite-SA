@@ -1,7 +1,7 @@
 package de.htwg.se.pokelite
 package aview.gui
 
-import controller.Controller
+import controller.impl.Controller
 import model.State
 import model.states.*
 
@@ -30,20 +30,20 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
   override def update : Unit =
     fieldPane.children = new GridPane() {
 
-      val glurakImg: Image = new Image("/pokemons/"+controller.game.player1.map(_.pokemons.contents.apply(controller.game.player1.get.currentPoke).map(_.pType.name).getOrElse("")).getOrElse("") + "Front.gif", 250, 250, true, true)
-      val turtokImg: Image = new Image("/pokemons/"+controller.game.player2.map(_.pokemons.contents.apply(controller.game.player2.get.currentPoke).map(_.pType.name).getOrElse("")).getOrElse("") + "Back.gif", 250, 250, true, true)
+      val glurakImg: Image = new Image("/pokemons/"+controller.game.gamePlayer1.map(_.getPokemons.contents.apply(controller.game.gamePlayer1.get.getCurrentPoke).map(_.pType.name).getOrElse("")).getOrElse("") + "Front.gif", 250, 250, true, true)
+      val turtokImg: Image = new Image("/pokemons/"+controller.game.gamePlayer2.map(_.getPokemons.contents.apply(controller.game.gamePlayer2.get.getCurrentPoke).map(_.pType.name).getOrElse("")).getOrElse("") + "Back.gif", 250, 250, true, true)
       val imgView = new ImageView( glurakImg )
       val imgView2 = new ImageView( turtokImg )
       add( imgView, 2, 0 )
       add( imgView2, 0, 1 )
-      val text1:Text = new Text(controller.game.player1.map(_.pokemons.contents.apply(controller.game.player1.get.currentPoke).map(_.toString).getOrElse("")).getOrElse(""))
-      val text2:Text = new Text(controller.game.player2.map(_.pokemons.contents.apply(controller.game.player2.get.currentPoke).map(_.toString).getOrElse("")).getOrElse(""))
+      val text1:Text = new Text(controller.game.gamePlayer1.map(_.getPokemons.contents.apply(controller.game.gamePlayer1.get.getCurrentPoke).map(_.toString).getOrElse("")).getOrElse(""))
+      val text2:Text = new Text(controller.game.gamePlayer2.map(_.getPokemons.contents.apply(controller.game.gamePlayer2.get.getCurrentPoke).map(_.toString).getOrElse("")).getOrElse(""))
       add(text1, 1, 0)
       add(text2, 1, 1)
     }
 
     menuPane.children =
-      controller.game.state match
+      controller.game.gameState match
         case InitState() => new InitPane(controller)
         case InitPlayerState() => new NameInputPane(controller)
         case InitPlayerPokemonState() => new PlayerPokemonPane(controller)

@@ -1,17 +1,19 @@
 package de.htwg.se.pokelite
 
 import aview.TUI
-import controller.Controller
-import model.{ Field, Game, PokePlayer }
+import model.{FieldInterface, GameInterface, PokePlayerInterface}
+import controller.impl
+import controller.impl.Controller
 
 import scala.io.StdIn.readLine
 import aview.gui.GUI
+
 import scalafx.application.Platform
 
 object PokemonLite {
   def main(args : Array[ String ]) : Unit = {
-    val controller = Controller()
-    val gui = new GUI( controller )
+    val controller = impl.Controller()
+    val gui = GUI( controller )
     val guiTread = new Thread( () => {
       gui.main( Array.empty )
       System.exit( 0 )
@@ -20,7 +22,7 @@ object PokemonLite {
     guiTread.start()
 
 
-    val tui = new TUI( controller )
+    val tui = TUI( controller )
     var input = ""
     while ( input != "quit" )
       input = readLine()

@@ -2,7 +2,7 @@ package de.htwg.se.pokelite
 package model.states
 
 import model.{ Command, State }
-import model.commands.*
+import model.commands.SelectNextMoveCommand
 
 case class DesicionState() extends State {
 

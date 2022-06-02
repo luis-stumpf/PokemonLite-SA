@@ -5,9 +5,9 @@ import scalafx.scene.control.Button
 import scalafx.geometry.Insets
 import scalafx.scene.layout.VBox
 import scalafx.scene.control.TextField
-import controller.Controller
+import controller.ControllerInterface
 
-case class NameInputPane(controller: Controller) extends VBox {
+case class NameInputPane(controller: ControllerInterface) extends VBox {
   margin = Insets( 200, 500, 100, 200 )
   spacing = 10
 
@@ -20,5 +20,5 @@ case class NameInputPane(controller: Controller) extends VBox {
     new Button( "Add Player"+ getCurrentPlayerNumber() ){
       onAction = _ => controller.addPlayer(textField.getText())
     } )
-  def getCurrentPlayerNumber(): Int = controller.game.turn
+  def getCurrentPlayerNumber(): Int = controller.game.gameTurn
 }

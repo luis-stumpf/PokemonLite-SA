@@ -4,17 +4,17 @@ package aview.gui
 import scalafx.scene.layout.GridPane
 import scalafx.geometry.Insets
 import scalafx.scene.control.Button
-import controller.Controller
+import controller.ControllerInterface
 
 
-case class FightingPane(controller: Controller) extends GridPane{
+case class FightingPane(controller: ControllerInterface) extends GridPane{
   padding = Insets(100, 100, 100, 100)
 
   def getAttackName(i: Int):String =
-    if(controller.game.turn == 1)
-      controller.game.player1.get.pokemons.contents.apply(controller.game.player1.get.currentPoke).get.pType.attacks.apply(i).name
+    if(controller.game.gameTurn == 1)
+      controller.game.gamePlayer1.get.getPokemons.contents.apply(controller.game.gamePlayer1.get.getCurrentPoke).get.pType.attacks.apply(i).name
     else
-      controller.game.player2.get.pokemons.contents.apply(controller.game.player2.get.currentPoke).get.pType.attacks.apply(i).name
+      controller.game.gamePlayer2.get.getPokemons.contents.apply(controller.game.gamePlayer2.get.getCurrentPoke).get.pType.attacks.apply(i).name
 
 
   val attack1 = new Button(getAttackName(0)){
