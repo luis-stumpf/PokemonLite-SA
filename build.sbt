@@ -31,8 +31,15 @@ jacocoReportSettings := JacocoReportSettings(
   JacocoThresholds(),
   Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
   "utf-8")
+
+jacocoExcludes := Seq(
+  "de.htwg.se.pokelite.aview*",
+  "de.htwg.se.pokelite.util.Observable*"
+)
+
 commands += Command.command("clear") { state =>
   print("\033c")
   state
 }
+
 
