@@ -1,58 +1,85 @@
 package de.htwg.se.pokelite
 package aview
 
-import controller.Controller
-import model.{Attack, Brutalanda, Glurak, Move, NoPokemon, Simsala}
-import util.Observer
+import model.*
+import util.*
+import controller.impl.Controller
+
+import de.htwg.se.pokelite.model.states.*
 
 import scala.io.StdIn.readLine
+import scala.util.{ Failure, Success, Try }
 
 
-class TUI(controller: Controller) extends Observer:
-  controller.add(this)
+class TUI(controller : Controller) extends Observer :
 
-  override def update: Unit = println(controller.field.toString)
+  controller.add( this )
 
-  def run(): Unit =
-    println(controller.field.toString)
-    getInput()
-    choosePokemon()
-    choosePokemon()
-    inputLoop()
+  def processInputLine(input : String) : Unit = {
+    if input.charAt(0) == 'y' then controller.undoMove()
+    else if input.charAt(0) == 'z' then controller.redoMove()
+    else
+      controller.game.state match
+        case InitState() =>  controller.initPlayers()
+        case InitPlayerState() => controller.addPlayer(input)
+        case InitPlayerPokemonState() => controller.addPokemons(input)
+        case DesicionState() => controller.nextMove(input)
+        case FightingState() => controller.attackWith(input)
+        case SwitchPokemonState() => controller.selectPokemon(input)
+        case GameOverState() => theGameIsOver()
+  }
+
+  override def update : Unit = {
+    println(controller.game.toString)
+    controller.game.state match
+      case InitState() => initialState()
+      case InitPlayerState() => readPlayerName(  )
+      case InitPlayerPokemonState() => readPokemons(  )
+      case DesicionState() => readNextMove(  )
+      case FightingState() => readAttack(  )
+      case SwitchPokemonState() => choosePokemon(  )
+      case GameOverState() => theGameIsOver()
+  }
 
 
-  def inputLoop(): Unit =
-    controller.doAndPublish(controller.giveControlToNextPlayer, Move())
-    val input = readLine
-    println(input)
-    println(controller.toString)
-    inputLoop()
 
-  def getInput(): Unit =
-    print("Enter name of Player 1: ")
-    controller.doAndPublish(controller.setPlayerNameTo, Move(name = readLine()))
-    print("Enter name of Player 2: ")
-    controller.doAndPublish(controller.setPlayerNameTo, Move(name = readLine()))
+  def initialState(): Unit =
+    println("PokemonLit, type anyting to behin")
+    
+  def readPlayerName() : Unit =
+    println( "Enter name of Player "+controller.game.turn+": " )
 
+  def getCurrentPlayerName() : String =
+    if controller.game.turn == 1 then controller.game.player1.get.name
+    else controller.game.player2.get.name
 
-  def choosePokemon(): Unit =
-    if (controller.field.player1.pokemon == NoPokemon()) print(controller.field.player1.name)
-    else print(controller.field.player2.name)
-    println(" Choose your Pokemon: \n" +
+  def readPokemons(): Unit =
+
+    println("Choose your Pokemon "+getCurrentPlayerName()+": \n" +
       "1: Glurak\n" +
       "2: Simsala\n" +
-      "3: Brutalanda\n")
+      "3: Brutalanda\n" +
+      "4: Bisaflor\n" +
+      "5: Turtok\n" )
 
-    val input = readLine()
-    
-    // TODO: ich glaube das zeug muss der Controller setzen die TUI sollte nicht direkt auf ein Model zugreifen
+  def getCurrentPlayerPokemons(): String =
+    if controller.game.turn == 1 then controller.game.player1.get.pokemons.contents.map(p=> p.get).mkString("   ")
+    else controller.game.player2.get.pokemons.contents.map(p=>p.get).mkString("   ")
 
-    val chars = input.toCharArray
-    chars(0) match
-      case '1' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Glurak()))
-      case '2' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Simsala()))
-      case '3' => controller.doAndPublish(controller.setPokemonTo, Move(pokemon = Brutalanda()))
-      case _ => controller.doAndPublish(controller.setPokemonTo, Move())
+  def choosePokemon(): Unit =
+
+    println("Your current Pokemon are: "+getCurrentPlayerPokemons())
 
 
+
+  def readNextMove(): Unit =
+    println("These are all possible desicions: 1: Attack, 2: Switch Pokemon" )
+
+
+  def readAttack(): Unit =
+    println("You Possible Attacks are: 1, 2, 3, 4")
+
+
+  def theGameIsOver(): Unit =
+    println("GameOver, " + controller.game.winner.get.name + " has won the Game!")
 

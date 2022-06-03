@@ -2,30 +2,56 @@ package de.htwg.se.pokelite
 package model
 
 
-trait PokemonType{
-  val name: String
-  val hp: Int
-  val attacks: List[AttackType]
-  override def toString: String = name + " HP: " + hp
+object Pokemon {
+  def apply(pType : PokemonType) : Pokemon = Pokemon( pType = pType, hp = pType.hp  )
 }
 
-case class NoPokemon(name: String = "", hp: Int = -1) extends PokemonType {
-  val attacks = List(NoAttack(), NoAttack(), NoAttack(), NoAttack())
-  override def toString: String = ""
+case class Pokemon(pType : PokemonType, hp : Int, isDead: Boolean = false) {
+  def changeHpInv(attack : AttackType, damageMult : Double) : Pokemon = copy( hp = hp + ( attack.damage * damageMult ).toInt )
+
+  def changeHp(attack : AttackType, damageMult : Double) : Option[Pokemon] =
+    val newHP =  hp - ( attack.damage * damageMult ).toInt
+    if newHP <= 0 then
+      Some(copy(hp = 0, isDead = true))
+    else
+      Some(copy( hp = newHP))
+
+  override def toString : String = if hp == 0 then pType.name + " is dead" else pType.name + " HP: " + hp
 }
 
-case class Glurak(name: String = "Glurak", hp: Int = 150) extends PokemonType {
-  val attacks = List(Attack("Flammenwurf", 30), Attack("Donnerblitz", 20), Attack("Bite",15), Attack("Tackle", 10))
-  
+enum PokemonType(val name : String, val hp : Int, val attacks : List[ AttackType ], val pokemonArt : PokemonArt) {
+  override def toString : String = name + " HP: " + hp
 
+  case Glurak extends PokemonType(
+    name = "Glurak",
+    hp = 150,
+    attacks = List( Attack( "Glut", 20 ), Attack( "Flammenwurf", 60 ), Attack( "Biss", 10 ), Attack( "Inferno", 30 ) ),
+    pokemonArt = PokemonArt.Feuer )
+
+  case Simsala extends PokemonType(
+    name = "Simsala",
+    hp = 130,
+    attacks = List( Attack( "Konfusion", 10 ), Attack( "Psychoklinge", 15 ), Attack( "Psychokinese", 30 ), Attack( "Eishieb", 15 ) ),
+    pokemonArt = PokemonArt.Psycho )
+
+  case Brutalanda extends PokemonType(
+    name = "Brutalanda",
+    hp = 170,
+    attacks = List( Attack( "Fliegen", 20 ), Attack( "Drachenklaue", 30 ), Attack( "Glut", 10 ), Attack( "Flammenwurf", 35 ) ),
+    pokemonArt = PokemonArt.Feuer )
+
+  case Bisaflor extends PokemonType(
+    name = "Bisaflor",
+    hp = 180,
+    attacks = List( Attack( "Rasierblatt", 20 ), Attack( "Tackle", 10 ), Attack( "Solarstrahl", 30 ), Attack( "Matschbombe", 15 ) ),
+    pokemonArt = PokemonArt.Blatt )
+
+  case Turtok extends PokemonType(
+    name = "Turtok",
+    hp = 130,
+    attacks = List( Attack( "Aquaknarre", 20 ), Attack( "Biss", 15 ), Attack( "Hydropumpe", 40 ), Attack( "Matschbombe", 15 ) ),
+    pokemonArt = PokemonArt.Wasser )
 }
+end PokemonType
 
-case class Simsala(name: String = "Simsala", hp: Int = 130) extends PokemonType {
-  val attacks = List(Attack("Simsala", 30), Attack("Simsala", 20), Attack("Simsala",15), Attack("Simsala", 10))
 
-}
-
-case class Brutalanda(name: String = "Brutalanda", hp: Int = 180) extends PokemonType {
-  val attacks = List(Attack("Flammenwurf", 30), Attack("Donnerblitz", 20), Attack("Bite",15), Attack("Tackle", 10))
-
-}
