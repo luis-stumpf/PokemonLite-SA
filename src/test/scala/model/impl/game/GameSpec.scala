@@ -54,8 +54,8 @@ class GameSpec extends AnyWordSpec {
       }
       "be able to reverse attack a player 1" in {
         game = Game( FightingState(),
-          Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ),
-          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Glurak ) ).get.changeHp( Attack( "Konfusion", 10 ), Game.getDamageMultiplikator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ) ).setNextTurn()
+          Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Simsala ) ).get.changeHp( Attack( "Konfusion", 20 ), Game.getDamageMultiplikator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ),
+          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ) ).setNextTurn()
         game.reverseAttackWith( "1" ) should be {
           Game( FightingState(),
             Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ),
@@ -77,8 +77,8 @@ class GameSpec extends AnyWordSpec {
       // TODO: Testen ob AttackPlayerStrat.strategy die richtige entscheidung trifft.
       "be able to reverse attack a player 2" in {
         game = Game( FightingState(),
-          Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ).get.changeHp( Attack( "Konfusion", 10 ), Game.getDamageMultiplikator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ),
-          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) )
+          Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ),
+          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ).get.changeHp( Attack( "Konfusion", 20 ), Game.getDamageMultiplikator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ) )
         game.reverseAttackWith( "1" ) should be {
           Game( FightingState(),
             Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ),
