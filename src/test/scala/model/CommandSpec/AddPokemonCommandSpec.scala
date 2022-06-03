@@ -22,6 +22,8 @@ class AddPokemonCommandSpec extends AnyWordSpec {
     }
     val command = AddPokemonCommand("123", state)
     "success" in {
+      val undo = command.undoStep(game)
+      undo should be(game.setStateTo(InitPlayerState()))
       val res = command.doStep(game)
       val res1 = command.undoStep(res.get)
       res1 should be(game)

@@ -121,7 +121,7 @@ case class Game(state : State = InitState(),
   }
 
   object AttackInvStrat {
-    var strategy = if ( turn == 1 ) strategy1 else strategy2
+    var strategy = if ( turn == 2 ) strategy1 else strategy2
 
     def strategy1(attack : Int) =
       var mult = Game.getDamageMultiplikator( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt, player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt )

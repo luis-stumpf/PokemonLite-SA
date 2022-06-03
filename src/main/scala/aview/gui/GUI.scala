@@ -7,17 +7,18 @@ import model.states.*
 
 import de.htwg.se.pokelite.model.State
 import de.htwg.se.pokelite.util.Observer
+import scalafx.scene.layout.HBox
 import scalafx.scene.layout.VBox
 import scalafx.scene.Node
 import scalafx.scene.layout.BorderPane
 import scalafx.application.JFXApp3
 import scalafx.application.Platform
 import scalafx.scene.Scene
-import scalafx.scene.control.{ Button, Label }
-import scalafx.scene.image.{ Image, ImageView }
+import scalafx.scene.control.{Button, Label}
+import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout.GridPane
 import scalafx.scene.shape.Rectangle
-import scalafx.scene.layout.{ Background, BackgroundImage, BackgroundPosition, BackgroundRepeat, BackgroundSize }
+import scalafx.scene.layout.{Background, BackgroundImage, BackgroundPosition, BackgroundRepeat, BackgroundSize}
 import scalafx.geometry.Side
 import scalafx.scene.text.Text
 import scalafx.geometry.Insets
@@ -51,12 +52,26 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
         case DesicionState() => DesicionPane(controller)
         case SwitchPokemonState() => new SwitchPokemonPane(controller)
 
+    topPane.children = new HBox() {
+      var undo:Button = new Button("<-"){
+        onAction = _ => controller.undoMove()
+      }
+      var redo:Button = new Button("->") {
+        onAction = _ => controller.redoMove()
+      }
+      children = List(undo, redo)
+    }
+
   var fieldPane: VBox = new VBox() {
     padding = Insets(10, 10, 10, 100)
 
   }
 
   var menuPane: VBox = new VBox() {
+
+  }
+
+  var topPane: HBox = new HBox() {
 
   }
 
@@ -77,6 +92,7 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
       scene = new Scene( 1600, 480 ) {
         root = new BorderPane {
           background = battleBackground
+          top = topPane
           left = fieldPane
           right = menuPane
         }

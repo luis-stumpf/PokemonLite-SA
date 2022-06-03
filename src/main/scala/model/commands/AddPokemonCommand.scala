@@ -22,7 +22,7 @@ case class AddPokemonCommand(list:String, state:InitPlayerPokemonState) extends 
   }
 
   override def undoStep( game:GameInterface ):GameInterface =
-    if game.player1.get.pokemons.contents.isEmpty then
+    if !game.player1.get.pokemons.contents.head.isDefined then
       game.setStateTo(InitPlayerState())
     else game.removePokemonFromPlayer()
 }
