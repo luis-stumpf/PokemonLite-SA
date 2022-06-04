@@ -7,6 +7,7 @@ import model.states.*
 
 import de.htwg.se.pokelite.model.State
 import de.htwg.se.pokelite.util.Observer
+import scalafx.scene.layout.Priority
 import scalafx.scene.layout.HBox
 import scalafx.scene.layout.VBox
 import scalafx.scene.Node
@@ -31,6 +32,7 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
   override def update : Unit =
     fieldPane.children = new GridPane() {
 
+
       val glurakImg: Image = new Image("/pokemons/"+controller.game.player1.map(_.pokemons.contents.apply(controller.game.player1.get.currentPoke).map(_.pType.name).getOrElse("")).getOrElse("") + "Front.gif", 250, 250, true, true)
       val turtokImg: Image = new Image("/pokemons/"+controller.game.player2.map(_.pokemons.contents.apply(controller.game.player2.get.currentPoke).map(_.pType.name).getOrElse("")).getOrElse("") + "Back.gif", 250, 250, true, true)
       val imgView = new ImageView( glurakImg )
@@ -53,6 +55,10 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
         case SwitchPokemonState() => new SwitchPokemonPane(controller)
 
     topPane.children = new HBox() {
+      hgrow = Priority.Always
+      vgrow = Priority.Always
+      padding = Insets(10)
+      fillHeight = true
       var undo:Button = new Button("<-"){
         onAction = _ => controller.undoMove()
       }
@@ -80,21 +86,27 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
   override def start() : Unit = {
     stage = new JFXApp3.PrimaryStage {
 
-      val battleBackground : Background = getBackground( "/backgroundbig.png" )
+      val fieldBackground : Background = getBackground( "/backgroundField.png" )
+      val menuBackground : Background = getBackground( "/backgroundMenu.png" )
       private def getBackground(url : String) : Background = {
         val tile : Image = new Image( url )
         val backgroundPosition = new BackgroundPosition(Side.Left, 0, false, Side.Top, 0, false)
         val backgroundImage = new BackgroundImage( tile, BackgroundRepeat.NoRepeat, BackgroundRepeat.NoRepeat, backgroundPosition,
-          new BackgroundSize( 1600, 480, false, false, false, false ) )
+          new BackgroundSize( 800, 480, false, false, false, false ) )
         new Background( new javafx.scene.layout.Background( backgroundImage ) )
       }
       title = "PokemonLite"
-      scene = new Scene( 1600, 480 ) {
+      scene = new Scene() {
         root = new BorderPane {
-          background = battleBackground
-          top = topPane
-          left = fieldPane
-          right = menuPane
+          left = new HBox {
+            background = fieldBackground
+            children = fieldPane
+          }
+          right = new HBox {
+            background = menuBackground
+            children = menuPane
+          }
+          bottom = topPane
         }
       }
       update
@@ -120,24 +132,3 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
 
 
 
-
-
-
-/*
-def setInitPlayerPane() : Unit = {
-  val fieldPane : FieldPane = new FieldPane( controller.game )
-  val nameInputPane : NameInputPane = new NameInputPane( controller )
-  stage = new JFXApp3.PrimaryStage {
-    title = "PokemonLite"
-    scene = new Scene( 1600, 480 ) {
-      root = new BorderPane {
-        background = battleBackground
-        left = fieldPane
-        val menu = false
-        right = nameInputPane
-
-      }
-    }
-  }
-}
-*/
