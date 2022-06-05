@@ -13,9 +13,11 @@ case object NothingToRedo extends Error :
 
 case object NoCommandFound extends Error
 
-case object NoInput extends Error
+case object NoInput extends Error:
+  println("Error: Please Enter a valid input.")
 
-case object NoPokemonSelected extends Error
+case object NoPokemonSelected extends Error:
+  println("Error: You havent selected a valid Pokemon.")
 
 case object NoAttackSelected extends Error
 

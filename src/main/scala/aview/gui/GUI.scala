@@ -29,7 +29,7 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
 
   controller.add(this)
 
-  override def update : Unit =
+  override def update(message:String) : Unit =
     fieldPane.children = new GridPane() {
 
 
@@ -109,7 +109,7 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
           bottom = topPane
         }
       }
-      update
+      update("")
     }
   }
 }

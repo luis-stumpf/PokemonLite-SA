@@ -16,7 +16,9 @@ class TUI(controller : Controller) extends Observer :
   controller.add( this )
 
   def processInputLine(input : String) : Unit = {
-    if input.charAt(0) == 'y' then controller.undoMove()
+    if input.isEmpty then
+      update("Error: No input detected.")
+    else if input.charAt(0) == 'y' then controller.undoMove()
     else if input.charAt(0) == 'z' then controller.redoMove()
     else
       controller.game.state match
@@ -29,8 +31,12 @@ class TUI(controller : Controller) extends Observer :
         case GameOverState() => printThatTheGameIsOver()
   }
 
-  override def update : Unit = {
-    println(controller.game.toString)
+  override def update(message: String) : Unit = {
+    if message == "success" then
+      println(controller.game.toString)
+    else
+      println(message)
+
     controller.game.state match
       case InitState() => printWelcomeStatement()
       case InitPlayerState() => printNameRequest(  )
