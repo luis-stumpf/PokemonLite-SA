@@ -1,6 +1,8 @@
 package de.htwg.se.pokelite
 package model
 
+import model.impl.game.Game
+
 trait Error extends Throwable
 
 case object NoPlayerName extends Error
@@ -19,10 +21,15 @@ case object NoInput extends Error:
 case object NoPokemonSelected extends Error:
   println("Error: You havent selected a valid Pokemon.")
 
+case class NotEnoughPokemonSelected(amount: Int) extends Error:
+  override def toString : String = "Error: You have selected \"" + amount + "\" valid Pokemon, but "
+    + Game.maxPokePackSize + " is required."
+
+
 case object NoAttackSelected extends Error
 
 case class WrongInput(input : String) extends Error :
-  println( "Error: The Input \"" + input + "\" is not valid." )
+  override def toString : String = "Error: The Input \"" + input + "\" is not valid."
 
 case object NoDesicionMade extends Error
 
@@ -31,10 +38,10 @@ case object NoPlayerExists extends Error
 case object NoPlayerToRemove extends Error
 
 case class NameTooLong(input : String) extends Error :
-  println( "Error: The Name \"" + input + "\" is too long." )
+  override def toString : String = "Error: The Name \"" + input + "\" is too long."
 
 case object HorriblePlayerNameError extends Error:
-  println("For some reason Player 2 has a name but Player 1 doesnt. Everything is F****d!")
+  override def toString : String = "For some reason Player 2 has a name but Player 1 doesnt. Everything is F****d!"
 
 case object HorriblePokemonSelectionError extends Error:
-  println("For some reason Player 2 has Pokemon but Player 1 doesnt. Everything is F****d!")
+  override def toString : String = "For some reason Player 2 has Pokemon but Player 1 doesnt. Everything is F****d!"

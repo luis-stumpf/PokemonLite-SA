@@ -1,7 +1,7 @@
 package de.htwg.se.pokelite
 package model.impl.game
 
-import model.{ GameInterface, GameRules, HorriblePlayerNameError, HorriblePokemonSelectionError, NameTooLong, NoInput, NoPlayerExists, NoPlayerToRemove, NoPokemonSelected, PokePack, PokePlayerInterface, Pokemon, PokemonArt, State }
+import model.{ GameInterface, GameRules, HorriblePlayerNameError, HorriblePokemonSelectionError, NameTooLong, NoInput, NoPlayerExists, NoPlayerToRemove, NoPokemonSelected, NotEnoughPokemonSelected, PokePack, PokePlayerInterface, Pokemon, PokemonArt, State }
 import model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
 import model.impl.field.Field
 import model.states.{ DesicionState, InitPlayerPokemonState, InitPlayerState, InitState }
@@ -77,13 +77,9 @@ case class Game(state : State = InitState(),
 
   def interpretPokemonSelectionFrom(string : String) : Try[ Game ] =
 
-    checkForValidPokemonInput( string ) match
+    getPokemonListFrom( string ) match
       case Failure( x ) => Failure( x )
       case Success( validListOfPokemon ) => assignTheCorrectPlayerA(validListOfPokemon)
-
-
-
-
 
 
   def removePokemonFromPlayer() : Game =
@@ -106,18 +102,27 @@ case class Game(state : State = InitState(),
     if turn == 1 then copy( player1 = Some( player1.get.setCurrentPokeTo( input ) ) )
     else copy( player2 = Some( player2.get.setCurrentPokeTo( input ) ) )
 
-  private def checkForValidPokemonInput(string : String) : Try[ List[ Option[ Pokemon ] ] ] =
+  private def getPokemonListFrom(string : String) : Try[ List[ Option[ Pokemon ] ] ] =
     if string.isEmpty then
       Failure( NoPokemonSelected )
     else
-      Success( string.toCharArray.toList.map {
+      val pokeList = string.toCharArray.toList.map {
         case '1' => Some( Pokemon( Glurak ) )
         case '2' => Some( Pokemon( Simsala ) )
         case '3' => Some( Pokemon( Brutalanda ) )
         case '4' => Some( Pokemon( Bisaflor ) )
         case '5' => Some( Pokemon( Turtok ) )
         case _ => None
-      } )
+      }
+      checkSizeOf(pokeList)
+
+  private def checkSizeOf(pokeList: List[Option[Pokemon]]) :Try[ List[ Option[ Pokemon ] ] ] =
+    val validPokemonCount = pokeList.count(x => x.nonEmpty)
+    if validPokemonCount < Game.maxPokePackSize then
+      Failure (NotEnoughPokemonSelected(validPokemonCount))
+    else
+      Success(pokeList)
+      // TODO: Refactor to PokePack potentiolly
 
   private def assignTheCorrectPlayerA(name : String) : Try[ Game ] =
     if player2.nonEmpty && player1.isEmpty then

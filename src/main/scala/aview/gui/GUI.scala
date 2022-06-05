@@ -109,7 +109,7 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
           bottom = topPane
         }
       }
-      update("")
+      update("success")
     }
   }
 }

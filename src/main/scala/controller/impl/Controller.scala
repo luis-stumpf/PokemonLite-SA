@@ -24,7 +24,7 @@ case class Controller() extends ControllerInterface() :
       case Success( game ) =>
         moveDone( game, command.get )
       case Failure( x ) =>
-        notifyObservers( x.getMessage )
+        notifyObservers( x.toString )
     }
   }
 
@@ -33,7 +33,7 @@ case class Controller() extends ControllerInterface() :
       case Success( command ) =>
         game = command.undoStep( this.game )
         notifyObservers()
-      case Failure( x ) => notifyObservers( x.getMessage )
+      case Failure( x ) => notifyObservers( x.toString )
 
   }
 
@@ -42,7 +42,7 @@ case class Controller() extends ControllerInterface() :
       case Success( command ) =>
         game = command.doStep( game ).get
         notifyObservers()
-      case Failure( x ) => notifyObservers( x.getMessage )
+      case Failure( x ) => notifyObservers( x.toString )
   }
 
   def initPlayers() : Unit = move( game.state.initPlayers() )
