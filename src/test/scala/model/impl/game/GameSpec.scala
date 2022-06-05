@@ -33,11 +33,11 @@ class GameSpec extends AnyWordSpec {
       }
       "be able to remove a Pokemon from a Player 1" in {
         game = game.addPlayerWith( "timmy" )
-        game = game.addPokemonToPlayer( "1" )
+        game = game.interpretPokemonSelectionFrom( "1" )
         game.removePokemonFromPlayer() should be( Game( InitState(), Some( PokePlayer( "Luis" ) ), Some( PokePlayer( "timmy" ) ) ) )
       }
       "be able to remove a Pokemon from a Player 2" in {
-        game = game.addPokemonToPlayer( "1" )
+        game = game.interpretPokemonSelectionFrom( "1" )
         game.removePokemonFromPlayer() should be( Game( InitState(), Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ), Some( PokePlayer( "timmy" ) ) ) )
       }
       "be able to attack a player 1" in {
@@ -142,7 +142,7 @@ class GameSpec extends AnyWordSpec {
       Game.getDamageMultiplikator( PokemonArt.Psycho, PokemonArt.Psycho ) should be( 0.7 )
     }
     "have a poke Pack size set to a number" in {
-      assert( Game.pokePackSize.isValidInt )
+      assert( Game.maxPokePackSize.isValidInt )
     }
   }
 

@@ -7,11 +7,11 @@ import model.PokePack
 
 trait PokePlayerInterface:
   def name: String
-  def pokemons: PokePack[Option[Pokemon]]
+  def pokemons: PokePack
   def currentPoke: Int
   override def toString: String
 
-  def setPokemonTo(newPokemons : PokePack[ Option[ Pokemon ] ]) : PokePlayerInterface
+  def setPokemonTo(newPokemons : PokePack) : PokePlayerInterface
 
   def setPokePlayerNameTo(newName : String) : PokePlayerInterface
 

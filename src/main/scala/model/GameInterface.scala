@@ -15,7 +15,7 @@ import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 import scala.util.{ Failure, Success }
 
 trait GameRules {
-  def pokePackSize: Int
+  def maxPokePackSize: Int
   def maxPlayerNameLength: Int
   def getDamageMultiplikator(pokemonArt1 : PokemonArt, pokemonArt2 : PokemonArt) : Double
 }
@@ -35,7 +35,7 @@ trait GameInterface {
   
   def removePlayer(): GameInterface
 
-  def addPokemonToPlayer(input : String) : GameInterface
+  def interpretPokemonSelectionFrom(string : String) : Try[GameInterface]
   
   def removePokemonFromPlayer(): GameInterface
 

@@ -1,10 +1,10 @@
 package de.htwg.se.pokelite
 package model.impl.game
 
-import model.{ GameInterface, GameRules, HorriblePlayerNameError, NameTooLong, NoInput, NoPlayerExists, NoPlayerToRemove, PokePack, PokePlayerInterface, Pokemon, PokemonArt, State }
+import model.{ GameInterface, GameRules, HorriblePlayerNameError, HorriblePokemonSelectionError, NameTooLong, NoInput, NoPlayerExists, NoPlayerToRemove, PokePack, PokePlayerInterface, Pokemon, PokemonArt, State }
 import model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
 import model.impl.field.Field
-import model.states.{ InitPlayerPokemonState, InitPlayerState, InitState }
+import model.states.{ DesicionState, InitPlayerPokemonState, InitPlayerState, InitState }
 
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 
@@ -12,7 +12,7 @@ import scala.util.{ Failure, Success, Try }
 
 object Game extends GameRules {
 
-  val pokePackSize = 3
+  val maxPokePackSize = 3
   val maxPlayerNameLength = 20
 
   def getDamageMultiplikator(pokemonArt1 : PokemonArt, pokemonArt2 : PokemonArt) : Double =
@@ -73,28 +73,55 @@ case class Game(state : State = InitState(),
     if player2.nonEmpty then
       copy( player2 = None, state = InitPlayerState(), turn = 1 )
     else
-      copy( player1 = None, state = InitPlayerState() , turn = 1)
+      copy( player1 = None, state = InitPlayerState(), turn = 1 )
 
-  def addPokemonToPlayer(input : String) : Game =
-    val pokeList : List[ Option[ Pokemon ] ] = input.toCharArray.toList.map {
-      case '1' => Some( Pokemon( Glurak ) )
-      case '2' => Some( Pokemon( Simsala ) )
-      case '3' => Some( Pokemon( Brutalanda ) )
-      case '4' => Some( Pokemon( Bisaflor ) )
-      case '5' => Some( Pokemon( Turtok ) )
-      case _ => None
-    }
+  def interpretPokemonSelectionFrom(string : String) : Try[ Game ] =
+
+    checkForValidPokemonInput( string ) match
+      case Failure( x ) => Failure( x )
+      case Success( validListOfPokemon ) => assignTheCorrectPlayerA(validListOfPokemon)
+
+
+  private def assignTheCorrectPlayerA(listOfPokemon : List[ Option[ Pokemon ] ]) : Try[ Game ] =
+    val pokePack = PokePack( listOfPokemon )
 
     if player1.get.pokemons == PokePack( List( None ) ) then
-      copy( player1 = Some( PokePlayer( player1.get.name, PokePack( pokeList ) ) ), turn = 2 )
+      Success( copy(
+        player1 = Some( PokePlayer( player1.get.name, pokePack ) ),
+        turn = 2,
+        state = InitPlayerState()) )
+    else if player1.get.pokemons == PokePack( List( None ) ) && player2.get.pokemons != PokePack( List( None ) ) then
+      Failure( HorriblePokemonSelectionError)
     else
-      copy( player2 = Some( PokePlayer( player2.get.name, PokePack( pokeList ) ) ), turn = 1 )
+      Success( copy(
+        player2 = Some( PokePlayer( player2.get.name, pokePack ) ),
+        turn = 1,
+        state = DesicionState()) )
+
+  private def checkForValidPokemonInput(string : String) : Try[ List[ Option[ Pokemon ] ] ] =
+    if string.isEmpty then
+      Failure( NoInput )
+    else
+      Success( string.toCharArray.toList.map {
+        case '1' => Some( Pokemon( Glurak ) )
+        case '2' => Some( Pokemon( Simsala ) )
+        case '3' => Some( Pokemon( Brutalanda ) )
+        case '4' => Some( Pokemon( Bisaflor ) )
+        case '5' => Some( Pokemon( Turtok ) )
+        case _ => None
+      } )
 
   def removePokemonFromPlayer() : Game =
     if player2.get.pokemons.contents.head.isDefined then
-      copy( player2 = Some( PokePlayer( player2.get.name, PokePack( List( None ) ) ) ), turn = 2 )
+      copy( 
+        player2 = Some( PokePlayer( player2.get.name, PokePack( List( None ) ) ) ), 
+        turn = 2,
+        state = InitPlayerPokemonState())
     else
-      copy( player1 = Some( PokePlayer( player1.get.name, PokePack( List( None ) ) ) ) , turn = 1)
+      copy( 
+        player1 = Some( PokePlayer( player1.get.name, PokePack( List( None ) ) ) ), 
+        turn = 1,
+        state = InitPlayerPokemonState())
 
   def attackWith(i : String) : Game = AttackPlayerStrat.strategy( i.charAt( 0 ).asDigit - 1 )
 

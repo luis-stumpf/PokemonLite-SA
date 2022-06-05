@@ -33,3 +33,6 @@ case class NameTooLong(input : String) extends Error :
 
 case object HorriblePlayerNameError extends Error:
   println("For some reason Player 2 has a name but Player 1 doesnt. Everything is F****d!")
+
+case object HorriblePokemonSelectionError extends Error:
+  println("For some reason Player 2 has Pokemon but Player 1 doesnt. Everything is F****d!")
