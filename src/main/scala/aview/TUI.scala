@@ -26,34 +26,34 @@ class TUI(controller : Controller) extends Observer :
         case DesicionState() => controller.nextMove(input)
         case FightingState() => controller.attackWith(input)
         case SwitchPokemonState() => controller.selectPokemon(input)
-        case GameOverState() => theGameIsOver()
+        case GameOverState() => printThatTheGameIsOver()
   }
 
   override def update : Unit = {
     println(controller.game.toString)
     controller.game.state match
-      case InitState() => initialState()
-      case InitPlayerState() => readPlayerName(  )
-      case InitPlayerPokemonState() => readPokemons(  )
-      case DesicionState() => readNextMove(  )
-      case FightingState() => readAttack(  )
-      case SwitchPokemonState() => choosePokemon(  )
-      case GameOverState() => theGameIsOver()
+      case InitState() => printWelcomeStatement()
+      case InitPlayerState() => printNameRequest(  )
+      case InitPlayerPokemonState() => printAvailablePokemon(  )
+      case DesicionState() => printSelectionRequest(  )
+      case FightingState() => printAvailableAttackOptions(  )
+      case SwitchPokemonState() => printThePlayersPokemon(  )
+      case GameOverState() => printThatTheGameIsOver()
   }
 
 
 
-  def initialState(): Unit =
+  def printWelcomeStatement(): Unit =
     println("PokemonLit, type anyting to behin")
-    
-  def readPlayerName() : Unit =
+
+  def printNameRequest() : Unit =
     println( "Enter name of Player "+controller.game.turn+": " )
 
   def getCurrentPlayerName() : String =
     if controller.game.turn == 1 then controller.game.player1.get.name
     else controller.game.player2.get.name
 
-  def readPokemons(): Unit =
+  def printAvailablePokemon(): Unit =
 
     println("Choose your Pokemon "+getCurrentPlayerName()+": \n" +
       "1: Glurak\n" +
@@ -66,20 +66,20 @@ class TUI(controller : Controller) extends Observer :
     if controller.game.turn == 1 then controller.game.player1.get.pokemons.contents.map(p=> p.get).mkString("   ")
     else controller.game.player2.get.pokemons.contents.map(p=>p.get).mkString("   ")
 
-  def choosePokemon(): Unit =
+  def printThePlayersPokemon(): Unit =
 
     println("Your current Pokemon are: "+getCurrentPlayerPokemons())
 
 
 
-  def readNextMove(): Unit =
+  def printSelectionRequest(): Unit =
     println("These are all possible desicions: 1: Attack, 2: Switch Pokemon" )
 
 
-  def readAttack(): Unit =
+  def printAvailableAttackOptions(): Unit =
     println("You Possible Attacks are: 1, 2, 3, 4")
 
 
-  def theGameIsOver(): Unit =
+  def printThatTheGameIsOver(): Unit =
     println("GameOver, " + controller.game.winner.get.name + " has won the Game!")
 
