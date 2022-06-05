@@ -7,12 +7,18 @@ import model.FieldInterface
 import model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
 import model.impl.field.Field
 import model.PokePlayerInterface
+import scala.util.{ Failure, Success, Try }
+
 
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 
 import scala.util.{ Failure, Success }
 
-
+trait GameRules {
+  def pokePackSize: Int
+  def maxPlayerNameLength: Int
+  def getDamageMultiplikator(pokemonArt1 : PokemonArt, pokemonArt2 : PokemonArt) : Double
+}
 
 trait GameInterface {
 
@@ -25,7 +31,7 @@ trait GameInterface {
   def setStateTo(newState : State) : GameInterface
 
 
-  def addPlayer(name : String) : GameInterface
+  def addPlayerWith(name : String) : Try[GameInterface]
   
   def removePlayer(): GameInterface
 

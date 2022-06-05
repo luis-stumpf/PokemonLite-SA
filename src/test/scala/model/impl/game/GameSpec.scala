@@ -25,14 +25,14 @@ class GameSpec extends AnyWordSpec {
         game.setStateTo( InitPlayerState() ) should be( Game( InitPlayerState() ) )
       }
       "be able to add a Player" in {
-        game.addPlayer( "Luis" ) should be( Game( InitState(), Some( PokePlayer( "Luis" ) ) ) )
+        game.addPlayerWith( "Luis" ) should be( Game( InitState(), Some( PokePlayer( "Luis" ) ) ) )
       }
       "be able to remove a Player" in {
-        game = game.addPlayer( "Luis" )
+        game = game.addPlayerWith( "Luis" )
         game.removePlayer() should be( Game( InitState() ) )
       }
       "be able to remove a Pokemon from a Player 1" in {
-        game = game.addPlayer( "timmy" )
+        game = game.addPlayerWith( "timmy" )
         game = game.addPokemonToPlayer( "1" )
         game.removePokemonFromPlayer() should be( Game( InitState(), Some( PokePlayer( "Luis" ) ), Some( PokePlayer( "timmy" ) ) ) )
       }

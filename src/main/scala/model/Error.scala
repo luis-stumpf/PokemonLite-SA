@@ -25,3 +25,11 @@ case class WrongInput(input : String) extends Error :
 case object NoDesicionMade extends Error
 
 case object NoPlayerExists extends Error
+
+case object NoPlayerToRemove extends Error
+
+case class NameTooLong(input : String) extends Error :
+  println( "Error: The Name \"" + input + "\" is too long." )
+
+case object HorriblePlayerNameError extends Error:
+  println("For some reason Player 2 has a name but Player 1 doesnt. Everything is F****d!")

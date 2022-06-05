@@ -1,17 +1,19 @@
 package de.htwg.se.pokelite
 package model.impl.game
 
-import model.{ GameInterface, NoPlayerExists, PokePack, PokePlayerInterface, Pokemon, PokemonArt, State }
+import model.{ GameInterface, GameRules, HorriblePlayerNameError, NameTooLong, NoInput, NoPlayerExists, NoPlayerToRemove, PokePack, PokePlayerInterface, Pokemon, PokemonArt, State }
 import model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
 import model.impl.field.Field
-import model.states.{ InitPlayerState, InitState }
+import model.states.{ InitPlayerPokemonState, InitPlayerState, InitState }
 
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 
-object Game {
+import scala.util.{ Failure, Success, Try }
+
+object Game extends GameRules {
 
   val pokePackSize = 3
-
+  val maxPlayerNameLength = 20
 
   def getDamageMultiplikator(pokemonArt1 : PokemonArt, pokemonArt2 : PokemonArt) : Double =
     pokemonArt1 match
@@ -39,17 +41,17 @@ object Game {
 }
 
 case class Game(state : State = InitState(),
-                player1 : Option[ PokePlayer] = None,
-                player2 : Option[ PokePlayer] = None,
+                player1 : Option[ PokePlayer ] = None,
+                player2 : Option[ PokePlayer ] = None,
                 turn : Int = 2,
-                winner : Option[ PokePlayer] = None) extends GameInterface{
+                winner : Option[ PokePlayer ] = None) extends GameInterface {
 
   def copy(
             state : State = state,
-            player1 : Option[ PokePlayer] = player1,
-            player2 : Option[ PokePlayer] = player2,
+            player1 : Option[ PokePlayer ] = player1,
+            player2 : Option[ PokePlayer ] = player2,
             turn : Int = turn,
-            winner : Option[ PokePlayer] = winner
+            winner : Option[ PokePlayer ] = winner
           ) : Game = Game( state, player1, player2, turn, winner )
 
   def setStateTo(newState : State) : Game = copy( state = newState )
@@ -60,17 +62,18 @@ case class Game(state : State = InitState(),
     else
       copy( turn = 1 )
 
-  def addPlayer(name : String) : Game =
-    if player1.isEmpty then
-      copy( state = state, player1 = Some( PokePlayer( name ) ) )
-    else
-      copy( player2 = Some( PokePlayer( name ) ) )
+  def addPlayerWith(name : String) : Try[ Game ] =
 
-  def removePlayer(): Game =
-    if player2.isEmpty then
-      copy( player1 = None )
+    checkForValidNameInput( name ) match
+      case Failure( x ) => Failure( x )
+      case Success( validPlayerName ) => assignTheCorrectPlayerA( validPlayerName )
+
+
+  def removePlayer() : Game =
+    if player2.nonEmpty then
+      copy( player2 = None, state = InitPlayerState(), turn = 1 )
     else
-      copy( player2 = None, state = InitPlayerState())
+      copy( player1 = None, state = InitPlayerState() , turn = 1)
 
   def addPokemonToPlayer(input : String) : Game =
     val pokeList : List[ Option[ Pokemon ] ] = input.toCharArray.toList.map {
@@ -82,14 +85,16 @@ case class Game(state : State = InitState(),
       case _ => None
     }
 
-    if player1.get.pokemons == PokePack( List( None ) ) then copy( player1 = Some( PokePlayer( player1.get.name, PokePack( pokeList ) ) ) )
-    else copy( player2 = Some( PokePlayer( player2.get.name, PokePack( pokeList ) ) ) )
+    if player1.get.pokemons == PokePack( List( None ) ) then
+      copy( player1 = Some( PokePlayer( player1.get.name, PokePack( pokeList ) ) ), turn = 2 )
+    else
+      copy( player2 = Some( PokePlayer( player2.get.name, PokePack( pokeList ) ) ), turn = 1 )
 
-  def removePokemonFromPlayer(): Game =
-        if player2.get.pokemons.contents.head.isDefined then
-          copy( player2 = Some( PokePlayer( player2.get.name, PokePack( List( None ) ) ) ) )
-        else
-          copy( player1 = Some( PokePlayer( player1.get.name, PokePack( List( None ) ) ) ) )
+  def removePokemonFromPlayer() : Game =
+    if player2.get.pokemons.contents.head.isDefined then
+      copy( player2 = Some( PokePlayer( player2.get.name, PokePack( List( None ) ) ) ), turn = 2 )
+    else
+      copy( player1 = Some( PokePlayer( player1.get.name, PokePack( List( None ) ) ) ) , turn = 1)
 
   def attackWith(i : String) : Game = AttackPlayerStrat.strategy( i.charAt( 0 ).asDigit - 1 )
 
@@ -99,6 +104,25 @@ case class Game(state : State = InitState(),
     if turn == 1 then copy( player1 = Some( player1.get.setCurrentPokeTo( input ) ) )
     else copy( player2 = Some( player2.get.setCurrentPokeTo( input ) ) )
 
+
+  private def assignTheCorrectPlayerA(name : String) : Try[ Game ] =
+    if player2.nonEmpty && player1.isEmpty then
+      Failure( HorriblePlayerNameError )
+    else if player1.isEmpty then
+      Success( copy(
+        state = InitPlayerState(),
+        player1 = Some( PokePlayer( name ) ) ) )
+    else
+      Success( copy(
+        state = InitPlayerPokemonState(),
+        player2 = Some( PokePlayer( name ) ) ) )
+
+  private def checkForValidNameInput(string : String) : Try[ String ] =
+    if ( string.isEmpty )
+      return Failure( NoInput )
+    else if ( string.length > Game.maxPlayerNameLength )
+      return Failure( NameTooLong( string ) )
+    Success( string )
 
   override def toString : String = Field( 50, player1.getOrElse( PokePlayer( "", PokePack( List( None ) ) ) ), player2.getOrElse( PokePlayer( "", PokePack( List( None ) ) ) ), turn ).toString
 
