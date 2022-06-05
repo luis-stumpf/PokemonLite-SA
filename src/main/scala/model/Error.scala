@@ -22,11 +22,11 @@ case object NoPokemonSelected extends Error:
   println("Error: You havent selected a valid Pokemon.")
 
 case class NotEnoughPokemonSelected(amount: Int) extends Error:
-  override def toString : String = "Error: You have selected \"" + amount + "\" valid Pokemon, but "
-    + Game.maxPokePackSize + " is required."
+  override def toString : String = "Error: You have selected \"" + amount + "\" valid Pokemon, but " + Game.maxPokePackSize.toString + " is required."
 
 
-case object NoAttackSelected extends Error
+case class NoValidAttackSelected(input: String) extends Error:
+  override def toString : String = "Error: The Input \"" + input + "\" is not valid. Select a attack between 1 and 4."
 
 case class WrongInput(input : String) extends Error :
   override def toString : String = "Error: The Input \"" + input + "\" is not valid."

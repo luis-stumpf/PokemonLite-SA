@@ -17,7 +17,7 @@ import scala.util.{ Failure, Success }
 trait GameRules {
   def maxPokePackSize: Int
   def maxPlayerNameLength: Int
-  def getDamageMultiplikator(pokemonArt1 : PokemonArt, pokemonArt2 : PokemonArt) : Double
+  def calculateDamageMultiplicator(pokemonArt1 : PokemonArt, pokemonArt2 : PokemonArt) : Double
 }
 
 trait GameInterface {
@@ -41,7 +41,7 @@ trait GameInterface {
 
   def setNextTurn() : GameInterface
 
-  def attackWith(i : String) : GameInterface
+  def interpretAttackSelectionFrom(input : String) : Try[GameInterface]
 
   def reverseAttackWith(i : String) : GameInterface
 

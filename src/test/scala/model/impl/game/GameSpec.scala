@@ -45,16 +45,16 @@ class GameSpec extends AnyWordSpec {
           Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ),
           Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ) )
         game = game.setNextTurn()
-        game.attackWith( "1" ) should be {
+        game.interpretAttackSelectionFrom( "1" ) should be {
           Game( FightingState(),
             Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ),
-            Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Glurak ) ).get.changeHp( Attack( "Konfusion", 10 ), Game.getDamageMultiplikator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ) ).setNextTurn()
+            Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Glurak ) ).get.reduceHP( Attack( "Konfusion", 10 ), Game.calculateDamageMultiplicator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ) ).setNextTurn()
 
         }
       }
       "be able to reverse attack a player 1" in {
         game = Game( FightingState(),
-          Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Simsala ) ).get.changeHp( Attack( "Konfusion", 20 ), Game.getDamageMultiplikator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ),
+          Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Simsala ) ).get.reduceHP( Attack( "Konfusion", 20 ), Game.calculateDamageMultiplicator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ),
           Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ) ).setNextTurn()
         game.reverseAttackWith( "1" ) should be {
           Game( FightingState(),
@@ -67,9 +67,9 @@ class GameSpec extends AnyWordSpec {
         game = Game( FightingState(),
           Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ),
           Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) )
-        game.attackWith( "1" ) should be {
+        game.interpretAttackSelectionFrom( "1" ) should be {
           Game( FightingState(),
-            Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ).get.changeHp( Attack( "Konfusion", 10 ), Game.getDamageMultiplikator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ),
+            Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ).get.reduceHP( Attack( "Konfusion", 10 ), Game.calculateDamageMultiplicator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ),
             Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) )
 
         }
@@ -78,7 +78,7 @@ class GameSpec extends AnyWordSpec {
       "be able to reverse attack a player 2" in {
         game = Game( FightingState(),
           Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ),
-          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ).get.changeHp( Attack( "Konfusion", 20 ), Game.getDamageMultiplikator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ) )
+          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ).get.reduceHP( Attack( "Konfusion", 20 ), Game.calculateDamageMultiplicator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ) )
         game.reverseAttackWith( "1" ) should be {
           Game( FightingState(),
             Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ),
@@ -91,55 +91,55 @@ class GameSpec extends AnyWordSpec {
   "The Game Object" should {
 
     "return a damage Multiplikator with water and water" in {
-      Game.getDamageMultiplikator( PokemonArt.Wasser, PokemonArt.Wasser ) should be( 1 )
+      Game.calculateDamageMultiplicator( PokemonArt.Wasser, PokemonArt.Wasser ) should be( 1 )
     }
     "return a damage Multiplikator with water and feuer" in {
-      Game.getDamageMultiplikator( PokemonArt.Wasser, PokemonArt.Feuer ) should be( 1.2 )
+      Game.calculateDamageMultiplicator( PokemonArt.Wasser, PokemonArt.Feuer ) should be( 1.2 )
     }
     "return a damage Multiplikator with water and blatt" in {
-      Game.getDamageMultiplikator( PokemonArt.Wasser, PokemonArt.Blatt ) should be( 0.5 )
+      Game.calculateDamageMultiplicator( PokemonArt.Wasser, PokemonArt.Blatt ) should be( 0.5 )
     }
     "return a damage Multiplikator with water and Psycho" in {
-      Game.getDamageMultiplikator( PokemonArt.Wasser, PokemonArt.Psycho ) should be( 1 )
+      Game.calculateDamageMultiplicator( PokemonArt.Wasser, PokemonArt.Psycho ) should be( 1 )
     }
 
     "return a damage Multiplikator with fire and water" in {
-      Game.getDamageMultiplikator( PokemonArt.Feuer, PokemonArt.Wasser ) should be( 0.5 )
+      Game.calculateDamageMultiplicator( PokemonArt.Feuer, PokemonArt.Wasser ) should be( 0.5 )
     }
     "return a damage Multiplikator with fire and feuer" in {
-      Game.getDamageMultiplikator( PokemonArt.Feuer, PokemonArt.Feuer ) should be( 1 )
+      Game.calculateDamageMultiplicator( PokemonArt.Feuer, PokemonArt.Feuer ) should be( 1 )
     }
     "return a damage Multiplikator with fire and blatt" in {
-      Game.getDamageMultiplikator( PokemonArt.Feuer, PokemonArt.Blatt ) should be( 1.3 )
+      Game.calculateDamageMultiplicator( PokemonArt.Feuer, PokemonArt.Blatt ) should be( 1.3 )
     }
     "return a damage Multiplikator with fire and Psycho" in {
-      Game.getDamageMultiplikator( PokemonArt.Feuer, PokemonArt.Psycho ) should be( 1 )
+      Game.calculateDamageMultiplicator( PokemonArt.Feuer, PokemonArt.Psycho ) should be( 1 )
     }
 
     "return a damage Multiplikator with blatt and water" in {
-      Game.getDamageMultiplikator( PokemonArt.Blatt, PokemonArt.Wasser ) should be( 1.1 )
+      Game.calculateDamageMultiplicator( PokemonArt.Blatt, PokemonArt.Wasser ) should be( 1.1 )
     }
     "return a damage Multiplikator with blatt and feuer" in {
-      Game.getDamageMultiplikator( PokemonArt.Blatt, PokemonArt.Feuer ) should be( 1.3 )
+      Game.calculateDamageMultiplicator( PokemonArt.Blatt, PokemonArt.Feuer ) should be( 1.3 )
     }
     "return a damage Multiplikator with blatt and blatt" in {
-      Game.getDamageMultiplikator( PokemonArt.Blatt, PokemonArt.Blatt ) should be( 1 )
+      Game.calculateDamageMultiplicator( PokemonArt.Blatt, PokemonArt.Blatt ) should be( 1 )
     }
     "return a damage Multiplikator with blatt and Psycho" in {
-      Game.getDamageMultiplikator( PokemonArt.Blatt, PokemonArt.Psycho ) should be( 1.2 )
+      Game.calculateDamageMultiplicator( PokemonArt.Blatt, PokemonArt.Psycho ) should be( 1.2 )
     }
 
     "return a damage Multiplikator with psycho and water" in {
-      Game.getDamageMultiplikator( PokemonArt.Psycho, PokemonArt.Wasser ) should be( 1 )
+      Game.calculateDamageMultiplicator( PokemonArt.Psycho, PokemonArt.Wasser ) should be( 1 )
     }
     "return a damage Multiplikator with psycho and feuer" in {
-      Game.getDamageMultiplikator( PokemonArt.Psycho, PokemonArt.Feuer ) should be( 1 )
+      Game.calculateDamageMultiplicator( PokemonArt.Psycho, PokemonArt.Feuer ) should be( 1 )
     }
     "return a damage Multiplikator with psycho and blatt" in {
-      Game.getDamageMultiplikator( PokemonArt.Psycho, PokemonArt.Blatt ) should be( 1 )
+      Game.calculateDamageMultiplicator( PokemonArt.Psycho, PokemonArt.Blatt ) should be( 1 )
     }
     "return a damage Multiplikator with psycho and Psycho" in {
-      Game.getDamageMultiplikator( PokemonArt.Psycho, PokemonArt.Psycho ) should be( 0.7 )
+      Game.calculateDamageMultiplicator( PokemonArt.Psycho, PokemonArt.Psycho ) should be( 0.7 )
     }
     "have a poke Pack size set to a number" in {
       assert( Game.maxPokePackSize.isValidInt )

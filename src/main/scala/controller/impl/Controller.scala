@@ -10,8 +10,7 @@ import scala.util.{ Failure, Success }
 
 case class Controller() extends ControllerInterface() :
   val undoManager = new UndoManager
-  var gameVal : Game = Game()
-  var game : GameInterface = gameVal
+  var game : GameInterface = Game()
 
   def moveDone(newGame : GameInterface, command : Command) : Unit = {
     game = newGame

@@ -7,14 +7,22 @@ object Pokemon {
 }
 
 case class Pokemon(pType : PokemonType, hp : Int, isDead: Boolean = false) {
-  def changeHpInv(attack : AttackType, damageMult : Double) : Pokemon = copy( hp = hp + ( attack.damage * damageMult ).toInt )
-
-  def changeHp(attack : AttackType, damageMult : Double) : Option[Pokemon] =
-    val newHP =  hp - ( attack.damage * damageMult ).toInt
-    if newHP <= 0 then
-      Some(copy(hp = 0, isDead = true))
+  def increaseHP(amount : Double) : Pokemon =
+    if pType.hp == hp then
+      this
     else
-      Some(copy( hp = newHP))
+      copy( hp = (hp + amount).toInt )
+
+  def reduceHP(amount : Double) : Pokemon =
+
+    val updatedHealth = (hp-amount).toInt
+
+    if updatedHealth <= 0 then
+      copy(hp = 0, isDead = true)
+    else
+      copy( hp = updatedHealth)
+
+  def damageOf(attackNumber: Int) : Int = pType.attacks.apply(attackNumber).damage
 
   override def toString : String = if hp == 0 then pType.name + " is dead" else pType.name + " HP: " + hp
 }

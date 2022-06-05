@@ -50,7 +50,7 @@ class TUI(controller : Controller) extends Observer :
 
 
   def printWelcomeStatement(): Unit =
-    println("PokemonLit, type anyting to behin")
+    println("PokemonLite, type anything to begin.")
 
   def printNameRequest() : Unit =
     println( "Enter name of Player "+controller.game.turn+": " )
