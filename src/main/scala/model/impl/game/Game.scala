@@ -43,7 +43,7 @@ object Game extends GameRules {
 case class Game(state : State = InitState(),
                 player1 : Option[ PokePlayer ] = None,
                 player2 : Option[ PokePlayer ] = None,
-                turn : Int = 2,
+                turn : Int = 1,
                 winner : Option[ PokePlayer ] = None) extends GameInterface {
 
   def copy(
@@ -71,7 +71,7 @@ case class Game(state : State = InitState(),
 
   def removePlayer() : Game =
     if player2.nonEmpty then
-      copy( player2 = None, state = InitPlayerState(), turn = 1 )
+      copy( player2 = None, state = InitPlayerState(), turn = 2 )
     else
       copy( player1 = None, state = InitPlayerState(), turn = 1 )
 
@@ -130,11 +130,13 @@ case class Game(state : State = InitState(),
     else if player1.isEmpty then
       Success( copy(
         state = InitPlayerState(),
-        player1 = Some( PokePlayer( name ) ) ) )
+        player1 = Some( PokePlayer( name ) ),
+        turn = 2) )
     else
       Success( copy(
         state = InitPlayerPokemonState(),
-        player2 = Some( PokePlayer( name ) ) ) )
+        player2 = Some( PokePlayer( name ) ),
+        turn = 1) )
 
   private def assignTheCorrectPlayerA(listOfPokemon : List[ Option[ Pokemon ] ]) : Try[ Game ] =
     val pokePack = PokePack( listOfPokemon )
@@ -190,7 +192,7 @@ case class Game(state : State = InitState(),
     def strategy2(attack : Int) =
       var mult = Game.getDamageMultiplikator( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.pokemonArt, player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.pType.pokemonArt )
       copy( player1 = Some( player1.get.copy( pokemons = player1.get.pokemons.copy( player1.get.pokemons.contents.updated( player1.get.currentPoke, Some( player1.get.pokemons.contents.apply( player1.get.currentPoke ).get.changeHpInv( player2.get.pokemons.contents.apply( player2.get.currentPoke ).get.pType.attacks.apply( attack ), mult ) ) ) ) ) ) )
-
+    //TODO: Overhaul Attack Strategys, turns dont match. Code is bloated.
 
   }
 
