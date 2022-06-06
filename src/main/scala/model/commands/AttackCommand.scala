@@ -10,11 +10,12 @@ import scala.util.{ Failure, Success, Try }
 case class AttackCommand(input:String, state:FightingState) extends Command {
 
   override def doStep(game : GameInterface) : Try[ GameInterface ] = {
-    val newGame = game.interpretAttackSelectionFrom( input )
-    if ( newGame.get.winner.isEmpty )
-      Success( newGame.get.setStateTo( DesicionState() ) )
-    else
-      Success( newGame.get.setStateTo( GameOverState() ) )
+    game.interpretAttackSelectionFrom(input) match
+      case Failure(x) => Failure(x)
+      case Success(updatedGame) =>
+        if updatedGame.hasWinner then  Success(updatedGame.setStateTo(GameOverState()))
+        else Success(updatedGame.setStateTo(DesicionState()))
+        
   }
 
   override def undoStep(game : GameInterface) : GameInterface =

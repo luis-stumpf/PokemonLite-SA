@@ -12,6 +12,9 @@ case object NothingToUndo extends Error :
 
 case object NothingToRedo extends Error :
   println( "Error: There is nothing to redo." )
+  
+case object DeadPokemon extends Error:
+  override def toString : String = "Error: Your current Pokemon is dead and not able to attack!"
 
 case object NoCommandFound extends Error
 

@@ -8,7 +8,7 @@ import de.htwg.se.pokelite.model.impl.game.Game
 
 case class PokePlayer(name : String, pokemons : PokePack = PokePack( List( None ) ), currentPoke : Int = 0) extends PokePlayerInterface :
 
-  override def toString = name
+  override def toString : String = name
 
   def setPokemonTo(newPokemons : PokePack) : PokePlayer = copy( pokemons = newPokemons )
 
@@ -24,10 +24,10 @@ case class PokePlayer(name : String, pokemons : PokePack = PokePack( List( None 
 
   def currentPokemonDamageWith(attackNumber : Int) : Int = pokemons.contents.apply( currentPoke ).get.damageOf( attackNumber )
 
-  def reduceHealthOfCurrentPokemon(amount : Double) =
+  def reduceHealthOfCurrentPokemon(amount : Double) : PokePlayer =
     copy( pokemons = PokePack(pokemons.contents.updated( currentPoke, Some(getCurrentPokemon.reduceHP( amount ) ) )))
 
-  def increaseHealthOfCurrentPokemon(amount : Double) =
+  def increaseHealthOfCurrentPokemon(amount : Double) : PokePlayer =
     copy( pokemons = PokePack(pokemons.contents.updated( currentPoke, Some(getCurrentPokemon.increaseHP( amount ) ) )))
 
 

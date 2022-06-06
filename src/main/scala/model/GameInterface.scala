@@ -30,7 +30,7 @@ trait GameInterface {
 
   def setStateTo(newState : State) : GameInterface
 
-
+  def hasWinner: Boolean
   def addPlayerWith(name : String) : Try[GameInterface]
   
   def removePlayer(): GameInterface

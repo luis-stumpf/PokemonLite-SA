@@ -8,8 +8,8 @@ object Pokemon {
 
 case class Pokemon(pType : PokemonType, hp : Int, isDead: Boolean = false) {
   def increaseHP(amount : Double) : Pokemon =
-    if pType.hp == hp then
-      this
+    if pType.hp <= (hp + amount) then
+      copy(hp = pType.hp)
     else
       copy( hp = (hp + amount).toInt )
 
