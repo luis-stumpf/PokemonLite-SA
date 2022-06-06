@@ -17,7 +17,7 @@ trait PokePlayerInterface:
 
   def setCurrentPokeTo(number: Int): PokePlayerInterface
 
-  def checkForDead() : Boolean
+  def checkForDefeat() : Boolean
 
 
 

@@ -3,6 +3,10 @@ package model.states
 
 import model.{ Command, State }
 
-case class GameOverState() extends State {
+import de.htwg.se.pokelite.model.commands.ChangeStateCommand
 
+case class GameOverState() extends State {
+  
+  override def restartTheGame():Option[Command] = Some(
+    ChangeStateCommand(this, InitState()))
 }

@@ -16,8 +16,8 @@ case class PokePlayer(name : String, pokemons : PokePack = PokePack( List( None 
 
   def setCurrentPokeTo(number : Int) : PokePlayer = copy( currentPoke = number - 1 )
 
-  def checkForDead() : Boolean = pokemons.contents.take( Game.maxPokePackSize ).forall( x => x.get.isDead )
-
+  def checkForDefeat() : Boolean = pokemons.checkIfAllPokemonAreDead
+  
   def getCurrentPokemonType : PokemonArt = pokemons.contents.apply( currentPoke ).get.pType.pokemonArt
 
   def getCurrentPokemon : Pokemon = pokemons.contents.apply( currentPoke ).get

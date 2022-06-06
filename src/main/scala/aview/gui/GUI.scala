@@ -53,6 +53,7 @@ class GUI( val controller : Controller) extends JFXApp3 with Observer {
         case FightingState() => new FightingPane(controller)
         case DesicionState() => DesicionPane(controller)
         case SwitchPokemonState() => new SwitchPokemonPane(controller)
+        case GameOverState() => InitPane(controller)
 
     topPane.children = new HBox() {
       hgrow = Priority.Always

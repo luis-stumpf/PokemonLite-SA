@@ -12,7 +12,7 @@ import scala.util.{ Failure, Success, Try }
 
 object Game extends GameRules {
 
-  val maxPokePackSize = 3
+  val maxPokePackSize = 1
   val maxPlayerNameLength = 20
 
   def calculateDamageMultiplicator(pokemonArt1 : PokemonArt, pokemonArt2 : PokemonArt) : Double =
@@ -57,6 +57,12 @@ case class Game(state : State = InitState(),
   def setStateTo(newState : State) : Game = copy( state = newState )
 
   def hasWinner : Boolean = if winner.isDefined then true else false
+
+  def setWinner() : Game =
+    if turn == 1 then
+      copy(winner = if player1.get.checkForDefeat() then player2 else None)
+    else
+      copy(winner = if player2.get.checkForDefeat() then player1 else None)
 
   def setNextTurn() : Game =
     if ( turn == 1 )
@@ -187,19 +193,17 @@ case class Game(state : State = InitState(),
 
     def p1_attacks_p2(attackNumber : Int) : Game =
       val mult = Game.calculateDamageMultiplicator( player1.get.getCurrentPokemonType, player2.get.getCurrentPokemonType )
-      copy(
+      val updatedGame = copy(
         player2 = Some(player2.get.reduceHealthOfCurrentPokemon(player1.get.currentPokemonDamageWith(attackNumber) * mult)),
-        turn = 2,
-        winner = if player2.get.checkForDead() then player1 else None)
-
+        turn = 2)
+      updatedGame.setWinner()
 
     def p2_attacks_p1(attackNumber : Int) : Game =
       val mult = Game.calculateDamageMultiplicator( player2.get.getCurrentPokemonType, player1.get.getCurrentPokemonType )
-      copy(
+      val updatedGame = copy(
         player1 = Some(player1.get.reduceHealthOfCurrentPokemon(player2.get.currentPokemonDamageWith(attackNumber) * mult)),
-        turn = 1,
-        winner = if player1.get.checkForDead() then player2 else None)
-
+        turn = 1)
+      updatedGame.setWinner()
   }
 
   object ReverseAttack {
@@ -209,7 +213,7 @@ case class Game(state : State = InitState(),
     def p1_attacked_p2(attackNumber : Int) : Game =
       val multiplikator = Game.calculateDamageMultiplicator( player1.get.getCurrentPokemonType, player2.get.getCurrentPokemonType )
       val damage = player1.get.currentPokemonDamageWith(attackNumber) * multiplikator
-      copy( 
+      copy(
         player2 = Some(player2.get.increaseHealthOfCurrentPokemon(damage)),
         state = FightingState(),
         turn = 1)
@@ -218,7 +222,7 @@ case class Game(state : State = InitState(),
     def p2_attacked_p1(attackNumber : Int) : Game =
       val mult = Game.calculateDamageMultiplicator( player2.get.getCurrentPokemonType, player1.get.getCurrentPokemonType )
       val damage = player2.get.currentPokemonDamageWith(attackNumber) * mult
-      copy( 
+      copy(
         player1 = Some(player1.get.increaseHealthOfCurrentPokemon(damage)),
         state = FightingState(),
         turn = 2)

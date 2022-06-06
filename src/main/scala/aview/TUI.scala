@@ -28,7 +28,7 @@ class TUI(controller : Controller) extends Observer :
         case DesicionState() => controller.nextMove(input)
         case FightingState() => controller.attackWith(input)
         case SwitchPokemonState() => controller.selectPokemon(input)
-        case GameOverState() => printThatTheGameIsOver()
+        case GameOverState() => controller.restartTheGame()
   }
 
   override def update(message: String) : Unit = {
@@ -88,4 +88,5 @@ class TUI(controller : Controller) extends Observer :
 
   def printThatTheGameIsOver(): Unit =
     println("GameOver, " + controller.game.winner.get.name + " has won the Game!")
+    println("Type anything to play again.")
 

@@ -10,6 +10,7 @@ trait State {
   def switchPokemon(input: String): Option[Command] = None
   def nextMove(input: String): Option[Command] = None
   def switchPokemonTo(input: String): Option[Command] = None
+  def restartTheGame():Option[Command] = None
 
 }
 

@@ -37,10 +37,10 @@ class PokePlayerSpec extends AnyWordSpec {
       p2.setPokemonTo( pokeList3 ) should be( p2.copy( pokemons = pokeList3 ) )
     }
     "check if at least one pokemon in the Pack is alive" in {
-      p2.checkForDead() should be(false)
+      p2.checkForDefeat() should be(false)
     }
     "check if all Pokemon in a pack are dead" in {
-      p4.checkForDead() should be(true)
+      p4.checkForDefeat() should be(true)
     }
   }
 }
