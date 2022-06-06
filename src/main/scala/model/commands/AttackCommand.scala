@@ -18,7 +18,6 @@ case class AttackCommand(input:String, state:FightingState) extends Command {
   }
 
   override def undoStep(game : GameInterface) : GameInterface =
-  //TODO: switch to InitplayerPokmenstate when all pokemon at max hp
     game.reverseAttackWith(input)
 
 }

@@ -175,17 +175,17 @@ case class Game(state : State = InitState(),
 
     var theCorrectPlayerWith = if  turn == 1 then p1_attacks_p2 else p2_attacks_p1
 
-    def p1_attacks_p2(attack : Int) =
+    def p1_attacks_p2(attackNumber : Int) : Game =
       val mult = Game.calculateDamageMultiplicator( player1.get.getCurrentPokemonType, player2.get.getCurrentPokemonType )
       copy(
-        player2 = Some(player2.get.reduceHealthOfCurrentPokemon(player1.get.currentPokemonDamageWith(attack) * mult)),
+        player2 = Some(player2.get.reduceHealthOfCurrentPokemon(player1.get.currentPokemonDamageWith(attackNumber) * mult)),
         turn = 2)
 
 
-    def p2_attacks_p1(attack : Int) =
+    def p2_attacks_p1(attackNumber : Int) : Game =
       val mult = Game.calculateDamageMultiplicator( player2.get.getCurrentPokemonType, player1.get.getCurrentPokemonType )
       copy(
-        player1 = Some(player1.get.reduceHealthOfCurrentPokemon(player2.get.currentPokemonDamageWith(attack) * mult)),
+        player1 = Some(player1.get.reduceHealthOfCurrentPokemon(player2.get.currentPokemonDamageWith(attackNumber) * mult)),
         turn = 1)
 
   }
@@ -194,14 +194,16 @@ case class Game(state : State = InitState(),
 
     var theCorrectPlayerWith = if  turn == 2 then p1_attacked_p2 else p2_attacked_p1
 
-    def p1_attacked_p2(attack : Int) =
-      val mult = Game.calculateDamageMultiplicator( player1.get.getCurrentPokemonType, player2.get.getCurrentPokemonType )
-      copy( player2 = Some(player2.get.increaseHealthOfCurrentPokemon(player1.get.currentPokemonDamageWith(attack) * mult)))
+    def p1_attacked_p2(attackNumber : Int) : Game =
+      val multiplikator = Game.calculateDamageMultiplicator( player1.get.getCurrentPokemonType, player2.get.getCurrentPokemonType )
+      val damage = player1.get.currentPokemonDamageWith(attackNumber) * multiplikator
+      copy( player2 = Some(player2.get.increaseHealthOfCurrentPokemon(damage)))
 
 
-    def p2_attacked_p1(attack : Int) =
+    def p2_attacked_p1(attackNumber : Int) : Game =
       val mult = Game.calculateDamageMultiplicator( player2.get.getCurrentPokemonType, player1.get.getCurrentPokemonType )
-      copy( player1 = Some(player1.get.increaseHealthOfCurrentPokemon(player2.get.currentPokemonDamageWith(attack) * mult)))
+      val damage = player2.get.currentPokemonDamageWith(attackNumber) * mult
+      copy( player1 = Some(player1.get.increaseHealthOfCurrentPokemon(damage)))
 
   }
 

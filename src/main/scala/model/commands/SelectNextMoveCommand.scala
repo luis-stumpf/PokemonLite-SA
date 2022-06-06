@@ -1,25 +1,24 @@
 package de.htwg.se.pokelite
 package model.commands
 
-import model.{Command, GameInterface, NoAttackSelected, NoDesicionMade, PokePlayerInterface, WrongInput}
+import model.{ Command, GameInterface, NoDesicionMade, NoInput, PokePlayerInterface, WrongInput }
 
-import de.htwg.se.pokelite.model.states.{DesicionState, FightingState, GameOverState, InitPlayerPokemonState, SwitchPokemonState}
+import de.htwg.se.pokelite.model.states.{ DesicionState, FightingState, GameOverState, InitPlayerPokemonState, SwitchPokemonState }
 
-import scala.util.{Failure, Success, Try}
+import scala.util.{ Failure, Success, Try }
 
 case class SelectNextMoveCommand(input:String, state:DesicionState) extends Command {
 
   override def doStep( game:GameInterface ):Try[GameInterface] = {
-    if( input.isEmpty || input == "" )
-      Failure( NoDesicionMade )
-    else {
-      val newGame = game
+      if input.isEmpty then Failure(NoInput)
+      else
       input.charAt(0).asDigit match
-        case 1 => Success(newGame.setStateTo(FightingState()))
-        case 2 => Success(newGame.setStateTo(SwitchPokemonState()))
+        case 1 => Success(game.setStateTo(FightingState()))
+        case 2 => Success(game.setStateTo(SwitchPokemonState()))
         case _ => Failure( WrongInput(input) )
-    }
+    
   }
 
-  override def undoStep( game:GameInterface ):GameInterface = game.setStateTo(state)
+  override def undoStep( game:GameInterface ):GameInterface =
+    game.setStateTo(state).setNextTurn()
 }
