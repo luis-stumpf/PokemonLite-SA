@@ -55,5 +55,7 @@ case class Controller() extends ControllerInterface() :
   def attackWith(input : String) : Unit = move( game.state.attackWith( input ) )
 
   def selectPokemon(input : String) : Unit = move( game.state.switchPokemonTo( input ) )
-  
-  def restartTheGame() : Unit = move( game.state.restartTheGame())
+
+  def restartTheGame() : Unit =
+    game = Game()
+    move( game.state.restartTheGame())
