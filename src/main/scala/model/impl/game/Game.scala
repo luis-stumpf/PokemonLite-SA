@@ -1,7 +1,7 @@
 package de.htwg.se.pokelite
 package model.impl.game
 
-import model.{ DeadPokemon, GameInterface, GameRules, HorriblePlayerNameError, HorriblePokemonSelectionError, NameTooLong, NoInput, NoPlayerExists, NoPlayerToRemove, NoPokemonSelected, NoValidAttackSelected, NotEnoughPokemonSelected, PokePack, PokePlayerInterface, Pokemon, PokemonArt, State }
+import model.{ DeadPokemon, GameInterface, GameRules, HorriblePlayerNameError, HorriblePokemonSelectionError, NameTooLong, NoInput, NoPlayerExists, NoPlayerToRemove, NoPokemonSelected, NoValidAttackSelected, NotEnoughPokemonSelected, PokePack, PokePlayerInterface, Pokemon, PokemonArt, State, WrongInput }
 import model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
 import model.impl.field.Field
 import model.states.{ DesicionState, FightingState, InitPlayerPokemonState, InitPlayerState, InitState }
@@ -115,15 +115,28 @@ case class Game(state : State = InitState(),
 
   def reverseAttackWith(input : String) : Game = ReverseAttack.theCorrectPlayerWith( selectedAttackFrom(input) )
 
-  def selectPokemon(input : Int) : Game =
-    if turn == 1 then
-      copy(
-        player1 = Some( player1.get.setCurrentPokeTo( input ) ),
-        turn = 2)
-    else
-      copy(
-        player2 = Some( player2.get.setCurrentPokeTo( input ) ),
-        turn = 1)
+  def selectPokemonFrom(input : String) : Try[Game] =
+    // TODO: Käs algo, überarbeiten!!
+    var selection: Int = 0
+    if input.isEmpty then return Failure(NoInput)
+    else if input.charAt(0).isDigit then
+      selection =  input.charAt(0).asDigit
+    else return Failure(WrongInput(input))
+
+    if inputIsValidPokePack(selection) then
+      if turn == 1 then
+        Success(copy(
+          player1 = Some( player1.get.setCurrentPokeTo( selection ) ),
+          turn = 2,
+          state = DesicionState()))
+      else
+        Success(copy(
+          player2 = Some( player2.get.setCurrentPokeTo( selection ) ),
+          turn = 1,
+          state = DesicionState()))
+    else Failure(WrongInput(input))
+
+  private def inputIsValidPokePack(selection: Int) = selection >= 1 && selection <= Game.maxPokePackSize
 
   private def getPokemonListFrom(string : String) : Try[ List[ Option[ Pokemon ] ] ] =
     if string.isEmpty then

@@ -45,7 +45,7 @@ trait GameInterface {
 
   def reverseAttackWith(i : String) : GameInterface
 
-  def selectPokemon(input : Int) : GameInterface
+  def selectPokemonFrom(input : String) : Try[GameInterface]
 
   override def toString : String
 
