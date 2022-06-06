@@ -11,20 +11,20 @@ case class Pokemon(pType : PokemonType, hp : Int, isDead: Boolean = false) {
     if pType.hp <= (hp + amount) then
       copy(hp = pType.hp)
     else
-      copy( hp = (hp + amount).toInt )
+      copy( hp = (hp + amount).toInt, isDead = false )
 
   def reduceHP(amount : Double) : Pokemon =
 
     val updatedHealth = (hp-amount).toInt
 
     if updatedHealth <= 0 then
-      copy(hp = 0, isDead = true)
+      copy(hp = updatedHealth, isDead = true)
     else
       copy( hp = updatedHealth)
 
   def damageOf(attackNumber: Int) : Int = pType.attacks.apply(attackNumber).damage
 
-  override def toString : String = if hp == 0 then pType.name + " is dead" else pType.name + " HP: " + hp
+  override def toString : String = if hp <= 0 then pType.name + " is dead" else pType.name + " HP: " + hp
 }
 
 enum PokemonType(val name : String, val hp : Int, val attacks : List[ AttackType ], val pokemonArt : PokemonArt) {

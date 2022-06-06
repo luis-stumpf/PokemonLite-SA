@@ -15,7 +15,7 @@ case class AttackCommand(input:String, state:FightingState) extends Command {
       case Success(updatedGame) =>
         if updatedGame.hasWinner then  Success(updatedGame.setStateTo(GameOverState()))
         else Success(updatedGame.setStateTo(DesicionState()))
-        
+
   }
 
   override def undoStep(game : GameInterface) : GameInterface =

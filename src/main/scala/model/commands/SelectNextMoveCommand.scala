@@ -16,9 +16,9 @@ case class SelectNextMoveCommand(input:String, state:DesicionState) extends Comm
         case 1 => Success(game.setStateTo(FightingState()))
         case 2 => Success(game.setStateTo(SwitchPokemonState()))
         case _ => Failure( WrongInput(input) )
-    
+
   }
 
   override def undoStep( game:GameInterface ):GameInterface =
-    game.setStateTo(state).setNextTurn()
+    game.setStateTo(state)
 }

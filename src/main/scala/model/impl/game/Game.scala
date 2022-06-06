@@ -4,7 +4,7 @@ package model.impl.game
 import model.{ DeadPokemon, GameInterface, GameRules, HorriblePlayerNameError, HorriblePokemonSelectionError, NameTooLong, NoInput, NoPlayerExists, NoPlayerToRemove, NoPokemonSelected, NoValidAttackSelected, NotEnoughPokemonSelected, PokePack, PokePlayerInterface, Pokemon, PokemonArt, State }
 import model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
 import model.impl.field.Field
-import model.states.{ DesicionState, InitPlayerPokemonState, InitPlayerState, InitState }
+import model.states.{ DesicionState, FightingState, InitPlayerPokemonState, InitPlayerState, InitState }
 
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 
@@ -102,16 +102,22 @@ case class Game(state : State = InitState(),
       case "" => Failure( NoInput )
       case "1" | "2" | "3" | "4" => Success( Attack.theCorrectPlayerWith( selectedAttackFrom( input ) ) )
       case _ => Failure( NoValidAttackSelected( input ) )
-  
+
   private def currentPokemonIsDead = if turn == 1 then player1.get.getCurrentPokemon.isDead else player2.get.getCurrentPokemon.isDead
-  
+
   private def selectedAttackFrom(string : String) : Int = string.charAt( 0 ).asDigit - 1
 
   def reverseAttackWith(input : String) : Game = ReverseAttack.theCorrectPlayerWith( selectedAttackFrom(input) )
 
   def selectPokemon(input : Int) : Game =
-    if turn == 1 then copy( player1 = Some( player1.get.setCurrentPokeTo( input ) ) )
-    else copy( player2 = Some( player2.get.setCurrentPokeTo( input ) ) )
+    if turn == 1 then
+      copy(
+        player1 = Some( player1.get.setCurrentPokeTo( input ) ),
+        turn = 2)
+    else
+      copy(
+        player2 = Some( player2.get.setCurrentPokeTo( input ) ),
+        turn = 1)
 
   private def getPokemonListFrom(string : String) : Try[ List[ Option[ Pokemon ] ] ] =
     if string.isEmpty then
@@ -203,13 +209,19 @@ case class Game(state : State = InitState(),
     def p1_attacked_p2(attackNumber : Int) : Game =
       val multiplikator = Game.calculateDamageMultiplicator( player1.get.getCurrentPokemonType, player2.get.getCurrentPokemonType )
       val damage = player1.get.currentPokemonDamageWith(attackNumber) * multiplikator
-      copy( player2 = Some(player2.get.increaseHealthOfCurrentPokemon(damage)))
+      copy( 
+        player2 = Some(player2.get.increaseHealthOfCurrentPokemon(damage)),
+        state = FightingState(),
+        turn = 1)
 
 
     def p2_attacked_p1(attackNumber : Int) : Game =
       val mult = Game.calculateDamageMultiplicator( player2.get.getCurrentPokemonType, player1.get.getCurrentPokemonType )
       val damage = player2.get.currentPokemonDamageWith(attackNumber) * mult
-      copy( player1 = Some(player1.get.increaseHealthOfCurrentPokemon(damage)))
+      copy( 
+        player1 = Some(player1.get.increaseHealthOfCurrentPokemon(damage)),
+        state = FightingState(),
+        turn = 2)
 
   }
 
