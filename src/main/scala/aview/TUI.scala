@@ -83,7 +83,7 @@ class TUI(controller : Controller) extends Observer :
 
 
   def printAvailableAttackOptions(): Unit =
-    println("You Possible Attacks are: 1, 2, 3, 4")
+    println("Your possible Attacks are: 1, 2, 3, 4")
 
 
   def printThatTheGameIsOver(): Unit =
