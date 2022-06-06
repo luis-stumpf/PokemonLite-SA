@@ -8,10 +8,10 @@ trait Error extends Throwable
 case object NoPlayerName extends Error
 
 case object NothingToUndo extends Error :
-  println( "Error: There is nothing to undo." )
+  override def toString : String = "Error: There is nothing to undo."
 
 case object NothingToRedo extends Error :
-  println( "Error: There is nothing to redo." )
+  override def toString : String = "Error: There is nothing to redo."
   
 case object DeadPokemon extends Error:
   override def toString : String = "Error: Your current Pokemon is dead and not able to attack!"
@@ -19,10 +19,10 @@ case object DeadPokemon extends Error:
 case object NoCommandFound extends Error
 
 case object NoInput extends Error:
-  println("Error: Please Enter a valid input.")
+  override def toString : String = "Error: Please Enter a valid input."
 
 case object NoPokemonSelected extends Error:
-  println("Error: You havent selected a valid Pokemon.")
+  override def toString : String = "Error: You havent selected a valid Pokemon."
 
 case class NotEnoughPokemonSelected(amount: Int) extends Error:
   override def toString : String = "Error: You have selected \"" + amount + "\" valid Pokemon, but " + Game.maxPokePackSize.toString + " is required."
