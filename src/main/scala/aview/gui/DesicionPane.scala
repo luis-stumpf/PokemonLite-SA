@@ -8,14 +8,16 @@ import scalafx.scene.control.Button
 
 
 case class DesicionPane(controller: ControllerInterface) extends HBox {
-  spacing = 10
-  margin = Insets( 200, 500, 100, 200 )
-
+  spacing = 50
   children = List(
     new Button("Fight"){
+      minWidth = 200
+      minHeight = 60
       onAction = _ => controller.nextMove("1")
     },
     new Button("Switch Pokemon"){
+      minWidth = 200
+      minHeight = 60
       onAction = _ => controller.nextMove("2")
     },
   )

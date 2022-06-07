@@ -2,6 +2,9 @@ ThisBuild / version := "0.1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "3.1.1"
 
+Compile/mainClass := Some("de.htwg.se.pokelite.PokemonLite")
+mainClass in (Compile, packageBin) := Some("de.htwg.se.pokelite.PokemonLite")
+
 lazy val root = (project in file("."))
   .settings(
     name := "PokemonLite",

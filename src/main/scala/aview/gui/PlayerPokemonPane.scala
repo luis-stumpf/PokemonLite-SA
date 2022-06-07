@@ -5,31 +5,39 @@ import scalafx.scene.control.ComboBox
 import model.PokemonType
 import controller.ControllerInterface
 
+import de.htwg.se.pokelite.model.impl.game.Game
+import scalafx.scene.layout.GridPane
 import scalafx.scene.control.Button
 import scalafx.geometry.Insets
-import scalafx.scene.layout.HBox
+import scalafx.scene.layout.VBox
 
-case class PlayerPokemonPane(controller: ControllerInterface) extends HBox {
-  spacing = 10
-  margin = Insets( 200, 500, 100, 200 )
+case class PlayerPokemonPane(controller: ControllerInterface) extends GridPane {
 
-  val comboBox1 : ComboBox[ String ] = new ComboBox[ String ]( PokemonType.values.map( _.name ) ) {
-    margin = Insets(20, 20, 20, 20)
+  val confirm: Button = new Button("Confrim") {
+    minWidth = 200
+    minHeight = 40
+    margin = Insets(20)
+    onAction = _ => controller.addPokemons(list.map(p => getPokemons(p)).mkString(""))
   }
-  val comboBox2 : ComboBox[ String ] = new ComboBox[ String ]( PokemonType.values.map( _.name ) ) {
-    margin = Insets(20, 20, 20, 20)
-  }
-  val comboBox3 : ComboBox[ String ] = new ComboBox[ String ]( PokemonType.values.map( _.name ) ) {
-    margin = Insets(20, 20, 20, 20)
-  }
-  val confirm:Button = new Button("Confrim"){
-    onAction = _ => controller.addPokemons(""+ getPokemons(comboBox1) + getPokemons(comboBox2) + getPokemons(comboBox3))
-  }
-  children = List(comboBox1,comboBox2,comboBox3, confirm)
+
+  var list = (1 to Game.maxPokePackSize).map[ComboBox[String]](p => new ComboBox[String](PokemonType.values.map("" + _.name)) {
+    minWidth = 200
+    minHeight = 40
+    margin = Insets(20)
+  })
+
+  add(new VBox(){
+    children = list
+  },0 ,0)
+  add(confirm, 1, 0)
 
 
-  def getPokemons(comboBox: ComboBox[String]):String =
-    comboBox.getValue. match
+
+
+
+
+  def getPokemons(comboBox: ComboBox[String]): String =
+    comboBox.getValue.match
       case "Glurak" => "1"
       case "Simsala" => "2"
       case "Brutalanda" => "3"

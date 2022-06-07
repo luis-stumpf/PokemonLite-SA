@@ -6,9 +6,11 @@ import scalafx.geometry.Insets
 import scalafx.scene.control.Button
 import controller.ControllerInterface
 
+import scalafx.scene.image.{Image, ImageView}
+
 
 case class FightingPane(controller: ControllerInterface) extends GridPane{
-  padding = Insets(100, 100, 100, 100)
+
 
   def getAttackName(i: Int):String =
     if(controller.game.turn == 1)
@@ -18,23 +20,27 @@ case class FightingPane(controller: ControllerInterface) extends GridPane{
 
 
   val attack1 = new Button(getAttackName(0)){
-    padding = Insets(30, 100, 30, 100)
-    margin = Insets(20, 20, 20, 20)
+    margin = Insets(20)
+    minWidth = 200
+    minHeight = 60
     onAction = _ => controller.attackWith("1")
   }
   val attack2 = new Button(getAttackName(1)){
-    padding = Insets(30, 100, 30, 100)
-    margin = Insets(20, 20, 20, 20)
+    margin = Insets(20)
+    minWidth = 200
+    minHeight = 60
     onAction = _ => controller.attackWith("2")
   }
   val attack3 = new Button(getAttackName(2)){
-    padding = Insets(30, 100, 30, 100)
-    margin = Insets(20, 20, 20, 20)
+    margin = Insets(20)
+    minWidth = 200
+    minHeight = 60
     onAction = _ => controller.attackWith("3")
   }
   val attack4 = new Button(getAttackName(3)){
-    padding = Insets(30, 100, 30, 100)
-    margin = Insets(20, 20, 20, 20)
+    margin = Insets(20)
+    minWidth = 200
+    minHeight = 60
     onAction = _ => controller.attackWith("4")
   }
 
