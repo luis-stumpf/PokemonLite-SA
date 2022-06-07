@@ -125,8 +125,6 @@ class GUI(val controller: Controller) extends JFXApp3 with Observer {
     */
 
       val bigBackground: Background = getBackground("/backgroundbig.png")
-      val fieldBackground: Background = getBackground("/backgroundField.png")
-      val menuBackground: Background = getBackground("/backgroundMenu.png")
 
       private def getBackground(url: String): Background = {
         val tile: Image = new Image(url)
