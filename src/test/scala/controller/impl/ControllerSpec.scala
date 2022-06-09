@@ -14,7 +14,7 @@ import org.scalatest.wordspec.AnyWordSpec
 class ControllerSpec extends AnyWordSpec {
   "The Controller" should {
 
-    val controller = Controller()
+    val controller = ControllerInterface()
     "have a Undo Manager" in {
       assert(controller.undoManager.isInstanceOf[UndoManager])
     }
@@ -36,7 +36,7 @@ class ControllerSpec extends AnyWordSpec {
     }
 
     "notify its observers on change" in {
-      class TestObserver(controller: Controller) extends Observer:
+      class TestObserver(controller: ControllerInterface) extends Observer:
         controller.add(this)
         var bing = false
         def update = bing = true

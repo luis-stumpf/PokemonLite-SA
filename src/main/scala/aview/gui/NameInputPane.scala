@@ -5,11 +5,11 @@ import scalafx.scene.control.Button
 import scalafx.geometry.Insets
 import scalafx.scene.layout.VBox
 import scalafx.scene.control.TextField
-import controller.ControllerInterface
+import controller.impl.Controller
 
 import scalafx.scene.text.Font
 
-case class NameInputPane(controller: ControllerInterface) extends VBox {
+case class NameInputPane(controller: Controller) extends VBox {
 
   spacing = 30
   val textField:TextField = new TextField(){

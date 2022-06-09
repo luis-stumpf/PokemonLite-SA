@@ -23,7 +23,9 @@ case class Pokemon(pType : PokemonType, hp : Int, isDead: Boolean = false) {
       copy( hp = updatedHealth)
 
   def damageOf(attackNumber: Int) : Int = pType.attacks.apply(attackNumber).damage
-
+  
+  def getHp: Int = hp
+  
   override def toString : String = if hp <= 0 then pType.name + " is dead" else pType.name + " HP: " + hp
 }
 

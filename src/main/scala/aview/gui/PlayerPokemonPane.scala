@@ -3,7 +3,7 @@ package aview.gui
 
 import scalafx.scene.control.ComboBox
 import model.PokemonType
-import controller.ControllerInterface
+import controller.impl.Controller
 
 import de.htwg.se.pokelite.model.impl.game.Game
 import scalafx.scene.layout.GridPane
@@ -11,7 +11,7 @@ import scalafx.scene.control.Button
 import scalafx.geometry.Insets
 import scalafx.scene.layout.VBox
 
-case class PlayerPokemonPane(controller: ControllerInterface) extends GridPane {
+case class PlayerPokemonPane(controller: Controller) extends GridPane {
 
   val confirm: Button = new Button("Confrim") {
     minWidth = 200

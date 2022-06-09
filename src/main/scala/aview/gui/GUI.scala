@@ -5,10 +5,11 @@ import controller.impl.Controller
 import model.State
 import model.states.*
 
-
+import de.htwg.se.pokelite.aview.gui.pieces.HealthBar
 import de.htwg.se.pokelite.model.State
 import de.htwg.se.pokelite.util.Observer
-
+import scalafx.scene.text.FontWeight
+import scalafx.scene.text.Font
 import scalafx.scene.media.MediaPlayer
 import scalafx.scene.media.Media
 import scalafx.scene.control.Alert.AlertType
@@ -60,8 +61,9 @@ class GUI(val controller: Controller) extends JFXApp3 with Observer {
         new ColumnConstraints(300)
       )
       rowConstraints = List(
-        new RowConstraints(240),
-        new RowConstraints(240)
+        new RowConstraints(225),
+        new RowConstraints(225),
+        new RowConstraints(30)
       )
 
 
@@ -71,10 +73,10 @@ class GUI(val controller: Controller) extends JFXApp3 with Observer {
       val player2PokeView = new ImageView(player2PokeImg)
       add(player1PokeView, 2, 0)
       add(player2PokeView, 0, 1)
-      val text1: Text = new Text(controller.game.player1.map(_.pokemons.contents.apply(controller.game.player1.get.currentPoke).map(_.toString).getOrElse("")).getOrElse(""))
-      val text2: Text = new Text(controller.game.player2.map(_.pokemons.contents.apply(controller.game.player2.get.currentPoke).map(_.toString).getOrElse("")).getOrElse(""))
-      add(text1, 1, 0)
-      add(text2, 1, 1)
+      
+      add(HealthBar(controller, 1), 1 ,0)
+      add(HealthBar(controller, 2), 1, 1)
+
     }
 
     menuPane.children =
@@ -89,6 +91,13 @@ class GUI(val controller: Controller) extends JFXApp3 with Observer {
 
     topPane.children = new HBox(10) {
       alignment = Pos.BottomRight
+      val currentPlayerName =
+        if controller.game.turn == 1
+        then controller.game.player1.map(_.name).getOrElse("")
+        else controller.game.player2.map(_.name).getOrElse("")
+      val info: Text = new Text() {
+        text = currentPlayerName + " du bist dran!"
+      }
       maxHeight = 10
       var undo: Button = new Button("<-") {
         onAction = _ => controller.undoMove()
@@ -96,7 +105,7 @@ class GUI(val controller: Controller) extends JFXApp3 with Observer {
       var redo: Button = new Button("->") {
         onAction = _ => controller.redoMove()
       }
-      children = List(undo, redo)
+      children = List(info, undo, redo)
     }
 
   var fieldPane: VBox = new VBox() {
