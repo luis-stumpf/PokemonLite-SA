@@ -7,7 +7,7 @@ import model.states.*
 
 import scala.util.{Failure, Success}
 
-trait ControllerInterface() extends Observable :
+trait ControllerInterface extends Observable :
   val undoManager: UndoManager
   var game:GameInterface
 

@@ -4,8 +4,13 @@ package model.impl.field
 import model.{FieldInterface, PokePlayerInterface, Pokemon}
 
 import com.google.inject.Inject
+import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 
-case class Field @Inject (width : Int, player1 : PokePlayerInterface, player2 : PokePlayerInterface, isControlledBy : Int = 1) extends FieldInterface:
+case class Field (width : Int, player1 : PokePlayerInterface, player2 : PokePlayerInterface, isControlledBy : Int = 1) extends FieldInterface:
+
+  @Inject
+  def this() = this( width = 30, player1 = PokePlayer(""), player2 = PokePlayer(""),  isControlledBy = 1)
+
   override def toString: String = mesh()
 
   def mesh(height : Int = 3) : String = row() + printPlayer1Stats() + col( height ) + printPlayer2Stats() + row()

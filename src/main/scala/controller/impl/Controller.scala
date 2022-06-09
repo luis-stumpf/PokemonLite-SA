@@ -9,7 +9,7 @@ import de.htwg.se.pokelite.util.UndoManager
 
 import scala.util.{Failure, Success}
 
-case class Controller @Inject () extends ControllerInterface() :
+class Controller @Inject extends ControllerInterface :
   val undoManager = new UndoManager
   var game : GameInterface = Game()
 

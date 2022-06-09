@@ -47,13 +47,8 @@ case class Game (state : State = InitState(),
                 turn : Int = 1,
                 winner : Option[ PokePlayer ] = None) extends GameInterface {
 
-  def copy(
-            state : State = state,
-            player1 : Option[ PokePlayer ] = player1,
-            player2 : Option[ PokePlayer ] = player2,
-            turn : Int = turn,
-            winner : Option[ PokePlayer ] = winner
-          ) : Game = Game( state, player1, player2, turn, winner )
+  @Inject
+  def this() = this(state = InitState(), turn = 1)
 
   def setStateTo(newState : State) : Game = copy( state = newState )
 

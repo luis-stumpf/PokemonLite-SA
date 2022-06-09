@@ -7,7 +7,10 @@ import model.impl.pokePlayer
 import com.google.inject.Inject
 import de.htwg.se.pokelite.model.impl.game.Game
 
-case class PokePlayer @Inject (name : String, pokemons : PokePack = PokePack( List( None ) ), currentPoke : Int = 0) extends PokePlayerInterface :
+case class PokePlayer (name : String, pokemons : PokePack = PokePack( List( None ) ), currentPoke : Int = 0) extends PokePlayerInterface :
+
+  @Inject
+  def this() = this(name = "", pokemons = PokePack(List(None)))
 
   override def toString : String = name
 
