@@ -1,6 +1,8 @@
 package de.htwg.se.pokelite
 package model
 
+import model.GameInterface
+
 trait State {
 
   def initPlayers() : Option[ Command ] = None
@@ -10,7 +12,7 @@ trait State {
   def switchPokemon(input: String): Option[Command] = None
   def nextMove(input: String): Option[Command] = None
   def switchPokemonTo(input: String): Option[Command] = None
-  def restartTheGame():Option[Command] = None
+  def restartTheGame(game: GameInterface):Option[Command] = None
 
 }
 
