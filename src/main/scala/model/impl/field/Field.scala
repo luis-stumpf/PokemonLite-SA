@@ -3,7 +3,9 @@ package model.impl.field
 
 import model.{FieldInterface, PokePlayerInterface, Pokemon}
 
-case class Field(width : Int, player1 : PokePlayerInterface, player2 : PokePlayerInterface, isControlledBy : Int = 1) extends FieldInterface:
+import com.google.inject.Inject
+
+case class Field @Inject (width : Int, player1 : PokePlayerInterface, player2 : PokePlayerInterface, isControlledBy : Int = 1) extends FieldInterface:
   override def toString: String = mesh()
 
   def mesh(height : Int = 3) : String = row() + printPlayer1Stats() + col( height ) + printPlayer2Stats() + row()

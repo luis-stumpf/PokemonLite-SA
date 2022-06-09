@@ -1,14 +1,15 @@
 package de.htwg.se.pokelite.controller.impl
 
+import com.google.inject.Inject
 import de.htwg.se.pokelite.controller.ControllerInterface
 import de.htwg.se.pokelite.model.impl.game.Game
 import de.htwg.se.pokelite.model.states.InitPlayerState
-import de.htwg.se.pokelite.model.{ Command, GameInterface }
+import de.htwg.se.pokelite.model.{Command, GameInterface}
 import de.htwg.se.pokelite.util.UndoManager
 
-import scala.util.{ Failure, Success }
+import scala.util.{Failure, Success}
 
-case class Controller() extends ControllerInterface() :
+case class Controller @Inject () extends ControllerInterface() :
   val undoManager = new UndoManager
   var game : GameInterface = Game()
 
