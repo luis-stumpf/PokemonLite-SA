@@ -4,12 +4,12 @@ package aview.gui
 import scalafx.scene.layout.GridPane
 import scalafx.geometry.Insets
 import scalafx.scene.control.Button
-import controller.ControllerInterface
+import controller.impl.Controller
 
 import scalafx.scene.image.{Image, ImageView}
 
 
-case class FightingPane(controller: ControllerInterface) extends GridPane{
+case class FightingPane(controller: Controller) extends GridPane{
 
 
   def getAttackName(i: Int):String =

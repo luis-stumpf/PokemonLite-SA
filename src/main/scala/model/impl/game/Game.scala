@@ -1,14 +1,15 @@
 package de.htwg.se.pokelite
 package model.impl.game
 
-import model.{ DeadPokemon, GameInterface, GameRules, HorriblePlayerNameError, HorriblePokemonSelectionError, NameTooLong, NoInput, NoPlayerExists, NoPlayerToRemove, NoPokemonSelected, NoValidAttackSelected, NotEnoughPokemonSelected, PokePack, PokePlayerInterface, Pokemon, PokemonArt, State, WrongInput }
-import model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
+import model.{DeadPokemon, GameInterface, GameRules, HorriblePlayerNameError, HorriblePokemonSelectionError, NameTooLong, NoInput, NoPlayerExists, NoPlayerToRemove, NoPokemonSelected, NoValidAttackSelected, NotEnoughPokemonSelected, PokePack, PokePlayerInterface, Pokemon, PokemonArt, State, WrongInput}
+import model.PokemonType.{Bisaflor, Brutalanda, Glurak, Simsala, Turtok}
 import model.impl.field.Field
-import model.states.{ DesicionState, FightingState, InitPlayerPokemonState, InitPlayerState, InitState }
+import model.states.{DesicionState, FightingState, InitPlayerPokemonState, InitPlayerState, InitState}
 
+import com.google.inject.Inject
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 
-import scala.util.{ Failure, Success, Try }
+import scala.util.{Failure, Success, Try}
 
 object Game extends GameRules {
 
@@ -40,19 +41,14 @@ object Game extends GameRules {
 
 }
 
-case class Game(state : State = InitState(),
+case class Game (state : State = InitState(),
                 player1 : Option[ PokePlayer ] = None,
                 player2 : Option[ PokePlayer ] = None,
                 turn : Int = 1,
                 winner : Option[ PokePlayer ] = None) extends GameInterface {
 
-  def copy(
-            state : State = state,
-            player1 : Option[ PokePlayer ] = player1,
-            player2 : Option[ PokePlayer ] = player2,
-            turn : Int = turn,
-            winner : Option[ PokePlayer ] = winner
-          ) : Game = Game( state, player1, player2, turn, winner )
+  @Inject
+  def this() = this(state = InitState(), turn = 1)
 
   def setStateTo(newState : State) : Game = copy( state = newState )
 

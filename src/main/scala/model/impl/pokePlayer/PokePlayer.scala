@@ -1,12 +1,16 @@
 package de.htwg.se.pokelite
 package model.impl.pokePlayer
 
-import model.{ GameInterface, PokePack, PokePlayerInterface, Pokemon, PokemonArt }
+import model.{GameInterface, PokePack, PokePlayerInterface, Pokemon, PokemonArt}
 import model.impl.pokePlayer
 
+import com.google.inject.Inject
 import de.htwg.se.pokelite.model.impl.game.Game
 
-case class PokePlayer(name : String, pokemons : PokePack = PokePack( List( None ) ), currentPoke : Int = 0) extends PokePlayerInterface :
+case class PokePlayer (name : String, pokemons : PokePack = PokePack( List( None ) ), currentPoke : Int = 0) extends PokePlayerInterface :
+
+  @Inject
+  def this() = this(name = "", pokemons = PokePack(List(None)))
 
   override def toString : String = name
 
