@@ -4,9 +4,9 @@ package model.CommandSpec
 import de.htwg.se.pokelite.model.impl.game.Game
 import de.htwg.se.pokelite.model.states.FightingState
 import model.commands.AttackCommand
-import scala.util.Failure
 
-import de.htwg.se.pokelite.model.NoAttackSelected
+import scala.util.Failure
+import de.htwg.se.pokelite.model.NoValidAttackSelected
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -16,7 +16,7 @@ class AttackCommandSpec extends AnyWordSpec{
     val state = FightingState()
     val game = newGame.setStateTo(state)
     "failure" in {
-      AttackCommand("", state).doStep(game) should be (Failure(NoAttackSelected))
+      AttackCommand("", state).doStep(game) should be (Failure(NoValidAttackSelected("1")))
     }
 
   }

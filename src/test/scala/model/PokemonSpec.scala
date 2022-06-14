@@ -10,8 +10,8 @@ class PokemonSpec extends AnyWordSpec {
     val pokemon = Pokemon(Glurak)
     "have a String of form ''" in {
       pokemon.toString should be("Glurak HP: 150")
-      pokemon.reduceHP(NoAttack(), 0) should be(Some(Pokemon(Glurak, 150)))
-      pokemon.reduceHP(Attack("Tackle", 200), 1).get.toString should be("Glurak is dead")
+      pokemon.reduceHP(0) should be(Some(Pokemon(Glurak, 150)))
+      pokemon.reduceHP(1).get.toString should be("Glurak is dead")
     }
     "attackInv" in {
       pokemon.increaseHP(Attack("Tackle", 20), 1).toString should be("Glurak HP: 170")
