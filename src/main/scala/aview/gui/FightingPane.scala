@@ -6,10 +6,11 @@ import scalafx.geometry.Insets
 import scalafx.scene.control.Button
 import controller.impl.Controller
 
+import de.htwg.se.pokelite.controller.ControllerInterface
 import scalafx.scene.image.{Image, ImageView}
 
 
-case class FightingPane(controller: Controller) extends GridPane{
+case class FightingPane(controller: ControllerInterface) extends GridPane{
 
 
   def getAttackName(i: Int):String =

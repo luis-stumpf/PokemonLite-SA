@@ -7,6 +7,7 @@ import model.State
 import model.states.*
 
 import de.htwg.se.pokelite.aview.gui.pieces.HealthBar
+import de.htwg.se.pokelite.controller.ControllerInterface
 import de.htwg.se.pokelite.model.State
 import de.htwg.se.pokelite.util.Observer
 import scalafx.scene.text.FontWeight
@@ -38,7 +39,7 @@ import scalafx.geometry.Insets
 import scalafx.geometry.Pos
 
 
-class GUI(val controller: Controller) extends JFXApp3 with Observer {
+class GUI(val controller: ControllerInterface) extends JFXApp3 with Observer {
 
   controller.add(this)
 

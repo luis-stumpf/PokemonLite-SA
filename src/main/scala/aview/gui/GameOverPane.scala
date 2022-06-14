@@ -1,6 +1,7 @@
 package de.htwg.se.pokelite
 package aview.gui
 
+import de.htwg.se.pokelite.controller.ControllerInterface
 import de.htwg.se.pokelite.controller.impl.Controller
 import scalafx.scene.text.Font
 import scalafx.scene.control.Label
@@ -10,7 +11,7 @@ import scalafx.scene.image.Image
 import scalafx.scene.layout.VBox
 import scalafx.scene.control.Button
 
-case class GameOverPane(controller: Controller) extends VBox {
+case class GameOverPane(controller: ControllerInterface) extends VBox {
   spacing = 30
   alignment = Pos.Center
 

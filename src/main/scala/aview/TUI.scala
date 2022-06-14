@@ -5,13 +5,14 @@ import model.*
 import util.*
 import controller.impl.Controller
 
+import de.htwg.se.pokelite.controller.ControllerInterface
 import de.htwg.se.pokelite.model.states.*
 
 import scala.io.StdIn.readLine
-import scala.util.{ Failure, Success, Try }
+import scala.util.{Failure, Success, Try}
 
 
-class TUI(controller : Controller) extends Observer :
+class TUI(controller : ControllerInterface) extends Observer :
 
   controller.add( this )
 

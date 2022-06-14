@@ -1,6 +1,7 @@
 package de.htwg.se.pokelite
 package aview.gui
 
+import de.htwg.se.pokelite.controller.ControllerInterface
 import de.htwg.se.pokelite.controller.impl.Controller
 import scalafx.scene.control.Button
 import scalafx.scene.Node
@@ -8,7 +9,7 @@ import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout.VBox
 import scalafx.scene.image.ImageView
 
-class SwitchPokemonPane(controller : Controller) extends VBox {
+class SwitchPokemonPane(controller : ControllerInterface) extends VBox {
   spacing = 30
   def getPokemons : List[ Button ] = {
     if ( controller.game.turn == 1 )
