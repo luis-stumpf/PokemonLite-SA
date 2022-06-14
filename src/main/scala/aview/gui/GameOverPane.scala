@@ -14,7 +14,7 @@ case class GameOverPane(controller: Controller) extends VBox {
   spacing = 30
   alignment = Pos.Center
 
-  val text = new Label("GAMEOVER!\n The Winner is: " + controller.game.winner.get){
+  val text = new Label("GAMEOVER!\nThe Winner is: " + controller.game.winner.get){
     font = Font.font(20)
   }
 

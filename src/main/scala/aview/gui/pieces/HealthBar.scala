@@ -3,6 +3,10 @@ package aview.gui.pieces
 
 import de.htwg.se.pokelite.controller.impl.Controller
 import de.htwg.se.pokelite.model.states.{InitPlayerPokemonState, InitPlayerState, InitState}
+import scalafx.scene.layout.{BorderWidths, CornerRadii}
+import scalafx.scene.layout.BorderStrokeStyle
+import scalafx.scene.layout.BorderStroke
+import scalafx.scene.layout.Border
 import scalafx.geometry.Insets
 import scalafx.geometry.Pos
 import scalafx.scene.layout.VBox
@@ -10,35 +14,47 @@ import scalafx.scene.layout.StackPane
 import scalafx.scene.paint.Paint
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.shape.Cylinder
-import scalafx.scene.layout.HBox
 import scalafx.scene.text.{Font, Text}
 
-case class HealthBar(controller: Controller, turn: Int) extends VBox {
+case class HealthBar(controller: Controller, turn: Int) extends StackPane() {
 
   padding = Insets(80, 0, 0, 0)
 
+
   val stackPane = new StackPane() {
+    val healthBar = new Rectangle() {
+      alignment = Pos.CenterLeft
+      height = 10
+      width = calcHealthBar
+      fill = Paint.valueOf("lightgreen")
+    }
+
+
+    val healthBarBackground = new Rectangle() {
+      height = 12
+      width = 132
+      fill = Paint.valueOf("lightgrey")
+    }
+
+    children = List(healthBarBackground, healthBar)
+  }
+
+  val overlay = new VBox() {
+    margin = Insets(5)
     alignment = Pos.CenterLeft
 
-    val healthBar = new Rectangle() {
-      height = 10
+    children = List(status, stackPane)
+  }
 
-      width = calcHealthBar
-      fill = Paint.valueOf("red")
-    }
-
-    /*
-    val healthBarBackgournd = new Rectangle() {
-      height = 12
-      width = 130
-      fill = Paint.valueOf("white")
-    }
-    */
-    children = List(healthBar)
+  val underlay = new Rectangle() {
+    alignment = Pos.CenterLeft
+    width = 170
+    height = 40
+    style = "-fx-fill: #a68d70; -fx-stroke: #5a452e; -fx-stroke-width: 2;"
   }
 
 
-  children = List(status, stackPane)
+  children = List(underlay, overlay)
 
   def status: Text =
     var text = new Text()

@@ -4,7 +4,7 @@ package model.impl.game
 import model.{DeadPokemon, GameInterface, GameRules, HorriblePlayerNameError, HorriblePokemonSelectionError, NameTooLong, NoInput, NoPlayerExists, NoPlayerToRemove, NoPokemonSelected, NoValidAttackSelected, NotEnoughPokemonSelected, PokePack, PokePlayerInterface, Pokemon, PokemonArt, State, WrongInput}
 import model.PokemonType.{Bisaflor, Brutalanda, Glurak, Simsala, Turtok}
 import model.impl.field.Field
-import model.states.{DesicionState, FightingState, InitPlayerPokemonState, InitPlayerState, InitState}
+import model.states.{DesicionState, FightingState, GameOverState, InitPlayerPokemonState, InitPlayerState, InitState, SwitchPokemonState}
 
 import com.google.inject.Inject
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
@@ -15,6 +15,16 @@ object Game extends GameRules {
 
   val maxPokePackSize = 1
   val maxPlayerNameLength = 20
+
+
+  def isIngame(state: State): Boolean =
+    state match
+      case FightingState() => true
+      case DesicionState() => true
+      case SwitchPokemonState() => true
+      case GameOverState() => true
+      case _ => false
+
 
   def calculateDamageMultiplicator(pokemonArt1 : PokemonArt, pokemonArt2 : PokemonArt) : Double =
     pokemonArt1 match

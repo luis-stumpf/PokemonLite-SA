@@ -2,6 +2,7 @@ package de.htwg.se.pokelite
 package aview.gui
 
 import controller.impl.Controller
+import model.impl.game.Game
 import model.State
 import model.states.*
 
@@ -73,9 +74,11 @@ class GUI(val controller: Controller) extends JFXApp3 with Observer {
       val player2PokeView = new ImageView(player2PokeImg)
       add(player1PokeView, 2, 0)
       add(player2PokeView, 0, 1)
-      
-      add(HealthBar(controller, 1), 1 ,0)
-      add(HealthBar(controller, 2), 1, 1)
+
+      if(Game.isIngame(controller.game.state)) {
+        add(HealthBar(controller, 1), 1, 0)
+        add(HealthBar(controller, 2), 1, 1)
+      }
 
     }
 
