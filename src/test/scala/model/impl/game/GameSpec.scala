@@ -91,6 +91,10 @@ class GameSpec extends AnyWordSpec {
   }
   "The Game Object" should {
 
+    "check if its current state is a match state" in {
+      Game.isIngame(InitState()) should be (false)
+    }
+
     "return a damage Multiplikator with water and water" in {
       Game.calculateDamageMultiplicator( PokemonArt.Wasser, PokemonArt.Wasser ) should be( 1 )
     }
