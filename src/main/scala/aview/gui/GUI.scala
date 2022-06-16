@@ -128,12 +128,15 @@ class GUI(val controller: Controller) extends JFXApp3 with Observer {
   override def start(): Unit = {
     stage = new JFXApp3.PrimaryStage {
 
+
+      /*
+
       val soundRes = getClass.getResource("/audio.wav").toURI().toString()
 
       val sound = new Media(soundRes)
       val soundPlayer = new MediaPlayer(sound)
       soundPlayer.play()
-
+    */
 
       val bigBackground: Background = getBackground("/backgroundbig.png")
 
