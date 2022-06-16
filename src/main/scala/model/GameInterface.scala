@@ -18,6 +18,7 @@ trait GameRules {
   def maxPokePackSize: Int
   def maxPlayerNameLength: Int
   def calculateDamageMultiplicator(pokemonArt1 : PokemonArt, pokemonArt2 : PokemonArt) : Double
+  def isIngame(state: State):Boolean
 }
 
 trait GameInterface {
