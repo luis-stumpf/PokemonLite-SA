@@ -7,9 +7,10 @@ import scalafx.scene.layout.VBox
 import scalafx.scene.control.TextField
 import controller.impl.Controller
 
+import de.htwg.se.pokelite.controller.ControllerInterface
 import scalafx.scene.text.Font
 
-case class NameInputPane(controller: Controller) extends VBox {
+case class NameInputPane(controller: ControllerInterface) extends VBox {
 
   spacing = 30
   val textField:TextField = new TextField(){

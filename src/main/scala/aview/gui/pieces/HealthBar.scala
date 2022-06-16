@@ -1,6 +1,7 @@
 package de.htwg.se.pokelite
 package aview.gui.pieces
 
+import de.htwg.se.pokelite.controller.ControllerInterface
 import de.htwg.se.pokelite.controller.impl.Controller
 import de.htwg.se.pokelite.model.states.{InitPlayerPokemonState, InitPlayerState, InitState}
 import scalafx.scene.layout.{BorderWidths, CornerRadii}
@@ -16,7 +17,7 @@ import scalafx.scene.shape.Rectangle
 import scalafx.scene.shape.Cylinder
 import scalafx.scene.text.{Font, Text}
 
-case class HealthBar(controller: Controller, turn: Int) extends StackPane() {
+case class HealthBar(controller: ControllerInterface, turn: Int) extends StackPane() {
 
   padding = Insets(80, 0, 0, 0)
 
@@ -27,13 +28,15 @@ case class HealthBar(controller: Controller, turn: Int) extends StackPane() {
       height = 10
       width = calcHealthBar
       fill = Paint.valueOf("lightgreen")
+      margin = Insets(0,0,1,2)
     }
 
 
     val healthBarBackground = new Rectangle() {
+      alignment = Pos.CenterLeft
       height = 12
       width = 132
-      fill = Paint.valueOf("lightgrey")
+      style = "-fx-fill: #d4cdba; -fx-stroke: #33312a; -fx-stroke-width: 2;"
     }
 
     children = List(healthBarBackground, healthBar)

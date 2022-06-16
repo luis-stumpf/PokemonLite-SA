@@ -5,7 +5,8 @@ import model.impl.game.Game
 
 trait Error extends Throwable
 
-case object NoPlayerName extends Error
+case object NoPlayerName extends Error:
+  override def toString : String = "Error: There is No Player Name."
 
 case object NothingToUndo extends Error :
   override def toString : String = "Error: There is nothing to undo."
@@ -16,7 +17,8 @@ case object NothingToRedo extends Error :
 case object DeadPokemon extends Error:
   override def toString : String = "Error: Your current Pokemon is dead and not able to attack!"
 
-case object NoCommandFound extends Error
+case object NoCommandFound extends Error:
+  override def toString : String = "Error: Could not find Command."
 
 case object NoInput extends Error:
   override def toString : String = "Error: Please Enter a valid input."
@@ -34,11 +36,14 @@ case class NoValidAttackSelected(input: String) extends Error:
 case class WrongInput(input : String) extends Error :
   override def toString : String = "Error: The Input \"" + input + "\" is not valid."
 
-case object NoDesicionMade extends Error
+case object NoDesicionMade extends Error:
+  override def toString : String = "Error: Couldnt find a valid Desicion."
 
-case object NoPlayerExists extends Error
+case object NoPlayerExists extends Error:
+  override def toString : String = "Error: There Player."
 
-case object NoPlayerToRemove extends Error
+case object NoPlayerToRemove extends Error:
+  override def toString : String = "Error: No Player to remove."
 
 case class NameTooLong(input : String) extends Error :
   override def toString : String = "Error: The Name \"" + input + "\" is too long."

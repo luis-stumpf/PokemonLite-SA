@@ -5,7 +5,7 @@ import model.impl.game.Game
 
 import com.google.inject.Inject
 
-case class PokePack @Inject() (contents:List[Option[Pokemon]], size: Int):
+case class PokePack (contents:List[Option[Pokemon]], size: Int):
   def checkIfAllPokemonAreDead = contents.take(Game.maxPokePackSize).forall(x => x.get.isDead)
 
 object PokePack {

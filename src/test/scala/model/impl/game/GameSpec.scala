@@ -5,8 +5,9 @@ import model.{ Attack, PokePack, Pokemon, PokemonArt }
 
 import de.htwg.se.pokelite.model.PokemonType.{ Glurak, Simsala }
 import model.PokemonArt
+
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
-import de.htwg.se.pokelite.model.states.{ FightingState, InitPlayerState, InitState }
+import de.htwg.se.pokelite.model.states.{ FightingState, InitPlayerPokemonState, InitPlayerState, InitState }
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -25,37 +26,36 @@ class GameSpec extends AnyWordSpec {
         game.setStateTo( InitPlayerState() ) should be( Game( InitPlayerState() ) )
       }
       "be able to add a Player" in {
-        game.addPlayerWith( "Luis" ) should be( Game( InitState(), Some( PokePlayer( "Luis" ) ) ) )
+        game.addPlayerWith( "Luis" ).get should be( Game( InitPlayerState(), Some( PokePlayer( "Luis" ) ) ).setNextTurn() )
       }
       "be able to remove a Player" in {
-        game = game.addPlayerWith( "Luis" )
-        game.removePlayer() should be( Game( InitState() ) )
+        game = game.addPlayerWith( "Luis" ).get
+        game.removePlayer() should be( Game( InitPlayerState() ) )
       }
       "be able to remove a Pokemon from a Player 1" in {
-        game = game.addPlayerWith( "timmy" )
-        game = game.interpretPokemonSelectionFrom( "1" )
-        game.removePokemonFromPlayer() should be( Game( InitState(), Some( PokePlayer( "Luis" ) ), Some( PokePlayer( "timmy" ) ) ) )
+        game = game.addPlayerWith( "timmy" ).get
+        game = game.interpretPokemonSelectionFrom( "111" ).get
+        game.removePokemonFromPlayer() should be( Game( InitPlayerPokemonState(), Some( PokePlayer( "Luis" ) ), Some( PokePlayer( "timmy" ) ) ) )
       }
       "be able to remove a Pokemon from a Player 2" in {
-        game = game.interpretPokemonSelectionFrom( "1" )
-        game.removePokemonFromPlayer() should be( Game( InitState(), Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ), Some( PokePlayer( "timmy" ) ) ) )
+        game = game.interpretPokemonSelectionFrom( "123" ).get
+        game.removePokemonFromPlayer() should be( Game( InitPlayerPokemonState(), Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ),Some( Pokemon.apply( Glurak ) ),Some( Pokemon.apply( Glurak ) ) ) ) ) ), Some( PokePlayer( "timmy" ) ) ).setNextTurn() )
       }
       "be able to attack a player 1" in {
         game = Game( FightingState(),
           Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ),
           Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ) )
-        game = game.setNextTurn()
-        game.interpretAttackSelectionFrom( "1" ) should be {
+        game.interpretAttackSelectionFrom( "1" ).get should be {
           Game( FightingState(),
             Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ),
-            Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Glurak ) ).get.reduceHP( Attack( "Konfusion", 10 ), Game.calculateDamageMultiplicator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ) ).setNextTurn()
+            Some( PokePlayer( "Timmy", PokePack( List( Some( Some( Pokemon.apply( Glurak ) ).get.reduceHP(10.0 )) ) ) ) ) ).setNextTurn()
 
         }
       }
       "be able to reverse attack a player 1" in {
         game = Game( FightingState(),
-          Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Simsala ) ).get.reduceHP( Attack( "Konfusion", 20 ), Game.calculateDamageMultiplicator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ),
-          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ) ).setNextTurn()
+          Some( PokePlayer( "Luis", PokePack( List( Some( Some(Pokemon.apply( Simsala ) ).get.reduceHP( 20.0 ) ) ) ) ) ),
+          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Glurak )) ) )  ) ) )
         game.reverseAttackWith( "1" ) should be {
           Game( FightingState(),
             Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ),
@@ -66,10 +66,10 @@ class GameSpec extends AnyWordSpec {
       "be able to attack a player 2" in {
         game = Game( FightingState(),
           Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ),
-          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) )
-        game.interpretAttackSelectionFrom( "1" ) should be {
+          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) ).setNextTurn()
+        game.interpretAttackSelectionFrom( "1" ).get should be {
           Game( FightingState(),
-            Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ).get.reduceHP( Attack( "Konfusion", 10 ), Game.calculateDamageMultiplicator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ),
+            Some( PokePlayer( "Luis", PokePack( List( Some( Some( Pokemon.apply( Glurak ) ).get.reduceHP(10.0 ) ) ) ) ) ) ,
             Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) )
 
         }
@@ -78,17 +78,22 @@ class GameSpec extends AnyWordSpec {
       "be able to reverse attack a player 2" in {
         game = Game( FightingState(),
           Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ),
-          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ).get.reduceHP( Attack( "Konfusion", 20 ), Game.calculateDamageMultiplicator( PokemonArt.Psycho, PokemonArt.Feuer ) ) ) ) ) ) )
+          Some( PokePlayer( "Timmy", PokePack( List( Some(Pokemon.apply( Simsala ) ) ) )  )  ))
+        game.interpretAttackSelectionFrom("1")
         game.reverseAttackWith( "1" ) should be {
           Game( FightingState(),
             Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ),
-            Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) )
+            Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) ).setNextTurn()
 
         }
       }
     }
   }
   "The Game Object" should {
+
+    "check if its current state is a match state" in {
+      Game.isIngame(InitState()) should be (false)
+    }
 
     "return a damage Multiplikator with water and water" in {
       Game.calculateDamageMultiplicator( PokemonArt.Wasser, PokemonArt.Wasser ) should be( 1 )

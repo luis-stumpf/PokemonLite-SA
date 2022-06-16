@@ -7,6 +7,7 @@ import model.State
 import model.states.*
 
 import de.htwg.se.pokelite.aview.gui.pieces.HealthBar
+import de.htwg.se.pokelite.controller.ControllerInterface
 import de.htwg.se.pokelite.model.State
 import de.htwg.se.pokelite.util.Observer
 import scalafx.scene.text.FontWeight
@@ -38,7 +39,7 @@ import scalafx.geometry.Insets
 import scalafx.geometry.Pos
 
 
-class GUI(val controller: Controller) extends JFXApp3 with Observer {
+class GUI(val controller: ControllerInterface) extends JFXApp3 with Observer {
 
   controller.add(this)
 
@@ -128,15 +129,13 @@ class GUI(val controller: Controller) extends JFXApp3 with Observer {
   override def start(): Unit = {
     stage = new JFXApp3.PrimaryStage {
 
-
       /*
-
       val soundRes = getClass.getResource("/audio.wav").toURI().toString()
 
       val sound = new Media(soundRes)
       val soundPlayer = new MediaPlayer(sound)
       soundPlayer.play()
-    */
+      */
 
       val bigBackground: Background = getBackground("/backgroundbig.png")
 
