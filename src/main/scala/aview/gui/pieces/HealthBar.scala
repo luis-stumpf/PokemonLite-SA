@@ -62,14 +62,26 @@ case class HealthBar(controller: ControllerInterface, turn: Int) extends StackPa
   def status: Text =
     var text = new Text()
     if (turn == 1) then
-      text = new Text(controller.game.player1.map(_.pokemons.contents.apply(controller.game.player1.get.currentPoke).map(_.toString).getOrElse("")).getOrElse("")) {
+      text = new Text(controller.game.player1.map(_.pokemons.contents.apply(controller.game.player1.get.currentPoke).map(_.toString + calcTurnIndicatorP1).getOrElse("")).getOrElse("")) {
       font = Font.font(15)
     }
     else
-      text = new Text(controller.game.player2.map(_.pokemons.contents.apply(controller.game.player2.get.currentPoke).map(_.toString).getOrElse("")).getOrElse("")) {
+      text = new Text(controller.game.player2.map(_.pokemons.contents.apply(controller.game.player2.get.currentPoke).map(_.toString + calcTurnIndicatorP2).getOrElse("")).getOrElse("")) {
         font = Font.font(15)
       }
     text
+
+
+  def calcTurnIndicatorP1: String = {
+    if controller.game.turn == 1 then " *"
+    else ""
+  }
+
+  def calcTurnIndicatorP2: String = {
+    if controller.game.turn == 2 then " *"
+    else ""
+  }
+
 
 
 

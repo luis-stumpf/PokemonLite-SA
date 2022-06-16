@@ -97,8 +97,8 @@ class GUI(val controller: ControllerInterface) extends JFXApp3 with Observer {
       alignment = Pos.BottomRight
       val currentPlayerName =
         if controller.game.turn == 1
-        then controller.game.player1.map(_.name).getOrElse("")
-        else controller.game.player2.map(_.name).getOrElse("")
+        then controller.game.player1.map(_.name).getOrElse("Player 1")
+        else controller.game.player2.map(_.name).getOrElse("Player 2")
       val info: Text = new Text() {
         text = currentPlayerName + " du bist dran!"
       }
