@@ -1,10 +1,12 @@
 package de.htwg.se.pokelite
 package model
 
-import de.htwg.se.pokelite.model.commands.{AddPlayerCommand, ChangeStateCommand}
-import de.htwg.se.pokelite.model.states.{DesicionState, FightingState, GameOverState, InitPlayerPokemonState, InitPlayerState, InitState, SwitchPokemonState}
+import de.htwg.se.pokelite.model.commands.{ AddPlayerCommand, ChangeStateCommand }
+import de.htwg.se.pokelite.model.states.{ DesicionState, FightingState, GameOverState, InitPlayerPokemonState, InitPlayerState, InitState, SwitchPokemonState }
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
+import model.impl.game.Game
+import model.GameInterface
 
 class StateSpec extends AnyWordSpec {
   "A State" when {
@@ -37,6 +39,7 @@ class StateSpec extends AnyWordSpec {
     }
     "GameOverState" should{
       val state = GameOverState()
+      state.restartTheGame(Game()) shouldBe a [Some[InitState]]
     }
     "lol" should{
       val state = GameOverState()
@@ -48,6 +51,8 @@ class StateSpec extends AnyWordSpec {
       state.nextMove("") should be(None)
       state.switchPokemon("") should be(None)
       state.switchPokemonTo("") should be(None)
+      val state2 = InitState()
+      state2.restartTheGame(Game()) should be(None)
     }
 
   }

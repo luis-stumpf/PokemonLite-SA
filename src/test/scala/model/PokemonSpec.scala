@@ -16,6 +16,9 @@ class PokemonSpec extends AnyWordSpec {
     "attackInv" in {
       pokemon.increaseHP(20.0).toString should be("Glurak HP: 150")
     }
+    "get its HP" in {
+      pokemon.getHp should be(150)
+    }
   }
   "A Glurak" should {
     val pokemon = PokemonType.Glurak
