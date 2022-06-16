@@ -115,7 +115,14 @@ case class Game (state : State = InitState(),
       case "1" | "2" | "3" | "4" => Success( Attack.theCorrectPlayerWith( selectedAttackFrom( input ) ) )
       case _ => Failure( NoValidAttackSelected( input ) )
 
-  private def currentPokemonIsDead = if turn == 1 then player1.get.getCurrentPokemon.isDead else player2.get.getCurrentPokemon.isDead
+  private def currentPokemonIsDead =
+    if bothPlayersHavePokemon then
+      if turn == 1 then
+      player1.get.getCurrentPokemon.isDead
+      else player2.get.getCurrentPokemon.isDead
+    else false
+
+  private def bothPlayersHavePokemon = player1.isDefined && player2.isDefined
 
   private def selectedAttackFrom(string : String) : Int = string.charAt( 0 ).asDigit - 1
 

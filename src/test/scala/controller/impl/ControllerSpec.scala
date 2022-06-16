@@ -39,7 +39,7 @@ class ControllerSpec extends AnyWordSpec {
       class TestObserver(controller: Controller) extends Observer:
         controller.add(this)
         var bing = false
-        def update = bing = true
+        def update(message: String) = bing = true
       val testObserver = TestObserver(controller)
       testObserver.bing should be(false)
       controller.moveDone(controller.game, ChangeStateCommand(InitState(), InitPlayerState()))

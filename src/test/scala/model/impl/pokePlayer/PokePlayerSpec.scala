@@ -10,10 +10,10 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class PokePlayerSpec extends AnyWordSpec {
   "PokePlayerSpec" should {
-    val pokeList1 = new PokePack( List( Some( Pokemon( Glurak ) ), Some( Pokemon( Glurak ) ) ) )
-    val pokeList2 = new PokePack( List( Some( Pokemon( Brutalanda ) ), Some( Pokemon( Simsala, 0 , true ) ) ) )
-    val pokeList3 = new PokePack( List( Some( Pokemon( Simsala ) ), Some( Pokemon( Simsala ) ) ) )
-    val pokeListDead = new PokePack( List( Some( Pokemon( Simsala, 0, true ) ),Some( Pokemon( Glurak, 0, true ) ) ) )
+    val pokeList1 = PokePack( List( Some( Pokemon( Glurak ) ), Some( Pokemon( Glurak ) ) ) )
+    val pokeList2 = PokePack( List( Some( Pokemon( Brutalanda ) ), Some( Pokemon( Simsala, 0 , true ) ) ) )
+    val pokeList3 = PokePack( List( Some( Pokemon( Simsala ) ), Some( Pokemon( Simsala ) ) ) )
+    val pokeListDead = PokePack( List( Some( Pokemon( Simsala, 0, true ) ),Some( Pokemon( Glurak, 0, true ) ) ) )
     val p1 = PokePlayer( "Luis" )
     val p2 = PokePlayer( "Timmy", pokeList2, 1 )
     val p3 = PokePlayer( "Otto", pokeList3, 2 )
@@ -24,8 +24,8 @@ class PokePlayerSpec extends AnyWordSpec {
       p3.toString should be( "Otto" )
     }
     "check Pokemons" in {
-      p1.pokemons should be( new PokePack( List( None )))
-      p2.pokemons should be( new PokePack( List( Some( Pokemon( Brutalanda ) ), Some( Pokemon( Simsala,0,true ) ) ), 2 ) )
+      p1.pokemons should be( PokePack.apply(List(None)))
+      p2.pokemons should be( PokePack( List( Some( Pokemon( Brutalanda ) ), Some( Pokemon( Simsala,0,true ) ) ), 2 ) )
       p1.currentPoke should be( 0 )
       p3.currentPoke should be( 2 )
     }
