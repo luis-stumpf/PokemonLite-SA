@@ -13,7 +13,7 @@ import scala.util.{Failure, Success, Try}
 
 object Game extends GameRules {
 
-  val maxPokePackSize = 1
+  val maxPokePackSize = 3
   val maxPlayerNameLength = 20
 
 
