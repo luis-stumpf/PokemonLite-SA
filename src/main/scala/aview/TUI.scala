@@ -21,6 +21,8 @@ class TUI(controller : ControllerInterface) extends Observer :
       update("Error: No input detected.")
     else if input.charAt(0) == 'y' then controller.undoMove()
     else if input.charAt(0) == 'z' then controller.redoMove()
+    else if input == "save" then controller.save
+    else if input == "load" then controller.load
     else
       controller.game.state match
         case InitState() =>  controller.initPlayers()

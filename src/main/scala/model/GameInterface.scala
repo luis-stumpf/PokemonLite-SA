@@ -4,15 +4,15 @@ package model
 import model.State
 import model.PokemonArt
 import model.FieldInterface
-import model.PokemonType.{ Bisaflor, Brutalanda, Glurak, Simsala, Turtok }
+import model.PokemonType.{Bisaflor, Brutalanda, Glurak, Simsala, Turtok}
 import model.impl.field.Field
 import model.PokePlayerInterface
-import scala.util.{ Failure, Success, Try }
 
-
+import scala.util.{Failure, Success, Try}
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 
-import scala.util.{ Failure, Success }
+import scala.util.{Failure, Success}
+import scala.xml.Node
 
 trait GameRules {
   def maxPokePackSize: Int
@@ -28,6 +28,8 @@ trait GameInterface {
   def player2: Option[PokePlayer]
   def winner: Option[PokePlayer]
   def turn: Int
+  
+  def toXML:Node
 
   def setStateTo(newState : State) : GameInterface
 

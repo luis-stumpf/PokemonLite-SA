@@ -8,6 +8,7 @@ import model.states.{DesicionState, FightingState, GameOverState, InitPlayerPoke
 
 import com.google.inject.Inject
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
+import scala.xml.Node
 
 import scala.util.{Failure, Success, Try}
 
@@ -59,6 +60,15 @@ case class Game (state : State = InitState(),
 
   @Inject
   def this() = this(state = InitState(), turn = 1)
+
+  def toXML:Node =
+    <Game>
+      <state>{state.toString}</state>
+      <player1>{player1.map(_.toXML).getOrElse("None")}</player1>
+      <player2>{player2.map(_.toXML).getOrElse("None")}</player2>
+      <turn>{turn.toString}</turn>
+      <winner>{winner.map(_.toXML).getOrElse("None")}</winner>
+    </Game>
 
   def setStateTo(newState : State) : Game = copy( state = newState )
 

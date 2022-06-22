@@ -4,6 +4,7 @@ package model
 import model.{GameInterface, Pokemon}
 
 import model.PokePack
+import scala.xml.Node
 
 trait PokePlayerInterface:
   def name: String
@@ -18,6 +19,8 @@ trait PokePlayerInterface:
   def setCurrentPokeTo(number: Int): PokePlayerInterface
 
   def checkForDefeat() : Boolean
+  
+  def toXML:Node
 
 
 

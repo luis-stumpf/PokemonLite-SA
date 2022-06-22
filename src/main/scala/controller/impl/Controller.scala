@@ -1,7 +1,9 @@
 package de.htwg.se.pokelite.controller.impl
 
-import com.google.inject.Inject
+import com.google.inject.{Guice, Inject}
+import de.htwg.se.pokelite.PokemonLiteModule
 import de.htwg.se.pokelite.controller.ControllerInterface
+import de.htwg.se.pokelite.model.FileIOInterface
 import de.htwg.se.pokelite.model.impl.game.Game
 import de.htwg.se.pokelite.model.states.InitPlayerState
 import de.htwg.se.pokelite.model.{Command, GameInterface}
@@ -59,3 +61,13 @@ class Controller @Inject extends ControllerInterface :
 
   def restartTheGame() : Unit =
     move( game.state.restartTheGame(this.game))
+
+  def save:Unit = {
+    Guice.createInjector(new PokemonLiteModule).getInstance(classOf[FileIOInterface]).save(game)
+    notifyObservers()
+  }
+
+  def load:Unit = {
+    game = Guice.createInjector(new PokemonLiteModule).getInstance(classOf[FileIOInterface]).load
+    notifyObservers()
+  }

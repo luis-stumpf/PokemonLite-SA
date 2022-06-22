@@ -1,12 +1,22 @@
 package de.htwg.se.pokelite
 package model
 
+import scala.xml.Node
+
 
 object Pokemon {
   def apply(pType : PokemonType) : Pokemon = Pokemon( pType = pType, hp = pType.hp  )
 }
 
 case class Pokemon(pType : PokemonType, hp : Int, isDead: Boolean = false) {
+  
+  def toXML:Node =
+    <pokemon>
+      <pType>{pType.name.toString}</pType>
+      <hp>{hp.toString}</hp>
+      <isDead>{isDead.toString}</isDead>
+    </pokemon>
+    
   def increaseHP(amount : Double) : Pokemon =
     if pType.hp <= (hp + amount) then
       copy(hp = pType.hp)

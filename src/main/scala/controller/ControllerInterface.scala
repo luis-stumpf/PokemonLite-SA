@@ -26,6 +26,8 @@ trait ControllerInterface extends Observable :
   def attackWith(input: String): Unit
   def selectPokemon(input: String): Unit
   def restartTheGame(): Unit
+  def save:Unit
+  def load:Unit
 
   
 
