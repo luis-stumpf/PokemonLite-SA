@@ -28,26 +28,6 @@ class FileIO extends FileIOInterface{
   }
 
 
-  implicit class XMLNode( node:Node ) {
-    def firstChild(): Option[Node] = {
-      val r = node.child.collectFirst {
-        case e: Elem => e
-      }
-      r
-    }
-
-    def childOf(tag: String): Node = {
-      val child = (node \ tag).headOption
-      if (child.isEmpty)
-        throw XMLParseError(expected = tag, got = "Nothing")
-      val c = child.get.firstChild()
-      c match {
-        case Some(c) => c
-        case None => throw XMLParseError(expected = "Content in tag[" + tag + "]", got = "Nothing")
-      }
-    }
-
-  }
 
 
 
