@@ -15,7 +15,7 @@ case class XMLParseError( expected:String, got:String ) extends RuntimeException
 class FileIO extends FileIOInterface{
   override def load: GameInterface = {
     val xml = scala.xml.XML.loadFile("game.xml")
-    val game = Game.fromXML(xml)
+    Game.fromXML(xml)
 
   }
 

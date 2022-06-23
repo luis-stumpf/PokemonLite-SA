@@ -19,6 +19,7 @@ trait GameRules {
   def maxPlayerNameLength: Int
   def calculateDamageMultiplicator(pokemonArt1 : PokemonArt, pokemonArt2 : PokemonArt) : Double
   def isIngame(state: State):Boolean
+  def fromXML(node: Node):GameInterface
 }
 
 trait GameInterface {

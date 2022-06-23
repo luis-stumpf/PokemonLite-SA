@@ -9,17 +9,17 @@ import scala.xml.Node
 object Pokemon {
   def apply(pType : PokemonType) : Pokemon = Pokemon( pType = pType, hp = pType.hp  )
 
-  def fromXML(node:Node):Pokemon =
-    Pokemon(
-      pType = (node \ "pType").text.toString.trim match {
+  def fromXML(node:Node): Option[Pokemon] =
+    Some(Pokemon(
+      pType = (node \\ "pType").text match {
         case "Glurak" => Glurak
         case "Simsala" => Simsala
         case "Brutalanda" => Brutalanda
         case "Bisaflor" => Bisaflor
         case "Turtok" => Turtok
       },
-      hp = (node \ "hp").text.toInt
-    )
+      hp = (node \\ "hp").text.toInt
+    ))
 }
 
 case class Pokemon(pType : PokemonType, hp : Int, isDead: Boolean = false) {

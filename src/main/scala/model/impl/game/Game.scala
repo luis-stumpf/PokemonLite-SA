@@ -19,8 +19,10 @@ object Game extends GameRules {
 
   def fromXML(node: Node):Game =
     Game(
-      player1 = PokePlayer.fromXML((node \\ "player1")),
-      turn = (node \\ "turn").text.toInt
+      state = State.fromXML(node),
+      player1 = PokePlayer.fromXML((node \\ "player1").head),
+      player2 = PokePlayer.fromXML((node \\ "player2").head),
+      turn = (node \\ "turn").text.toInt,
     )
 
 

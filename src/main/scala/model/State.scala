@@ -3,6 +3,23 @@ package model
 
 import model.GameInterface
 
+import de.htwg.se.pokelite.model.states.{DesicionState, FightingState, GameOverState, InitPlayerPokemonState, SwitchPokemonState}
+
+import scala.xml.Node
+
+object State {
+  def fromXML(node:Node): State =
+    val state = (node \\ "state").text match {
+      case "DesicionState()" => DesicionState()
+      case "FightingState()" => FightingState()
+      case "GameOverState()" => GameOverState()
+      case "InitPlayerPokemonState()" => InitPlayerPokemonState()
+      case "InitPlayerState()" => InitPlayerPokemonState()
+      case "SwitchPokemonState()" => SwitchPokemonState()
+    }
+    state
+}
+
 trait State {
 
   def initPlayers() : Option[ Command ] = None

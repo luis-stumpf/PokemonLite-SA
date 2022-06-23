@@ -9,13 +9,13 @@ import de.htwg.se.pokelite.model.impl.game.Game
 import scala.xml.Node
 
 
-object PokePlayer extends PokePlayerInterface {
-  def fromXML(node:Node):PokePlayer =
-    PokePlayer(
+object PokePlayer {
+  def fromXML(node:Node):Option[PokePlayer] =
+    Some(PokePlayer(
       name = (node \\ "name").text.toString.trim,
-      pokemons = PokePack.fromXML((node \\ "pokemons")),
+      pokemons = PokePack.fromXML((node \\ "pokemons").head),
       currentPoke = (node \\ "currentPoke").text.toInt,
-    )
+    ))
 }
 
 case class PokePlayer (name : String, pokemons : PokePack = PokePack( List( None ) ), currentPoke : Int = 0) extends PokePlayerInterface :
@@ -27,7 +27,7 @@ case class PokePlayer (name : String, pokemons : PokePack = PokePack( List( None
   def toXML:Node =
     <PokePlayer name ={name.toString}>
       <pokemons>{pokemons.toXML}</pokemons>
-      <currentPoke>currentPoke.toString</currentPoke>
+      <currentPoke>{currentPoke.toString}</currentPoke>
     </PokePlayer>
 
   override def toString : String = name

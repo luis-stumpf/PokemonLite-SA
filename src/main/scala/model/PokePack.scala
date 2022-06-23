@@ -13,9 +13,11 @@ object PokePack {
     PokePack(contents.take(Game.maxPokePackSize), contents.length)
 
   def fromXML(node: Node):PokePack =
-    val contentNodes = (node \\ "entry").head.child
+    println((node \\ "entry"))
+    val contentNodes = (node \\ "entry")
+
     PokePack(
-      contents = contentNodes.map(n => Pokemon.fromXML(n)),
+      contents = contentNodes.map(n => Pokemon.fromXML(n)).toList,
       size = (node \\ "size").text.toString.toInt
     )
 }
