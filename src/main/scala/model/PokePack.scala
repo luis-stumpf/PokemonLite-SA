@@ -4,7 +4,21 @@ package model
 import model.impl.game.Game
 
 import com.google.inject.Inject
+
 import scala.xml.Node
+import scala.xml.NodeSeq.fromSeq
+
+object PokePack {
+  def apply(contents: List[Option[Pokemon]] ): PokePack =
+    PokePack(contents.take(Game.maxPokePackSize), contents.length)
+
+  def fromXML(node: Node):PokePack =
+    val contentNodes = (node \\ "entry").head.child
+    PokePack(
+      contents = contentNodes.map(n => Pokemon.fromXML(n)),
+      size = (node \\ "size").text.toString.toInt
+    )
+}
 
 case class PokePack (contents:List[Option[Pokemon]], size: Int):
   def checkIfAllPokemonAreDead = contents.take(Game.maxPokePackSize).forall(x => x.get.isDead)
@@ -17,7 +31,3 @@ case class PokePack (contents:List[Option[Pokemon]], size: Int):
       <size>{size.toString}</size>
     </PokePack>
 
-object PokePack {
-  def apply(contents: List[Option[Pokemon]] ): PokePack =
-    PokePack(contents.take(Game.maxPokePackSize), contents.length)
-}

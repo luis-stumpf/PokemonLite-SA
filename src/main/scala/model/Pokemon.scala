@@ -1,11 +1,25 @@
 package de.htwg.se.pokelite
 package model
 
+import de.htwg.se.pokelite.model.PokemonType.{Bisaflor, Brutalanda, Glurak, Simsala, Turtok}
+
 import scala.xml.Node
 
 
 object Pokemon {
   def apply(pType : PokemonType) : Pokemon = Pokemon( pType = pType, hp = pType.hp  )
+
+  def fromXML(node:Node):Pokemon =
+    Pokemon(
+      pType = (node \ "pType").text.toString.trim match {
+        case "Glurak" => Glurak
+        case "Simsala" => Simsala
+        case "Brutalanda" => Brutalanda
+        case "Bisaflor" => Bisaflor
+        case "Turtok" => Turtok
+      },
+      hp = (node \ "hp").text.toInt
+    )
 }
 
 case class Pokemon(pType : PokemonType, hp : Int, isDead: Boolean = false) {

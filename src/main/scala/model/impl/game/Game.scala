@@ -17,6 +17,12 @@ object Game extends GameRules {
   val maxPokePackSize = 3
   val maxPlayerNameLength = 20
 
+  def fromXML(node: Node):Game =
+    Game(
+      player1 = PokePlayer.fromXML((node \\ "player1")),
+      turn = (node \\ "turn").text.toInt
+    )
+
 
   def isIngame(state: State): Boolean =
     state match

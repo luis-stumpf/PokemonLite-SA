@@ -2,20 +2,20 @@ package de.htwg.se.pokelite
 package model.impl.fileIo.xml
 
 import model.{FileIOInterface, GameInterface}
+import model.impl.game.Game
 
 import java.io.{File, PrintWriter}
-import scala.xml.PrettyPrinter
+import scala.xml.{Elem, Node, PrettyPrinter}
+
+
+case class XMLParseError( expected:String, got:String ) extends RuntimeException {
+  override def toString:String = "XMLParseError: Expected -> '" + expected + "', Got -> '" + got + "'"
+}
 
 class FileIO extends FileIOInterface{
   override def load: GameInterface = {
-    var game: GameInterface = null
-    val file = scala.xml.XML.loadFile("game.xml")
-    val state = (file \\ "state").text.toString.trim()
-    val player1 = (file \\ "player1").text.toString.trim()
-    val player2 = (file \\ "player2").text.toString.trim()
-    val turn = (file \\ "turn").text.toString.trim()
-    val winner = (file \\ "winner").text.toString.trim()
-    game
+    val xml = scala.xml.XML.loadFile("game.xml")
+    val game = Game.fromXML(xml)
 
   }
 
@@ -26,6 +26,30 @@ class FileIO extends FileIOInterface{
     pw.write(xml)
     pw.close()
   }
+
+
+  implicit class XMLNode( node:Node ) {
+    def firstChild(): Option[Node] = {
+      val r = node.child.collectFirst {
+        case e: Elem => e
+      }
+      r
+    }
+
+    def childOf(tag: String): Node = {
+      val child = (node \ tag).headOption
+      if (child.isEmpty)
+        throw XMLParseError(expected = tag, got = "Nothing")
+      val c = child.get.firstChild()
+      c match {
+        case Some(c) => c
+        case None => throw XMLParseError(expected = "Content in tag[" + tag + "]", got = "Nothing")
+      }
+    }
+
+  }
+
+
 
 
 }

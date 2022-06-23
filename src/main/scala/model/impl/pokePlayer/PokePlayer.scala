@@ -8,7 +8,18 @@ import com.google.inject.Inject
 import de.htwg.se.pokelite.model.impl.game.Game
 import scala.xml.Node
 
+
+object PokePlayer extends PokePlayerInterface {
+  def fromXML(node:Node):PokePlayer =
+    PokePlayer(
+      name = (node \\ "name").text.toString.trim,
+      pokemons = PokePack.fromXML((node \\ "pokemons")),
+      currentPoke = (node \\ "currentPoke").text.toInt,
+    )
+}
+
 case class PokePlayer (name : String, pokemons : PokePack = PokePack( List( None ) ), currentPoke : Int = 0) extends PokePlayerInterface :
+
 
   @Inject
   def this() = this(name = "", pokemons = PokePack(List(None)))
