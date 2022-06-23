@@ -2,8 +2,10 @@ package de.htwg.se.pokelite
 package model
 
 import model.{GameInterface, Pokemon}
-
 import model.PokePack
+
+import play.api.libs.json.JsValue
+
 import scala.xml.Node
 
 trait PokePlayerInterface:
@@ -21,6 +23,8 @@ trait PokePlayerInterface:
   def checkForDefeat() : Boolean
   
   def toXML:Node
+  
+  def toJson:JsValue
 
 
 

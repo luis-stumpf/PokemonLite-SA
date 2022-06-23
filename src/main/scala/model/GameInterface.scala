@@ -10,6 +10,7 @@ import model.PokePlayerInterface
 
 import scala.util.{Failure, Success, Try}
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
+import play.api.libs.json.JsValue
 
 import scala.util.{Failure, Success}
 import scala.xml.Node
@@ -31,6 +32,8 @@ trait GameInterface {
   def turn: Int
   
   def toXML:Node
+
+  def toJson:JsValue
 
   def setStateTo(newState : State) : GameInterface
 

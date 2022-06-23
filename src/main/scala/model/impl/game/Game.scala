@@ -8,8 +8,9 @@ import model.states.{DesicionState, FightingState, GameOverState, InitPlayerPoke
 
 import com.google.inject.Inject
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
-import scala.xml.Node
+import play.api.libs.json.{JsValue, Json}
 
+import scala.xml.Node
 import scala.util.{Failure, Success, Try}
 
 object Game extends GameRules {
@@ -75,8 +76,14 @@ case class Game (state : State = InitState(),
       <player1>{player1.map(_.toXML).getOrElse("None")}</player1>
       <player2>{player2.map(_.toXML).getOrElse("None")}</player2>
       <turn>{turn.toString}</turn>
-      <winner>{winner.map(_.toXML).getOrElse("None")}</winner>
     </Game>
+
+  def toJson:JsValue = Json.obj(
+    "state" -> Json.toJson(state.toString),
+    "player1" -> Json.toJson(player1.get.toJson),
+    "player2" -> Json.toJson(player2.get.toJson),
+    "turn" -> Json.toJson(turn)
+  )
 
   def setStateTo(newState : State) : Game = copy( state = newState )
 

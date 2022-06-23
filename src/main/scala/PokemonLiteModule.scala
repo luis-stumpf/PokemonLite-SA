@@ -19,6 +19,7 @@ class PokemonLiteModule extends AbstractModule{
     bind(classOf[PokePlayerInterface]).to(classOf[PokePlayer])
     bind(classOf[FieldInterface]).to(classOf[Field])
     bind(classOf[GameInterface]).to(classOf[Game])
-    bind(classOf[FileIOInterface]).to(classOf[FileIO])
+    //bind(classOf[FileIOInterface]).to(classOf[model.impl.fileIo.xmlFileIO])
+    bind(classOf[FileIOInterface]).to(classOf[model.impl.fileIo.json.FileIO])
 
 }

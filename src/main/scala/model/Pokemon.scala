@@ -2,6 +2,7 @@ package de.htwg.se.pokelite
 package model
 
 import de.htwg.se.pokelite.model.PokemonType.{Bisaflor, Brutalanda, Glurak, Simsala, Turtok}
+import play.api.libs.json.{JsValue, Json}
 
 import scala.xml.Node
 
@@ -30,6 +31,13 @@ case class Pokemon(pType : PokemonType, hp : Int, isDead: Boolean = false) {
       <hp>{hp.toString}</hp>
       <isDead>{isDead.toString}</isDead>
     </pokemon>
+
+  def toJson:JsValue =
+    Json.obj(
+    "pType" -> Json.toJson(pType.name),
+    "hp" -> Json.toJson(hp),
+    "isDead" -> Json.toJson(isDead),
+  )
     
   def increaseHP(amount : Double) : Pokemon =
     if pType.hp <= (hp + amount) then

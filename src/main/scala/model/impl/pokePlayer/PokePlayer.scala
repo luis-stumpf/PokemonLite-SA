@@ -6,6 +6,8 @@ import model.impl.pokePlayer
 
 import com.google.inject.Inject
 import de.htwg.se.pokelite.model.impl.game.Game
+import play.api.libs.json.{JsValue, Json}
+
 import scala.xml.Node
 
 
@@ -29,6 +31,13 @@ case class PokePlayer (name : String, pokemons : PokePack = PokePack( List( None
       <pokemons>{pokemons.toXML}</pokemons>
       <currentPoke>{currentPoke.toString}</currentPoke>
     </PokePlayer>
+
+  def toJson: JsValue =
+    Json.obj(
+    "name" -> Json.toJson(name),
+    "pokemons" -> pokemons.toJson,
+    "currentPoke" -> Json.toJson(currentPoke),
+  )
 
   override def toString : String = name
 

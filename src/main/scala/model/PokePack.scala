@@ -4,6 +4,7 @@ package model
 import model.impl.game.Game
 
 import com.google.inject.Inject
+import play.api.libs.json.{JsValue, Json}
 
 import scala.xml.Node
 import scala.xml.NodeSeq.fromSeq
@@ -31,4 +32,10 @@ case class PokePack (contents:List[Option[Pokemon]], size: Int):
       )}</contents>
       <size>{size.toString}</size>
     </PokePack>
+
+  def toJson:JsValue =
+    Json.obj(
+      "contents" -> Json.toJson(contents.map( e => e.get.toJson)),
+    "size" -> Json.toJson(size)
+  )
 
