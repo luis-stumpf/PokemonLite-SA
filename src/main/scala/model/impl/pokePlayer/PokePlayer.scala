@@ -18,6 +18,14 @@ object PokePlayer {
       pokemons = PokePack.fromXML((node \\ "pokemons").head),
       currentPoke = (node \\ "currentPoke").text.toInt,
     ))
+
+  def fromJson(json: JsValue):Option[PokePlayer] =
+    Some(PokePlayer(
+      name = (json \ "name").get.toString.replace("\"", ""),
+      pokemons = PokePack.fromJson((json \\ "pokemons").head),
+      currentPoke = (json \ "currentPoke").as[Int]
+    ))
+
 }
 
 case class PokePlayer (name : String, pokemons : PokePack = PokePack( List( None ) ), currentPoke : Int = 0) extends PokePlayerInterface :

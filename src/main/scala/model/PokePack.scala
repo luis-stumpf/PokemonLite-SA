@@ -20,6 +20,15 @@ object PokePack {
       contents = contentNodes.map(n => Pokemon.fromXML(n)).toList,
       size = (node \\ "size").text.toString.toInt
     )
+
+
+  def fromJson(json: JsValue):PokePack =
+    val contentNodes = (json \ "contents").toOption
+
+    PokePack(
+      contents = contentNodes.map(n => Pokemon.fromJson(n)).toList,
+      size = (json \ "size").as[Int]
+    )
 }
 
 case class PokePack (contents:List[Option[Pokemon]], size: Int):

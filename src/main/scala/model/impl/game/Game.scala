@@ -26,6 +26,14 @@ object Game extends GameRules {
       turn = (node \\ "turn").text.toInt,
     )
 
+  def fromJson(json: JsValue):Game =
+    Game(
+      state = State.fromJson((json \ "state").get),
+      player1 = PokePlayer.fromJson((json \ "player1").get),
+      player2 = PokePlayer.fromJson((json \ "player2").get),
+      turn = (json \ "turn").as[Int]
+    )
+
 
   def isIngame(state: State): Boolean =
     state match
@@ -79,7 +87,7 @@ case class Game (state : State = InitState(),
     </Game>
 
   def toJson:JsValue = Json.obj(
-    "state" -> Json.toJson(state.toString),
+    "state" -> Json.toJson(state.toJson),
     "player1" -> Json.toJson(player1.get.toJson),
     "player2" -> Json.toJson(player2.get.toJson),
     "turn" -> Json.toJson(turn)

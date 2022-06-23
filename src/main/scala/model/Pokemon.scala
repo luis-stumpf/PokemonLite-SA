@@ -21,6 +21,20 @@ object Pokemon {
       },
       hp = (node \\ "hp").text.toInt
     ))
+
+
+
+  def fromJson(json: JsValue): Option[Pokemon] =
+    Some(Pokemon(
+      pType = (json \\ "pType").head.toString().replace("\"", "") match {
+        case "Glurak" => Glurak
+        case "Simsala" => Simsala
+        case "Brutalanda" => Brutalanda
+        case "Bisaflor" => Bisaflor
+        case "Turtok" => Turtok
+      },
+      hp = (json \\ "hp").head.toString.toInt
+    ))
 }
 
 case class Pokemon(pType : PokemonType, hp : Int, isDead: Boolean = false) {
