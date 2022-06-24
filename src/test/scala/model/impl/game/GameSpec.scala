@@ -78,13 +78,12 @@ class GameSpec extends AnyWordSpec {
       "be able to reverse attack a player 2" in {
         game = Game( FightingState(),
           Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ),
-          Some( PokePlayer( "Timmy", PokePack( List( Some(Pokemon.apply( Simsala ) ) ) )  )  ))
+          Some( PokePlayer( "Timmy", PokePack( List( Some(Pokemon.apply( Simsala ).reduceHP(20.0) ) ) )  )  )).setNextTurn()
         game.interpretAttackSelectionFrom("1")
         game.reverseAttackWith( "1" ) should be {
           Game( FightingState(),
             Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ),
-            Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) ).setNextTurn()
-
+            Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) )
         }
       }
     }
