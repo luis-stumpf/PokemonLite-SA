@@ -1,11 +1,12 @@
 package de.htwg.se.pokelite
 package aview.gui
 
-import de.htwg.se.pokelite.controller.ControllerInterface
-import de.htwg.se.pokelite.controller.impl.Controller
+import controller.ControllerInterface
+import controller.impl.Controller
+
 import scalafx.geometry.Insets
-import scalafx.scene.layout.HBox
 import scalafx.scene.control.Button
+import scalafx.scene.layout.HBox
 
 
 case class DesicionPane( controller : ControllerInterface ) extends HBox {

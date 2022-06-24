@@ -6,8 +6,8 @@ trait AttackType {
   val damage : Int
 }
 
-case class Attack(name : String, damage : Int) extends AttackType :
+case class Attack( name : String, damage : Int ) extends AttackType :
   override def toString : String = name
 
-case class NoAttack(name : String = "", damage : Int = 0) extends AttackType :
+case class NoAttack( name : String = "", damage : Int = 0 ) extends AttackType :
   override def toString : String = ""

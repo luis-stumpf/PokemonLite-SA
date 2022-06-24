@@ -1,42 +1,24 @@
 package de.htwg.se.pokelite
 package aview.gui
 
+import aview.gui.pieces.HealthBar
+import controller.ControllerInterface
 import controller.impl.Controller
-import model.impl.game.Game
 import model.State
+import model.impl.game.Game
 import model.states.*
+import util.Observer
 
-import de.htwg.se.pokelite.aview.gui.pieces.HealthBar
-import de.htwg.se.pokelite.controller.ControllerInterface
-import de.htwg.se.pokelite.model.State
-import de.htwg.se.pokelite.util.Observer
-import scalafx.scene.text.FontWeight
-import scalafx.scene.text.Font
-import scalafx.scene.media.MediaPlayer
-import scalafx.scene.media.Media
+import scalafx.application.{ JFXApp3, Platform }
+import scalafx.geometry.{ Insets, Pos, Side }
+import scalafx.scene.{ Node, Scene }
 import scalafx.scene.control.Alert.AlertType
-import scalafx.scene.control.Alert
-import scalafx.scene.layout.ColumnConstraints
-import scalafx.scene.layout.RowConstraints
-import scalafx.scene.layout.AnchorPane
-import scalafx.scene.layout.FlowPane
-import scalafx.scene.layout.Priority
-import scalafx.scene.layout.HBox
-import scalafx.scene.layout.VBox
-import scalafx.scene.Node
-import scalafx.scene.layout.BorderPane
-import scalafx.application.JFXApp3
-import scalafx.application.Platform
-import scalafx.scene.Scene
-import scalafx.scene.control.{ Button, Label }
+import scalafx.scene.control.{ Alert, Button, Label }
 import scalafx.scene.image.{ Image, ImageView }
-import scalafx.scene.layout.GridPane
+import scalafx.scene.layout.*
+import scalafx.scene.media.{ Media, MediaPlayer }
 import scalafx.scene.shape.Rectangle
-import scalafx.scene.layout.{ Background, BackgroundImage, BackgroundPosition, BackgroundRepeat, BackgroundSize }
-import scalafx.geometry.Side
-import scalafx.scene.text.Text
-import scalafx.geometry.Insets
-import scalafx.geometry.Pos
+import scalafx.scene.text.{ Font, FontWeight, Text }
 
 
 class GUI( val controller : ControllerInterface ) extends JFXApp3 with Observer {

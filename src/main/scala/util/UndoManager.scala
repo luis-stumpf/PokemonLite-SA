@@ -1,7 +1,7 @@
 package de.htwg.se.pokelite
 package util
 
-import de.htwg.se.pokelite.model.{ Command, GameInterface, NothingToRedo, NothingToUndo }
+import model.{ Command, GameInterface, NothingToRedo, NothingToUndo }
 
 import scala.util.{ Failure, Success, Try }
 
@@ -9,10 +9,10 @@ class UndoManager:
   private var undoStack : List[ Command ] = Nil
   private var redoStack : List[ Command ] = Nil
 
-  def doStep(command : Command) : Unit =
+  def doStep( command : Command ) : Unit =
     undoStack = command :: undoStack
 
-  def undoStep() : Try[ Command ] =
+  def undoStep( ) : Try[ Command ] =
     undoStack match {
       case Nil => Failure( NothingToUndo )
       case head :: stack => {
@@ -23,7 +23,7 @@ class UndoManager:
       }
     }
 
-  def redoStep() : Try[ Command ] =
+  def redoStep( ) : Try[ Command ] =
     redoStack match {
       case Nil => Failure( NothingToRedo )
       case head :: stack => {

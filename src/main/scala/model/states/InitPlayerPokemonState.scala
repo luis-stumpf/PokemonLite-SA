@@ -1,13 +1,13 @@
 package de.htwg.se.pokelite
 package model.states
 
-import model.{ Command, State }
 import model.commands.*
+import model.{ Command, State }
 
-case class InitPlayerPokemonState() extends State {
+case class InitPlayerPokemonState( ) extends State {
 
-  override def addPokemons(name : String) : Option[ Command ] = Some(
+  override def addPokemons( name : String ) : Option[ Command ] = Some(
     AddPokemonCommand( name, this )
   )
-  
+
 }
