@@ -1,13 +1,11 @@
 package de.htwg.se.pokelite
 package model.impl.game
 
+import model.PokemonType.{ Glurak, Simsala }
+import model.impl.pokePlayer.PokePlayer
+import model.states.{ FightingState, InitPlayerPokemonState, InitPlayerState, InitState }
 import model.{ Attack, PokePack, Pokemon, PokemonArt }
 
-import de.htwg.se.pokelite.model.PokemonType.{ Glurak, Simsala }
-import model.PokemonArt
-
-import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
-import de.htwg.se.pokelite.model.states.{ FightingState, InitPlayerPokemonState, InitPlayerState, InitState }
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -39,7 +37,7 @@ class GameSpec extends AnyWordSpec {
       }
       "be able to remove a Pokemon from a Player 2" in {
         game = game.interpretPokemonSelectionFrom( "123" ).get
-        game.removePokemonFromPlayer() should be( Game( InitPlayerPokemonState(), Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ),Some( Pokemon.apply( Glurak ) ),Some( Pokemon.apply( Glurak ) ) ) ) ) ), Some( PokePlayer( "timmy" ) ) ).setNextTurn() )
+        game.removePokemonFromPlayer() should be( Game( InitPlayerPokemonState(), Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ), Some( Pokemon.apply( Glurak ) ), Some( Pokemon.apply( Glurak ) ) ) ) ) ), Some( PokePlayer( "timmy" ) ) ).setNextTurn() )
       }
       "be able to attack a player 1" in {
         game = Game( FightingState(),
@@ -48,14 +46,14 @@ class GameSpec extends AnyWordSpec {
         game.interpretAttackSelectionFrom( "1" ).get should be {
           Game( FightingState(),
             Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ),
-            Some( PokePlayer( "Timmy", PokePack( List( Some( Some( Pokemon.apply( Glurak ) ).get.reduceHP(10.0 )) ) ) ) ) ).setNextTurn()
+            Some( PokePlayer( "Timmy", PokePack( List( Some( Some( Pokemon.apply( Glurak ) ).get.reduceHP( 10.0 ) ) ) ) ) ) ).setNextTurn()
 
         }
       }
       "be able to reverse attack a player 1" in {
         game = Game( FightingState(),
-          Some( PokePlayer( "Luis", PokePack( List( Some( Some(Pokemon.apply( Simsala ) ).get.reduceHP( 20.0 ) ) ) ) ) ),
-          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Glurak )) ) )  ) ) )
+          Some( PokePlayer( "Luis", PokePack( List( Some( Some( Pokemon.apply( Simsala ) ).get.reduceHP( 20.0 ) ) ) ) ) ),
+          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ) )
         game.reverseAttackWith( "1" ) should be {
           Game( FightingState(),
             Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ),
@@ -69,7 +67,7 @@ class GameSpec extends AnyWordSpec {
           Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) ).setNextTurn()
         game.interpretAttackSelectionFrom( "1" ).get should be {
           Game( FightingState(),
-            Some( PokePlayer( "Luis", PokePack( List( Some( Some( Pokemon.apply( Glurak ) ).get.reduceHP(10.0 ) ) ) ) ) ) ,
+            Some( PokePlayer( "Luis", PokePack( List( Some( Some( Pokemon.apply( Glurak ) ).get.reduceHP( 10.0 ) ) ) ) ) ),
             Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) )
 
         }
@@ -78,13 +76,12 @@ class GameSpec extends AnyWordSpec {
       "be able to reverse attack a player 2" in {
         game = Game( FightingState(),
           Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ),
-          Some( PokePlayer( "Timmy", PokePack( List( Some(Pokemon.apply( Simsala ) ) ) )  )  ))
-        game.interpretAttackSelectionFrom("1")
+          Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ).reduceHP( 20.0 ) ) ) ) ) ) ).setNextTurn()
+        game.interpretAttackSelectionFrom( "1" )
         game.reverseAttackWith( "1" ) should be {
           Game( FightingState(),
             Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ),
-            Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) ).setNextTurn()
-
+            Some( PokePlayer( "Timmy", PokePack( List( Some( Pokemon.apply( Simsala ) ) ) ) ) ) )
         }
       }
     }
@@ -92,7 +89,7 @@ class GameSpec extends AnyWordSpec {
   "The Game Object" should {
 
     "check if its current state is a match state" in {
-      Game.isIngame(InitState()) should be (false)
+      Game.isIngame( InitState() ) should be( false )
     }
 
     "return a damage Multiplikator with water and water" in {

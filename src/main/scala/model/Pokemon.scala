@@ -1,35 +1,87 @@
 package de.htwg.se.pokelite
 package model
 
+import model.PokemonType.*
+
+import play.api.libs.json.{ JsValue, Json }
+
+import scala.xml.Node
+
 
 object Pokemon {
-  def apply(pType : PokemonType) : Pokemon = Pokemon( pType = pType, hp = pType.hp  )
+  def apply( pType : PokemonType ) : Pokemon = Pokemon( pType = pType, hp = pType.hp )
+
+  def fromXML( node : Node ) : Option[ Pokemon ] =
+    Some( Pokemon(
+      pType = ( node \\ "pType" ).text.replace( " ", "" ) match {
+        case "Glurak" => Glurak
+        case "Simsala" => Simsala
+        case "Brutalanda" => Brutalanda
+        case "Bisaflor" => Bisaflor
+        case "Turtok" => Turtok
+      },
+      hp = ( node \\ "hp" ).text.replace( " ", "" ).toInt
+    ) )
+
+
+  def fromJson( json : JsValue ) : Option[ Pokemon ] =
+    Some( Pokemon(
+      pType = ( json \\ "pType" ).head.toString().replace( "\"", "" ) match {
+        case "Glurak" => Glurak
+        case "Simsala" => Simsala
+        case "Brutalanda" => Brutalanda
+        case "Bisaflor" => Bisaflor
+        case "Turtok" => Turtok
+      },
+      hp = ( json \\ "hp" ).head.toString.toInt
+    ) )
 }
 
-case class Pokemon(pType : PokemonType, hp : Int, isDead: Boolean = false) {
-  def increaseHP(amount : Double) : Pokemon =
-    if pType.hp <= (hp + amount) then
-      copy(hp = pType.hp)
+case class Pokemon( pType : PokemonType, hp : Int, isDead : Boolean = false ) {
+
+  def toXML : Node =
+    <pokemon>
+      <pType>
+        {pType.name.toString}
+      </pType>
+      <hp>
+        {hp.toString}
+      </hp>
+      <isDead>
+        {isDead.toString}
+      </isDead>
+    </pokemon>
+
+  def toJson : JsValue =
+    Json.obj(
+      "pType" -> Json.toJson( pType.name ),
+      "hp" -> Json.toJson( hp ),
+      "isDead" -> Json.toJson( isDead ),
+    )
+
+  def increaseHP( amount : Double ) : Pokemon =
+    if pType.hp <= ( hp + amount ) then
+      copy( hp = pType.hp )
     else
-      copy( hp = (hp + amount).toInt, isDead = false )
+      copy( hp = ( hp + amount ).toInt, isDead = false )
 
-  def reduceHP(amount : Double) : Pokemon =
+  def reduceHP( amount : Double ) : Pokemon =
 
-    val updatedHealth = (hp-amount).toInt
+    val updatedHealth = ( hp - amount ).toInt
 
     if updatedHealth <= 0 then
-      copy(hp = updatedHealth, isDead = true)
+      copy( hp = updatedHealth, isDead = true )
     else
-      copy( hp = updatedHealth)
+      copy( hp = updatedHealth )
 
-  def damageOf(attackNumber: Int) : Int = pType.attacks.apply(attackNumber).damage
-  
-  def getHp: Int = hp
-  
+  def damageOf( attackNumber : Int ) : Int = pType.attacks.apply( attackNumber ).damage
+
+  def getHp : Int = hp
+
   override def toString : String = if hp <= 0 then pType.name + " is dead" else pType.name + " HP: " + hp
 }
 
-enum PokemonType(val name : String, val hp : Int, val attacks : List[ AttackType ], val pokemonArt : PokemonArt) {
+enum PokemonType( val name : String, val hp : Int, val attacks : List[ AttackType ], val pokemonArt : PokemonArt ) {
   override def toString : String = name + " HP: " + hp
 
   case Glurak extends PokemonType(
