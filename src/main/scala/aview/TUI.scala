@@ -48,7 +48,7 @@ class TUI( controller : ControllerInterface ) extends Observer :
 
 
 
-  def welcomeStatement: String = "PokemonLite, type anything to begin."
+  def welcomeStatement: String = "PokemonLite has loaded, type anything to begin."
 
   def nameInputRequest : String = "Enter name of Player "+controller.game.turn+": "
 
