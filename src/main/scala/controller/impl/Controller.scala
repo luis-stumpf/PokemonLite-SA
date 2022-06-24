@@ -1,11 +1,11 @@
 package de.htwg.se.pokelite.controller.impl
 
-import com.google.inject.{ Guice, Inject }
+import com.google.inject.{ CreationException, Guice, Inject }
 import de.htwg.se.pokelite.PokemonLiteModule
 import de.htwg.se.pokelite.controller.ControllerInterface
 import de.htwg.se.pokelite.model.impl.game.Game
 import de.htwg.se.pokelite.model.states.InitPlayerState
-import de.htwg.se.pokelite.model.{ Command, FileIOInterface, GameInterface }
+import de.htwg.se.pokelite.model.{ Command, FileIOInterface, GameInterface, NoSaveGameFound, NotAbleToSave }
 import de.htwg.se.pokelite.util.UndoManager
 
 import scala.util.{ Failure, Success }
@@ -59,14 +59,24 @@ class Controller @Inject extends ControllerInterface :
   def selectPokemon( input : String ) : Unit = move( game.state.switchPokemonTo( input ) )
 
   def restartTheGame( ) : Unit =
+
     move( game.state.restartTheGame( this.game ) )
 
   def save : Unit = {
-    Guice.createInjector( new PokemonLiteModule ).getInstance( classOf[ FileIOInterface ] ).save( game )
-    notifyObservers()
+
+    try{
+      Guice.createInjector( new PokemonLiteModule ).getInstance( classOf[ FileIOInterface ] ).save(game)
+      notifyObservers()
+    } catch {
+      case e: Exception => notifyObservers(NotAbleToSave.toString)
+    }
   }
 
   def load : Unit = {
+    try{
     game = Guice.createInjector( new PokemonLiteModule ).getInstance( classOf[ FileIOInterface ] ).load
     notifyObservers()
+    } catch {
+      case e: Exception => notifyObservers(NoSaveGameFound.toString)
+    }
   }

@@ -17,6 +17,12 @@ case object NothingToRedo extends Error :
 case object DeadPokemon extends Error :
   override def toString : String = "Error: Your current Pokemon is dead and not able to attack!"
 
+case object NotAbleToSave extends Error :
+  override def toString : String = "Error: Currently not able to save the Game, progress further!"
+
+case object NoSaveGameFound extends Error :
+  override def toString : String = "Error: Wasnt able to find save game file!"
+
 case object NoCommandFound extends Error :
   override def toString : String = "Error: Could not find Command."
 
