@@ -33,60 +33,51 @@ class TUI( controller : ControllerInterface ) extends Observer :
         case GameOverState() => controller.restartTheGame()
   }
 
-  override def update( message : String ) : Unit = {
-    if message == "success" then
-      println( controller.game.toString )
-    else
-      println( message )
+  override def update(message: String) : Unit = {
+    println( if message == "success" then controller.game.toString else message)
 
     controller.game.state match
-      case InitState() => printWelcomeStatement()
-      case InitPlayerState() => printNameRequest()
-      case InitPlayerPokemonState() => printAvailablePokemon()
-      case DesicionState() => printSelectionRequest()
-      case FightingState() => printAvailableAttackOptions()
-      case SwitchPokemonState() => printThePlayersPokemon()
-      case GameOverState() => printThatTheGameIsOver()
+      case InitState() => println(welcomeStatement)
+      case InitPlayerState() => println(nameInputRequest)
+      case InitPlayerPokemonState() => println(availablePokemon)
+      case DesicionState() => println(selectionRequest)
+      case FightingState() => println(availableAttackOptions)
+      case SwitchPokemonState() => println(thePlayersPokemon)
+      case GameOverState() => println(aGameOverMessage)
   }
 
 
-  def printWelcomeStatement( ) : Unit =
-    println( "PokemonLite, type anything to begin." )
 
-  def printNameRequest( ) : Unit =
-    println( "Enter name of Player " + controller.game.turn + ": " )
+  def welcomeStatement: String = "PokemonLite, type anything to begin."
 
-  def getCurrentPlayerName( ) : String =
-    if controller.game.turn == 1 then controller.game.player1.get.name
+  def nameInputRequest : String = "Enter name of Player "+controller.game.turn+": "
+
+  def getCurrentPlayerName : String =
+    if controller.game.turn == 1 then
+      controller.game.player1.get.name
     else controller.game.player2.get.name
 
-  def printAvailablePokemon( ) : Unit =
+  def availablePokemon: String =
 
-    println( "Choose your Pokemon " + getCurrentPlayerName() + ": \n" +
+    "Choose your Pokemon "+getCurrentPlayerName+": \n" +
       "1: Glurak\n" +
       "2: Simsala\n" +
       "3: Brutalanda\n" +
       "4: Bisaflor\n" +
-      "5: Turtok\n" )
+      "5: Turtok\n"
 
-  def getCurrentPlayerPokemons( ) : String =
-    if controller.game.turn == 1 then controller.game.player1.get.pokemons.contents.map( p => p.get ).mkString( "   " )
-    else controller.game.player2.get.pokemons.contents.map( p => p.get ).mkString( "   " )
+  def getCurrentPlayerPokemon : String = if controller.game.turn == 1 then getPlayer1Pokemon else getPlayer2Pokemon
 
-  def printThePlayersPokemon( ) : Unit =
+  def getPlayer1Pokemon : String = controller.game.player1.get.pokemons.contents.map( p=> p.get).mkString("   ")
 
-    println( "Your current Pokemon are: " + getCurrentPlayerPokemons() )
+  def getPlayer2Pokemon : String = controller.game.player2.get.pokemons.contents.map( p=> p.get).mkString("   ")
 
+  def thePlayersPokemon: String = "Your current Pokemon are: " + getCurrentPlayerPokemon
 
-  def printSelectionRequest( ) : Unit =
-    println( "These are all possible desicions: 1: Attack, 2: Switch Pokemon" )
+  def selectionRequest: String = "These are all possible decisions: 1: Attack, 2: Switch Pokemon"
 
+  def availableAttackOptions: String = "Your possible Attacks are: 1, 2, 3, 4"
 
-  def printAvailableAttackOptions( ) : Unit =
-    println( "Your possible Attacks are: 1, 2, 3, 4" )
-
-
-  def printThatTheGameIsOver( ) : Unit =
-    println( "GameOver, " + controller.game.winner.get.name + " has won the Game!" )
-    println( "Type anything to play again." )
+  def aGameOverMessage: String = "GameOver, " + controller.game.winner.get.name + " has won the Game!\n" +
+    "Type anything to play again."
 
