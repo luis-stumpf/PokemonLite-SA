@@ -33,6 +33,8 @@ class ControllerSpec extends AnyWordSpec {
       controller.attackWith( "1" )
       controller.nextMove( "2" )
       controller.selectPokemon( "2" )
+      controller.save
+      controller.load
     }
 
     "notify its observers on change" in {
