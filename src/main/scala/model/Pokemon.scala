@@ -3,43 +3,43 @@ package model
 
 import model.PokemonType.*
 
-import play.api.libs.json.{ JsValue, Json }
+import play.api.libs.json.{JsValue, Json}
 
 import scala.xml.Node
 
 
 object Pokemon {
-  def apply( pType : PokemonType ) : Pokemon = Pokemon( pType = pType, hp = pType.hp )
+  def apply(pType: PokemonType): Pokemon = Pokemon(pType = pType, hp = pType.hp)
 
-  def fromXML( node : Node ) : Option[ Pokemon ] =
-    Some( Pokemon(
-      pType = ( node \\ "pType" ).text match {
+  def fromXML(node: Node): Option[Pokemon] =
+    Some(Pokemon(
+      pType = (node \\ "pType").text.replace(" ", "") match {
         case "Glurak" => Glurak
         case "Simsala" => Simsala
         case "Brutalanda" => Brutalanda
         case "Bisaflor" => Bisaflor
         case "Turtok" => Turtok
       },
-      hp = ( node \\ "hp" ).text.toInt
-    ) )
+      hp = (node \\ "hp").text.replace(" ", "").toInt
+    ))
 
 
-  def fromJson( json : JsValue ) : Option[ Pokemon ] =
-    Some( Pokemon(
-      pType = ( json \\ "pType" ).head.toString().replace( "\"", "" ) match {
+  def fromJson(json: JsValue): Option[Pokemon] =
+    Some(Pokemon(
+      pType = (json \\ "pType").head.toString().replace("\"", "") match {
         case "Glurak" => Glurak
         case "Simsala" => Simsala
         case "Brutalanda" => Brutalanda
         case "Bisaflor" => Bisaflor
         case "Turtok" => Turtok
       },
-      hp = ( json \\ "hp" ).head.toString.toInt
-    ) )
+      hp = (json \\ "hp").head.toString.toInt
+    ))
 }
 
-case class Pokemon( pType : PokemonType, hp : Int, isDead : Boolean = false ) {
+case class Pokemon(pType: PokemonType, hp: Int, isDead: Boolean = false) {
 
-  def toXML : Node =
+  def toXML: Node =
     <pokemon>
       <pType>
         {pType.name.toString}
@@ -52,67 +52,67 @@ case class Pokemon( pType : PokemonType, hp : Int, isDead : Boolean = false ) {
       </isDead>
     </pokemon>
 
-  def toJson : JsValue =
+  def toJson: JsValue =
     Json.obj(
-      "pType" -> Json.toJson( pType.name ),
-      "hp" -> Json.toJson( hp ),
-      "isDead" -> Json.toJson( isDead ),
+      "pType" -> Json.toJson(pType.name),
+      "hp" -> Json.toJson(hp),
+      "isDead" -> Json.toJson(isDead),
     )
 
-  def increaseHP( amount : Double ) : Pokemon =
-    if pType.hp <= ( hp + amount ) then
-      copy( hp = pType.hp )
+  def increaseHP(amount: Double): Pokemon =
+    if pType.hp <= (hp + amount) then
+      copy(hp = pType.hp)
     else
-      copy( hp = ( hp + amount ).toInt, isDead = false )
+      copy(hp = (hp + amount).toInt, isDead = false)
 
-  def reduceHP( amount : Double ) : Pokemon =
+  def reduceHP(amount: Double): Pokemon =
 
-    val updatedHealth = ( hp - amount ).toInt
+    val updatedHealth = (hp - amount).toInt
 
     if updatedHealth <= 0 then
-      copy( hp = updatedHealth, isDead = true )
+      copy(hp = updatedHealth, isDead = true)
     else
-      copy( hp = updatedHealth )
+      copy(hp = updatedHealth)
 
-  def damageOf( attackNumber : Int ) : Int = pType.attacks.apply( attackNumber ).damage
+  def damageOf(attackNumber: Int): Int = pType.attacks.apply(attackNumber).damage
 
-  def getHp : Int = hp
+  def getHp: Int = hp
 
-  override def toString : String = if hp <= 0 then pType.name + " is dead" else pType.name + " HP: " + hp
+  override def toString: String = if hp <= 0 then pType.name + " is dead" else pType.name + " HP: " + hp
 }
 
-enum PokemonType( val name : String, val hp : Int, val attacks : List[ AttackType ], val pokemonArt : PokemonArt ) {
-  override def toString : String = name + " HP: " + hp
+enum PokemonType(val name: String, val hp: Int, val attacks: List[AttackType], val pokemonArt: PokemonArt) {
+  override def toString: String = name + " HP: " + hp
 
   case Glurak extends PokemonType(
     name = "Glurak",
     hp = 150,
-    attacks = List( Attack( "Glut", 20 ), Attack( "Flammenwurf", 60 ), Attack( "Biss", 10 ), Attack( "Inferno", 30 ) ),
-    pokemonArt = PokemonArt.Feuer )
+    attacks = List(Attack("Glut", 20), Attack("Flammenwurf", 60), Attack("Biss", 10), Attack("Inferno", 30)),
+    pokemonArt = PokemonArt.Feuer)
 
   case Simsala extends PokemonType(
     name = "Simsala",
     hp = 130,
-    attacks = List( Attack( "Konfusion", 10 ), Attack( "Psychoklinge", 15 ), Attack( "Psychokinese", 30 ), Attack( "Eishieb", 15 ) ),
-    pokemonArt = PokemonArt.Psycho )
+    attacks = List(Attack("Konfusion", 10), Attack("Psychoklinge", 15), Attack("Psychokinese", 30), Attack("Eishieb", 15)),
+    pokemonArt = PokemonArt.Psycho)
 
   case Brutalanda extends PokemonType(
     name = "Brutalanda",
     hp = 170,
-    attacks = List( Attack( "Fliegen", 20 ), Attack( "Drachenklaue", 30 ), Attack( "Glut", 10 ), Attack( "Flammenwurf", 35 ) ),
-    pokemonArt = PokemonArt.Feuer )
+    attacks = List(Attack("Fliegen", 20), Attack("Drachenklaue", 30), Attack("Glut", 10), Attack("Flammenwurf", 35)),
+    pokemonArt = PokemonArt.Feuer)
 
   case Bisaflor extends PokemonType(
     name = "Bisaflor",
     hp = 180,
-    attacks = List( Attack( "Rasierblatt", 20 ), Attack( "Tackle", 10 ), Attack( "Solarstrahl", 30 ), Attack( "Matschbombe", 15 ) ),
-    pokemonArt = PokemonArt.Blatt )
+    attacks = List(Attack("Rasierblatt", 20), Attack("Tackle", 10), Attack("Solarstrahl", 30), Attack("Matschbombe", 15)),
+    pokemonArt = PokemonArt.Blatt)
 
   case Turtok extends PokemonType(
     name = "Turtok",
     hp = 130,
-    attacks = List( Attack( "Aquaknarre", 20 ), Attack( "Biss", 15 ), Attack( "Hydropumpe", 40 ), Attack( "Matschbombe", 15 ) ),
-    pokemonArt = PokemonArt.Wasser )
+    attacks = List(Attack("Aquaknarre", 20), Attack("Biss", 15), Attack("Hydropumpe", 40), Attack("Matschbombe", 15)),
+    pokemonArt = PokemonArt.Wasser)
 }
 end PokemonType
 

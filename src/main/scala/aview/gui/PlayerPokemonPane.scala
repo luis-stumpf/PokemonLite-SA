@@ -7,31 +7,31 @@ import model.PokemonType
 import model.impl.game.Game
 
 import scalafx.geometry.Insets
-import scalafx.scene.control.{ Button, ComboBox }
-import scalafx.scene.layout.{ GridPane, VBox }
+import scalafx.scene.control.{Button, ComboBox}
+import scalafx.scene.layout.{GridPane, VBox}
 
-case class PlayerPokemonPane( controller : ControllerInterface ) extends GridPane {
+case class PlayerPokemonPane(controller: ControllerInterface) extends GridPane {
 
-  val confirm : Button = new Button( "Confrim" ) {
+  val confirm: Button = new Button("Confrim") {
     minWidth = 200
     minHeight = 40
-    margin = Insets( 20 )
-    onAction = _ => controller.addPokemons( list.map( p => getPokemons( p ) ).mkString( "" ) )
+    margin = Insets(20)
+    onAction = _ => controller.addPokemons(list.map(p => getPokemons(p)).mkString(""))
   }
 
-  var list = ( 1 to Game.maxPokePackSize ).map[ ComboBox[ String ] ]( p => new ComboBox[ String ]( PokemonType.values.map( "" + _.name ) ) {
+  var list = (1 to Game.maxPokePackSize).map[ComboBox[String]](p => new ComboBox[String](PokemonType.values.map("" + _.name)) {
     minWidth = 200
     minHeight = 40
-    margin = Insets( 20 )
-  } )
+    margin = Insets(20)
+  })
 
-  add( new VBox() {
+  add(new VBox() {
     children = list
-  }, 0, 0 )
-  add( confirm, 1, 0 )
+  }, 0, 0)
+  add(confirm, 1, 0)
 
 
-  def getPokemons( comboBox : ComboBox[ String ] ) : String =
+  def getPokemons(comboBox: ComboBox[String]): String =
     comboBox.getValue.match
       case "Glurak" => "1"
       case "Simsala" => "2"

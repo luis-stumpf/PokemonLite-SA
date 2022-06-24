@@ -20,7 +20,7 @@ class AttackSpec extends AnyWordSpec {
       attack2.toString should be("Slam")
       attack3.toString should be("Flash")
     }
-    "have a attack value" in{
+    "have a attack value" in {
       attack1.damage should be(30)
       attack2.damage should be(10)
       attack3.damage should be(50)

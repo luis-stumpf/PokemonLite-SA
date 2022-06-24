@@ -1,8 +1,8 @@
 package de.htwg.se.pokelite
 package model.impl.field
 
-import model.PokemonType.{ Glurak, Simsala, Turtok }
-import model.{ PokePack, Pokemon }
+import model.PokemonType.{Glurak, Simsala, Turtok}
+import model.{PokePack, Pokemon}
 
 import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
 import org.scalatest.matchers.should.Matchers.*
@@ -17,13 +17,13 @@ class FieldSpec extends AnyWordSpec {
         field.row() should be("+--------------------------------------------------+--------------------------------------------------+\n")
       }
       "have a cell as String of form '|  |  |'" in {
-        field.col( 1) should be("|                                                  |                                                  |\n")
+        field.col(1) should be("|                                                  |                                                  |\n")
       }
       "have a scalable height" in {
         field.col(1) should be("|                                                  |                                                  |\n")
-        field.col(2) should be("|                                                  |                                                  |\n"*2)
-        field.col(3) should be("|                                                  |                                                  |\n"*3)
-        field.col(4) should be("|                                                  |                                                  |\n"*4)
+        field.col(2) should be("|                                                  |                                                  |\n" * 2)
+        field.col(3) should be("|                                                  |                                                  |\n" * 3)
+        field.col(4) should be("|                                                  |                                                  |\n" * 4)
 
       }
       "have a mesh in the form " +
@@ -46,14 +46,14 @@ class FieldSpec extends AnyWordSpec {
 
       "print the attacks of current pokemon" in {
         field.toString should be(
-          "+--------------------------------------------------+--------------------------------------------------+\n"+
-            "|                                         Luis     |                                                  |\n"+
-            "|                               Glurak HP: 150     |     1. Glut             2. Flammenwurf           |\n"+
-            "|                                                  |                                                  |\n"+
-            "|                                                  |                                                  |\n"+
-            "|                                                  |                                                  |\n"+
-            "|     Simsala HP: 130                              |     3. Biss             4. Inferno               |\n"+
-            "|     Timmy                                        |                                                  |\n"+
+          "+--------------------------------------------------+--------------------------------------------------+\n" +
+            "|                                         Luis     |                                                  |\n" +
+            "|                               Glurak HP: 150     |     1. Glut             2. Flammenwurf           |\n" +
+            "|                                                  |                                                  |\n" +
+            "|                                                  |                                                  |\n" +
+            "|                                                  |                                                  |\n" +
+            "|     Simsala HP: 130                              |     3. Biss             4. Inferno               |\n" +
+            "|     Timmy                                        |                                                  |\n" +
             "+--------------------------------------------------+--------------------------------------------------+\n"
         )
       }

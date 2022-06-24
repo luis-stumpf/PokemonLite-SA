@@ -1,5 +1,6 @@
 package de.htwg.se.pokelite
 package model.CommandSpec
+
 import de.htwg.se.pokelite.model.impl.game.Game
 import de.htwg.se.pokelite.model.states.{InitPlayerPokemonState, InitPlayerState, InitState}
 import model.commands.AddPlayerCommand
@@ -17,7 +18,7 @@ class AddPlayerCommandSpec extends AnyWordSpec {
     val state = InitPlayerState()
     val game = newGame.setStateTo(state)
     "failure" in {
-      AddPlayerCommand("", state).doStep(game) should be (Failure(NoInput))
+      AddPlayerCommand("", state).doStep(game) should be(Failure(NoInput))
     }
     val command = AddPlayerCommand("luis", state)
     "success" in {

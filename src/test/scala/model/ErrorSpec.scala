@@ -16,8 +16,8 @@ class ErrorSpec extends AnyWordSpec {
       "throw a message with the wrong input" in {
         val error = NameTooLong("zuLangerName")
         error.toString should be("Error: The Name \"zuLangerName\" is too long.")
-        error.equals(NoInput) should be (false)
-        error.equals(NameTooLong("zuLangerName")) should be (true)
+        error.equals(NoInput) should be(false)
+        error.equals(NameTooLong("zuLangerName")) should be(true)
       }
     }
     val error = WrongInput("hello")

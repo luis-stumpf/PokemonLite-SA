@@ -13,13 +13,13 @@ import org.scalatest.wordspec.AnyWordSpec
 
 import scala.util.{Failure, Success}
 
-class SwitchPokemonCommandSpec extends AnyWordSpec{
+class SwitchPokemonCommandSpec extends AnyWordSpec {
   "SwitchPokemonCommand" when {
     val newGame = Game(player1 = Some(PokePlayer("Luis", PokePack(List(Some(Pokemon.apply(Glurak)))))), player2 = Some(PokePlayer("Timmy", PokePack(List(Some(Pokemon.apply(Simsala)))))))
     val state = SwitchPokemonState()
     val game = newGame.setStateTo(state)
     "failure" in {
-      SwitchPokemonCommand("", state).doStep(game) should be (Failure(NoInput))
+      SwitchPokemonCommand("", state).doStep(game) should be(Failure(NoInput))
     }
     val command = SwitchPokemonCommand("1", state)
     "success" in {

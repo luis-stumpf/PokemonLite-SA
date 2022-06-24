@@ -3,9 +3,9 @@ package controller.impl
 
 import model.PokemonType.Glurak
 import model.commands.ChangeStateCommand
-import model.states.{ InitPlayerState, InitState }
+import model.states.{InitPlayerState, InitState}
 import model.impl.pokePlayer.*
-import util.{ Observer, UndoManager }
+import util.{Observer, UndoManager}
 
 import de.htwg.se.pokelite.model.impl.game.Game
 import org.scalatest.matchers.should.Matchers.*
@@ -36,9 +36,10 @@ class ControllerSpec extends AnyWordSpec {
     }
 
     "notify its observers on change" in {
-      class TestObserver(controller: Controller) extends Observer:
+      class TestObserver(controller: Controller) extends Observer :
         controller.add(this)
         var bing = false
+
         def update(message: String) = bing = true
       val testObserver = TestObserver(controller)
       testObserver.bing should be(false)
