@@ -23,7 +23,7 @@ object PokePack {
 
 
   def fromJson(json: JsValue):PokePack =
-    val contentNodes = (json \ "contents").toOption
+    val contentNodes = (json \ "contents").validate[List[JsValue]].get
 
     PokePack(
       contents = contentNodes.map(n => Pokemon.fromJson(n)).toList,
