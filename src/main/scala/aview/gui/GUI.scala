@@ -27,7 +27,6 @@ class GUI( val controller : ControllerInterface ) extends JFXApp3 with Observer 
 
   override def update( message : String ) : Unit =
 
-
     if ( message != "success" )
       Platform.runLater {
         new Alert( AlertType.Warning ) {
@@ -35,7 +34,6 @@ class GUI( val controller : ControllerInterface ) extends JFXApp3 with Observer 
           headerText = message
         }.showAndWait()
       }
-
 
     fieldPane.children = new GridPane() {
 
@@ -49,7 +47,6 @@ class GUI( val controller : ControllerInterface ) extends JFXApp3 with Observer 
         new RowConstraints( 225 ),
         new RowConstraints( 30 )
       )
-
 
       val player1PokeImg : Image = new Image( "/pokemons/" + controller.game.player1.map( _.pokemons.contents.apply( controller.game.player1.get.currentPoke ).map( _.pType.name ).getOrElse( "" ) ).getOrElse( "" ) + "Front.gif", 250, 250, true, true )
       val player2PokeImg : Image = new Image( "/pokemons/" + controller.game.player2.map( _.pokemons.contents.apply( controller.game.player2.get.currentPoke ).map( _.pType.name ).getOrElse( "" ) ).getOrElse( "" ) + "Back.gif", 250, 250, true, true )
@@ -101,12 +98,10 @@ class GUI( val controller : ControllerInterface ) extends JFXApp3 with Observer 
     }
 
   var fieldPane : VBox = new VBox() {
-
   }
 
   var menuPane : VBox = new VBox() {
     alignment = Pos.Center
-
   }
 
   var topPane : VBox = new VBox() {
@@ -116,15 +111,7 @@ class GUI( val controller : ControllerInterface ) extends JFXApp3 with Observer 
 
   override def start( ) : Unit = {
     stage = new JFXApp3.PrimaryStage {
-
-      /*
-      val soundRes = getClass.getResource("/audio.wav").toURI().toString()
-
-      val sound = new Media(soundRes)
-      val soundPlayer = new MediaPlayer(sound)
-      soundPlayer.play()
-      */
-
+      
       val bigBackground : Background = getBackground( "/backgroundbig.png" )
 
       private def getBackground( url : String ) : Background = {
@@ -156,7 +143,6 @@ class GUI( val controller : ControllerInterface ) extends JFXApp3 with Observer 
             minWidth = 50
             children = topPane
           }
-
 
         }
       }
