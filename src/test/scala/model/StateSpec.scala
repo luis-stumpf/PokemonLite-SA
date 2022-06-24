@@ -9,6 +9,18 @@ import model.impl.game.Game
 import model.GameInterface
 
 class StateSpec extends AnyWordSpec {
+
+  "A State Object" when {
+    "called" should {
+      "create an xml with intitstate" in {
+        val state = InitState()
+        State.fromXML(
+          <state>{state.toString}</state>
+        ) should be (InitState())
+      }
+    }
+  }
+
   "A State" when {
     "ActionState" should {
       val state = InitState()
@@ -41,6 +53,9 @@ class StateSpec extends AnyWordSpec {
       val state = GameOverState()
       state.restartTheGame(Game()) shouldBe a [Some[InitState]]
     }
+
+
+
     "lol" should{
       val state = GameOverState()
       state.addPokemons("") should be(None)

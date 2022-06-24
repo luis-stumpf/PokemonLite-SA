@@ -17,7 +17,7 @@ class Controller @Inject extends ControllerInterface :
 
   def moveDone(newGame : GameInterface, command : Command) : Unit = {
     game = newGame
-    undoManager.doStep( game, command )
+    undoManager.doStep( command )
     notifyObservers()
   }
 

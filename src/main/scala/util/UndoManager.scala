@@ -9,9 +9,8 @@ class UndoManager:
   private var undoStack : List[ Command ] = Nil
   private var redoStack : List[ Command ] = Nil
 
-  def doStep(game : GameInterface, command : Command) : Unit =
+  def doStep(command : Command) : Unit =
     undoStack = command :: undoStack
-    command.doStep( game )
 
   def undoStep() : Try[ Command ] =
     undoStack match {
