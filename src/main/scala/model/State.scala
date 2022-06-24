@@ -4,13 +4,13 @@ package model
 import model.GameInterface
 import model.states.*
 
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{ JsValue, Json }
 
 import scala.xml.Node
 
 object State {
-  def fromXML(node: Node): State =
-    val state = (node \\ "state").text.replace(" ", "") match {
+  def fromXML( node : Node ) : State =
+    val state = ( node \\ "state" ).text.replace( " ", "" ) match {
       case "DesicionState()" => DesicionState()
       case "FightingState()" => FightingState()
       case "GameOverState()" => GameOverState()
@@ -20,8 +20,8 @@ object State {
     }
     state
 
-  def fromJson(json: JsValue): State =
-    val state = (json \ "stateVal").get.toString().replace("\"", "") match {
+  def fromJson( json : JsValue ) : State =
+    val state = ( json \ "stateVal" ).get.toString().replace( "\"", "" ) match {
       case "DesicionState()" => DesicionState()
       case "FightingState()" => FightingState()
       case "GameOverState()" => GameOverState()
@@ -34,25 +34,25 @@ object State {
 
 trait State {
 
-  def initPlayers(): Option[Command] = None
+  def initPlayers( ) : Option[ Command ] = None
 
-  def addPlayer(name: String): Option[Command] = None
+  def addPlayer( name : String ) : Option[ Command ] = None
 
-  def addPokemons(name: String): Option[Command] = None
+  def addPokemons( name : String ) : Option[ Command ] = None
 
-  def attackWith(input: String): Option[Command] = None
+  def attackWith( input : String ) : Option[ Command ] = None
 
-  def switchPokemon(input: String): Option[Command] = None
+  def switchPokemon( input : String ) : Option[ Command ] = None
 
-  def nextMove(input: String): Option[Command] = None
+  def nextMove( input : String ) : Option[ Command ] = None
 
-  def switchPokemonTo(input: String): Option[Command] = None
+  def switchPokemonTo( input : String ) : Option[ Command ] = None
 
-  def restartTheGame(game: GameInterface): Option[Command] = None
+  def restartTheGame( game : GameInterface ) : Option[ Command ] = None
 
-  def toJson: JsValue =
+  def toJson : JsValue =
     Json.obj(
-      "stateVal" -> Json.toJson(this.toString)
+      "stateVal" -> Json.toJson( this.toString )
     )
 
 }
