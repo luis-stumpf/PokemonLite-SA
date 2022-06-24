@@ -35,7 +35,8 @@ case class PokePlayer (name : String, pokemons : PokePack = PokePack( List( None
   def this() = this(name = "", pokemons = PokePack(List(None)))
 
   def toXML:Node =
-    <PokePlayer name ={name.toString}>
+    <PokePlayer>
+      <name>{name}</name>
       <pokemons>{pokemons.toXML}</pokemons>
       <currentPoke>{currentPoke.toString}</currentPoke>
     </PokePlayer>

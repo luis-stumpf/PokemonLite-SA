@@ -7,11 +7,6 @@ import model.impl.game.Game
 import java.io.{File, PrintWriter}
 import scala.xml.{Elem, Node, PrettyPrinter}
 
-
-case class XMLParseError( expected:String, got:String ) extends RuntimeException {
-  override def toString:String = "XMLParseError: Expected -> '" + expected + "', Got -> '" + got + "'"
-}
-
 class FileIO extends FileIOInterface{
   override def load: GameInterface = {
     val xml = scala.xml.XML.loadFile("game.xml")
