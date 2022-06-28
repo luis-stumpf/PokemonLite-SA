@@ -17,4 +17,5 @@ This project is developed as an exercise for the lecture Software Engineering at
 
 ## Docker
 
-still under development
+- build the project 
+- run it with ```sh docker run -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix -it pokemonlite/pokemonlite:0.1```
