@@ -1,5 +1,7 @@
 # PokemonLite
 
+![MAIN status](https://github.com/luis-stumpf/PokemonLite/actions/workflows/scala.yml/badge.svg)
+
 [![codecov](https://codecov.io/gh/luis-stumpf/PokemonLite/branch/development/graph/badge.svg?token=XIYI73J361)](https://codecov.io/gh/luis-stumpf/PokemonLite)
 
 Welcome to PokemonLite. This game works like the battle phase in a classic Pokemon game
