@@ -19,5 +19,4 @@ case class AttackCommand( input : String, state : FightingState ) extends Comman
 
   override def undoStep( game : GameInterface ) : GameInterface =
     game.reverseAttackWith( input )
-
 }

@@ -3,4 +3,16 @@ RUN apt-get update && apt-get install -y libxrender1 libxtst6 libxi6 libgl1-mesa
 WORKDIR /PokemonLite
 ADD . /PokemonLite
 CMD ["sbt", "run"]
+
+
+
+
+
+
+
+
+
+
+
+
 #docker run -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix -it pokemonlite/pokemonlite:0.1

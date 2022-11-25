@@ -12,6 +12,8 @@ Features:
 - Save Game via XML and JSON
 - Undo/Redo
 
+![pic](pokemonlite.png)
+
 
 ## Run
 
