@@ -17,7 +17,7 @@ Features:
 
 ## Run
 
-This project is developed as an exercise for the lecture Software Engineering at HTWGKonstanz. You can compile code with sbt compile, run it with sbt run, and sbt console will start a Scala 3 REPL.
+This project is developed as an exercise for the lecture Software Engineering at HTWG Konstanz. You can compile code with sbt compile, run it with sbt run, and sbt console will start a Scala 3 REPL.
 
 ## Docker
 
