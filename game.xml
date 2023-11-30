@@ -1,0 +1,44 @@
+<Game>
+    <state> FightingState() </state>
+    <player1>
+        <PokePlayer>
+            <name> Luis </name>
+            <pokemons>
+                <PokePack>
+                    <contents>
+                        <entry>
+                            <pokemon>
+                                <pType> Glurak </pType>
+                                <hp> 150 </hp>
+                                <isDead> false </isDead>
+                            </pokemon>
+                        </entry>
+                    </contents>
+                    <size> 1 </size>
+                </PokePack>
+            </pokemons>
+            <currentPoke> 0 </currentPoke>
+        </PokePlayer>
+    </player1>
+    <player2>
+        <PokePlayer>
+            <name> Timmy </name>
+            <pokemons>
+                <PokePack>
+                    <contents>
+                        <entry>
+                            <pokemon>
+                                <pType> Simsala </pType>
+                                <hp> 130 </hp>
+                                <isDead> false </isDead>
+                            </pokemon>
+                        </entry>
+                    </contents>
+                    <size> 1 </size>
+                </PokePack>
+            </pokemons>
+            <currentPoke> 0 </currentPoke>
+        </PokePlayer>
+    </player2>
+    <turn> 1 </turn>
+</Game>

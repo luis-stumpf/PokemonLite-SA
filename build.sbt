@@ -15,13 +15,16 @@ libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.11"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
 
 libraryDependencies += "com.github.tototoshi" %% "scala-csv" % "1.3.10"
-libraryDependencies += "org.scalafx" %% "scalafx" % "16.0.0-R24"
+libraryDependencies += "org.scalafx" %% "scalafx" % "20.0.0-R31"
 
 libraryDependencies += "com.google.inject.extensions" % "guice-assistedinject" % "5.1.0"
+libraryDependencies += ("org.scala-lang.modules" %% "scala-swing" % "3.0.0").cross(CrossVersion.for3Use2_13)
 libraryDependencies += ( "net.codingwell" %% "scala-guice" % "5.0.2" ).cross( CrossVersion.for3Use2_13 )
 
 libraryDependencies += ("com.typesafe.play" %% "play-json" % "2.8.2").cross( CrossVersion.for3Use2_13 )
 libraryDependencies += ("org.scala-lang.modules" %% "scala-xml" % "2.0.1")
+
+assemblyJarName in assembly := "baeldung-scala-sbt-assembly-fatjar-1.0.jar"
 
 libraryDependencies ++= {
   // Determine OS version of JavaFX binaries
@@ -32,7 +35,7 @@ libraryDependencies ++= {
     case _ => throw new Exception("Unknown platform!")
   }
   Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
-    .map(m => "org.openjfx" % s"javafx-$m" % "16" classifier osName)
+    .map(m => "org.openjfx" % s"javafx-$m" % "20")
 }
 
 jacocoReportSettings := JacocoReportSettings(
@@ -49,6 +52,11 @@ jacocoExcludes := Seq(
   "de.htwg.se.pokelite.PokemonLite*"
 
 )
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", _*) => MergeStrategy.discard
+  case _                        => MergeStrategy.first
+}
 
 commands += Command.command("clear") { state =>
   print("\033c")

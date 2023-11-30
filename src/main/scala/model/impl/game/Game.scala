@@ -96,8 +96,8 @@ case class Game( state : State = InitState(),
 
   def toJson : JsValue = Json.obj(
     "state" -> Json.toJson( state.toJson ),
-    "player1" -> Json.toJson( player1.get.toJson ),
-    "player2" -> Json.toJson( player2.get.toJson ),
+    "player1" -> Json.toJson( player1.map(_.toJson).getOrElse(Json.toJson("None")) ),
+    "player2" -> Json.toJson( player2.map(_.toJson).getOrElse(Json.toJson("None")) ),
     "turn" -> Json.toJson( turn )
   )
 

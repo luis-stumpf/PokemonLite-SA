@@ -57,6 +57,7 @@ case class Pokemon( pType : PokemonType, hp : Int, isDead : Boolean = false ) {
       "pType" -> Json.toJson( pType.name ),
       "hp" -> Json.toJson( hp ),
       "isDead" -> Json.toJson( isDead ),
+      "maxHp" -> Json.toJson(pType.hp),
     )
 
   def increaseHP( amount : Double ) : Pokemon =

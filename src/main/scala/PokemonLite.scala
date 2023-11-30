@@ -13,10 +13,13 @@ import javax.inject.Inject
 import scala.io.StdIn.readLine
 
 object PokemonLite {
+  val inject: Injector = Guice.createInjector(new PokemonLiteModule)
+  val controller: Controller = inject.getInstance(classOf[Controller])
+  val gui: GUI = GUI(controller)
+  val tui = TUI(controller)
+  var input = ""
+
   def main( args : Array[ String ] ) : Unit = {
-    val inject : Injector = Guice.createInjector( new PokemonLiteModule )
-    val controller = inject.getInstance( classOf[ Controller ] )
-    val gui = GUI( controller )
     val guiTread = new Thread( ( ) => {
       gui.main( Array.empty )
       System.exit( 0 )
@@ -25,8 +28,6 @@ object PokemonLite {
     guiTread.start()
 
 
-    val tui = TUI( controller )
-    var input = ""
     while ( input != "quit" )
       input = readLine()
       Platform.runLater( tui.processInputLine( input ) )

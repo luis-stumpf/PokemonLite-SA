@@ -56,7 +56,6 @@ class StateSpec extends AnyWordSpec {
       state.switchPokemon( "" ) should be( None )
       state.switchPokemonTo( "" ) should be( None )
       val state2 = InitState()
-      state2.restartTheGame( Game() ) should be( None )
     }
 
   }

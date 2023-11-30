@@ -9,8 +9,9 @@ import de.htwg.se.pokelite.model.{ Command, FileIOInterface, GameInterface, NoSa
 import de.htwg.se.pokelite.util.UndoManager
 
 import scala.util.{ Failure, Success }
+import scala.swing.Publisher
 
-class Controller @Inject extends ControllerInterface :
+case class Controller @Inject() () extends ControllerInterface with Publisher:
   val undoManager = new UndoManager
   var game : GameInterface = Game()
 

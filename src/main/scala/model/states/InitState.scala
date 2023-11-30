@@ -11,4 +11,8 @@ case class InitState( ) extends State {
     ChangeStateCommand( this, InitPlayerState() )
   )
 
+
+  override def restartTheGame(game: GameInterface): Option[Command] =
+    Some(GameOverCommand(game, this))
+
 }
