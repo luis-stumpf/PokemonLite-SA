@@ -12,6 +12,7 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class FileIOSpec extends AnyWordSpec {
 
+
   val fileIO = FileIO()
   val game = Game( FightingState(),
     Some( PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) ) ),

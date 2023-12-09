@@ -1,17 +1,18 @@
 package de.htwg.se.pokelite.controller.impl
 
-import com.google.inject.{ CreationException, Guice, Inject }
+import com.google.inject.{CreationException, Guice, Inject}
 import de.htwg.se.pokelite.PokemonLiteModule
-import de.htwg.se.pokelite.controller.ControllerInterface
+import de.htwg.se.pokelite.controller.{AttackEvent, ControllerInterface, GameOver, PlayerChanged, PokemonChanged, StateChanged, UnknownCommand}
+import de.htwg.se.pokelite.model.commands.GameOverCommand
 import de.htwg.se.pokelite.model.impl.game.Game
 import de.htwg.se.pokelite.model.states.InitPlayerState
-import de.htwg.se.pokelite.model.{ Command, FileIOInterface, GameInterface, NoSaveGameFound, NotAbleToSave }
+import de.htwg.se.pokelite.model.{Command, FileIOInterface, GameInterface, NoSaveGameFound, NotAbleToSave}
 import de.htwg.se.pokelite.util.UndoManager
 
-import scala.util.{ Failure, Success }
+import scala.util.{Failure, Success}
 import scala.swing.Publisher
 
-case class Controller @Inject() () extends ControllerInterface with Publisher:
+case class Controller @Inject() () extends ControllerInterface:
   val undoManager = new UndoManager
   var game : GameInterface = Game()
 
@@ -19,6 +20,16 @@ case class Controller @Inject() () extends ControllerInterface with Publisher:
     game = newGame
     undoManager.doStep( command )
     notifyObservers()
+    command.getClass.getSimpleName match {
+        case "ChangeStateCommand" => publish(new StateChanged)
+        case "AddPokemonCommand" => publish(new PlayerChanged)
+        case "AddPlayerCommand" => publish(new PlayerChanged)
+        case "GameOverCommand" => publish(new GameOver)
+        case "SelectNextMoveCommand" => publish(new StateChanged)
+        case "SwitchPokemonCommand" => publish(new PokemonChanged)
+        case "AttackCommand" => publish(new AttackEvent)
+        case _ => publish(new UnknownCommand())
+    }
   }
 
   def move( command : Option[ Command ] ) : Unit = {

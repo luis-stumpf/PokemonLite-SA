@@ -1,9 +1,17 @@
 package de.htwg.se.pokelite
 package model
 
+import play.api.libs.json.{JsValue, Json}
+
 trait AttackType {
   val name : String
   val damage : Int
+
+  def toJson: JsValue =
+    Json.obj(
+      "name" -> Json.toJson(name),
+      "damage" -> Json.toJson(damage)
+    )
 }
 
 case class Attack( name : String, damage : Int ) extends AttackType :
