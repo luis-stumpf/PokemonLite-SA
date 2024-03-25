@@ -1,0 +1,6 @@
+#!/bin/bash
+tmux kill-ses -t p-Lite
+tmux new -A -s c-db -n root \; \
+neww -n sbt \; \
+send-keys 'sbt' C-m \; \
+selectw -t root
