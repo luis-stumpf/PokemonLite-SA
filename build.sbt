@@ -1,6 +1,6 @@
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
-ThisBuild / scalaVersion := "3.1.1"
+ThisBuild / scalaVersion := "3.3.3"
 
 Compile/mainClass := Some("de.htwg.se.pokelite.PokemonLite")
 mainClass in (Compile, packageBin) := Some("de.htwg.se.pokelite.PokemonLite")
