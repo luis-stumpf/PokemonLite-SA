@@ -98,7 +98,8 @@ case class Game( state : State = InitState(),
     "state" -> Json.toJson( state.toJson ),
     "player1" -> Json.toJson( player1.map(_.toJson).getOrElse(Json.toJson("None")) ),
     "player2" -> Json.toJson( player2.map(_.toJson).getOrElse(Json.toJson("None")) ),
-    "turn" -> Json.toJson( turn )
+    "turn" -> Json.toJson( turn ),
+    "winner" -> Json.toJson( winner.map(_.toJson).getOrElse(Json.toJson("None")) )
   )
 
   def setStateTo( newState : State ) : Game = copy( state = newState )
