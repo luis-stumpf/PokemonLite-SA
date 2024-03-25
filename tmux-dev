@@ -1,6 +1,6 @@
 #!/bin/bash
 tmux kill-ses -t p-Lite
-tmux new -A -s c-db -n root \; \
+tmux new -A -s p-Lite -n root \; \
 neww -n sbt \; \
 send-keys 'sbt' C-m \; \
 selectw -t root

@@ -297,7 +297,7 @@ case class Game(
 
   object Attack {
 
-    var theCorrectPlayerWith =
+    val theCorrectPlayerWith =
       if turn == 1 then p1_attacks_p2 else p2_attacks_p1
 
     def p1_attacks_p2( attackNumber: Int ): Game =
@@ -333,7 +333,7 @@ case class Game(
 
   object ReverseAttack {
 
-    var theCorrectPlayerWith =
+    val theCorrectPlayerWith =
       if turn == 2 then p1_attacked_p2 else p2_attacked_p1
 
     def p1_attacked_p2( attackNumber: Int ): Game =
