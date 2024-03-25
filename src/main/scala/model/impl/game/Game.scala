@@ -147,7 +147,7 @@ case class Game(
       case Success( validListOfPokemon ) =>
         assignTheCorrectPlayerA( validListOfPokemon )
 
-  def removePokemonFromPlayer(): Game =
+  def removePokemonFromPlayer1(): Game =
     if player2.get.pokemons.contents.head.isDefined then
       copy(
         player2 =
@@ -162,6 +162,24 @@ case class Game(
         turn = 1,
         state = InitPlayerPokemonState()
       )
+
+  def removePokemonFromPlayer(): Game =
+    player2.flatMap( _.pokemons.contents.head ) match {
+      case Some( pokemon ) =>
+        copy(
+          player2 =
+            player2.map( p => PokePlayer( p.name, PokePack( List( None ) ) ) ),
+          turn = 2,
+          state = InitPlayerPokemonState()
+        )
+      case None =>
+        copy(
+          player1 =
+            player1.map( p => PokePlayer( p.name, PokePack( List( None ) ) ) ),
+          turn = 1,
+          state = InitPlayerPokemonState()
+        )
+    }
 
   def interpretAttackSelectionFrom( input: String ): Try[Game] =
     if currentPokemonIsDead then return Failure( DeadPokemon )
