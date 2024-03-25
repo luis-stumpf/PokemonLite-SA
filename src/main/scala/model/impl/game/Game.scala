@@ -170,26 +170,25 @@ case class Game( state : State = InitState(),
 
   def reverseAttackWith( input : String ) : Game = ReverseAttack.theCorrectPlayerWith( selectedAttackFrom( input ) )
 
-  def selectPokemonFrom( input : String ) : Try[ Game ] =
-    // TODO: Käs algo, überarbeiten!!
-    var selection : Int = 0
-    if input.isEmpty then return Failure( NoInput )
-    else if input.charAt( 0 ).isDigit then
-      selection = input.charAt( 0 ).asDigit
-    else return Failure( WrongInput( input ) )
 
-    if inputIsValidPokePack( selection ) then
-      if turn == 1 then
-        Success( copy(
-          player1 = Some( player1.get.setCurrentPokeTo( selection ) ),
-          turn = 2,
-          state = DesicionState() ) )
-      else
-        Success( copy(
-          player2 = Some( player2.get.setCurrentPokeTo( selection ) ),
-          turn = 1,
-          state = DesicionState() ) )
-    else Failure( WrongInput( input ) )
+  def selectPokemonFrom(input: String): Try[Game] = input.headOption match {
+    case Some(char: Char) if char.isDigit =>
+      val selection = char.asDigit
+      if inputIsValidPokePack(selection) then
+        if turn == 1 then
+          Success(copy(
+            player1 = Some(player1.get.setCurrentPokeTo(selection)),
+            turn = 2,
+            state = DesicionState()))
+        else
+          Success(copy(
+            player2 = Some(player2.get.setCurrentPokeTo(selection)),
+            turn = 1,
+            state = DesicionState()))
+      else Failure(WrongInput(input))
+    case None => Failure(NoInput)
+    case _ => Failure(WrongInput(input))
+  }
 
   private def inputIsValidPokePack( selection : Int ) = selection >= 1 && selection <= Game.maxPokePackSize
 
