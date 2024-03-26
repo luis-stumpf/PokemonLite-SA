@@ -173,8 +173,12 @@ case class Game(
     if currentPokemonIsDead then return Failure( DeadPokemon )
     input match
       case "" => Failure( NoInput )
-      case "1" | "2" | "3" | "4" =>
-        Success( Attack.theCorrectPlayerWith( selectedAttackFrom( input ) ) )
+      case "1" | "2" | "3" | "4" => {
+        Attack.theCorrectPlayerWith( selectedAttackFrom( input ) ) match {
+          case Some( game ) => Success( game )
+          case _            => Failure( NoValidAttackSelected( input ) )
+        }
+      }
       case _ => Failure( NoValidAttackSelected( input ) )
 
   private def currentPokemonIsDead = ( player1, player2, turn ) match {
@@ -313,35 +317,29 @@ case class Game(
     val theCorrectPlayerWith =
       if turn == 1 then p1_attacks_p2 else p2_attacks_p1
 
-    def p1_attacks_p2( attackNumber: Int ): Game =
-      val mult = Game.calculateDamageMultiplicator(
-        player1.get.getCurrentPokemonType,
-        player2.get.getCurrentPokemonType
-      )
-      val updatedGame = copy(
-        player2 = Some(
-          player2.get.reduceHealthOfCurrentPokemon(
-            player1.get.currentPokemonDamageWith( attackNumber ) * mult
-          )
-        ),
-        turn = 2
-      )
-      updatedGame.setWinner()
+    def p1_attacks_p2( attackNumber: Int ): Option[Game] =
+      for {
+        p1Type <- player1.map( _.getCurrentPokemonType )
+        p2Type <- player2.map( _.getCurrentPokemonType )
+        p2 <- player2
+        damage <- player1.map( _.currentPokemonDamageWith( attackNumber ) )
+        mult = Game.calculateDamageMultiplicator( p1Type, p2Type )
+        updatedP2 = p2.reduceHealthOfCurrentPokemon( damage * mult )
+        updatedGame = copy( player2 = Some( updatedP2 ), turn = 2 )
+        winnerGame = updatedGame.setWinner()
+      } yield winnerGame
 
-    def p2_attacks_p1( attackNumber: Int ): Game =
-      val mult = Game.calculateDamageMultiplicator(
-        player2.get.getCurrentPokemonType,
-        player1.get.getCurrentPokemonType
-      )
-      val updatedGame = copy(
-        player1 = Some(
-          player1.get.reduceHealthOfCurrentPokemon(
-            player2.get.currentPokemonDamageWith( attackNumber ) * mult
-          )
-        ),
-        turn = 1
-      )
-      updatedGame.setWinner()
+    def p2_attacks_p1( attackNumber: Int ): Option[Game] =
+      for {
+        p1Type <- player1.map( _.getCurrentPokemonType )
+        p2Type <- player2.map( _.getCurrentPokemonType )
+        p1 <- player1
+        damage <- player2.map( _.currentPokemonDamageWith( attackNumber ) )
+        mult = Game.calculateDamageMultiplicator( p2Type, p1Type )
+        updatedP1 = p1.reduceHealthOfCurrentPokemon( damage * mult )
+        updatedGame = copy( player1 = Some( updatedP1 ), turn = 1 )
+        winnerGame = updatedGame.setWinner()
+      } yield winnerGame
   }
 
   object ReverseAttack {
