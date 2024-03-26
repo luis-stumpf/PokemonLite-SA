@@ -152,18 +152,18 @@ case class Game(
         assignTheCorrectPlayerA( validListOfPokemon )
 
   def removePokemonFromPlayer(): Game =
-    player2.flatMap( _.pokemons.contents.head ) match {
+    player2.map( _.pokemons.contents.head ) match {
       case Some( pokemon ) =>
         copy(
           player2 =
-            player2.map( p => PokePlayer( p.name, PokePack( List( None ) ) ) ),
+            player2.map( p => PokePlayer( p.name, PokePack( List() ) ) ),
           turn = 2,
           state = InitPlayerPokemonState()
         )
       case None =>
         copy(
           player1 =
-            player1.map( p => PokePlayer( p.name, PokePack( List( None ) ) ) ),
+            player1.map( p => PokePlayer( p.name, PokePack( List() ) ) ),
           turn = 1,
           state = InitPlayerPokemonState()
         )
@@ -223,10 +223,10 @@ case class Game(
   private def inputIsValidPokePack( selection: Int ) =
     selection >= 1 && selection <= Game.maxPokePackSize
 
-  private def getPokemonListFrom( string: String ): Try[List[Option[Pokemon]]] =
+  private def getPokemonListFrom( string: String ): Try[List[Pokemon]] =
     if string.isEmpty then Failure( NoPokemonSelected )
     else
-      val pokeList = string.toCharArray.toList.map {
+      val pokeList = string.toCharArray.toList.flatMap {
         case '1' => Some( Pokemon( Glurak ) )
         case '2' => Some( Pokemon( Simsala ) )
         case '3' => Some( Pokemon( Brutalanda ) )
@@ -236,12 +236,10 @@ case class Game(
       }
       checkSizeOf( pokeList )
 
-  private def checkSizeOf(
-    pokeList: List[Option[Pokemon]]
-  ): Try[List[Option[Pokemon]]] =
-    val validPokemonCount = pokeList.count( x => x.nonEmpty )
-    if validPokemonCount < Game.maxPokePackSize then
-      Failure( NotEnoughPokemonSelected( validPokemonCount ) )
+  private def checkSizeOf( pokeList: List[Pokemon] ): Try[List[Pokemon]] =
+    // not sure
+    if pokeList.size < Game.maxPokePackSize then
+      Failure( NotEnoughPokemonSelected( pokeList.size ) )
     else Success( pokeList )
   // TODO: Refactor to PokePack potentiolly
 
@@ -268,12 +266,12 @@ case class Game(
     }
 
   private def assignTheCorrectPlayerA(
-    listOfPokemon: List[Option[Pokemon]]
+    listOfPokemon: List[Pokemon]
   ): Try[Game] = {
     val pokePack = PokePack( listOfPokemon )
 
     ( player1, player2 ) match {
-      case ( Some( p1 ), _ ) if p1.pokemons == PokePack( List( None ) ) =>
+      case ( Some( p1 ), _ ) if p1.pokemons == PokePack( List() ) =>
         Success(
           copy(
             player1 = Some( PokePlayer( p1.name, pokePack ) ),
@@ -282,8 +280,8 @@ case class Game(
           )
         )
       case ( Some( p1 ), Some( p2 ) )
-          if p1.pokemons == PokePack( List( None ) ) && p2.pokemons != PokePack(
-            List( None )
+          if p1.pokemons == PokePack( List() ) && p2.pokemons != PokePack(
+            List()
           ) =>
         Failure( HorriblePokemonSelectionError )
       case ( _, Some( p2 ) ) =>
@@ -307,8 +305,8 @@ case class Game(
 
   override def toString: String = Field(
     50,
-    player1.getOrElse( PokePlayer( "", PokePack( List( None ) ) ) ),
-    player2.getOrElse( PokePlayer( "", PokePack( List( None ) ) ) ),
+    player1.getOrElse( PokePlayer( "", PokePack( List() ) ) ),
+    player2.getOrElse( PokePlayer( "", PokePack( List() ) ) ),
     turn
   ).toString
 
