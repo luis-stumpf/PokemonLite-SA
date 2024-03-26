@@ -120,9 +120,13 @@ case class Game(
   def hasWinner: Boolean = if winner.isDefined then true else false
 
   def setWinner(): Game =
-    if turn == 1 then
-      copy( winner = if player1.get.checkForDefeat() then player2 else None )
-    else copy( winner = if player2.get.checkForDefeat() then player1 else None )
+    ( player1, player2 ) match {
+      case ( Some( p1 ), Some( p2 ) ) =>
+        if p1.checkForDefeat() then copy( winner = Some( p2 ) )
+        else if p2.checkForDefeat() then copy( winner = Some( p1 ) )
+        else this
+      case _ => this
+    }
 
   def setNextTurn(): Game =
     if (turn == 1)
@@ -146,22 +150,6 @@ case class Game(
       case Failure( x ) => Failure( x )
       case Success( validListOfPokemon ) =>
         assignTheCorrectPlayerA( validListOfPokemon )
-
-  def removePokemonFromPlayer1(): Game =
-    if player2.get.pokemons.contents.head.isDefined then
-      copy(
-        player2 =
-          Some( PokePlayer( player2.get.name, PokePack( List( None ) ) ) ),
-        turn = 2,
-        state = InitPlayerPokemonState()
-      )
-    else
-      copy(
-        player1 =
-          Some( PokePlayer( player1.get.name, PokePack( List( None ) ) ) ),
-        turn = 1,
-        state = InitPlayerPokemonState()
-      )
 
   def removePokemonFromPlayer(): Game =
     player2.flatMap( _.pokemons.contents.head ) match {
@@ -189,11 +177,11 @@ case class Game(
         Success( Attack.theCorrectPlayerWith( selectedAttackFrom( input ) ) )
       case _ => Failure( NoValidAttackSelected( input ) )
 
-  private def currentPokemonIsDead =
-    if bothPlayersHavePokemon then
-      if turn == 1 then player1.get.getCurrentPokemon.isDead
-      else player2.get.getCurrentPokemon.isDead
-    else false
+  private def currentPokemonIsDead = ( player1, player2, turn ) match {
+    case ( Some( p1 ), Some( p2 ), 1 ) => p1.getCurrentPokemon.isDead
+    case ( Some( p1 ), Some( p2 ), 2 ) => p2.getCurrentPokemon.isDead
+    case _                             => false
+  }
 
   private def bothPlayersHavePokemon = player1.isDefined && player2.isDefined
 
@@ -203,30 +191,30 @@ case class Game(
   def reverseAttackWith( input: String ): Game =
     ReverseAttack.theCorrectPlayerWith( selectedAttackFrom( input ) )
 
-  def selectPokemonFrom( input: String ): Try[Game] = input.headOption match {
-    case Some( char: Char ) if char.isDigit =>
-      val selection = char.asDigit
-      if inputIsValidPokePack( selection ) then
-        if turn == 1 then
-          Success(
-            copy(
-              player1 = Some( player1.get.setCurrentPokeTo( selection ) ),
-              turn = 2,
-              state = DesicionState()
+  def selectPokemonFrom( input: String ): Try[Game] =
+    input.headOption.map( _.isDigit ) match {
+      case Some( true ) =>
+        val selection = input.head.asDigit
+        if inputIsValidPokePack( selection ) then
+          if turn == 1 then
+            Success(
+              copy(
+                player1 = player1.map( _.setCurrentPokeTo( selection ) ),
+                turn = 2,
+                state = DesicionState()
+              )
             )
-          )
-        else
-          Success(
-            copy(
-              player2 = Some( player2.get.setCurrentPokeTo( selection ) ),
-              turn = 1,
-              state = DesicionState()
+          else
+            Success(
+              copy(
+                player2 = player2.map( _.setCurrentPokeTo( selection ) ),
+                turn = 1,
+                state = DesicionState()
+              )
             )
-          )
-      else Failure( WrongInput( input ) )
-    case None => Failure( NoInput )
-    case _    => Failure( WrongInput( input ) )
-  }
+        else Failure( WrongInput( input ) )
+      case _ => Failure( NoInput )
+    }
 
   private def inputIsValidPokePack( selection: Int ) =
     selection >= 1 && selection <= Game.maxPokePackSize
@@ -254,50 +242,57 @@ case class Game(
   // TODO: Refactor to PokePack potentiolly
 
   private def assignTheCorrectPlayerA( name: String ): Try[Game] =
-    if player2.nonEmpty && player1.isEmpty then
-      Failure( HorriblePlayerNameError )
-    else if player1.isEmpty then
-      Success(
-        copy(
-          state = InitPlayerState(),
-          player1 = Some( PokePlayer( name ) ),
-          turn = 2
+    ( player1, player2 ) match {
+      case ( _, Some( _ ) ) if player1.isEmpty =>
+        Failure( HorriblePlayerNameError )
+      case ( None, _ ) =>
+        Success(
+          copy(
+            state = InitPlayerState(),
+            player1 = Some( PokePlayer( name ) ),
+            turn = 2
+          )
         )
-      )
-    else
-      Success(
-        copy(
-          state = InitPlayerPokemonState(),
-          player2 = Some( PokePlayer( name ) ),
-          turn = 1
+      case _ =>
+        Success(
+          copy(
+            state = InitPlayerPokemonState(),
+            player2 = Some( PokePlayer( name ) ),
+            turn = 1
+          )
         )
-      )
+    }
 
   private def assignTheCorrectPlayerA(
     listOfPokemon: List[Option[Pokemon]]
-  ): Try[Game] =
+  ): Try[Game] = {
     val pokePack = PokePack( listOfPokemon )
 
-    if player1.get.pokemons == PokePack( List( None ) ) then
-      Success(
-        copy(
-          player1 = Some( PokePlayer( player1.get.name, pokePack ) ),
-          turn = 2,
-          state = InitPlayerPokemonState()
+    ( player1, player2 ) match {
+      case ( Some( p1 ), _ ) if p1.pokemons == PokePack( List( None ) ) =>
+        Success(
+          copy(
+            player1 = Some( PokePlayer( p1.name, pokePack ) ),
+            turn = 2,
+            state = InitPlayerPokemonState()
+          )
         )
-      )
-    else if player1.get.pokemons == PokePack(
-        List( None )
-      ) && player2.get.pokemons != PokePack( List( None ) )
-    then Failure( HorriblePokemonSelectionError )
-    else
-      Success(
-        copy(
-          player2 = Some( PokePlayer( player2.get.name, pokePack ) ),
-          turn = 1,
-          state = DesicionState()
+      case ( Some( p1 ), Some( p2 ) )
+          if p1.pokemons == PokePack( List( None ) ) && p2.pokemons != PokePack(
+            List( None )
+          ) =>
+        Failure( HorriblePokemonSelectionError )
+      case ( _, Some( p2 ) ) =>
+        Success(
+          copy(
+            player2 = Some( PokePlayer( p2.name, pokePack ) ),
+            turn = 1,
+            state = DesicionState()
+          )
         )
-      )
+      case _ => Failure( new Exception( "Unexpected game state" ) )
+    }
+  }
 
   private def checkForValidNameInput( string: String ): Try[String] =
     if (string.isEmpty)
