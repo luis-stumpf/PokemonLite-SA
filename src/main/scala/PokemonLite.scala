@@ -13,27 +13,29 @@ import javax.inject.Inject
 import scala.io.StdIn.readLine
 import java.io.IOException
 
+// TODO: fix gui and tui format
+
 object PokemonLite {
   val inject: Injector = Guice.createInjector( new PokemonLiteModule )
   val controller: Controller = inject.getInstance( classOf[Controller] )
-  // val gui: GUI = GUI( controller )
+  val gui: GUI = GUI( controller )
   val tui = TUI( controller )
   var input = ""
 
   def main( args: Array[String] ): Unit = {
-    /*
     val guiTread = new Thread( () => {
       gui.main( Array.empty )
       System.exit( 0 )
     } )
     guiTread.setDaemon( true )
     guiTread.start()
-     */
 
-    // processInput()
+    processInput()
+    /*
     while (input != "quit")
       input = readLine()
       tui.processInputLine( input )
+     */
   }
 
   def processInput(): Unit = {
