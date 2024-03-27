@@ -63,11 +63,11 @@ class FieldSpec extends AnyWordSpec {
         field.toString should be(
           "+--------------------------------------------------+--------------------------------------------------+\n" +
             "|                                         Luis     |                                                  |\n" +
-            "|                               Glurak HP: 150     |     1. Glut             2. Flammenwurf           |\n" +
+            "|                               Glurak HP: 150     |     1. Glut                  2. Flammenwurf      |\n" +
             "|                                                  |                                                  |\n" +
             "|                                                  |                                                  |\n" +
             "|                                                  |                                                  |\n" +
-            "|     Simsala HP: 130                              |     3. Biss             4. Inferno               |\n" +
+            "|     Simsala HP: 130                              |     3. Biss                  4. Inferno          |\n" +
             "|     Timmy                                        |                                                  |\n" +
             "+--------------------------------------------------+--------------------------------------------------+\n"
         )

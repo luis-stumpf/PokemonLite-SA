@@ -110,29 +110,23 @@ case class Field(
     }
   }
 
-  def printTopAttacksOf( pokemon: Pokemon ): String = {
+  def printAttackDetails( attackNumber: Int ): Pokemon => String = pokemon => {
     val attacks = pokemon.pType.attacks
-    "|" + " " * calcSpace(
-      0.1
-    ) + "1. " + attacks.head.name + " " * ( calcSpace(
-      0.4,
-      attacks.head.name
-    ) - 3 ) +
-      "2. " + attacks.apply( 1 ).name + " " * ( calcSpace(
-        0.5,
-        attacks.apply( 1 ).name
-      ) - 3 ) + "|\n"
+    " " * calcSpace( 0.1 ) + attackNumber + ". " + attacks(
+      attackNumber - 1
+    ).name + " " * (
+      calcSpace( 0.4, attacks( attackNumber - 1 ).name ) - 3
+    )
   }
 
-  def printBottomAttacksOf( pokemon: Pokemon ): String =
-    val attacks = pokemon.pType.attacks
-    "|" + " " * calcSpace( 0.1 ) + "3. " + pokemon.pType.attacks
-      .apply( 2 )
-      .name + " " * ( calcSpace(
-      0.4,
-      pokemon.pType.attacks.apply( 2 ).name
-    ) - 3 ) +
-      "4. " + pokemon.pType.attacks.apply( 3 ).name + " " * ( calcSpace(
-        0.5,
-        pokemon.pType.attacks.apply( 3 ).name
-      ) - 3 ) + "|\n"
+  def printTopAttacksOf( pokemon: Pokemon ): String = {
+    val printAttack1 = printAttackDetails( 1 )
+    val printAttack2 = printAttackDetails( 2 )
+    "|" + printAttack1( pokemon ) + printAttack2( pokemon ) + "|\n"
+  }
+
+  def printBottomAttacksOf( pokemon: Pokemon ): String = {
+    val printAttack3 = printAttackDetails( 3 )
+    val printAttack4 = printAttackDetails( 4 )
+    "|" + printAttack3( pokemon ) + printAttack4( pokemon ) + "|\n"
+  }

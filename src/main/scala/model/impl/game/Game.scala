@@ -146,12 +146,6 @@ case class Game(
 
   def interpretPokemonSelectionFrom( string: String ): Try[Game] =
     getPokemonListFrom( string ).flatMap( assignTheCorrectPlayerA )
-    /*
-    getPokemonListFrom( string ) match
-      case Failure( x ) => Failure( x )
-      case Success( validListOfPokemon ) =>
-        assignTheCorrectPlayerA( validListOfPokemon )
-     */
 
   def removePokemonFromPlayer(): Game =
     player2.flatMap( _.pokemons.contents.headOption ) match {
