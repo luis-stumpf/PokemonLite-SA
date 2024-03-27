@@ -152,7 +152,7 @@ case class Game(
         assignTheCorrectPlayerA( validListOfPokemon )
 
   def removePokemonFromPlayer(): Game =
-    player2.map( _.pokemons.contents.head ) match {
+    player2.flatMap( _.pokemons.contents.headOption ) match {
       case Some( pokemon ) =>
         copy(
           player2 =

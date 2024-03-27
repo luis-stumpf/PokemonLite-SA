@@ -60,9 +60,9 @@ class GameSpec extends AnyWordSpec {
                 "Luis",
                 PokePack(
                   List(
-                    Some( Pokemon.apply( Glurak ) ),
-                    Some( Pokemon.apply( Glurak ) ),
-                    Some( Pokemon.apply( Glurak ) )
+                    Pokemon.apply( Glurak ),
+                    Pokemon.apply( Glurak ),
+                    Pokemon.apply( Glurak )
                   )
                 )
               )
@@ -75,34 +75,23 @@ class GameSpec extends AnyWordSpec {
         game = Game(
           FightingState(),
           Some(
-            PokePlayer(
-              "Luis",
-              PokePack( List( Some( Pokemon.apply( Simsala ) ) ) )
-            )
+            PokePlayer( "Luis", PokePack( List( Pokemon.apply( Simsala ) ) ) )
           ),
           Some(
-            PokePlayer(
-              "Timmy",
-              PokePack( List( Some( Pokemon.apply( Glurak ) ) ) )
-            )
+            PokePlayer( "Timmy", PokePack( List( Pokemon.apply( Glurak ) ) ) )
           )
         )
         game.interpretAttackSelectionFrom( "1" ).get should be {
           Game(
             FightingState(),
             Some(
-              PokePlayer(
-                "Luis",
-                PokePack( List( Some( Pokemon.apply( Simsala ) ) ) )
-              )
+              PokePlayer( "Luis", PokePack( List( Pokemon.apply( Simsala ) ) ) )
             ),
             Some(
               PokePlayer(
                 "Timmy",
                 PokePack(
-                  List(
-                    Some( Some( Pokemon.apply( Glurak ) ).get.reduceHP( 10.0 ) )
-                  )
+                  List( Some( Pokemon.apply( Glurak ) ).get.reduceHP( 10.0 ) )
                 )
               )
             )
@@ -117,33 +106,22 @@ class GameSpec extends AnyWordSpec {
             PokePlayer(
               "Luis",
               PokePack(
-                List(
-                  Some( Some( Pokemon.apply( Simsala ) ).get.reduceHP( 20.0 ) )
-                )
+                List( Some( Pokemon.apply( Simsala ) ).get.reduceHP( 20.0 ) )
               )
             )
           ),
           Some(
-            PokePlayer(
-              "Timmy",
-              PokePack( List( Some( Pokemon.apply( Glurak ) ) ) )
-            )
+            PokePlayer( "Timmy", PokePack( List( Pokemon.apply( Glurak ) ) ) )
           )
         )
         game.reverseAttackWith( "1" ) should be {
           Game(
             FightingState(),
             Some(
-              PokePlayer(
-                "Luis",
-                PokePack( List( Some( Pokemon.apply( Simsala ) ) ) )
-              )
+              PokePlayer( "Luis", PokePack( List( Pokemon.apply( Simsala ) ) ) )
             ),
             Some(
-              PokePlayer(
-                "Timmy",
-                PokePack( List( Some( Pokemon.apply( Glurak ) ) ) )
-              )
+              PokePlayer( "Timmy", PokePack( List( Pokemon.apply( Glurak ) ) ) )
             )
           ).setNextTurn()
 
@@ -153,16 +131,10 @@ class GameSpec extends AnyWordSpec {
         game = Game(
           FightingState(),
           Some(
-            PokePlayer(
-              "Luis",
-              PokePack( List( Some( Pokemon.apply( Glurak ) ) ) )
-            )
+            PokePlayer( "Luis", PokePack( List( Pokemon.apply( Glurak ) ) ) )
           ),
           Some(
-            PokePlayer(
-              "Timmy",
-              PokePack( List( Some( Pokemon.apply( Simsala ) ) ) )
-            )
+            PokePlayer( "Timmy", PokePack( List( Pokemon.apply( Simsala ) ) ) )
           )
         ).setNextTurn()
         game.interpretAttackSelectionFrom( "1" ).get should be {
@@ -172,16 +144,14 @@ class GameSpec extends AnyWordSpec {
               PokePlayer(
                 "Luis",
                 PokePack(
-                  List(
-                    Some( Some( Pokemon.apply( Glurak ) ).get.reduceHP( 10.0 ) )
-                  )
+                  List( Some( Pokemon.apply( Glurak ) ).get.reduceHP( 10.0 ) )
                 )
               )
             ),
             Some(
               PokePlayer(
                 "Timmy",
-                PokePack( List( Some( Pokemon.apply( Simsala ) ) ) )
+                PokePack( List( Pokemon.apply( Simsala ) ) )
               )
             )
           )
@@ -193,17 +163,12 @@ class GameSpec extends AnyWordSpec {
         game = Game(
           FightingState(),
           Some(
-            PokePlayer(
-              "Luis",
-              PokePack( List( Some( Pokemon.apply( Glurak ) ) ) )
-            )
+            PokePlayer( "Luis", PokePack( List( Pokemon.apply( Glurak ) ) ) )
           ),
           Some(
             PokePlayer(
               "Timmy",
-              PokePack(
-                List( Some( Pokemon.apply( Simsala ).reduceHP( 20.0 ) ) )
-              )
+              PokePack( List( Pokemon.apply( Simsala ).reduceHP( 20.0 ) ) )
             )
           )
         ).setNextTurn()
@@ -212,15 +177,12 @@ class GameSpec extends AnyWordSpec {
           Game(
             FightingState(),
             Some(
-              PokePlayer(
-                "Luis",
-                PokePack( List( Some( Pokemon.apply( Glurak ) ) ) )
-              )
+              PokePlayer( "Luis", PokePack( List( Pokemon.apply( Glurak ) ) ) )
             ),
             Some(
               PokePlayer(
                 "Timmy",
-                PokePack( List( Some( Pokemon.apply( Simsala ) ) ) )
+                PokePack( List( Pokemon.apply( Simsala ) ) )
               )
             )
           )

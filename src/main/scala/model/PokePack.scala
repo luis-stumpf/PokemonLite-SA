@@ -39,7 +39,7 @@ case class PokePack( contents: List[Pokemon], size: Int ):
       <contents>
         {
       contents.map( e => <entry>
-            {e}
+            {e.toXML}
           </entry> )
     }
       </contents>
