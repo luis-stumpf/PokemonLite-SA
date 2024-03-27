@@ -135,10 +135,9 @@ case class Game(
       copy( turn = 1 )
 
   def addPlayerWith( name: String ): Try[Game] =
-    checkForValidNameInput( name ) match
-      case Failure( x ) => Failure( x )
-      case Success( validPlayerName ) =>
-        assignTheCorrectPlayerA( validPlayerName )
+    checkForValidNameInput( name ).flatMap(
+      assignTheCorrectPlayerA
+    ) // higher order function
 
   def removePlayer(): Game =
     if player2.nonEmpty then
@@ -146,10 +145,13 @@ case class Game(
     else copy( player1 = None, state = InitPlayerState(), turn = 1 )
 
   def interpretPokemonSelectionFrom( string: String ): Try[Game] =
+    getPokemonListFrom( string ).flatMap( assignTheCorrectPlayerA )
+    /*
     getPokemonListFrom( string ) match
       case Failure( x ) => Failure( x )
       case Success( validListOfPokemon ) =>
         assignTheCorrectPlayerA( validListOfPokemon )
+     */
 
   def removePokemonFromPlayer(): Game =
     player2.flatMap( _.pokemons.contents.headOption ) match {
