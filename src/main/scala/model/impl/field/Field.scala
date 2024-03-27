@@ -68,94 +68,71 @@ case class Field(
     0.1
   ) + player2.name + " " * calcSpace( 0.9, player2.name )
 
-  def printBottomPokemon(): String =
-    "|" + " " * calcSpace( 0.1 ) + {
-      val currentPokeIndex = player2.currentPoke
-      val pokemonContents = player2.pokemons.contents
+  def printBottomPokemon(): String = {
+
+    val currentPokeIndex = player2.currentPoke
+    val pokemonContents = player2.pokemons.contents
+    val pokemonString: String =
       if (currentPokeIndex >= 0 && currentPokeIndex < pokemonContents.length) {
-        pokemonContents( currentPokeIndex ).toString() + printBottomAttacks()
+        pokemonContents( currentPokeIndex ).toString()
       } else {
         ""
       }
-    }
-
-  def printTopAttacks(): String = if (isControlledBy == 1) {
-    val currentPokeIndex = player1.currentPoke
-    val pokemonContents = player1.pokemons.contents
-    if (currentPokeIndex >= 0 && currentPokeIndex < pokemonContents.length) {
-      "|" + " " * calcSpace( 0.1 ) + "1. " + pokemonContents(
-        currentPokeIndex
-      ).pType.attacks.head.name + " " * ( calcSpace(
-        0.4,
-        pokemonContents( currentPokeIndex ).pType.attacks.head.name
-      ) - 3 ) +
-        "2. " + pokemonContents( currentPokeIndex ).pType.attacks
-          .apply( 1 )
-          .name + " " * ( calcSpace(
-          0.5,
-          pokemonContents( currentPokeIndex ).pType.attacks.apply( 1 ).name
-        ) - 3 ) + "|\n"
-    } else {
-      ""
-    }
-  } else {
-    ""
+    "|" + " " * calcSpace( 0.1 ) + pokemonString + " " * calcSpace(
+      0.9,
+      pokemonString
+    ) + printBottomAttacks()
   }
 
-  def printBottomAttacks(): String = if (isControlledBy == 1) {
-    val currentPokeIndex = player2.currentPoke
-    val pokemonContents = player2.pokemons.contents
+  def printTopAttacks(): String = {
+    val currentPlayer = if (isControlledBy == 1) player1 else player2
+    val currentPokeIndex = currentPlayer.currentPoke
+    val pokemonContents = currentPlayer.pokemons.contents
     if (
       currentPokeIndex >= 0 && currentPokeIndex < pokemonContents.length && pokemonContents.size > 0
     ) {
-      "|" + " " * calcSpace( 0.1 ) + "3. " + pokemonContents(
-        currentPokeIndex
-      ).pType.attacks
-        .apply( 2 )
-        .name + " " * ( calcSpace(
-        0.4,
-        pokemonContents( currentPokeIndex ).pType.attacks.apply( 2 ).name
-      ) - 3 ) + "|\n"
+      printTopAttacksOf( pokemonContents( currentPokeIndex ) )
     } else {
-      ""
+      cleanSite()
     }
-  } else {
-    ""
+  }
+
+  def printBottomAttacks(): String = {
+    val currentPlayer = if (isControlledBy == 1) player1 else player2
+    val currentPokeIndex = currentPlayer.currentPoke
+    val pokemonContents = currentPlayer.pokemons.contents
+    if (
+      currentPokeIndex >= 0 && currentPokeIndex < pokemonContents.length && pokemonContents.size > 0
+    ) {
+      printBottomAttacksOf( pokemonContents( currentPokeIndex ) )
+    } else {
+      cleanSite()
+    }
   }
 
   def printTopAttacksOf( pokemon: Pokemon ): String = {
     val attacks = pokemon.pType.attacks
-    if (attacks.length >= 2) {
-      "|" + " " * calcSpace(
-        0.1
-      ) + "1. " + attacks.head.name + " " * ( calcSpace(
-        0.4,
-        attacks.head.name
-      ) - 3 ) +
-        "2. " + attacks( 1 ).name + " " * ( calcSpace(
-          0.5,
-          attacks( 1 ).name
-        ) - 3 ) + "|\n"
-    } else {
-      ""
-    }
+    "|" + " " * calcSpace(
+      0.1
+    ) + "1. " + attacks.head.name + " " * ( calcSpace(
+      0.4,
+      attacks.head.name
+    ) - 3 ) +
+      "2. " + attacks.apply( 1 ).name + " " * ( calcSpace(
+        0.5,
+        attacks.apply( 1 ).name
+      ) - 3 ) + "|\n"
   }
 
-  def printBottomAttacksOf( pokemon: Pokemon ): String = {
+  def printBottomAttacksOf( pokemon: Pokemon ): String =
     val attacks = pokemon.pType.attacks
-    if (attacks.length >= 4) {
-      "|" + " " * calcSpace( 0.1 ) + "3. " + attacks(
-        2
-      ).name + " " * ( calcSpace( 0.4, attacks( 2 ).name ) - 3 ) +
-        "4. " + attacks( 3 ).name + " " * ( calcSpace(
-          0.5,
-          attacks( 3 ).name
-        ) - 3 ) + "|\n"
-    } else if (attacks.length == 3) {
-      "|" + " " * calcSpace( 0.1 ) + "3. " + attacks(
-        2
-      ).name + " " * ( calcSpace( 0.4, attacks( 2 ).name ) - 3 ) + "|\n"
-    } else {
-      ""
-    }
-  }
+    "|" + " " * calcSpace( 0.1 ) + "3. " + pokemon.pType.attacks
+      .apply( 2 )
+      .name + " " * ( calcSpace(
+      0.4,
+      pokemon.pType.attacks.apply( 2 ).name
+    ) - 3 ) +
+      "4. " + pokemon.pType.attacks.apply( 3 ).name + " " * ( calcSpace(
+        0.5,
+        pokemon.pType.attacks.apply( 3 ).name
+      ) - 3 ) + "|\n"
