@@ -74,25 +74,21 @@ case class PokePlayer(
   def checkForDefeat(): Boolean = pokemons.checkIfAllPokemonAreDead
 
   def getCurrentPokemonType: PokemonArt =
-    pokemons.contents.apply( currentPoke ).pType.pokemonArt
+    pokemons.contents( currentPoke ).pType.pokemonArt
 
-  def getCurrentPokemon: Pokemon = pokemons.contents.apply( currentPoke )
+  def getCurrentPokemon: Pokemon = pokemons.contents( currentPoke )
 
   def currentPokemonDamageWith( attackNumber: Int ): Int =
-    pokemons.contents.apply( currentPoke ).damageOf( attackNumber )
+    pokemons.contents( currentPoke ).damageOf( attackNumber )
 
   def reduceHealthOfCurrentPokemon( amount: Double ): PokePlayer =
-    copy(pokemons =
-      PokePack(
-        pokemons.contents
-          .updated( currentPoke, getCurrentPokemon.reduceHP( amount ) )
-      )
-    )
+    withPokemon( _.reduceHP( amount ) )( getCurrentPokemon )
 
   def increaseHealthOfCurrentPokemon( amount: Double ): PokePlayer =
+    withPokemon( _.increaseHP( amount ) )( getCurrentPokemon )
+
+  def withPokemon( fn: ( Pokemon ) => Pokemon )( poke: Pokemon ): PokePlayer = {
     copy(pokemons =
-      PokePack(
-        pokemons.contents
-          .updated( currentPoke, getCurrentPokemon.increaseHP( amount ) )
-      )
+      PokePack( pokemons.contents.updated( currentPoke, fn( poke ) ) )
     )
+  }

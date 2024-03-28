@@ -33,7 +33,3 @@ trait FieldInterface:
   def printTopAttacks(): String
 
   def printBottomAttacks(): String
-
-  def printTopAttacksOf( pokemon: Pokemon ): String
-
-  def printBottomAttacksOf( pokemon: Pokemon ): String

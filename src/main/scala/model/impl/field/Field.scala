@@ -49,6 +49,10 @@ case class Field(
       0.1
     )
 
+  def printBottomPlayer(): String = "|" + " " * calcSpace(
+    0.1
+  ) + player2.name + " " * calcSpace( 0.9, player2.name )
+
   def printTopPokemon(): String = {
     val currentPokeIndex = player1.currentPoke
     val pokemonContents = player1.pokemons.contents
@@ -63,10 +67,6 @@ case class Field(
       pokemonString
     ) + pokemonString + " " * calcSpace( 0.1 ) + printTopAttacks()
   }
-
-  def printBottomPlayer(): String = "|" + " " * calcSpace(
-    0.1
-  ) + player2.name + " " * calcSpace( 0.9, player2.name )
 
   def printBottomPokemon(): String = {
 
@@ -91,7 +91,7 @@ case class Field(
     if (
       currentPokeIndex >= 0 && currentPokeIndex < pokemonContents.length && pokemonContents.size > 0
     ) {
-      printTopAttacksOf( pokemonContents( currentPokeIndex ) )
+      printAttacks( true )( pokemonContents( currentPokeIndex ) )
     } else {
       cleanSite()
     }
@@ -104,7 +104,7 @@ case class Field(
     if (
       currentPokeIndex >= 0 && currentPokeIndex < pokemonContents.length && pokemonContents.size > 0
     ) {
-      printBottomAttacksOf( pokemonContents( currentPokeIndex ) )
+      printAttacks( false )( pokemonContents( currentPokeIndex ) )
     } else {
       cleanSite()
     }
@@ -119,14 +119,17 @@ case class Field(
     )
   }
 
-  def printTopAttacksOf( pokemon: Pokemon ): String = {
-    val printAttack1 = printAttackDetails( 1 )
-    val printAttack2 = printAttackDetails( 2 )
-    "|" + printAttack1( pokemon ) + printAttack2( pokemon ) + "|\n"
-  }
-
-  def printBottomAttacksOf( pokemon: Pokemon ): String = {
-    val printAttack3 = printAttackDetails( 3 )
-    val printAttack4 = printAttackDetails( 4 )
-    "|" + printAttack3( pokemon ) + printAttack4( pokemon ) + "|\n"
+  // closure with currying
+  def printAttacks( isTop: Boolean )( pokemon: Pokemon ): String = {
+    val attackRow = ( isTop, pokemon ) match {
+      case ( true, _ ) =>
+        "|" + printAttackDetails( 1 )( pokemon ) + printAttackDetails( 2 )(
+          pokemon
+        ) + "|\n"
+      case ( false, _ ) =>
+        "|" + printAttackDetails( 3 )( pokemon ) + printAttackDetails( 4 )(
+          pokemon
+        ) + "|\n"
+    }
+    attackRow
   }

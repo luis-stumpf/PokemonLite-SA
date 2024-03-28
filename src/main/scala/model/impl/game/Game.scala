@@ -147,6 +147,7 @@ case class Game(
   def interpretPokemonSelectionFrom( string: String ): Try[Game] =
     getPokemonListFrom( string ).flatMap( assignTheCorrectPlayerA )
 
+  // option match
   def removePokemonFromPlayer(): Game =
     player2.flatMap( _.pokemons.contents.headOption ) match {
       case Some( pokemon ) =>
