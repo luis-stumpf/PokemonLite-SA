@@ -9,23 +9,16 @@ import scalafx.scene.control.Button
 import scalafx.scene.image.{ Image, ImageView }
 import scalafx.scene.layout.GridPane
 
-case class FightingPane( controller: ControllerInterface ) extends GridPane {
 
-  def getAttackName( i: Int ): String =
-    if (controller.game.turn == 1)
-      controller.game.player1.get.pokemons.contents
-        .apply( controller.game.player1.get.currentPoke )
-        .pType
-        .attacks
-        .apply( i )
-        .name
+case class FightingPane( controller : ControllerInterface ) extends GridPane {
+
+
+  def getAttackName( i : Int ) : String =
+    if ( controller.game.turn == 1 )
+      controller.game.player1.get.pokemons.contents.apply( controller.game.player1.get.currentPoke ).get.pType.attacks.apply( i ).name
     else
-      controller.game.player2.get.pokemons.contents
-        .apply( controller.game.player2.get.currentPoke )
-        .pType
-        .attacks
-        .apply( i )
-        .name
+      controller.game.player2.get.pokemons.contents.apply( controller.game.player2.get.currentPoke ).get.pType.attacks.apply( i ).name
+
 
   val attack1 = new Button( getAttackName( 0 ) ) {
     margin = Insets( 20 )
@@ -56,5 +49,6 @@ case class FightingPane( controller: ControllerInterface ) extends GridPane {
   add( attack2, 1, 0 )
   add( attack3, 0, 1 )
   add( attack4, 1, 1 )
+
 
 }

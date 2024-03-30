@@ -33,12 +33,12 @@ object PokePlayer {
 
 case class PokePlayer(
   name: String,
-  pokemons: PokePack = PokePack( List() ),
+  pokemons: PokePack = PokePack( List( None ) ),
   currentPoke: Int = 0
 ) extends PokePlayerInterface:
 
   @Inject
-  def this() = this( name = "", pokemons = PokePack( List() ) )
+  def this() = this( name = "", pokemons = PokePack( List( None ) ) )
 
   def toXML: Node =
     <PokePlayer>
