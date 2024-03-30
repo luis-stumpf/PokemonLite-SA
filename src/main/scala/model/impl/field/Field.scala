@@ -74,20 +74,38 @@ case class Field(
     val pokemonContents = player2.pokemons.contents
     val pokemonString: String =
       if (currentPokeIndex >= 0 && currentPokeIndex < pokemonContents.length) {
-        pokemonContents( currentPokeIndex ).toString()
+        pokemonContents( currentPokeIndex ).toString() + printBottomAttacks()
       } else {
         ""
       }
-    "|" + " " * calcSpace( 0.1 ) + pokemonString + " " * calcSpace(
-      0.9,
-      pokemonString
-    ) + printBottomAttacks()
+    }
+
+  def printTopAttacks(): String = if (isControlledBy == 1) {
+    val currentPokeIndex = player1.currentPoke
+    val pokemonContents = player1.pokemons.contents
+    if (currentPokeIndex >= 0 && currentPokeIndex < pokemonContents.length) {
+      "|" + " " * calcSpace( 0.1 ) + "1. " + pokemonContents(
+        currentPokeIndex
+      ).pType.attacks.head.name + " " * ( calcSpace(
+        0.4,
+        pokemonContents( currentPokeIndex ).pType.attacks.head.name
+      ) - 3 ) +
+        "2. " + pokemonContents( currentPokeIndex ).pType.attacks
+          .apply( 1 )
+          .name + " " * ( calcSpace(
+          0.5,
+          pokemonContents( currentPokeIndex ).pType.attacks.apply( 1 ).name
+        ) - 3 ) + "|\n"
+    } else {
+      ""
+    }
+  } else {
+    ""
   }
 
-  def printTopAttacks(): String = {
-    val currentPlayer = if (isControlledBy == 1) player1 else player2
-    val currentPokeIndex = currentPlayer.currentPoke
-    val pokemonContents = currentPlayer.pokemons.contents
+  def printBottomAttacks(): String = if (isControlledBy == 1) {
+    val currentPokeIndex = player2.currentPoke
+    val pokemonContents = player2.pokemons.contents
     if (
       currentPokeIndex >= 0 && currentPokeIndex < pokemonContents.length && pokemonContents.size > 0
     ) {
@@ -108,6 +126,8 @@ case class Field(
     } else {
       cleanSite()
     }
+  } else {
+    ""
   }
 
   def printAttackDetails( attackNumber: Int ): Pokemon => String = pokemon => {
