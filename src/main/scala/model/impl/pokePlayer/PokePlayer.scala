@@ -76,21 +76,21 @@ case class PokePlayer(
 
   def checkForDefeat(): Boolean = pokemons.checkIfAllPokemonAreDead
 
-  def getCurrentPokemonType: PokemonArt =
-    pokemons.contents( currentPoke ).get.pType.pokemonArt
+  def currentPokemonType: PokemonArt =
+    currentPokemon.map( _.pType.pokemonArt ).getOrElse( PokemonArt.Feuer )
 
-  def getCurrentPokemon: Option[Pokemon] = pokemons.contents( currentPoke )
+  def currentPokemon: Option[Pokemon] = pokemons.contents( currentPoke )
 
   def currentPokemonDamageWith( attackNumber: Int ): Option[Int] =
-    getCurrentPokemon.map( _.damageOf( attackNumber ) )
+    currentPokemon.map( _.damageOf( attackNumber ) )
 
   def reduceHealthOfCurrentPokemon( amount: Double ): PokePlayer =
-    getCurrentPokemon
+    currentPokemon
       .map( pokemon => withPokemon( _.reduceHP( amount ) )( pokemon ) )
       .getOrElse( this )
 
   def increaseHealthOfCurrentPokemon( amount: Double ): PokePlayer =
-    getCurrentPokemon
+    currentPokemon
       .map( pokemon => withPokemon( _.increaseHP( amount ) )( pokemon ) )
       .getOrElse( this )
 

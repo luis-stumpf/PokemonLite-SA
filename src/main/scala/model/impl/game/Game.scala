@@ -42,35 +42,30 @@ object Game extends GameRules {
       case GameOverState()      => true
       case _                    => false
 
+  val damageMultipliers: Map[( PokemonArt, PokemonArt ), Double] = Map(
+    ( PokemonArt.Wasser, PokemonArt.Wasser ) -> 1,
+    ( PokemonArt.Wasser, PokemonArt.Feuer ) -> 1.2,
+    ( PokemonArt.Wasser, PokemonArt.Blatt ) -> 0.5,
+    ( PokemonArt.Wasser, PokemonArt.Psycho ) -> 1,
+    ( PokemonArt.Feuer, PokemonArt.Wasser ) -> 0.5,
+    ( PokemonArt.Feuer, PokemonArt.Feuer ) -> 1,
+    ( PokemonArt.Feuer, PokemonArt.Blatt ) -> 1.3,
+    ( PokemonArt.Feuer, PokemonArt.Psycho ) -> 1,
+    ( PokemonArt.Blatt, PokemonArt.Wasser ) -> 1.1,
+    ( PokemonArt.Blatt, PokemonArt.Feuer ) -> 1.3,
+    ( PokemonArt.Blatt, PokemonArt.Blatt ) -> 1,
+    ( PokemonArt.Blatt, PokemonArt.Psycho ) -> 1.2,
+    ( PokemonArt.Psycho, PokemonArt.Wasser ) -> 1,
+    ( PokemonArt.Psycho, PokemonArt.Feuer ) -> 1,
+    ( PokemonArt.Psycho, PokemonArt.Blatt ) -> 1,
+    ( PokemonArt.Psycho, PokemonArt.Psycho ) -> 0.7
+  )
+
   def calculateDamageMultiplicator(
     pokemonArt1: PokemonArt,
     pokemonArt2: PokemonArt
   ): Double =
-    pokemonArt1 match
-      case PokemonArt.Wasser =>
-        pokemonArt2 match
-          case PokemonArt.Wasser => 1
-          case PokemonArt.Feuer  => 1.2
-          case PokemonArt.Blatt  => 0.5
-          case PokemonArt.Psycho => 1
-      case PokemonArt.Feuer =>
-        pokemonArt2 match
-          case PokemonArt.Wasser => 0.5
-          case PokemonArt.Feuer  => 1
-          case PokemonArt.Blatt  => 1.3
-          case PokemonArt.Psycho => 1
-      case PokemonArt.Blatt =>
-        pokemonArt2 match
-          case PokemonArt.Wasser => 1.1
-          case PokemonArt.Feuer  => 1.3
-          case PokemonArt.Blatt  => 1
-          case PokemonArt.Psycho => 1.2
-      case PokemonArt.Psycho =>
-        pokemonArt2 match
-          case PokemonArt.Wasser => 1
-          case PokemonArt.Feuer  => 1
-          case PokemonArt.Blatt  => 1
-          case PokemonArt.Psycho => 0.7
+    damageMultipliers.getOrElse( ( pokemonArt1, pokemonArt2 ), 1.0 )
 
 }
 
@@ -180,9 +175,9 @@ case class Game(
 
   private def currentPokemonIsDead = ( player1, player2, turn ) match {
     case ( Some( p1 ), Some( p2 ), 1 ) =>
-      p1.getCurrentPokemon.exists( _.isDead )
+      p1.currentPokemon.exists( _.isDead )
     case ( Some( p1 ), Some( p2 ), 2 ) =>
-      p2.getCurrentPokemon.exists( _.isDead )
+      p2.currentPokemon.exists( _.isDead )
     case _ => false
   }
 
@@ -242,7 +237,6 @@ case class Game(
     if validPokemonCount < Game.maxPokePackSize then
       Failure( NotEnoughPokemonSelected( validPokemonCount ) )
     else Success( pokeList )
-  // TODO: Refactor to PokePack potentiolly
 
   private def assignTheCorrectPlayerA( name: String ): Try[Game] =
     ( player1, player2 ) match {
@@ -318,8 +312,8 @@ case class Game(
 
     def p1_attacks_p2( attackNumber: Int ): Option[Game] =
       for {
-        p1Type <- player1.map( _.getCurrentPokemonType )
-        p2Type <- player2.map( _.getCurrentPokemonType )
+        p1Type <- player1.map( _.currentPokemonType )
+        p2Type <- player2.map( _.currentPokemonType )
         p2 <- player2
         damage <- player1.flatMap( _.currentPokemonDamageWith( attackNumber ) )
         mult = Game.calculateDamageMultiplicator( p1Type, p2Type )
@@ -330,8 +324,8 @@ case class Game(
 
     def p2_attacks_p1( attackNumber: Int ): Option[Game] =
       for {
-        p1Type <- player1.map( _.getCurrentPokemonType )
-        p2Type <- player2.map( _.getCurrentPokemonType )
+        p1Type <- player1.map( _.currentPokemonType )
+        p2Type <- player2.map( _.currentPokemonType )
         p1 <- player1
         damage <- player2.flatMap( _.currentPokemonDamageWith( attackNumber ) )
         mult = Game.calculateDamageMultiplicator( p2Type, p1Type )
@@ -347,17 +341,21 @@ case class Game(
       if turn == 2 then p1_attacked_p2 else p2_attacked_p1
 
     def p1_attacked_p2( attackNumber: Int ): Game =
-      val multiplikator = Game.calculateDamageMultiplicator(
-        player1.get.getCurrentPokemonType,
-        player2.get.getCurrentPokemonType
+      val multiplikator = for {
+        p1 <- player1
+        p2 <- player2
+      } yield Game.calculateDamageMultiplicator(
+        p1.currentPokemonType,
+        p2.currentPokemonType
       )
-      val damage = player1 match
-        case None => 0
-        case Some( player1 ) =>
-          player1.getCurrentPokemon match
-            case None => 0
-            case Some( pokemon ) =>
-              pokemon.damageOf( attackNumber ) * multiplikator
+
+      val damage = player1
+        .flatMap { p1 =>
+          p1.currentPokemon.map { pokemon =>
+            pokemon.damageOf( attackNumber ) * multiplikator.getOrElse( 1.0 )
+          }
+        }
+        .getOrElse( 0.0 )
 
       copy(
         player2 = Some( player2.get.increaseHealthOfCurrentPokemon( damage ) ),
@@ -366,16 +364,21 @@ case class Game(
       )
 
     def p2_attacked_p1( attackNumber: Int ): Game =
-      val mult = Game.calculateDamageMultiplicator(
-        player2.get.getCurrentPokemonType,
-        player1.get.getCurrentPokemonType
+      val mult = for {
+        p2 <- player2
+        p1 <- player1
+      } yield Game.calculateDamageMultiplicator(
+        p2.currentPokemonType,
+        p1.currentPokemonType
       )
-      val damage = player2 match
-        case None => 0
-        case Some( player2 ) =>
-          player2.getCurrentPokemon match
-            case None            => 0
-            case Some( pokemon ) => pokemon.damageOf( attackNumber ) * mult
+
+      val damage = player2
+        .flatMap { p2 =>
+          p2.currentPokemon.map { pokemon =>
+            pokemon.damageOf( attackNumber ) * mult.getOrElse( 1.0 )
+          }
+        }
+        .getOrElse( 0.0 )
 
       copy(
         player1 = Some( player1.get.increaseHealthOfCurrentPokemon( damage ) ),

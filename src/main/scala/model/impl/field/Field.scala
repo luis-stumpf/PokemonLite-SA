@@ -54,10 +54,7 @@ case class Field(
   ) + player2.name + " " * calcSpace( 0.9, player2.name )
 
   def printTopPokemon(): String = {
-    val currentPokeIndex = player1.currentPoke
-    val pokemonContents = player1.pokemons.contents
-    val pokemonString =
-      pokemonContents( currentPokeIndex ).getOrElse( "" ).toString()
+    val pokemonString = player1.currentPokemon.getOrElse( "" ).toString()
 
     "|" + " " * calcSpace(
       0.9,
@@ -66,11 +63,7 @@ case class Field(
   }
 
   def printBottomPokemon(): String = {
-    val currentPokeIndex = player2.currentPoke
-    val pokemonContents = player2.pokemons.contents
-
-    val pokemonString =
-      pokemonContents( currentPokeIndex ).getOrElse( "" ).toString()
+    val pokemonString = player2.currentPokemon.getOrElse( "" ).toString()
 
     "|" + " " * calcSpace( 0.1 ) + pokemonString + " " * calcSpace(
       0.9,

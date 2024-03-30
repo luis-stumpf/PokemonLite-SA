@@ -10,10 +10,10 @@ import scala.xml.Node
 import scala.xml.NodeSeq.fromSeq
 
 object PokePack {
-  def apply( contents : List[ Option[ Pokemon ] ] ) : PokePack =
+  def apply( contents: List[Option[Pokemon]] ): PokePack =
     PokePack( contents.take( Game.maxPokePackSize ), contents.length )
 
-  def fromXML( node : Node ) : PokePack =
+  def fromXML( node: Node ): PokePack =
     val contentNodes = ( node \\ "entry" )
 
     PokePack(
@@ -21,37 +21,36 @@ object PokePack {
       size = ( node \\ "size" ).text.replace( " ", "" ).toInt
     )
 
-
-  def fromJson( json : JsValue ) : PokePack =
-    val contentNodes = ( json \ "contents" ).validate[ List[ JsValue ] ].get
+  def fromJson( json: JsValue ): PokePack =
+    val contentNodes = ( json \ "contents" ).validate[List[JsValue]].get
 
     PokePack(
       contents = contentNodes.map( n => Pokemon.fromJson( n ) ).toList,
-      size = ( json \ "size" ).as[ Int ]
+      size = ( json \ "size" ).as[Int]
     )
 }
 
-case class PokePack( contents : List[ Option[ Pokemon ] ], size : Int ):
-  def checkIfAllPokemonAreDead = contents.take( Game.maxPokePackSize ).forall( x => x.get.isDead )
+case class PokePack( contents: List[Option[Pokemon]], size: Int ):
 
-  def toXML : Node =
+  def checkIfAllPokemonAreDead: Boolean =
+    contents.take( Game.maxPokePackSize ).forall( _.fold( true )( _.isDead ) )
+
+  def toXML: Node =
     <PokePack>
       <contents>
-        {contents.map(
-        e =>
-          <entry>
+        {
+      contents.map( e => <entry>
             {e.map( _.toXML ).getOrElse( "None" )}
-          </entry>
-      )}
+          </entry> )
+    }
       </contents>
       <size>
         {size.toString}
       </size>
     </PokePack>
 
-  def toJson : JsValue =
+  def toJson: JsValue =
     Json.obj(
       "contents" -> Json.toJson( contents.map( e => e.get.toJson ) ),
       "size" -> Json.toJson( size )
     )
-
