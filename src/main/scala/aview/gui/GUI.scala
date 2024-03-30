@@ -47,36 +47,30 @@ class GUI( val controller: ControllerInterface ) extends JFXApp3 with Observer {
         new RowConstraints( 30 )
       )
 
-      val player1PokeImg: Image = {
-        if controller.game.player1.isEmpty || controller.game.player1.get.pokemons.contents.size == 0
-        then new Image( "/pokemons/Front.gif", 250, 250, true, true )
-        else
-          new Image(
-            "/pokemons/" + controller.game.player1.get.pokemons.contents
+      val player1PokeImg: Image = new Image(
+        "/pokemons/" + controller.game.player1
+          .map(
+            _.pokemons.contents
               .apply( controller.game.player1.get.currentPoke )
-              .pType
-              .name + "Front.gif",
-            250,
-            250,
-            true,
-            true
           )
-      }
-      val player2PokeImg: Image = {
-        if controller.game.player2.isEmpty || controller.game.player2.get.pokemons.contents.size == 0
-        then new Image( "/pokemons/Back.gif", 250, 250, true, true )
-        else
-          new Image(
-            "/pokemons/" + controller.game.player2.get.pokemons.contents
+          .getOrElse( "" ) + "Front.gif",
+        250,
+        250,
+        true,
+        true
+      )
+      val player2PokeImg: Image = new Image(
+        "/pokemons/" + controller.game.player2
+          .map(
+            _.pokemons.contents
               .apply( controller.game.player2.get.currentPoke )
-              .pType
-              .name + "Back.gif",
-            250,
-            250,
-            true,
-            true
           )
-      }
+          .getOrElse( "" ) + "Back.gif",
+        250,
+        250,
+        true,
+        true
+      )
       val player1PokeView = new ImageView( player1PokeImg )
       val player2PokeView = new ImageView( player2PokeImg )
       add( player1PokeView, 2, 0 )
