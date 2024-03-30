@@ -9,6 +9,9 @@ import com.google.inject.Inject
 import play.api.libs.json.{ JsValue, Json }
 
 import scala.xml.Node
+import scala.util.Success
+import scala.util.Failure
+import scala.util.Try
 
 object PokePlayer {
   def fromXML( node: Node ): Option[PokePlayer] =
@@ -74,21 +77,25 @@ case class PokePlayer(
   def checkForDefeat(): Boolean = pokemons.checkIfAllPokemonAreDead
 
   def getCurrentPokemonType: PokemonArt =
-    pokemons.contents( currentPoke ).pType.pokemonArt
+    pokemons.contents( currentPoke ).get.pType.pokemonArt
 
-  def getCurrentPokemon: Pokemon = pokemons.contents( currentPoke )
+  def getCurrentPokemon: Option[Pokemon] = pokemons.contents( currentPoke )
 
-  def currentPokemonDamageWith( attackNumber: Int ): Int =
-    pokemons.contents( currentPoke ).damageOf( attackNumber )
+  def currentPokemonDamageWith( attackNumber: Int ): Option[Int] =
+    getCurrentPokemon.map( _.damageOf( attackNumber ) )
 
   def reduceHealthOfCurrentPokemon( amount: Double ): PokePlayer =
-    withPokemon( _.reduceHP( amount ) )( getCurrentPokemon )
+    getCurrentPokemon
+      .map( pokemon => withPokemon( _.reduceHP( amount ) )( pokemon ) )
+      .getOrElse( this )
 
   def increaseHealthOfCurrentPokemon( amount: Double ): PokePlayer =
-    withPokemon( _.increaseHP( amount ) )( getCurrentPokemon )
+    getCurrentPokemon
+      .map( pokemon => withPokemon( _.increaseHP( amount ) )( pokemon ) )
+      .getOrElse( this )
 
   def withPokemon( fn: ( Pokemon ) => Pokemon )( poke: Pokemon ): PokePlayer = {
     copy(pokemons =
-      PokePack( pokemons.contents.updated( currentPoke, fn( poke ) ) )
+      PokePack( pokemons.contents.updated( currentPoke, Some( fn( poke ) ) ) )
     )
   }

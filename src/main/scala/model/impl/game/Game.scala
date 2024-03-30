@@ -179,9 +179,11 @@ case class Game(
       case _ => Failure( NoValidAttackSelected( input ) )
 
   private def currentPokemonIsDead = ( player1, player2, turn ) match {
-    case ( Some( p1 ), Some( p2 ), 1 ) => p1.getCurrentPokemon.isDead
-    case ( Some( p1 ), Some( p2 ), 2 ) => p2.getCurrentPokemon.isDead
-    case _                             => false
+    case ( Some( p1 ), Some( p2 ), 1 ) =>
+      p1.getCurrentPokemon.exists( _.isDead )
+    case ( Some( p1 ), Some( p2 ), 2 ) =>
+      p2.getCurrentPokemon.exists( _.isDead )
+    case _ => false
   }
 
   private def bothPlayersHavePokemon = player1.isDefined && player2.isDefined
@@ -319,7 +321,7 @@ case class Game(
         p1Type <- player1.map( _.getCurrentPokemonType )
         p2Type <- player2.map( _.getCurrentPokemonType )
         p2 <- player2
-        damage <- player1.map( _.currentPokemonDamageWith( attackNumber ) )
+        damage <- player1.flatMap( _.currentPokemonDamageWith( attackNumber ) )
         mult = Game.calculateDamageMultiplicator( p1Type, p2Type )
         updatedP2 = p2.reduceHealthOfCurrentPokemon( damage * mult )
         updatedGame = copy( player2 = Some( updatedP2 ), turn = 2 )
@@ -331,7 +333,7 @@ case class Game(
         p1Type <- player1.map( _.getCurrentPokemonType )
         p2Type <- player2.map( _.getCurrentPokemonType )
         p1 <- player1
-        damage <- player2.map( _.currentPokemonDamageWith( attackNumber ) )
+        damage <- player2.flatMap( _.currentPokemonDamageWith( attackNumber ) )
         mult = Game.calculateDamageMultiplicator( p2Type, p1Type )
         updatedP1 = p1.reduceHealthOfCurrentPokemon( damage * mult )
         updatedGame = copy( player1 = Some( updatedP1 ), turn = 1 )
@@ -349,8 +351,14 @@ case class Game(
         player1.get.getCurrentPokemonType,
         player2.get.getCurrentPokemonType
       )
-      val damage =
-        player1.get.currentPokemonDamageWith( attackNumber ) * multiplikator
+      val damage = player1 match
+        case None => 0
+        case Some( player1 ) =>
+          player1.getCurrentPokemon match
+            case None => 0
+            case Some( pokemon ) =>
+              pokemon.damageOf( attackNumber ) * multiplikator
+
       copy(
         player2 = Some( player2.get.increaseHealthOfCurrentPokemon( damage ) ),
         state = FightingState(),
@@ -362,7 +370,13 @@ case class Game(
         player2.get.getCurrentPokemonType,
         player1.get.getCurrentPokemonType
       )
-      val damage = player2.get.currentPokemonDamageWith( attackNumber ) * mult
+      val damage = player2 match
+        case None => 0
+        case Some( player2 ) =>
+          player2.getCurrentPokemon match
+            case None            => 0
+            case Some( pokemon ) => pokemon.damageOf( attackNumber ) * mult
+
       copy(
         player1 = Some( player1.get.increaseHealthOfCurrentPokemon( damage ) ),
         state = FightingState(),
