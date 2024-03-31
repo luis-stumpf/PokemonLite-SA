@@ -4,7 +4,6 @@ import aview.TUI
 import aview.gui.GUI
 import controller.impl
 import controller.impl.Controller
-import model.{ FieldInterface, GameInterface, PokePlayerInterface }
 
 import com.google.inject.{ Guice, Injector }
 import scalafx.application.Platform

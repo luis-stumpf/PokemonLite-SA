@@ -8,6 +8,7 @@ import com.google.inject.Inject
 
 case class Field(
   width: Int,
+  height: Int = 3,
   player1: PokePlayerInterface,
   player2: PokePlayerInterface,
   isControlledBy: Int = 1
@@ -16,6 +17,7 @@ case class Field(
   @Inject
   def this() = this(
     width = 30,
+    height = 3,
     player1 = PokePlayer( "" ),
     player2 = PokePlayer( "" ),
     isControlledBy = 1
@@ -23,7 +25,7 @@ case class Field(
 
   override def toString: String = mesh()
 
-  def mesh( height: Int = 3 ): String =
+  def mesh(): String =
     row() + printPlayer1Stats() + col( height ) + printPlayer2Stats() + row()
 
   def row(): String = "+" + ( "-" * width + "+" ) * 2 + "\n"

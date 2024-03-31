@@ -3,9 +3,9 @@ package model.impl.game
 
 import model.*
 import model.PokemonType.*
-import model.impl.field.Field
 import model.impl.pokePlayer.PokePlayer
 import model.states.*
+import model.impl.field.MatrixField
 
 import com.google.inject.Inject
 import play.api.libs.json.{ JsValue, Json }
@@ -298,11 +298,12 @@ case class Game(
       return Failure( NameTooLong( string ) )
     Success( string )
 
-  override def toString: String = Field(
-    50,
-    player1.getOrElse( PokePlayer( "", PokePack( List( None ) ) ) ),
-    player2.getOrElse( PokePlayer( "", PokePack( List( None ) ) ) ),
-    turn
+  override def toString: String = MatrixField(
+    width = 120,
+    height = 15,
+    player1 = player1.getOrElse( PokePlayer( "", PokePack( List( None ) ) ) ),
+    player2 = player2.getOrElse( PokePlayer( "", PokePack( List( None ) ) ) ),
+    isControlledBy = turn
   ).toString
 
   object Attack {
