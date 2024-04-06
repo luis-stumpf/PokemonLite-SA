@@ -33,6 +33,5 @@ classes/
 .dotty-ide.json
 
 # Visual Studio Code
-.vscode
 
 .metals

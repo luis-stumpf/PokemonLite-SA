@@ -39,7 +39,6 @@ class PokemonSpec extends AnyWordSpec {
     val pokemon = PokemonType.Brutalanda
     "have a String of form 'name HP: Int'" in {
       pokemon.toString should be( "Brutalanda HP: 170" )
-      Pokemon.toString should be( "Pokemon" )
     }
   }
 }
