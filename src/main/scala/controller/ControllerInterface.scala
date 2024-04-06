@@ -2,41 +2,40 @@ package de.htwg.se.pokelite
 package controller
 
 import model.states.*
-import model.{Command, GameInterface, NothingToRedo, State}
-import util.{Observable, UndoManager}
+import model.{ Command, GameInterface, NothingToRedo, State }
+import util.{ Observable, UndoManager }
 
 import scala.swing.Publisher
-import scala.util.{Failure, Success}
+import scala.util.{ Failure, Success }
+import org.checkerframework.checker.nullness.Opt
 
 trait ControllerInterface extends Observable with Publisher:
-  val undoManager : UndoManager
-  var game : GameInterface
+  val undoManager: UndoManager
+  var game: GameInterface
 
-  def moveDone( newGame : GameInterface, command : Command ) : Unit
+  def doAndPublish( command: Option[Command] ): Unit
 
-  def move( command : Option[ Command ] ) : Unit
+  def undoMove(): Unit
 
-  def undoMove( ) : Unit
+  def redoMove(): Unit
 
-  def redoMove( ) : Unit
+  def initPlayers(): Option[Command]
 
-  def initPlayers( ) : Unit
+  def addPlayer( name: String ): Option[Command]
 
-  def addPlayer( name : String ) : Unit
+  def addPokemons( list: String ): Option[Command]
 
-  def addPokemons( list : String ) : Unit
+  def nextMove( input: String ): Option[Command]
 
-  def nextMove( input : String ) : Unit
+  def attackWith( input: String ): Option[Command]
 
-  def attackWith( input : String ) : Unit
+  def selectPokemon( input: String ): Option[Command]
 
-  def selectPokemon( input : String ) : Unit
+  def restartTheGame(): Option[Command]
 
-  def restartTheGame( ) : Unit
+  def save: Unit
 
-  def save : Unit
-
-  def load : Unit
+  def load: Unit
 
 import scala.swing.event.Event
 
@@ -57,8 +56,3 @@ class GameLoaded extends Event
 class UnknownCommand extends Event
 
 class PokemonLiteShutdown extends Event
-
-  
-
-
-

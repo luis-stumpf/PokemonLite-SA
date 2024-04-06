@@ -15,11 +15,12 @@ import java.io.IOException
 object PokemonLite {
   val inject: Injector = Guice.createInjector( new PokemonLiteModule )
   val controller: Controller = inject.getInstance( classOf[Controller] )
-  val gui: GUI = GUI( controller )
+  // val gui: GUI = GUI( controller )
   val tui = TUI( controller )
   var input = ""
 
   def main( args: Array[String] ): Unit = {
+    /*
     val guiTread = new Thread( () => {
       gui.main( Array.empty )
       System.exit( 0 )
@@ -28,11 +29,11 @@ object PokemonLite {
     guiTread.start()
 
     processInput()
-    /*
+     */
+
     while (input != "quit")
       input = readLine()
-      Platform.runLater(tui.processInputLine(input))
-     */
+      tui.processInputLine( input )
   }
 
   def processInput(): Unit = {

@@ -16,11 +16,11 @@ class ControllerSpec extends AnyWordSpec {
 
     val controller = Controller()
     "have a Undo Manager" in {
-      assert( controller.undoManager.isInstanceOf[ UndoManager ] )
+      assert( controller.undoManager.isInstanceOf[UndoManager] )
     }
 
     "have a Game of type Game" in {
-      assert( controller.game.isInstanceOf[ Game ] )
+      assert( controller.game.isInstanceOf[Game] )
     }
 
     "call state methods" in {
@@ -38,25 +38,31 @@ class ControllerSpec extends AnyWordSpec {
     }
 
     "notify its observers on change" in {
-      class TestObserver( controller : Controller ) extends Observer :
+      class TestObserver( controller: Controller ) extends Observer:
         controller.add( this )
         var bing = false
 
-        def update( message : String ) = bing = true
+        def update( message: String ) = bing = true
       val testObserver = TestObserver( controller )
       testObserver.bing should be( false )
-      controller.moveDone( controller.game, ChangeStateCommand( InitState(), InitPlayerState() ) )
+      controller.doAndPublish(
+        Some( ChangeStateCommand( InitState(), InitPlayerState() ) )
+      )
       testObserver.bing should be( true )
     }
 
     "undo a command" in {
-      controller.moveDone( controller.game, ChangeStateCommand( InitState(), InitPlayerState() ) )
+      controller.doAndPublish(
+        Some( ChangeStateCommand( InitState(), InitPlayerState() ) )
+      )
       controller.undoMove()
       assert( controller.game.state === InitState() )
     }
 
     "redo a command" in {
-      controller.moveDone( controller.game, ChangeStateCommand( InitState(), InitPlayerState() ) )
+      controller.doAndPublish(
+        Some( ChangeStateCommand( InitState(), InitPlayerState() ) )
+      )
       controller.undoMove()
       controller.redoMove()
       assert( controller.game.state === InitPlayerState() )

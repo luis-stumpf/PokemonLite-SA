@@ -10,11 +10,13 @@ import scalafx.scene.image.{ Image, ImageView }
 import scalafx.scene.layout.VBox
 import scalafx.scene.text.Font
 
-case class GameOverPane( controller : ControllerInterface ) extends VBox {
+case class GameOverPane( controller: ControllerInterface ) extends VBox {
   spacing = 30
   alignment = Pos.Center
 
-  val text = new Label( "GAMEOVER!\nThe Winner is: " + controller.game.winner.get ) {
+  val text = new Label(
+    "GAMEOVER!\nThe Winner is: " + controller.game.winner.get
+  ) {
     font = Font.font( 20 )
   }
 
@@ -22,14 +24,12 @@ case class GameOverPane( controller : ControllerInterface ) extends VBox {
   val logoView = new ImageView( logo )
 
   children = List(
-
     logoView,
     text,
     new Button( "Play again!" ) {
       minWidth = 200
       minHeight = 60
-      onAction = _ => controller.restartTheGame()
+      onAction = _ => controller.doAndPublish( controller.restartTheGame() )
     }
   )
 }
-    
