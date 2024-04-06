@@ -28,6 +28,7 @@ object PokemonLite {
     guiTread.start()
 
     processInput()
+
     /*
     while (input != "quit")
       input = readLine()
