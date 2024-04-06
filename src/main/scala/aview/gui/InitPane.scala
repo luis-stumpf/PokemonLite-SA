@@ -23,7 +23,7 @@ case class InitPane( controller: ControllerInterface ) extends VBox {
     new Button( "Lets Go!" ) {
       minWidth = 200
       minHeight = 60
-      onAction = _ => controller.doAndPublish( controller.initPlayers() )
+      onAction = _ => controller.doAndPublish( controller.initPlayers )
     }
   )
 

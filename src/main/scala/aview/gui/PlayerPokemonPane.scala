@@ -19,8 +19,8 @@ case class PlayerPokemonPane( controller: ControllerInterface )
     margin = Insets( 20 )
     onAction = _ =>
       controller.doAndPublish(
-        controller
-          .addPokemons( list.map( p => getPokemons( p ) ).mkString( "" ) )
+        controller.addPokemons,
+        list.map( p => getPokemons( p ) ).mkString( "" )
       )
   }
 

@@ -29,7 +29,7 @@ case class GameOverPane( controller: ControllerInterface ) extends VBox {
     new Button( "Play again!" ) {
       minWidth = 200
       minHeight = 60
-      onAction = _ => controller.doAndPublish( controller.restartTheGame() )
+      onAction = _ => controller.doAndPublish( controller.restartTheGame )
     }
   )
 }

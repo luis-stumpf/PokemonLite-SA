@@ -6,32 +6,37 @@ import model.{ Command, GameInterface, NothingToRedo, State }
 import util.{ Observable, UndoManager }
 
 import scala.swing.Publisher
-import scala.util.{ Failure, Success }
+import scala.util.{ Failure, Success, Try }
 import org.checkerframework.checker.nullness.Opt
 
 trait ControllerInterface extends Observable with Publisher:
-  val undoManager: UndoManager
+  val undoManager: UndoManager[GameInterface]
   var game: GameInterface
 
-  def doAndPublish( command: Option[Command] ): Unit
+  def doAndPublish(
+    doThis: String => Try[GameInterface],
+    command: String
+  ): Unit
 
-  def undoMove(): Unit
+  def doAndPublish( doThis: () => Try[GameInterface] ): Unit
 
-  def redoMove(): Unit
+  def undoMove(): Try[GameInterface]
 
-  def initPlayers(): Option[Command]
+  def redoMove(): Try[GameInterface]
 
-  def addPlayer( name: String ): Option[Command]
+  def initPlayers(): Try[GameInterface]
 
-  def addPokemons( list: String ): Option[Command]
+  def addPlayer( name: String ): Try[GameInterface]
 
-  def nextMove( input: String ): Option[Command]
+  def addPokemons( list: String ): Try[GameInterface]
 
-  def attackWith( input: String ): Option[Command]
+  def nextMove( input: String ): Try[GameInterface]
 
-  def selectPokemon( input: String ): Option[Command]
+  def attackWith( input: String ): Try[GameInterface]
 
-  def restartTheGame(): Option[Command]
+  def selectPokemon( input: String ): Try[GameInterface]
+
+  def restartTheGame(): Try[GameInterface]
 
   def save: Unit
 

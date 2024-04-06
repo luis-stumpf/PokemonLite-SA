@@ -14,12 +14,12 @@ case class DesicionPane( controller: ControllerInterface ) extends HBox {
     new Button( "Fight" ) {
       minWidth = 200
       minHeight = 60
-      onAction = _ => controller.doAndPublish( controller.nextMove( "1" ) )
+      onAction = _ => controller.doAndPublish( controller.nextMove, "1" )
     },
     new Button( "Switch Pokemon" ) {
       minWidth = 200
       minHeight = 60
-      onAction = _ => controller.doAndPublish( controller.nextMove( "2" ) )
+      onAction = _ => controller.doAndPublish( controller.nextMove, "2" )
     }
   )
 }

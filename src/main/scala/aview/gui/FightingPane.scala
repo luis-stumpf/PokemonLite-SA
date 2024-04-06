@@ -33,25 +33,25 @@ case class FightingPane( controller: ControllerInterface ) extends GridPane {
     margin = Insets( 20 )
     minWidth = 200
     minHeight = 60
-    onAction = _ => controller.doAndPublish( controller.attackWith( "1" ) )
+    onAction = _ => controller.doAndPublish( controller.attackWith, "1" )
   }
   val attack2 = new Button( getAttackName( 1 ) ) {
     margin = Insets( 20 )
     minWidth = 200
     minHeight = 60
-    onAction = _ => controller.doAndPublish( controller.attackWith( "2" ) )
+    onAction = _ => controller.doAndPublish( controller.attackWith, "2" )
   }
   val attack3 = new Button( getAttackName( 2 ) ) {
     margin = Insets( 20 )
     minWidth = 200
     minHeight = 60
-    onAction = _ => controller.doAndPublish( controller.attackWith( "3" ) )
+    onAction = _ => controller.doAndPublish( controller.attackWith, "3" )
   }
   val attack4 = new Button( getAttackName( 3 ) ) {
     margin = Insets( 20 )
     minWidth = 200
     minHeight = 60
-    onAction = _ => controller.doAndPublish( controller.attackWith( "4" ) )
+    onAction = _ => controller.doAndPublish( controller.attackWith, "4" )
   }
 
   add( attack1, 0, 0 )

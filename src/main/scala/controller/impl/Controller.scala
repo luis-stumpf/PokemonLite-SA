@@ -23,76 +23,91 @@ import de.htwg.se.pokelite.model.{
 }
 import de.htwg.se.pokelite.util.UndoManager
 
-import scala.util.{ Failure, Success }
+import scala.util.{ Failure, Success, Try }
 import scala.swing.Publisher
 import de.htwg.se.pokelite.PokemonLite.controller
+import de.htwg.se.pokelite.model.commands.ChangeStateCommand
+import de.htwg.se.pokelite.model.commands.AddPlayerCommand
+import de.htwg.se.pokelite.model.commands.AddPokemonCommand
+import de.htwg.se.pokelite.model.commands.SelectNextMoveCommand
+import de.htwg.se.pokelite.model.commands.AttackCommand
+import de.htwg.se.pokelite.model.commands.SwitchPokemonCommand
 
 case class Controller @Inject() () extends ControllerInterface:
-  val undoManager = new UndoManager
+  val undoManager = new UndoManager[GameInterface]
   var game: GameInterface = Game()
 
   private val fileIO = Guice
     .createInjector( new PokemonLiteModule )
     .getInstance( classOf[FileIOInterface] )
 
-  def doAndPublish( command: Option[Command] ): Unit = {
+  def doAndPublish( doThis: String => Try[GameInterface], input: String ) = {
+    game = doThis( input ) match {
+      case Success( newGame ) =>
+        newGame
+      case Failure( x ) =>
+        notifyObservers( x.toString )
+        game
+    }
+    usePublisher( undoManager.lastCommand )
+    notifyObservers()
+  }
 
+  def doAndPublish( doThis: () => Try[GameInterface] ) = {
+    game = doThis() match {
+      case Success( newGame ) =>
+        newGame
+      case Failure( x ) =>
+        notifyObservers( x.toString )
+        game
+    }
+    usePublisher( undoManager.lastCommand )
+    notifyObservers()
+  }
+
+  def undoMove(): Try[GameInterface] = undoManager.undoStep( game )
+
+  def redoMove(): Try[GameInterface] = undoManager.redoStep( game )
+
+  def initPlayers(): Try[GameInterface] = undoManager.doStep(
+    game,
+    ChangeStateCommand( game.state, InitPlayerState() )
+  )
+
+  def addPlayer( name: String ): Try[GameInterface] =
+    undoManager.doStep( game, AddPlayerCommand( name, game.state ) )
+
+  def addPokemons( list: String ): Try[GameInterface] =
+    undoManager.doStep( game, AddPokemonCommand( list, game.state ) )
+
+  def nextMove( input: String ): Try[GameInterface] =
+    undoManager.doStep( game, SelectNextMoveCommand( input, game.state ) )
+
+  def attackWith( input: String ): Try[GameInterface] =
+    undoManager.doStep( game, AttackCommand( input, game.state ) )
+
+  def selectPokemon( input: String ): Try[GameInterface] =
+    undoManager.doStep( game, SwitchPokemonCommand( input, game.state ) )
+
+  def restartTheGame(): Try[GameInterface] =
+    undoManager.doStep( game, GameOverCommand( game, game.state ) )
+
+  def usePublisher( command: Option[Command[GameInterface]] ) = {
     command match
-      case None => notifyObservers( "Unknown Command" )
+      case None =>
+        notifyObservers( "Unknown Command" ); publish( new UnknownCommand )
       case Some( c ) =>
-        c.doStep( this.game ) match {
-          case Success( newGame ) =>
-            game = newGame
-            undoManager.doStep( c )
-            notifyObservers()
-            c.getClass.getSimpleName match {
-              case "ChangeStateCommand"    => publish( new StateChanged )
-              case "AddPokemonCommand"     => publish( new PlayerChanged )
-              case "AddPlayerCommand"      => publish( new PlayerChanged )
-              case "GameOverCommand"       => publish( new GameOver )
-              case "SelectNextMoveCommand" => publish( new StateChanged )
-              case "SwitchPokemonCommand"  => publish( new PokemonChanged )
-              case "AttackCommand"         => publish( new AttackEvent )
-              case _                       => publish( new UnknownCommand )
-            }
-          case Failure( x ) =>
-            notifyObservers( x.toString )
+        c.getClass.getSimpleName match {
+          case "ChangeStateCommand"    => publish( new StateChanged )
+          case "AddPokemonCommand"     => publish( new PlayerChanged )
+          case "AddPlayerCommand"      => publish( new PlayerChanged )
+          case "GameOverCommand"       => publish( new GameOver )
+          case "SelectNextMoveCommand" => publish( new StateChanged )
+          case "SwitchPokemonCommand"  => publish( new PokemonChanged )
+          case "AttackCommand"         => publish( new AttackEvent )
+          case _                       => publish( new UnknownCommand )
         }
   }
-
-  def undoMove(): Unit = {
-    undoManager.undoStep() match
-      case Success( command ) =>
-        game = command.undoStep( this.game )
-        notifyObservers()
-      case Failure( x ) => notifyObservers( x.toString )
-
-  }
-
-  def redoMove(): Unit = {
-    undoManager.redoStep() match
-      case Success( command ) =>
-        game = command.doStep( game ).get
-        notifyObservers()
-      case Failure( x ) => notifyObservers( x.toString )
-  }
-
-  def initPlayers(): Option[Command] = game.state.initPlayers()
-
-  def addPlayer( name: String ): Option[Command] = game.state.addPlayer( name )
-
-  def addPokemons( list: String ): Option[Command] =
-    game.state.addPokemons( list )
-
-  def nextMove( input: String ): Option[Command] = game.state.nextMove( input )
-
-  def attackWith( input: String ): Option[Command] =
-    game.state.attackWith( input )
-
-  def selectPokemon( input: String ): Option[Command] =
-    game.state.switchPokemonTo( input )
-
-  def restartTheGame(): Option[Command] = game.state.restartTheGame( game )
 
   def save: Unit = {
     fileIO.save( game )

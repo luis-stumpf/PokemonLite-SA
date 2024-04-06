@@ -6,9 +6,10 @@ import model.states.*
 
 import scala.util.{ Failure, Success, Try }
 
-case class SelectNextMoveCommand( input : String, state : DesicionState ) extends Command {
+case class SelectNextMoveCommand( input: String, state: State )
+    extends Command[GameInterface] {
 
-  override def doStep( game : GameInterface ) : Try[ GameInterface ] = {
+  override def doStep( game: GameInterface ): Try[GameInterface] = {
     if input.isEmpty then Failure( NoInput )
     else
       input.charAt( 0 ).asDigit match
@@ -18,6 +19,6 @@ case class SelectNextMoveCommand( input : String, state : DesicionState ) extend
 
   }
 
-  override def undoStep( game : GameInterface ) : GameInterface =
-    game.setStateTo( state )
+  override def undoStep( game: GameInterface ): Try[GameInterface] =
+    Success( game.setStateTo( state ) )
 }

@@ -16,26 +16,28 @@ class TUI( controller: ControllerInterface ) extends Observer:
 
   def processInputLine( input: String ): Unit = {
     if input.isEmpty then update( "Error: No input detected." )
-    else if input.charAt( 0 ) == 'y' then controller.undoMove()
-    else if input.charAt( 0 ) == 'z' then controller.redoMove()
+    else if input.charAt( 0 ) == 'y' then
+      controller.doAndPublish( controller.undoMove )
+    else if input.charAt( 0 ) == 'z' then
+      controller.doAndPublish( controller.redoMove )
     else if input == "save" then controller.save
     else if input == "load" then controller.load
     else
       controller.game.state match
         case InitState() =>
-          controller.doAndPublish( controller.initPlayers() )
+          controller.doAndPublish( controller.initPlayers )
         case InitPlayerState() =>
-          controller.doAndPublish( controller.addPlayer( input ) )
+          controller.doAndPublish( controller.addPlayer, input )
         case InitPlayerPokemonState() =>
-          controller.doAndPublish( controller.addPokemons( input ) )
+          controller.doAndPublish( controller.addPokemons, input )
         case DesicionState() =>
-          controller.doAndPublish( controller.nextMove( input ) )
+          controller.doAndPublish( controller.nextMove, input )
         case FightingState() =>
-          controller.doAndPublish( controller.attackWith( input ) )
+          controller.doAndPublish( controller.attackWith, input )
         case SwitchPokemonState() =>
-          controller.doAndPublish( controller.selectPokemon( input ) )
+          controller.doAndPublish( controller.selectPokemon, input )
         case GameOverState() =>
-          controller.doAndPublish( controller.restartTheGame() )
+          controller.doAndPublish( controller.restartTheGame )
 
   }
 

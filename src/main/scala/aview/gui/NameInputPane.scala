@@ -24,7 +24,7 @@ case class NameInputPane( controller: ControllerInterface ) extends VBox {
       minWidth = 200
       minHeight = 60
       onAction = _ =>
-        controller.doAndPublish( controller.addPlayer( textField.getText() ) )
+        controller.doAndPublish( controller.addPlayer, textField.getText() )
     }
   )
 

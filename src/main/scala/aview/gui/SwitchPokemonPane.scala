@@ -22,10 +22,9 @@ class SwitchPokemonPane( controller: ControllerInterface ) extends VBox {
           text = p.get.toString
           onAction = _ =>
             controller.doAndPublish(
-              controller.selectPokemon(
-                ( controller.game.player1.get.pokemons.contents
-                  .indexOf( p ) + 1 ).toString
-              )
+              controller.selectPokemon,
+              ( controller.game.player1.get.pokemons.contents
+                .indexOf( p ) + 1 ).toString
             )
         }
       )
@@ -38,10 +37,9 @@ class SwitchPokemonPane( controller: ControllerInterface ) extends VBox {
           text = p.get.toString
           onAction = _ =>
             controller.doAndPublish(
-              controller.selectPokemon(
-                ( controller.game.player2.get.pokemons.contents
-                  .indexOf( p ) + 1 ).toString
-              )
+              controller.selectPokemon,
+              ( controller.game.player2.get.pokemons.contents
+                .indexOf( p ) + 1 ).toString
             )
         }
       )
