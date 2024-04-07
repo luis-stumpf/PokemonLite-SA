@@ -2,12 +2,7 @@ package de.htwg.se.pokelite
 package model.commands
 
 import model.*
-import model.states.{
-  DesicionState,
-  FightingState,
-  GameOverState,
-  InitPlayerPokemonState
-}
+import model.State.*
 
 import scala.util.{ Failure, Success, Try }
 
@@ -19,8 +14,8 @@ case class AttackCommand( input: String, state: State )
       case Failure( x ) => Failure( x )
       case Success( updatedGame ) =>
         if updatedGame.hasWinner then
-          Success( updatedGame.setStateTo( GameOverState() ) )
-        else Success( updatedGame.setStateTo( DesicionState() ) )
+          Success( updatedGame.setStateTo( GameOverState ) )
+        else Success( updatedGame.setStateTo( DesicionState ) )
 
   }
 

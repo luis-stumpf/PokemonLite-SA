@@ -2,7 +2,7 @@ package de.htwg.se.pokelite
 package model.commands
 
 import model.*
-import model.states.*
+import model.State.*
 
 import scala.util.{ Failure, Success, Try }
 

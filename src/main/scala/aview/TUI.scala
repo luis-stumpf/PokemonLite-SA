@@ -4,7 +4,7 @@ package aview
 import controller.ControllerInterface
 import controller.impl.Controller
 import model.*
-import model.states.*
+import model.State.*
 import util.*
 
 import scala.io.StdIn.readLine
@@ -24,19 +24,19 @@ class TUI( controller: ControllerInterface ) extends Observer:
     else if input == "load" then controller.doAndPublish( controller.load )
     else
       controller.game.state match
-        case InitState() =>
+        case InitState =>
           controller.doAndPublish( controller.initPlayers )
-        case InitPlayerState() =>
+        case InitPlayerState =>
           controller.doAndPublish( controller.addPlayer, input )
-        case InitPlayerPokemonState() =>
+        case InitPlayerPokemonState =>
           controller.doAndPublish( controller.addPokemons, input )
-        case DesicionState() =>
+        case DesicionState =>
           controller.doAndPublish( controller.nextMove, input )
-        case FightingState() =>
+        case FightingState =>
           controller.doAndPublish( controller.attackWith, input )
-        case SwitchPokemonState() =>
+        case SwitchPokemonState =>
           controller.doAndPublish( controller.selectPokemon, input )
-        case GameOverState() =>
+        case GameOverState =>
           controller.doAndPublish( controller.restartTheGame )
 
   }
@@ -47,13 +47,13 @@ class TUI( controller: ControllerInterface ) extends Observer:
     )
 
     controller.game.state match
-      case InitState()              => println( welcomeStatement )
-      case InitPlayerState()        => println( nameInputRequest )
-      case InitPlayerPokemonState() => println( availablePokemon )
-      case DesicionState()          => println( selectionRequest )
-      case FightingState()          => println( availableAttackOptions )
-      case SwitchPokemonState()     => println( thePlayersPokemon )
-      case GameOverState()          => println( aGameOverMessage )
+      case InitState              => println( welcomeStatement )
+      case InitPlayerState        => println( nameInputRequest )
+      case InitPlayerPokemonState => println( availablePokemon )
+      case DesicionState          => println( selectionRequest )
+      case FightingState          => println( availableAttackOptions )
+      case SwitchPokemonState     => println( thePlayersPokemon )
+      case GameOverState          => println( aGameOverMessage )
   }
 
   def welcomeStatement: String =

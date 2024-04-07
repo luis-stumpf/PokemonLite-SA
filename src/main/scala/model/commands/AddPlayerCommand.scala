@@ -3,7 +3,7 @@ package model.commands
 
 import model.*
 import model.impl.game.Game
-import model.states.*
+import model.State.*
 
 import scala.util.{ Failure, Success, Try }
 

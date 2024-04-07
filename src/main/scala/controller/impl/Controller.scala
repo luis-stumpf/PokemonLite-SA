@@ -13,7 +13,7 @@ import de.htwg.se.pokelite.controller.{
 }
 import de.htwg.se.pokelite.model.commands.GameOverCommand
 import de.htwg.se.pokelite.model.impl.game.Game
-import de.htwg.se.pokelite.model.states.InitPlayerState
+import de.htwg.se.pokelite.model.State.*
 import de.htwg.se.pokelite.model.{
   Command,
   FileIOInterface,
@@ -68,7 +68,7 @@ case class Controller @Inject() () extends ControllerInterface:
 
   def initPlayers(): Try[GameInterface] = undoManager.doStep(
     game,
-    ChangeStateCommand( game.state, InitPlayerState() )
+    ChangeStateCommand( game.state, InitPlayerState )
   )
 
   def addPlayer( name: String ): Try[GameInterface] =

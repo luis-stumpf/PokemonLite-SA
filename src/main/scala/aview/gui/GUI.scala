@@ -4,9 +4,8 @@ package aview.gui
 import aview.gui.pieces.HealthBar
 import controller.ControllerInterface
 import controller.impl.Controller
-import model.State
+import model.State.*
 import model.impl.game.Game
-import model.states.*
 import util.Observer
 
 import scalafx.application.{ JFXApp3, Platform }
@@ -88,13 +87,13 @@ class GUI( val controller: ControllerInterface ) extends JFXApp3 with Observer {
     }
 
     menuPane.children = controller.game.state match
-      case InitState()              => new InitPane( controller )
-      case InitPlayerState()        => new NameInputPane( controller )
-      case InitPlayerPokemonState() => new PlayerPokemonPane( controller )
-      case FightingState()          => new FightingPane( controller )
-      case DesicionState()          => DesicionPane( controller )
-      case SwitchPokemonState()     => new SwitchPokemonPane( controller )
-      case GameOverState()          => new GameOverPane( controller )
+      case InitState              => new InitPane( controller )
+      case InitPlayerState        => new NameInputPane( controller )
+      case InitPlayerPokemonState => new PlayerPokemonPane( controller )
+      case FightingState          => new FightingPane( controller )
+      case DesicionState          => DesicionPane( controller )
+      case SwitchPokemonState     => new SwitchPokemonPane( controller )
+      case GameOverState          => new GameOverPane( controller )
 
     topPane.children = new VBox( 10 ) {
       alignment = Pos.BottomRight

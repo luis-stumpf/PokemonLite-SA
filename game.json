@@ -1,18 +1,41 @@
 {
   "game" : {
     "state" : {
-      "stateVal" : "DesicionState()"
+      "stateVal" : "DesicionState"
     },
     "player1" : {
-      "name" : "luis",
+      "name" : "a",
       "pokemons" : {
         "contents" : [ {
+          "pType" : "Glurak",
+          "hp" : 130,
+          "isDead" : false,
+          "maxHp" : 150
+        }, {
           "pType" : "Simsala",
-          "hp" : 12,
+          "hp" : 130,
           "isDead" : false,
           "maxHp" : 130
         }, {
-          "pType" : "Turtok",
+          "pType" : "Brutalanda",
+          "hp" : 170,
+          "isDead" : false,
+          "maxHp" : 170
+        } ],
+        "size" : 3
+      },
+      "currentPoke" : 0
+    },
+    "player2" : {
+      "name" : "luis",
+      "pokemons" : {
+        "contents" : [ {
+          "pType" : "Brutalanda",
+          "hp" : 150,
+          "isDead" : false,
+          "maxHp" : 170
+        }, {
+          "pType" : "Simsala",
           "hp" : 130,
           "isDead" : false,
           "maxHp" : 130
@@ -24,32 +47,9 @@
         } ],
         "size" : 3
       },
-      "currentPoke" : 1
+      "currentPoke" : 0
     },
-    "player2" : {
-      "name" : "timmy",
-      "pokemons" : {
-        "contents" : [ {
-          "pType" : "Turtok",
-          "hp" : 55,
-          "isDead" : false,
-          "maxHp" : 130
-        }, {
-          "pType" : "Glurak",
-          "hp" : 105,
-          "isDead" : false,
-          "maxHp" : 150
-        }, {
-          "pType" : "Bisaflor",
-          "hp" : 135,
-          "isDead" : false,
-          "maxHp" : 180
-        } ],
-        "size" : 3
-      },
-      "currentPoke" : 1
-    },
-    "turn" : 2,
+    "turn" : 1,
     "winner" : "None"
   }
 }
