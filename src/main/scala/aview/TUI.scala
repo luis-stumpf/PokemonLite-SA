@@ -20,8 +20,8 @@ class TUI( controller: ControllerInterface ) extends Observer:
       controller.doAndPublish( controller.undoMove )
     else if input.charAt( 0 ) == 'z' then
       controller.doAndPublish( controller.redoMove )
-    else if input == "save" then controller.save
-    else if input == "load" then controller.load
+    else if input == "save" then controller.doAndPublish( controller.save )
+    else if input == "load" then controller.doAndPublish( controller.load )
     else
       controller.game.state match
         case InitState() =>

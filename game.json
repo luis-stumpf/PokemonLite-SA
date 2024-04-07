@@ -1,11 +1,55 @@
 {
   "game" : {
     "state" : {
-      "stateVal" : "InitState()"
+      "stateVal" : "DesicionState()"
     },
-    "player1" : "None",
-    "player2" : "None",
-    "turn" : 1,
+    "player1" : {
+      "name" : "luis",
+      "pokemons" : {
+        "contents" : [ {
+          "pType" : "Simsala",
+          "hp" : 12,
+          "isDead" : false,
+          "maxHp" : 130
+        }, {
+          "pType" : "Turtok",
+          "hp" : 130,
+          "isDead" : false,
+          "maxHp" : 130
+        }, {
+          "pType" : "Glurak",
+          "hp" : 150,
+          "isDead" : false,
+          "maxHp" : 150
+        } ],
+        "size" : 3
+      },
+      "currentPoke" : 1
+    },
+    "player2" : {
+      "name" : "timmy",
+      "pokemons" : {
+        "contents" : [ {
+          "pType" : "Turtok",
+          "hp" : 55,
+          "isDead" : false,
+          "maxHp" : 130
+        }, {
+          "pType" : "Glurak",
+          "hp" : 105,
+          "isDead" : false,
+          "maxHp" : 150
+        }, {
+          "pType" : "Bisaflor",
+          "hp" : 135,
+          "isDead" : false,
+          "maxHp" : 180
+        } ],
+        "size" : 3
+      },
+      "currentPoke" : 1
+    },
+    "turn" : 2,
     "winner" : "None"
   }
 }

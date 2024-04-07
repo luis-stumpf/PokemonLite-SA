@@ -26,12 +26,9 @@ import de.htwg.se.pokelite.util.UndoManager
 import scala.util.{ Failure, Success, Try }
 import scala.swing.Publisher
 import de.htwg.se.pokelite.PokemonLite.controller
-import de.htwg.se.pokelite.model.commands.ChangeStateCommand
-import de.htwg.se.pokelite.model.commands.AddPlayerCommand
-import de.htwg.se.pokelite.model.commands.AddPokemonCommand
-import de.htwg.se.pokelite.model.commands.SelectNextMoveCommand
-import de.htwg.se.pokelite.model.commands.AttackCommand
-import de.htwg.se.pokelite.model.commands.SwitchPokemonCommand
+import de.htwg.se.pokelite.model.commands.*
+import model.commands.SaveCommand
+import model.commands.LoadCommand
 
 case class Controller @Inject() () extends ControllerInterface:
   val undoManager = new UndoManager[GameInterface]
@@ -109,12 +106,8 @@ case class Controller @Inject() () extends ControllerInterface:
         }
   }
 
-  def save: Unit = {
-    fileIO.save( game )
-    notifyObservers()
-  }
+  def save(): Try[GameInterface] =
+    undoManager.doStep( game, SaveCommand( fileIO ) )
 
-  def load: Unit = {
-    fileIO.load
-    notifyObservers()
-  }
+  def load(): Try[GameInterface] =
+    undoManager.doStep( game, LoadCommand( fileIO ) )

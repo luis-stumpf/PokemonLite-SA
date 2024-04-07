@@ -38,9 +38,9 @@ trait ControllerInterface extends Observable with Publisher:
 
   def restartTheGame(): Try[GameInterface]
 
-  def save: Unit
+  def save(): Try[GameInterface]
 
-  def load: Unit
+  def load(): Try[GameInterface]
 
 import scala.swing.event.Event
 
