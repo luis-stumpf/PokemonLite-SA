@@ -18,28 +18,31 @@ enum State {
 
   def toJson: JsValue =
     Json.obj( "stateVal" -> Json.toJson( this.toString ) )
+
+  def toXML: Node =
+    <state>{this.toString}</state>
 }
 
 object State {
   def fromXML( node: Node ): State =
     val state = ( node \\ "state" ).text.replace( " ", "" ) match {
-      case "DesicionState()"          => DesicionState
-      case "FightingState()"          => FightingState
-      case "GameOverState()"          => GameOverState
-      case "InitPlayerPokemonState()" => InitPlayerPokemonState
-      case "InitPlayerState()"        => InitPlayerPokemonState
-      case "SwitchPokemonState()"     => SwitchPokemonState
+      case "DesicionState"          => DesicionState
+      case "FightingState"          => FightingState
+      case "GameOverState"          => GameOverState
+      case "InitPlayerPokemonState" => InitPlayerPokemonState
+      case "InitPlayerState"        => InitPlayerPokemonState
+      case "SwitchPokemonState"     => SwitchPokemonState
     }
     state
 
   def fromJson( json: JsValue ): State =
     val state = ( json \ "stateVal" ).get.toString().replace( "\"", "" ) match {
-      case "DesicionState()"          => DesicionState
-      case "FightingState()"          => FightingState
-      case "GameOverState()"          => GameOverState
-      case "InitPlayerPokemonState()" => InitPlayerPokemonState
-      case "InitPlayerState()"        => InitPlayerPokemonState
-      case "SwitchPokemonState()"     => SwitchPokemonState
+      case "DesicionState"          => DesicionState
+      case "FightingState"          => FightingState
+      case "GameOverState"          => GameOverState
+      case "InitPlayerPokemonState" => InitPlayerPokemonState
+      case "InitPlayerState"        => InitPlayerPokemonState
+      case "SwitchPokemonState"     => SwitchPokemonState
     }
     state
 }

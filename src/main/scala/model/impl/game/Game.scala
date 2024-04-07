@@ -82,9 +82,7 @@ case class Game(
 
   def toXML: Node =
     <Game>
-      <state>
-        {state.toString}
-      </state>
+        {state.toXML}
       <player1>
         {player1.map( _.toXML ).getOrElse( "None" )}
       </player1>

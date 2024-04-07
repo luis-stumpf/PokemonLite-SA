@@ -1,51 +1,31 @@
 {
   "game" : {
     "state" : {
-      "stateVal" : "DesicionState"
+      "stateVal" : "FightingState"
     },
     "player1" : {
-      "name" : "a",
+      "name" : "Luis",
       "pokemons" : {
         "contents" : [ {
           "pType" : "Glurak",
-          "hp" : 130,
+          "hp" : 150,
           "isDead" : false,
           "maxHp" : 150
-        }, {
-          "pType" : "Simsala",
-          "hp" : 130,
-          "isDead" : false,
-          "maxHp" : 130
-        }, {
-          "pType" : "Brutalanda",
-          "hp" : 170,
-          "isDead" : false,
-          "maxHp" : 170
         } ],
-        "size" : 3
+        "size" : 1
       },
       "currentPoke" : 0
     },
     "player2" : {
-      "name" : "luis",
+      "name" : "Timmy",
       "pokemons" : {
         "contents" : [ {
-          "pType" : "Brutalanda",
-          "hp" : 150,
-          "isDead" : false,
-          "maxHp" : 170
-        }, {
           "pType" : "Simsala",
           "hp" : 130,
           "isDead" : false,
           "maxHp" : 130
-        }, {
-          "pType" : "Glurak",
-          "hp" : 150,
-          "isDead" : false,
-          "maxHp" : 150
         } ],
-        "size" : 3
+        "size" : 1
       },
       "currentPoke" : 0
     },
