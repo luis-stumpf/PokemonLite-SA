@@ -12,6 +12,21 @@ import org.scalatest.wordspec.AnyWordSpec
 class GameSpec extends AnyWordSpec {
   "The Game Class" when {
 
+    "no winner is determined" should {
+      "return false for hasWinner" in {
+        val game = Game()
+        game.hasWinner shouldBe false
+      }
+    }
+
+    "a winner is determined" should {
+      "return true for hasWinner" in {
+        val winner = PokePlayer("Winner")
+        val game = Game(winner = Some(winner))
+        game.hasWinner shouldBe true
+      }
+    }
+
     "empty" should {
       var game = Game()
       "have the InitState" in {
@@ -220,6 +235,13 @@ class GameSpec extends AnyWordSpec {
         }
       }
     }
+    "toString" should {
+      "return a string representation of the game" in {
+        val game = Game()
+        game.toString shouldBe a[String]
+      }
+    }
+
   }
   "The Game Object" should {
 

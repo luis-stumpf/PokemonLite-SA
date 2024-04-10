@@ -11,7 +11,6 @@ import de.htwg.se.pokelite.controller.{
   StateChanged,
   UnknownCommand
 }
-import de.htwg.se.pokelite.model.commands.GameOverCommand
 import de.htwg.se.pokelite.model.impl.game.Game
 import de.htwg.se.pokelite.model.State.*
 import de.htwg.se.pokelite.model.{
@@ -27,8 +26,6 @@ import scala.util.{ Failure, Success, Try }
 import scala.swing.Publisher
 import de.htwg.se.pokelite.PokemonLite.controller
 import de.htwg.se.pokelite.model.commands.*
-import model.commands.SaveCommand
-import model.commands.LoadCommand
 
 case class Controller @Inject() () extends ControllerInterface:
   val undoManager = new UndoManager[GameInterface]
@@ -89,7 +86,7 @@ case class Controller @Inject() () extends ControllerInterface:
   def restartTheGame(): Try[GameInterface] =
     undoManager.doStep( game, GameOverCommand( game, game.state ) )
 
-  def usePublisher( command: Option[Command[GameInterface]] ) = {
+  private def usePublisher(command: Option[Command[GameInterface]] ) = {
     command match
       case None =>
         notifyObservers( "Unknown Command" ); publish( new UnknownCommand )
