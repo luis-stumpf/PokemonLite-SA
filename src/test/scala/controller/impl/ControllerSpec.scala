@@ -7,10 +7,14 @@ import model.impl.game.Game
 import model.impl.pokePlayer.*
 import model.State.*
 import util.{ Observer, UndoManager }
+import model.GameInterface
+import model.commands.*
+import model.FileIOInterface
 
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
-import de.htwg.se.pokelite.model.GameInterface
+import scala.util.Success
+import scala.util.Failure
 
 class ControllerSpec extends AnyWordSpec {
   "The Controller" should {
@@ -84,6 +88,24 @@ class ControllerSpec extends AnyWordSpec {
       controller.doAndPublish( controller.addPokemons, "Glurak" )
       controller.game.state should be( InitPlayerPokemonState )
     }
+   /* "be able to save the game" in {
+      val initialGame = controller.game
+      controller.save() match {
+        case Success(savedGame) =>
+          savedGame should equal(initialGame)
+        case Failure(exception) =>
+          fail(s"Saving the game failed: ${exception.getMessage}")
+      }
+    }
 
+    "be able to load the game" in {
+      val initialGame = controller.game
+      controller.load() match {
+        case Success(loadedGame) =>
+          loadedGame should not equal initialGame
+        case Failure(exception) =>
+          fail(s"Loading the game failed: ${exception.getMessage}")
+      }
+    }*/
   }
 }

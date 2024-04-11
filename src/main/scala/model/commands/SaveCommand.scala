@@ -1,3 +1,4 @@
+package de.htwg.se.pokelite
 package model.commands
 
 import de.htwg.se.pokelite.model.GameInterface

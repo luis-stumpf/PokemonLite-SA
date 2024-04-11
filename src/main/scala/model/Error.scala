@@ -25,14 +25,16 @@ case object NotAbleToSave extends Error:
 case object NoSaveGameFound extends Error:
   override def toString: String = "Error: Wasnt able to find save game file!"
 
-case object NoCommandFound extends Error:
+/*
+  case object NoCommandFound extends Error:
   override def toString: String = "Error: Could not find Command."
+*/
 
 case object NoInput extends Error:
   override def toString: String = "Error: Please Enter a valid input."
 
 case object NoPokemonSelected extends Error:
-  override def toString: String = "Error: You havent selected a valid Pokemon."
+  override def toString: String = "Error: You haven't selected a valid Pokemon."
 
 case class NotEnoughPokemonSelected( amount: Int ) extends Error:
   override def toString: String =
