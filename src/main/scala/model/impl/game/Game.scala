@@ -4,7 +4,7 @@ package model.impl.game
 import model.*
 import model.PokemonType.*
 import model.impl.pokePlayer.PokePlayer
-import model.states.*
+import model.State.*
 import model.impl.field.MatrixField
 
 import com.google.inject.Inject
@@ -36,11 +36,11 @@ object Game extends GameRules {
 
   def isIngame( state: State ): Boolean =
     state match
-      case FightingState()      => true
-      case DesicionState()      => true
-      case SwitchPokemonState() => true
-      case GameOverState()      => true
-      case _                    => false
+      case FightingState      => true
+      case DesicionState      => true
+      case SwitchPokemonState => true
+      case GameOverState      => true
+      case _                  => false
 
   val damageMultipliers: Map[( PokemonArt, PokemonArt ), Double] = Map(
     ( PokemonArt.Wasser, PokemonArt.Wasser ) -> 1,
@@ -70,7 +70,7 @@ object Game extends GameRules {
 }
 
 case class Game(
-  state: State = InitState(),
+  state: State = InitState,
   player1: Option[PokePlayer] = None,
   player2: Option[PokePlayer] = None,
   turn: Int = 1,
@@ -78,13 +78,11 @@ case class Game(
 ) extends GameInterface {
 
   @Inject
-  def this() = this( state = InitState(), turn = 1 )
+  def this() = this( state = InitState, turn = 1 )
 
   def toXML: Node =
     <Game>
-      <state>
-        {state.toString}
-      </state>
+        {state.toXML}
       <player1>
         {player1.map( _.toXML ).getOrElse( "None" )}
       </player1>
@@ -136,8 +134,8 @@ case class Game(
 
   def removePlayer(): Game =
     if player2.nonEmpty then
-      copy( player2 = None, state = InitPlayerState(), turn = 2 )
-    else copy( player1 = None, state = InitPlayerState(), turn = 1 )
+      copy( player2 = None, state = InitPlayerState, turn = 2 )
+    else copy( player1 = None, state = InitPlayerState, turn = 1 )
 
   def interpretPokemonSelectionFrom( string: String ): Try[Game] =
     getPokemonListFrom( string ).flatMap( assignTheCorrectPlayerA )
@@ -150,14 +148,14 @@ case class Game(
           player2 =
             player2.map( p => PokePlayer( p.name, PokePack( List( None ) ) ) ),
           turn = 2,
-          state = InitPlayerPokemonState()
+          state = InitPlayerPokemonState
         )
       case None =>
         copy(
           player1 =
             player1.map( p => PokePlayer( p.name, PokePack( List( None ) ) ) ),
           turn = 1,
-          state = InitPlayerPokemonState()
+          state = InitPlayerPokemonState
         )
     }
 
@@ -199,7 +197,7 @@ case class Game(
               copy(
                 player1 = player1.map( _.setCurrentPokeTo( selection ) ),
                 turn = 2,
-                state = DesicionState()
+                state = DesicionState
               )
             )
           else
@@ -207,7 +205,7 @@ case class Game(
               copy(
                 player2 = player2.map( _.setCurrentPokeTo( selection ) ),
                 turn = 1,
-                state = DesicionState()
+                state = DesicionState
               )
             )
         else Failure( WrongInput( input ) )
@@ -245,7 +243,7 @@ case class Game(
       case ( None, _ ) =>
         Success(
           copy(
-            state = InitPlayerState(),
+            state = InitPlayerState,
             player1 = Some( PokePlayer( name ) ),
             turn = 2
           )
@@ -253,7 +251,7 @@ case class Game(
       case _ =>
         Success(
           copy(
-            state = InitPlayerPokemonState(),
+            state = InitPlayerPokemonState,
             player2 = Some( PokePlayer( name ) ),
             turn = 1
           )
@@ -271,7 +269,7 @@ case class Game(
           copy(
             player1 = Some( PokePlayer( p1.name, pokePack ) ),
             turn = 2,
-            state = InitPlayerPokemonState()
+            state = InitPlayerPokemonState
           )
         )
       case ( Some( p1 ), Some( p2 ) )
@@ -284,7 +282,7 @@ case class Game(
           copy(
             player2 = Some( PokePlayer( p2.name, pokePack ) ),
             turn = 1,
-            state = DesicionState()
+            state = DesicionState
           )
         )
       case _ => Failure( new Exception( "Unexpected game state" ) )
@@ -360,7 +358,7 @@ case class Game(
 
       copy(
         player2 = Some( player2.get.increaseHealthOfCurrentPokemon( damage ) ),
-        state = FightingState(),
+        state = FightingState,
         turn = 1
       )
 
@@ -383,7 +381,7 @@ case class Game(
 
       copy(
         player1 = Some( player1.get.increaseHealthOfCurrentPokemon( damage ) ),
-        state = FightingState(),
+        state = FightingState,
         turn = 2
       )
 

@@ -31,7 +31,7 @@ object PokemonLite {
     /*
     while (input != "quit")
       input = readLine()
-      Platform.runLater(tui.processInputLine(input))
+      tui.processInputLine( input )
      */
   }
 

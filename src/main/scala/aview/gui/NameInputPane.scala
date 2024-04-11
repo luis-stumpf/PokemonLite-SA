@@ -9,10 +9,10 @@ import scalafx.scene.control.{ Button, TextField }
 import scalafx.scene.layout.VBox
 import scalafx.scene.text.Font
 
-case class NameInputPane( controller : ControllerInterface ) extends VBox {
+case class NameInputPane( controller: ControllerInterface ) extends VBox {
 
   spacing = 30
-  val textField : TextField = new TextField() {
+  val textField: TextField = new TextField() {
     minWidth = 200
     minHeight = 40
     promptText = "Name"
@@ -23,8 +23,10 @@ case class NameInputPane( controller : ControllerInterface ) extends VBox {
     new Button( "Add Player" + getCurrentPlayerNumber() ) {
       minWidth = 200
       minHeight = 60
-      onAction = _ => controller.addPlayer( textField.getText() )
-    } )
+      onAction = _ =>
+        controller.doAndPublish( controller.addPlayer, textField.getText() )
+    }
+  )
 
-  def getCurrentPlayerNumber( ) : Int = controller.game.turn
+  def getCurrentPlayerNumber(): Int = controller.game.turn
 }

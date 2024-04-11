@@ -10,7 +10,7 @@ import scalafx.scene.image.{ Image, ImageView }
 import scalafx.scene.layout.VBox
 import scalafx.scene.text.Font
 
-case class InitPane( controller : ControllerInterface ) extends VBox {
+case class InitPane( controller: ControllerInterface ) extends VBox {
 
   spacing = 30
   alignment = Pos.Center
@@ -23,9 +23,8 @@ case class InitPane( controller : ControllerInterface ) extends VBox {
     new Button( "Lets Go!" ) {
       minWidth = 200
       minHeight = 60
-      onAction = _ => controller.initPlayers()
+      onAction = _ => controller.doAndPublish( controller.initPlayers )
     }
   )
-
 
 }

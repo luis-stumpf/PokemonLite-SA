@@ -3,12 +3,7 @@ package model.impl.game
 
 import model.PokemonType.{ Glurak, Simsala }
 import model.impl.pokePlayer.PokePlayer
-import model.states.{
-  FightingState,
-  InitPlayerPokemonState,
-  InitPlayerState,
-  InitState
-}
+import model.State.*
 import model.{ Attack, PokePack, Pokemon, PokemonArt }
 
 import org.scalatest.matchers.should.Matchers.*
@@ -20,31 +15,29 @@ class GameSpec extends AnyWordSpec {
     "empty" should {
       var game = Game()
       "have the InitState" in {
-        assert( game.state == InitState() )
+        assert( game.state == InitState )
       }
       "have no players" in {
         assert( game.player1 == None && game.player2 == None )
       }
       "be able to set the state" in {
-        game.setStateTo( InitPlayerState() ) should be(
-          Game( InitPlayerState() )
-        )
+        game.setStateTo( InitPlayerState ) should be( Game( InitPlayerState ) )
       }
       "be able to add a Player" in {
         game.addPlayerWith( "Luis" ).get should be(
-          Game( InitPlayerState(), Some( PokePlayer( "Luis" ) ) ).setNextTurn()
+          Game( InitPlayerState, Some( PokePlayer( "Luis" ) ) ).setNextTurn()
         )
       }
       "be able to remove a Player" in {
         game = game.addPlayerWith( "Luis" ).get
-        game.removePlayer() should be( Game( InitPlayerState() ) )
+        game.removePlayer() should be( Game( InitPlayerState ) )
       }
       "be able to remove a Pokemon from a Player 1" in {
         game = game.addPlayerWith( "timmy" ).get
         game = game.interpretPokemonSelectionFrom( "111" ).get
         game.removePokemonFromPlayer() should be(
           Game(
-            InitPlayerPokemonState(),
+            InitPlayerPokemonState,
             Some( PokePlayer( "Luis" ) ),
             Some( PokePlayer( "timmy" ) )
           )
@@ -54,7 +47,7 @@ class GameSpec extends AnyWordSpec {
         game = game.interpretPokemonSelectionFrom( "123" ).get
         game.removePokemonFromPlayer() should be(
           Game(
-            InitPlayerPokemonState(),
+            InitPlayerPokemonState,
             Some(
               PokePlayer(
                 "Luis",
@@ -73,7 +66,7 @@ class GameSpec extends AnyWordSpec {
       }
       "be able to attack a player 1" in {
         game = Game(
-          FightingState(),
+          FightingState,
           Some(
             PokePlayer(
               "Luis",
@@ -89,7 +82,7 @@ class GameSpec extends AnyWordSpec {
         )
         game.interpretAttackSelectionFrom( "1" ).get should be {
           Game(
-            FightingState(),
+            FightingState,
             Some(
               PokePlayer(
                 "Luis",
@@ -112,7 +105,7 @@ class GameSpec extends AnyWordSpec {
       }
       "be able to reverse attack a player 1" in {
         game = Game(
-          FightingState(),
+          FightingState,
           Some(
             PokePlayer(
               "Luis",
@@ -132,7 +125,7 @@ class GameSpec extends AnyWordSpec {
         )
         game.reverseAttackWith( "1" ) should be {
           Game(
-            FightingState(),
+            FightingState,
             Some(
               PokePlayer(
                 "Luis",
@@ -151,7 +144,7 @@ class GameSpec extends AnyWordSpec {
       }
       "be able to attack a player 2" in {
         game = Game(
-          FightingState(),
+          FightingState,
           Some(
             PokePlayer(
               "Luis",
@@ -167,7 +160,7 @@ class GameSpec extends AnyWordSpec {
         ).setNextTurn()
         game.interpretAttackSelectionFrom( "1" ).get should be {
           Game(
-            FightingState(),
+            FightingState,
             Some(
               PokePlayer(
                 "Luis",
@@ -191,7 +184,7 @@ class GameSpec extends AnyWordSpec {
       // TODO: Testen ob AttackPlayerStrat.strategy die richtige entscheidung trifft.
       "be able to reverse attack a player 2" in {
         game = Game(
-          FightingState(),
+          FightingState,
           Some(
             PokePlayer(
               "Luis",
@@ -210,7 +203,7 @@ class GameSpec extends AnyWordSpec {
         game.interpretAttackSelectionFrom( "1" )
         game.reverseAttackWith( "1" ) should be {
           Game(
-            FightingState(),
+            FightingState,
             Some(
               PokePlayer(
                 "Luis",
@@ -231,7 +224,7 @@ class GameSpec extends AnyWordSpec {
   "The Game Object" should {
 
     "check if its current state is a match state" in {
-      Game.isIngame( InitState() ) should be( false )
+      Game.isIngame( InitState ) should be( false )
     }
 
     "return a damage Multiplikator with water and water" in {

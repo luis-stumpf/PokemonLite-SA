@@ -1,42 +1,46 @@
 package de.htwg.se.pokelite
 package controller
 
-import model.states.*
-import model.{Command, GameInterface, NothingToRedo, State}
-import util.{Observable, UndoManager}
+import model.State.*
+import model.{ Command, GameInterface, NothingToRedo, State }
+import util.{ Observable, UndoManager }
 
 import scala.swing.Publisher
-import scala.util.{Failure, Success}
+import scala.util.{ Failure, Success, Try }
+import org.checkerframework.checker.nullness.Opt
 
 trait ControllerInterface extends Observable with Publisher:
-  val undoManager : UndoManager
-  var game : GameInterface
+  val undoManager: UndoManager[GameInterface]
+  var game: GameInterface
 
-  def moveDone( newGame : GameInterface, command : Command ) : Unit
+  def doAndPublish(
+    doThis: String => Try[GameInterface],
+    command: String
+  ): Unit
 
-  def move( command : Option[ Command ] ) : Unit
+  def doAndPublish( doThis: () => Try[GameInterface] ): Unit
 
-  def undoMove( ) : Unit
+  def undoMove(): Try[GameInterface]
 
-  def redoMove( ) : Unit
+  def redoMove(): Try[GameInterface]
 
-  def initPlayers( ) : Unit
+  def initPlayers(): Try[GameInterface]
 
-  def addPlayer( name : String ) : Unit
+  def addPlayer( name: String ): Try[GameInterface]
 
-  def addPokemons( list : String ) : Unit
+  def addPokemons( list: String ): Try[GameInterface]
 
-  def nextMove( input : String ) : Unit
+  def nextMove( input: String ): Try[GameInterface]
 
-  def attackWith( input : String ) : Unit
+  def attackWith( input: String ): Try[GameInterface]
 
-  def selectPokemon( input : String ) : Unit
+  def selectPokemon( input: String ): Try[GameInterface]
 
-  def restartTheGame( ) : Unit
+  def restartTheGame(): Try[GameInterface]
 
-  def save : Unit
+  def save(): Try[GameInterface]
 
-  def load : Unit
+  def load(): Try[GameInterface]
 
 import scala.swing.event.Event
 
@@ -57,8 +61,3 @@ class GameLoaded extends Event
 class UnknownCommand extends Event
 
 class PokemonLiteShutdown extends Event
-
-  
-
-
-

@@ -3,8 +3,8 @@ package model
 
 import scala.util.Try
 
-trait Command:
+trait Command[T]:
 
-  def doStep( game : GameInterface ) : Try[ GameInterface ]
+  def doStep( game: T ): Try[T]
 
-  def undoStep( game : GameInterface ) : GameInterface
+  def undoStep( game: T ): Try[T]

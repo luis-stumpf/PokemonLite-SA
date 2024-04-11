@@ -1,5 +1,5 @@
 <Game>
-    <state> FightingState() </state>
+    <state>FightingState</state>
     <player1>
         <PokePlayer>
             <name> Luis </name>
