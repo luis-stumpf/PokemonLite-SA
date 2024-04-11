@@ -7,11 +7,19 @@ mainClass in ( Compile, packageBin ) := Some(
   "de.htwg.se.pokelite.PokemonLite"
 )
 
+lazy val util = ( project in file( "util" ) )
+  .settings(
+    name := "PokemonLiteUtil",
+    idePackagePrefix := Some( "de.htwg.se.pokelite.util" )
+  )
+
 lazy val root = ( project in file( "." ) )
   .settings(
     name := "PokemonLite",
     idePackagePrefix := Some( "de.htwg.se.pokelite" )
   )
+  .dependsOn( util )
+  .aggregate( util )
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.18"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.18" % "test"

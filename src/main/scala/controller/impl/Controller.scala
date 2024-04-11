@@ -13,12 +13,7 @@ import de.htwg.se.pokelite.controller.{
 }
 import de.htwg.se.pokelite.model.impl.game.Game
 import de.htwg.se.pokelite.model.State.*
-import de.htwg.se.pokelite.model.{
-  FileIOInterface,
-  GameInterface,
-  NoSaveGameFound,
-  NotAbleToSave
-}
+import de.htwg.se.pokelite.model.{ FileIOInterface, GameInterface }
 import de.htwg.se.pokelite.util.UndoManager
 import de.htwg.se.pokelite.util.Command
 

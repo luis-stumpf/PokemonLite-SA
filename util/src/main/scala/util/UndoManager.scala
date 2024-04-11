@@ -1,7 +1,7 @@
 package de.htwg.se.pokelite
 package util
 
-import model.{ GameInterface, NothingToRedo, NothingToUndo }
+import model.{ NothingToRedo, NothingToUndo }
 
 import scala.util.{ Failure, Success, Try }
 

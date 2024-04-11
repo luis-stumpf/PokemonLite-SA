@@ -1,8 +1,6 @@
 package de.htwg.se.pokelite
 package model
 
-import model.impl.game.Game
-
 trait Error extends Throwable
 
 case object NoPlayerName extends Error:
@@ -28,7 +26,7 @@ case object NoSaveGameFound extends Error:
 /*
   case object NoCommandFound extends Error:
   override def toString: String = "Error: Could not find Command."
-*/
+ */
 
 case object NoInput extends Error:
   override def toString: String = "Error: Please Enter a valid input."
@@ -38,7 +36,7 @@ case object NoPokemonSelected extends Error:
 
 case class NotEnoughPokemonSelected( amount: Int ) extends Error:
   override def toString: String =
-    "Error: You have selected \"" + amount + "\" valid Pokemon, but " + Game.maxPokePackSize.toString + " is required."
+    "Error: You have selected \"" + amount + "\" valid Pokemon, but 3 is required."
 
 case class NoValidAttackSelected( input: String ) extends Error:
   override def toString: String =
