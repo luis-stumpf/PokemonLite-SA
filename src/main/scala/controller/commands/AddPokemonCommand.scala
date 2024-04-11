@@ -1,19 +1,18 @@
 package de.htwg.se.pokelite
-package model.commands
+package controller.commands
 
 import model.*
-import model.impl.game.Game
 import model.State.*
+import de.htwg.se.pokelite.util.Command
 
 import scala.util.{ Failure, Success, Try }
 
-case class AddPlayerCommand( name: String, state: State )
+case class AddPokemonCommand( input: String, state: State )
     extends Command[GameInterface] {
 
   override def doStep( game: GameInterface ): Try[GameInterface] =
-    game.addPlayerWith( name )
+    game.interpretPokemonSelectionFrom( input )
 
   override def undoStep( game: GameInterface ): Try[GameInterface] =
-    Success( game.removePlayer() )
-
+    Success( game.removePokemonFromPlayer() )
 }

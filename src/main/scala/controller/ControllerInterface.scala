@@ -2,7 +2,7 @@ package de.htwg.se.pokelite
 package controller
 
 import model.State.*
-import model.{ Command, GameInterface, NothingToRedo, State }
+import model.{ GameInterface, NothingToRedo, State }
 import util.{ Observable, UndoManager }
 
 import scala.swing.Publisher

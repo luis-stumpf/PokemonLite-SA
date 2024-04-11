@@ -1,9 +1,15 @@
 package de.htwg.se.pokelite
 package util
 
-import model.{ Command, GameInterface, NothingToRedo, NothingToUndo }
+import model.{ GameInterface, NothingToRedo, NothingToUndo }
 
 import scala.util.{ Failure, Success, Try }
+
+trait Command[T]:
+
+  def doStep( game: T ): Try[T]
+
+  def undoStep( game: T ): Try[T]
 
 class UndoManager[T]:
   private var undoStack: List[Command[T]] = Nil

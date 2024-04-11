@@ -1,39 +1,35 @@
 {
-  "game": {
-    "state": {
-      "stateVal": "FightingState"
+  "game" : {
+    "state" : {
+      "stateVal" : "FightingState"
     },
-    "player1": {
-      "name": "Luis",
-      "pokemons": {
-        "contents": [
-          {
-            "pType": "Glurak",
-            "hp": 150,
-            "isDead": false,
-            "maxHp": 150
-          }
-        ],
-        "size": 1
+    "player1" : {
+      "name" : "Luis",
+      "pokemons" : {
+        "contents" : [ {
+          "pType" : "Glurak",
+          "hp" : 150,
+          "isDead" : false,
+          "maxHp" : 150
+        } ],
+        "size" : 1
       },
-      "currentPoke": 0
+      "currentPoke" : 0
     },
-    "player2": {
-      "name": "Timmy",
-      "pokemons": {
-        "contents": [
-          {
-            "pType": "Simsala",
-            "hp": 130,
-            "isDead": false,
-            "maxHp": 130
-          }
-        ],
-        "size": 1
+    "player2" : {
+      "name" : "Timmy",
+      "pokemons" : {
+        "contents" : [ {
+          "pType" : "Simsala",
+          "hp" : 130,
+          "isDead" : false,
+          "maxHp" : 130
+        } ],
+        "size" : 1
       },
-      "currentPoke": 0
+      "currentPoke" : 0
     },
-    "turn": 1,
-    "winner": "None"
+    "turn" : 1,
+    "winner" : "None"
   }
 }

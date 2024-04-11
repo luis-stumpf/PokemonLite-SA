@@ -1,18 +1,19 @@
 package de.htwg.se.pokelite
-package model.commands
+package controller.commands
 
 import de.htwg.se.pokelite.model.GameInterface
 import scala.util.Try
 import de.htwg.se.pokelite.model.FileIOInterface
-import de.htwg.se.pokelite.model.Command
 import scala.util.Success
 import scala.util.Failure
-import de.htwg.se.pokelite.model.CanNotUndoLoad
+import de.htwg.se.pokelite.model.CanNotUndoSave
+import de.htwg.se.pokelite.util.Command
 
-case class LoadCommand( fileIO: FileIOInterface )
+case class SaveCommand( fileIO: FileIOInterface )
     extends Command[GameInterface]:
   override def doStep( game: GameInterface ): Try[GameInterface] =
-    Success( fileIO.load )
+    fileIO.save( game )
+    Success( game )
 
   override def undoStep( game: GameInterface ): Try[GameInterface] =
-    Failure( CanNotUndoLoad )
+    Failure( CanNotUndoSave )

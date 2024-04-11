@@ -1,10 +1,11 @@
 package de.htwg.se.pokelite
-package model.commands
+package controller.commands
 
 import model.*
 import model.State.*
 
 import scala.util.{ Failure, Success, Try }
+import de.htwg.se.pokelite.util.Command
 
 case class SelectNextMoveCommand( input: String, state: State )
     extends Command[GameInterface] {

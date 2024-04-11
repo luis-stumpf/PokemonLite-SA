@@ -1,7 +1,8 @@
 package de.htwg.se.pokelite
-package model.commands
+package controller.commands
 
 import model.*
+import de.htwg.se.pokelite.util.Command
 
 import scala.util.{ Try, Success }
 
