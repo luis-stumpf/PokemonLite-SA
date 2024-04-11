@@ -54,10 +54,4 @@ class PokemonChanged extends Event
 
 class GameOver extends Event
 
-//class GameSaved extends Event
-
-//class GameLoaded extends Event
-
 class UnknownCommand extends Event
-
-//class PokemonLiteShutdown extends Event

@@ -179,8 +179,6 @@ case class Game(
     case _ => false
   }
 
-  // private def bothPlayersHavePokemon = player1.isDefined && player2.isDefined
-
   private def selectedAttackFrom( string: String ): Int =
     string.charAt( 0 ).asDigit - 1
 
@@ -285,7 +283,7 @@ case class Game(
             state = DesicionState
           )
         )
-      case _ => Failure( new Exception( "Unexpected game state" ) )
+      case _ => Failure( HorriblePokemonSelectionError )
     }
   }
 
