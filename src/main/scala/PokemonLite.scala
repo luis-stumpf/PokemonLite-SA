@@ -1,6 +1,3 @@
-package main
-
-import aview.TUI
 import aview.gui.GUI
 
 import com.google.inject.{ Guice, Injector }
@@ -10,6 +7,7 @@ import javax.inject.Inject
 import scala.io.StdIn.readLine
 import java.io.IOException
 import controller.ControllerInterface
+import tui.TUI
 
 object PokemonLite {
   val inject: Injector = Guice.createInjector( new PokemonLiteModule )

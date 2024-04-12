@@ -1,7 +1,6 @@
-package aview
+package tui
 
 import controller.ControllerInterface
-import model.*
 import model.State.*
 import util.*
 
@@ -41,7 +40,9 @@ class TUI( controller: ControllerInterface ) extends Observer:
 
   override def update( message: String ): Unit = {
     println(
-      if message == "success" then controller.game.toString else message
+      if message == "success" then
+        MatrixField( width = 120, height = 15, controller.game )
+      else message
     )
 
     controller.game.state match

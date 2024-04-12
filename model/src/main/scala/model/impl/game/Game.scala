@@ -4,7 +4,6 @@ import model.*
 import model.PokemonType.*
 import model.impl.pokePlayer.PokePlayer
 import model.State.*
-import model.impl.field.MatrixField
 
 import com.google.inject.Inject
 import play.api.libs.json.{ JsValue, Json }
@@ -293,14 +292,6 @@ case class Game(
     else if (string.length > Game.maxPlayerNameLength)
       return Failure( NameTooLong( string ) )
     Success( string )
-
-  override def toString: String = MatrixField(
-    width = 120,
-    height = 15,
-    player1 = player1.getOrElse( PokePlayer( "", PokePack( List( None ) ) ) ),
-    player2 = player2.getOrElse( PokePlayer( "", PokePack( List( None ) ) ) ),
-    isControlledBy = turn
-  ).toString
 
   object Attack {
 

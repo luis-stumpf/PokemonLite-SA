@@ -1,4 +1,4 @@
-package model.impl.field
+package tui
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
@@ -6,7 +6,8 @@ import model.impl.pokePlayer.PokePlayer
 import model.PokePack
 import model.Pokemon
 import model.PokemonType
-import model.impl.field.MatrixField
+import tui.MatrixField
+import model.impl.game.Game
 
 class MatrixFieldSpec extends AnyWordSpec {
   "A MatrixField" when {
@@ -15,13 +16,19 @@ class MatrixFieldSpec extends AnyWordSpec {
         MatrixField(
           150,
           30,
-          PokePlayer(
-            "Luis",
-            PokePack( List( Some( Pokemon.apply( PokemonType.Glurak ) ) ) )
-          ),
-          PokePlayer(
-            "Timmy",
-            PokePack( List( Some( Pokemon.apply( PokemonType.Simsala ) ) ) )
+          Game(
+            player1 = Some(
+              PokePlayer(
+                "Luis",
+                PokePack( List( Some( Pokemon.apply( PokemonType.Glurak ) ) ) )
+              )
+            ),
+            player2 = Some(
+              PokePlayer(
+                "Timmy",
+                PokePack( List( Some( Pokemon.apply( PokemonType.Simsala ) ) ) )
+              )
+            )
           )
         )
       "print the string" in {

@@ -33,14 +33,18 @@ lazy val controller = ( project in file( "controller" ) )
   .dependsOn( model )
   .aggregate( model )
 
+lazy val tui = ( project in file( "tui" ) )
+  .settings( commonSettings, name := "PokemonLiteTUI" )
+  .dependsOn( controller )
+
 lazy val root = ( project in file( "." ) )
   .settings(
     commonSettings,
     name := "PokemonLite",
-    mainClass := Some( "main.PokemonLite" )
+    mainClass := Some( "PokemonLite" )
   )
-  .dependsOn( util, model, controller )
-  .aggregate( util, model, controller )
+  .dependsOn( util, model, controller, tui )
+  .aggregate( util, model, controller, tui )
 
 libraryDependencies += "org.scalafx" %% "scalafx" % "20.0.0-R31"
 

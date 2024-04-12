@@ -1,4 +1,4 @@
-package model.impl.field
+package tui
 
 import model.PokePlayerInterface
 import model.FieldInterface
@@ -6,22 +6,13 @@ import model.impl.pokePlayer.PokePlayer
 import com.google.inject.Inject
 import org.checkerframework.checker.units.qual.h
 import scala.util.chaining.scalaUtilChainingOps
+import model.GameInterface
+import model.impl.game.Game
 
-case class MatrixField(
-  width: Int,
-  height: Int = 15,
-  player1: PokePlayerInterface,
-  player2: PokePlayerInterface,
-  isControlledBy: Int = 1
-) extends FieldInterface {
+case class MatrixField( width: Int, height: Int = 15, game: GameInterface )
+    extends FieldInterface {
 
-  def this() = this(
-    width = 80,
-    height = 100,
-    player1 = PokePlayer( "" ),
-    player2 = PokePlayer( "" ),
-    isControlledBy = 1
-  )
+  def this() = this( width = 80, height = 100, game = Game() )
 
   def base(): Array[Array[String]] = {
     Array
@@ -58,10 +49,26 @@ case class MatrixField(
     matrix: Array[Array[String]]
   ): Array[Array[String]] = {
     val playerData = List(
-      ( player1.name, 2, 0.7 ),
-      ( player2.name, height - 3, 0.1 ),
-      ( player1.currentPokemon.getOrElse( "" ).toString(), 4, 0.7 ),
-      ( player2.currentPokemon.getOrElse( "" ).toString(), height - 5, 0.1 )
+      ( game.player1.getOrElse( PokePlayer( "" ) ).name, 2, 0.7 ),
+      ( game.player2.getOrElse( PokePlayer( "" ) ).name, height - 3, 0.1 ),
+      (
+        game.player1
+          .getOrElse( PokePlayer( "" ) )
+          .currentPokemon
+          .getOrElse( "" )
+          .toString(),
+        4,
+        0.7
+      ),
+      (
+        game.player2
+          .getOrElse( PokePlayer( "" ) )
+          .currentPokemon
+          .getOrElse( "" )
+          .toString(),
+        height - 5,
+        0.1
+      )
     )
 
     playerData.foldLeft( matrix ) { case ( matrix, ( name, row, start ) ) =>
@@ -72,7 +79,9 @@ case class MatrixField(
   def insertRightSiteData(
     matrix: Array[Array[String]]
   ): Array[Array[String]] = {
-    val currentPlayer = if (isControlledBy == 1) player1 else player2
+    val currentPlayer =
+      if (game.turn == 1) game.player1.getOrElse( PokePlayer( "" ) )
+      else game.player2.getOrElse( PokePlayer( "" ) )
     currentPlayer.pokemons.contents( currentPlayer.currentPoke ) match {
       case Some( pokemon ) =>
         val attackNames = pokemon.pType.attacks.zipWithIndex.map {
