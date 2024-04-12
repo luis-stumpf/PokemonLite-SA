@@ -1,7 +1,6 @@
 package controller.commands
 
 import model.*
-import model.impl.game.Game
 import model.State.*
 import util.Command
 

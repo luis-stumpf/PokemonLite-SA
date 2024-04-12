@@ -7,6 +7,7 @@ import util.{ Observable, UndoManager }
 import scala.swing.Publisher
 import scala.util.{ Failure, Success, Try }
 import org.checkerframework.checker.nullness.Opt
+import scala.swing.event.Event
 
 trait ControllerInterface extends Observable with Publisher:
   val undoManager: UndoManager[GameInterface]
@@ -40,8 +41,6 @@ trait ControllerInterface extends Observable with Publisher:
   def save(): Try[GameInterface]
 
   def load(): Try[GameInterface]
-
-import scala.swing.event.Event
 
 class PlayerChanged extends Event
 

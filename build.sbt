@@ -1,14 +1,15 @@
-val scala3Version = "3.3.3"
-
-Compile / mainClass := Some( "pokelite.PokemonLite" )
+val scala3Version = "3.4.1"
 
 lazy val commonSettings = Seq(
   version := "0.1.0-SNAPSHOT",
   scalaVersion := scala3Version,
+  organization := "de.htwg.se",
   libraryDependencies ++= Seq(
     "org.scalactic" %% "scalactic" % "3.2.18",
     "org.scalatest" %% "scalatest" % "3.2.18" % "test",
-    "com.google.inject.extensions" % "guice-assistedinject" % "5.1.0"
+    "com.google.inject.extensions" % "guice-assistedinject" % "5.1.0",
+    ( "org.scala-lang.modules" %% "scala-swing" % "3.0.0" )
+      .cross( CrossVersion.for3Use2_13 )
   )
 )
 
@@ -26,23 +27,22 @@ lazy val model = ( project in file( "model" ) )
     )
   )
   .dependsOn( util )
-  .aggregate( util )
+
+lazy val controller = ( project in file( "controller" ) )
+  .settings( commonSettings, name := "PokemonLiteController" )
+  .dependsOn( model )
+  .aggregate( model )
 
 lazy val root = ( project in file( "." ) )
   .settings(
     commonSettings,
     name := "PokemonLite",
-    mainClass := Some( "pokelite.PokemonLite" )
+    mainClass := Some( "main.PokemonLite" )
   )
-  .dependsOn( util, model )
-  .aggregate( util, model )
+  .dependsOn( util, model, controller )
+  .aggregate( util, model, controller )
 
 libraryDependencies += "org.scalafx" %% "scalafx" % "20.0.0-R31"
-
-libraryDependencies += ( "org.scala-lang.modules" %% "scala-swing" % "3.0.0" )
-  .cross( CrossVersion.for3Use2_13 )
-
-assemblyJarName in assembly := "baeldung-scala-sbt-assembly-fatjar-1.0.jar"
 
 libraryDependencies ++= {
   // Determine OS version of JavaFX binaries

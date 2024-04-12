@@ -1,7 +1,6 @@
 package aview
 
 import controller.ControllerInterface
-import controller.impl.Controller
 import model.*
 import model.State.*
 import util.*

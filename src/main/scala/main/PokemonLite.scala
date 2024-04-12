@@ -1,9 +1,7 @@
-package pokelite
+package main
 
 import aview.TUI
 import aview.gui.GUI
-import controller.impl
-import controller.impl.Controller
 
 import com.google.inject.{ Guice, Injector }
 import scalafx.application.Platform
@@ -11,10 +9,12 @@ import scalafx.application.Platform
 import javax.inject.Inject
 import scala.io.StdIn.readLine
 import java.io.IOException
+import controller.ControllerInterface
 
 object PokemonLite {
   val inject: Injector = Guice.createInjector( new PokemonLiteModule )
-  val controller: Controller = inject.getInstance( classOf[Controller] )
+  val controller =
+    inject.getInstance( classOf[ControllerInterface] )
   val gui: GUI = GUI( controller )
   val tui = TUI( controller )
   var input = ""

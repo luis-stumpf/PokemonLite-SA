@@ -3,7 +3,15 @@ package aview.gui
 import aview.gui.pieces.HealthBar
 import controller.ControllerInterface
 import controller.impl.Controller
-import model.State.*
+import model.State.{
+  DesicionState,
+  FightingState,
+  GameOverState,
+  InitPlayerPokemonState,
+  InitPlayerState,
+  InitState,
+  SwitchPokemonState
+}
 import model.impl.game.Game
 import util.Observer
 

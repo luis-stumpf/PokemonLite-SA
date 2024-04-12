@@ -10,6 +10,7 @@ import controller.{
   StateChanged,
   UnknownCommand
 }
+
 import model.impl.game.Game
 import model.State.*
 import model.{ FileIOInterface, GameInterface }
@@ -30,15 +31,17 @@ import controller.commands.{
   SaveCommand,
   GameOverCommand
 }
-import pokelite.PokemonLiteModule
 
 case class Controller @Inject() () extends ControllerInterface:
   val undoManager = new UndoManager[GameInterface]
   var game: GameInterface = Game()
 
-  private val fileIO = Guice
+  private val fileIO = new model.impl.fileIo.json.FileIO
+
+  /*Guice
     .createInjector( new PokemonLiteModule )
     .getInstance( classOf[FileIOInterface] )
+   */
 
   def doAndPublish( doThis: String => Try[GameInterface], input: String ) = {
     game = doThis( input ) match {
@@ -48,7 +51,7 @@ case class Controller @Inject() () extends ControllerInterface:
         notifyObservers( x.toString )
         game
     }
-    usePublisher( undoManager.lastCommand )
+    //  usePublisher( undoManager.lastCommand )
     notifyObservers()
   }
 
@@ -60,7 +63,7 @@ case class Controller @Inject() () extends ControllerInterface:
         notifyObservers( x.toString )
         game
     }
-    usePublisher( undoManager.lastCommand )
+    // usePublisher( undoManager.lastCommand )
     notifyObservers()
   }
 
