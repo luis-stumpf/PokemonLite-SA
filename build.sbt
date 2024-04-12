@@ -9,8 +9,20 @@ lazy val commonSettings = Seq(
     "org.scalatest" %% "scalatest" % "3.2.18" % "test",
     "com.google.inject.extensions" % "guice-assistedinject" % "5.1.0",
     ( "org.scala-lang.modules" %% "scala-swing" % "3.0.0" )
-      .cross( CrossVersion.for3Use2_13 )
-  )
+      .cross( CrossVersion.for3Use2_13 ),
+    "org.scalafx" %% "scalafx" % "20.0.0-R31"
+  ),
+  libraryDependencies ++= {
+    // Determine OS version of JavaFX binaries
+    lazy val osName = System.getProperty( "os.name" ) match {
+      case n if n.startsWith( "Linux" )   => "linux"
+      case n if n.startsWith( "Mac" )     => "mac"
+      case n if n.startsWith( "Windows" ) => "win"
+      case _ => throw new Exception( "Unknown platform!" )
+    }
+    Seq( "base", "controls", "fxml", "graphics", "media", "swing", "web" )
+      .map( m => "org.openjfx" % s"javafx-$m" % "20" )
+  }
 )
 
 lazy val util = ( project in file( "util" ) )
@@ -37,16 +49,18 @@ lazy val tui = ( project in file( "tui" ) )
   .settings( commonSettings, name := "PokemonLiteTUI" )
   .dependsOn( controller )
 
+lazy val gui = ( project in file( "gui" ) )
+  .settings( commonSettings, name := "PokemonLiteGUI" )
+  .dependsOn( controller )
+
 lazy val root = ( project in file( "." ) )
   .settings(
     commonSettings,
     name := "PokemonLite",
     mainClass := Some( "PokemonLite" )
   )
-  .dependsOn( util, model, controller, tui )
-  .aggregate( util, model, controller, tui )
-
-libraryDependencies += "org.scalafx" %% "scalafx" % "20.0.0-R31"
+  .dependsOn( util, model, controller, tui, gui )
+  .aggregate( util, model, controller, tui, gui )
 
 libraryDependencies ++= {
   // Determine OS version of JavaFX binaries

@@ -1,6 +1,6 @@
-package aview.gui
+package gui
 
-import aview.gui.pieces.HealthBar
+import gui.pieces.HealthBar
 import controller.ControllerInterface
 import controller.impl.Controller
 import model.State.{

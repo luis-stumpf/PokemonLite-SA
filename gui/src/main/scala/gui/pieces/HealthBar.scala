@@ -1,5 +1,4 @@
-package aview.gui.pieces
-
+package gui.pieces
 import controller.ControllerInterface
 import controller.impl.Controller
 

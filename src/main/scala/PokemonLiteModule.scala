@@ -4,7 +4,6 @@ import controller.*
 import controller.impl.*
 import model.PokePlayerInterface
 import model.impl.pokePlayer.PokePlayer
-import tui.MatrixField
 import model.FieldInterface
 import model.GameInterface
 import model.impl.game.Game

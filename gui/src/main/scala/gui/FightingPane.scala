@@ -1,4 +1,4 @@
-package aview.gui
+package gui
 
 import controller.ControllerInterface
 import controller.impl.Controller
