@@ -1,10 +1,12 @@
-package model
-
 import model.PokemonType.Glurak
 
 import play.api.libs.json.Json
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
+import model.Pokemon
+import model.PokemonType
+import model.Attack
+import model.PokemonArt
 
 class PokemonSpec extends AnyWordSpec {
   "A Pokemon" should {

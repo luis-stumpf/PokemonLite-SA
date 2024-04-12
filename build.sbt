@@ -7,12 +7,26 @@ lazy val commonSettings = Seq(
   scalaVersion := scala3Version,
   libraryDependencies ++= Seq(
     "org.scalactic" %% "scalactic" % "3.2.18",
-    "org.scalatest" %% "scalatest" % "3.2.18" % "test"
+    "org.scalatest" %% "scalatest" % "3.2.18" % "test",
+    "com.google.inject.extensions" % "guice-assistedinject" % "5.1.0"
   )
 )
 
 lazy val util = ( project in file( "util" ) )
   .settings( commonSettings, name := "PokemonLiteUtil" )
+
+lazy val model = ( project in file( "model" ) )
+  .settings(
+    commonSettings,
+    name := "PokemonLiteModel",
+    libraryDependencies ++= Seq(
+      ( "com.typesafe.play" %% "play-json" % "2.8.2" )
+        .cross( CrossVersion.for3Use2_13 ),
+      "org.scala-lang.modules" %% "scala-xml" % "2.0.1"
+    )
+  )
+  .dependsOn( util )
+  .aggregate( util )
 
 lazy val root = ( project in file( "." ) )
   .settings(
@@ -20,25 +34,13 @@ lazy val root = ( project in file( "." ) )
     name := "PokemonLite",
     mainClass := Some( "pokelite.PokemonLite" )
   )
-  .dependsOn( util )
-  .aggregate( util )
+  .dependsOn( util, model )
+  .aggregate( util, model )
 
-//libraryDependencies += "org.scalamock" %% "scalamock" % "5.1.0" % Test
-
-libraryDependencies += "com.github.tototoshi" %% "scala-csv" % "1.3.10"
 libraryDependencies += "org.scalafx" %% "scalafx" % "20.0.0-R31"
 
-libraryDependencies += "com.google.inject.extensions" % "guice-assistedinject" % "5.1.0"
 libraryDependencies += ( "org.scala-lang.modules" %% "scala-swing" % "3.0.0" )
   .cross( CrossVersion.for3Use2_13 )
-libraryDependencies += ( "net.codingwell" %% "scala-guice" % "5.0.2" ).cross(
-  CrossVersion.for3Use2_13
-)
-
-libraryDependencies += ( "com.typesafe.play" %% "play-json" % "2.8.2" ).cross(
-  CrossVersion.for3Use2_13
-)
-libraryDependencies += ( "org.scala-lang.modules" %% "scala-xml" % "2.0.1" )
 
 assemblyJarName in assembly := "baeldung-scala-sbt-assembly-fatjar-1.0.jar"
 

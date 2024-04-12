@@ -1,7 +1,6 @@
 package model
 
 import model.GameInterface
-import controller.commands.{ AddPlayerCommand, ChangeStateCommand }
 import model.impl.game.Game
 import model.GameInterface
 import model.State.*

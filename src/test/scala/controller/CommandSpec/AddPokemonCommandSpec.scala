@@ -1,10 +1,6 @@
 package model.CommandSpec
 
-import controller.commands.{
-  AddPlayerCommand,
-  AddPokemonCommand,
-  AttackCommand
-}
+import controller.commands.{ AddPlayerCommand, AddPokemonCommand }
 import model.impl.game.Game
 import model.impl.pokePlayer.PokePlayer
 import model.State.*
