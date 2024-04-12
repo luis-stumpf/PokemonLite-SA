@@ -1,4 +1,3 @@
-package de.htwg.se.pokelite
 package model.impl.game
 
 import model.PokemonType.{ Glurak, Simsala }
@@ -21,8 +20,8 @@ class GameSpec extends AnyWordSpec {
 
     "a winner is determined" should {
       "return true for hasWinner" in {
-        val winner = PokePlayer("Winner")
-        val game = Game(winner = Some(winner))
+        val winner = PokePlayer( "Winner" )
+        val game = Game( winner = Some( winner ) )
         game.hasWinner shouldBe true
       }
     }

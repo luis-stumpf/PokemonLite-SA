@@ -1,4 +1,3 @@
-package de.htwg.se.pokelite
 package model
 
 import org.scalatest.matchers.should.Matchers.*
@@ -30,9 +29,9 @@ class AttackSpec extends AnyWordSpec {
       val json2 = attack2.toJson
       val json3 = attack3.toJson
 
-      json1.toString() should be("""{"name":"Tackle","damage":30}""")
-      json2.toString() should be("""{"name":"Slam","damage":10}""")
-      json3.toString() should be("""{"name":"Flash","damage":50}""")
+      json1.toString() should be( """{"name":"Tackle","damage":30}""" )
+      json2.toString() should be( """{"name":"Slam","damage":10}""" )
+      json3.toString() should be( """{"name":"Flash","damage":50}""" )
     }
   }
 

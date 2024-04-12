@@ -2,11 +2,11 @@ package model.impl.field
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
-import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
-import de.htwg.se.pokelite.model.PokePack
-import de.htwg.se.pokelite.model.Pokemon
-import de.htwg.se.pokelite.model.PokemonType
-import de.htwg.se.pokelite.model.impl.field.MatrixField
+import model.impl.pokePlayer.PokePlayer
+import model.PokePack
+import model.Pokemon
+import model.PokemonType
+import model.impl.field.MatrixField
 
 class MatrixFieldSpec extends AnyWordSpec {
   "A MatrixField" when {

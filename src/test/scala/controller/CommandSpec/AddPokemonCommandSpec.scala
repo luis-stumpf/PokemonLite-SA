@@ -1,11 +1,14 @@
-package de.htwg.se.pokelite
 package model.CommandSpec
 
-import model.commands.{ AddPlayerCommand, AddPokemonCommand, AttackCommand }
+import controller.commands.{
+  AddPlayerCommand,
+  AddPokemonCommand,
+  AttackCommand
+}
 import model.impl.game.Game
 import model.impl.pokePlayer.PokePlayer
 import model.State.*
-import model.{ NoInput, NoPokemonSelected }
+import util.{ NoInput, NoPokemonSelected }
 
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec

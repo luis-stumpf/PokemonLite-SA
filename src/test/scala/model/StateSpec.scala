@@ -1,8 +1,7 @@
-package de.htwg.se.pokelite
 package model
 
 import model.GameInterface
-import model.commands.{ AddPlayerCommand, ChangeStateCommand }
+import controller.commands.{ AddPlayerCommand, ChangeStateCommand }
 import model.impl.game.Game
 import model.GameInterface
 import model.State.*

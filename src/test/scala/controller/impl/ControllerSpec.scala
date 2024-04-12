@@ -1,14 +1,12 @@
-package de.htwg.se.pokelite
 package controller.impl
 
 import model.PokemonType.Glurak
-import model.commands.ChangeStateCommand
+import controller.commands.ChangeStateCommand
 import model.impl.game.Game
 import model.impl.pokePlayer.*
 import model.State.*
 import util.{ Observer, UndoManager }
 import model.GameInterface
-import model.commands.*
 import model.FileIOInterface
 
 import org.scalatest.matchers.should.Matchers.*
@@ -88,7 +86,7 @@ class ControllerSpec extends AnyWordSpec {
       controller.doAndPublish( controller.addPokemons, "Glurak" )
       controller.game.state should be( InitPlayerPokemonState )
     }
-   /* "be able to save the game" in {
+    /* "be able to save the game" in {
       val initialGame = controller.game
       controller.save() match {
         case Success(savedGame) =>

@@ -1,19 +1,18 @@
-package de.htwg.se.pokelite
 package model.CommandSpec
 
-import model.commands.SelectNextMoveCommand
+import controller.commands.SelectNextMoveCommand
 import model.impl.game.Game
 import model.State.*
-import model.{ NoDesicionMade, NoInput }
+import util.{ NoDesicionMade, NoInput }
 
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
 import scala.util.Failure
-import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
-import de.htwg.se.pokelite.model.PokePack
-import de.htwg.se.pokelite.model.Pokemon
-import de.htwg.se.pokelite.model.PokemonType
+import model.impl.pokePlayer.PokePlayer
+import model.PokePack
+import model.Pokemon
+import model.PokemonType
 
 class SelectNextMoveCommandSpec extends AnyWordSpec {
   "SelectNextMoveCommand" when {

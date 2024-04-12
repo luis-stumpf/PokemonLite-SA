@@ -1,20 +1,28 @@
-ThisBuild / version := "0.1.0-SNAPSHOT"
-
-ThisBuild / scalaVersion := "3.3.3"
+val scala3Version = "3.3.3"
 
 Compile / mainClass := Some( "pokelite.PokemonLite" )
-mainClass in ( Compile, packageBin ) := Some( "pokelite.PokemonLite" )
+
+lazy val commonSettings = Seq(
+  version := "0.1.0-SNAPSHOT",
+  scalaVersion := scala3Version,
+  libraryDependencies ++= Seq(
+    "org.scalactic" %% "scalactic" % "3.2.18",
+    "org.scalatest" %% "scalatest" % "3.2.18" % "test"
+  )
+)
 
 lazy val util = ( project in file( "util" ) )
-  .settings( name := "PokemonLiteUtil" )
+  .settings( commonSettings, name := "PokemonLiteUtil" )
 
 lazy val root = ( project in file( "." ) )
-  .settings( name := "PokemonLite" )
+  .settings(
+    commonSettings,
+    name := "PokemonLite",
+    mainClass := Some( "pokelite.PokemonLite" )
+  )
   .dependsOn( util )
   .aggregate( util )
 
-libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.18"
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.18" % "test"
 //libraryDependencies += "org.scalamock" %% "scalamock" % "5.1.0" % Test
 
 libraryDependencies += "com.github.tototoshi" %% "scala-csv" % "1.3.10"

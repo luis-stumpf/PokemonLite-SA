@@ -1,4 +1,3 @@
-package de.htwg.se.pokelite
 package model.impl.fileIo.json
 
 import model.PokemonType.{ Glurak, Simsala }

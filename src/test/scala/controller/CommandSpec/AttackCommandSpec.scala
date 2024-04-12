@@ -1,10 +1,9 @@
-package de.htwg.se.pokelite
 package model.CommandSpec
 
-import model.commands.AttackCommand
+import controller.commands.AttackCommand
 import model.impl.game.Game
 import model.State.FightingState
-import model.{ NoInput, NoValidAttackSelected }
+import util.{ NoInput, NoValidAttackSelected }
 
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec

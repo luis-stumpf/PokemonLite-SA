@@ -1,8 +1,7 @@
-package de.htwg.se.pokelite
 package model.CommandSpec
 
-import model.NoInput
-import model.commands.AddPlayerCommand
+import util.NoInput
+import controller.commands.AddPlayerCommand
 import model.impl.game.Game
 import model.impl.pokePlayer.PokePlayer
 import model.State.*

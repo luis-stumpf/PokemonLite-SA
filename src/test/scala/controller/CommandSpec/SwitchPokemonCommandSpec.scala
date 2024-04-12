@@ -1,17 +1,17 @@
-package de.htwg.se.pokelite
 package model.CommandSpec
 
 import model.PokemonType.{ Glurak, Simsala }
-import model.commands.SwitchPokemonCommand
+import controller.commands.SwitchPokemonCommand
 import model.impl.game.Game
 import model.impl.pokePlayer.PokePlayer
 import model.State.*
-import model.{ NoInput, PokePack, Pokemon }
+import model.{ PokePack, Pokemon }
 
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
 import scala.util.{ Failure, Success }
+import util.NoInput
 
 class SwitchPokemonCommandSpec extends AnyWordSpec {
   "SwitchPokemonCommand" when {

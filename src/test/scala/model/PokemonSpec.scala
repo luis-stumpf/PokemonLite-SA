@@ -1,4 +1,3 @@
-package de.htwg.se.pokelite
 package model
 
 import model.PokemonType.Glurak
@@ -19,7 +18,7 @@ class PokemonSpec extends AnyWordSpec {
       pokemon.increaseHP( 20.0 ).toString should be( "Glurak HP: 150" )
     }
     "increase HP correctly" in {
-      pokemon.increaseHP(20.0) should be(pokemon)
+      pokemon.increaseHP( 20.0 ) should be( pokemon )
     }
     "get its HP" in {
       pokemon.getHp should be( 150 )
@@ -29,22 +28,23 @@ class PokemonSpec extends AnyWordSpec {
         val xml = <pokemon>
           <pType>Glurak</pType> <hp>150</hp> <isDead>false</isDead>
         </pokemon>
-        val parsedPokemon = Pokemon.fromXML(xml).get
-        parsedPokemon shouldBe Pokemon(PokemonType.Glurak)
+        val parsedPokemon = Pokemon.fromXML( xml ).get
+        parsedPokemon shouldBe Pokemon( PokemonType.Glurak )
       }
     }
 
     "A Pokemon from JSON" should {
       "be properly parsed" in {
-        val json = Json.obj("pType" -> "Glurak", "hp" -> 150, "isDead" -> false)
-        val parsedPokemon = Pokemon.fromJson(json).get
-        parsedPokemon shouldBe Pokemon(PokemonType.Glurak)
+        val json =
+          Json.obj( "pType" -> "Glurak", "hp" -> 150, "isDead" -> false )
+        val parsedPokemon = Pokemon.fromJson( json ).get
+        parsedPokemon shouldBe Pokemon( PokemonType.Glurak )
       }
     }
 
     "A Pokemon's JSON representation" should {
       "be correctly formed" in {
-        val pokemon = Pokemon(PokemonType.Glurak)
+        val pokemon = Pokemon( PokemonType.Glurak )
         val json = pokemon.toJson
         json.toString shouldBe """{"pType":"Glurak","hp":150,"isDead":false,"maxHp":150}"""
       }
