@@ -1,12 +1,12 @@
-package de.htwg.se.pokelite
 package controller.commands
 
-import model.{ Error, GameInterface, NoInput }
+import util.{ Error, NoInput }
+import model.GameInterface
 import model.State.*
 
 import scala.util.{ Failure, Success, Try }
-import de.htwg.se.pokelite.model.State
-import de.htwg.se.pokelite.util.Command
+import model.State
+import util.Command
 
 case class SwitchPokemonCommand( input: String, state: State )
     extends Command[GameInterface] {

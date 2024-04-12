@@ -1,4 +1,3 @@
-package de.htwg.se.pokelite
 package model.impl.game
 
 import model.*
@@ -12,6 +11,7 @@ import play.api.libs.json.{ JsValue, Json }
 
 import scala.util.{ Failure, Success, Try }
 import scala.xml.Node
+import util.*
 
 object Game extends GameRules {
 

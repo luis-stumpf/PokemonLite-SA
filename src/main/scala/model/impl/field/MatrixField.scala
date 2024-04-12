@@ -1,9 +1,8 @@
-package de.htwg.se.pokelite
 package model.impl.field
 
-import de.htwg.se.pokelite.model.PokePlayerInterface
-import de.htwg.se.pokelite.model.FieldInterface
-import de.htwg.se.pokelite.model.impl.pokePlayer.PokePlayer
+import model.PokePlayerInterface
+import model.FieldInterface
+import model.impl.pokePlayer.PokePlayer
 import com.google.inject.Inject
 import org.checkerframework.checker.units.qual.h
 import scala.util.chaining.scalaUtilChainingOps

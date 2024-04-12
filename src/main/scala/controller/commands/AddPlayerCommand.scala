@@ -1,10 +1,9 @@
-package de.htwg.se.pokelite
 package controller.commands
 
 import model.*
 import model.impl.game.Game
 import model.State.*
-import de.htwg.se.pokelite.util.Command
+import util.Command
 
 import scala.util.{ Failure, Success, Try }
 

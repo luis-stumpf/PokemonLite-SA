@@ -2,22 +2,14 @@ ThisBuild / version := "0.1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "3.3.3"
 
-Compile / mainClass := Some( "de.htwg.se.pokelite.PokemonLite" )
-mainClass in ( Compile, packageBin ) := Some(
-  "de.htwg.se.pokelite.PokemonLite"
-)
+Compile / mainClass := Some( "pokelite.PokemonLite" )
+mainClass in ( Compile, packageBin ) := Some( "pokelite.PokemonLite" )
 
 lazy val util = ( project in file( "util" ) )
-  .settings(
-    name := "PokemonLiteUtil",
-    idePackagePrefix := Some( "de.htwg.se.pokelite.util" )
-  )
+  .settings( name := "PokemonLiteUtil" )
 
 lazy val root = ( project in file( "." ) )
-  .settings(
-    name := "PokemonLite",
-    idePackagePrefix := Some( "de.htwg.se.pokelite" )
-  )
+  .settings( name := "PokemonLite" )
   .dependsOn( util )
   .aggregate( util )
 

@@ -1,4 +1,4 @@
-package de.htwg.se.pokelite
+package pokelite
 
 import aview.TUI
 import aview.gui.GUI

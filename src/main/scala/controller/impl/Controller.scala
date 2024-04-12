@@ -1,8 +1,7 @@
-package de.htwg.se.pokelite.controller.impl
+package controller.impl
 
 import com.google.inject.{ CreationException, Guice, Inject }
-import de.htwg.se.pokelite.PokemonLiteModule
-import de.htwg.se.pokelite.controller.{
+import controller.{
   AttackEvent,
   ControllerInterface,
   GameOver,
@@ -11,16 +10,16 @@ import de.htwg.se.pokelite.controller.{
   StateChanged,
   UnknownCommand
 }
-import de.htwg.se.pokelite.model.impl.game.Game
-import de.htwg.se.pokelite.model.State.*
-import de.htwg.se.pokelite.model.{ FileIOInterface, GameInterface }
-import de.htwg.se.pokelite.util.UndoManager
-import de.htwg.se.pokelite.util.Command
+import model.impl.game.Game
+import model.State.*
+import model.{ FileIOInterface, GameInterface }
+import util.UndoManager
+import util.Command
+import util.Observer
 
 import scala.util.{ Failure, Success, Try }
 import scala.swing.Publisher
-import de.htwg.se.pokelite.PokemonLite.controller
-import de.htwg.se.pokelite.controller.commands.{
+import controller.commands.{
   AddPokemonCommand,
   LoadCommand,
   AddPlayerCommand,
@@ -31,6 +30,7 @@ import de.htwg.se.pokelite.controller.commands.{
   SaveCommand,
   GameOverCommand
 }
+import pokelite.PokemonLiteModule
 
 case class Controller @Inject() () extends ControllerInterface:
   val undoManager = new UndoManager[GameInterface]

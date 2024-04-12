@@ -1,9 +1,8 @@
-package de.htwg.se.pokelite
 package controller.commands
 
 import model.impl.game.Game
 import model.{ GameInterface, State }
-import de.htwg.se.pokelite.util.Command
+import util.Command
 
 import scala.util.{ Try, Success }
 

@@ -1,5 +1,4 @@
-package de.htwg.se.pokelite
-package model
+package util
 
 trait Error extends Throwable
 
