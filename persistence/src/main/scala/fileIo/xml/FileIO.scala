@@ -1,8 +1,8 @@
-package model.impl.fileIo.xml
+package fileIo.xml
 
 import model.impl.game.Game
-import model.{ FileIOInterface, GameInterface }
-
+import fileIo.FileIOInterface
+import model.GameInterface
 import java.io.{ File, PrintWriter }
 import scala.xml.{ Elem, Node, PrettyPrinter }
 

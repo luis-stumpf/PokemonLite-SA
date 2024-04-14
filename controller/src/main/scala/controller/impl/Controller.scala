@@ -13,7 +13,9 @@ import controller.{
 
 import model.impl.game.Game
 import model.State.*
-import model.{ FileIOInterface, GameInterface }
+import model.GameInterface
+
+import fileIo.FileIOInterface
 import util.UndoManager
 import util.Command
 import util.Observer
@@ -36,7 +38,7 @@ case class Controller @Inject() () extends ControllerInterface:
   val undoManager = new UndoManager[GameInterface]
   var game: GameInterface = Game()
 
-  private val fileIO = new model.impl.fileIo.json.FileIO
+  private val fileIO = new fileIo.json.FileIO
 
   /*Guice
     .createInjector( new PokemonLiteModule )

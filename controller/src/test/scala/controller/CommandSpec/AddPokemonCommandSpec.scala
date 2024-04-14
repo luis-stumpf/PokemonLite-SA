@@ -1,4 +1,4 @@
-package model.CommandSpec
+package controller.CommandSpec
 
 import controller.commands.{ AddPlayerCommand, AddPokemonCommand }
 import model.impl.game.Game

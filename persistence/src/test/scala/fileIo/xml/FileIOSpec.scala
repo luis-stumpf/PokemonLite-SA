@@ -1,4 +1,4 @@
-package model.impl.fileIo.json
+package fileIo.xml
 
 import model.PokemonType.{ Glurak, Simsala }
 import model.impl.game.Game
@@ -24,14 +24,15 @@ class FileIOSpec extends AnyWordSpec {
       )
     )
   )
-  "The FileIO with the Json implement" should {
+  "The FileIO with the XML implement" should {
     "save the current game" in {
       fileIO.save( game )
-      val res = fileIO.load
-      res should be( game )
-
     }
 
-  }
+    "load a game an its stats from game.xml" in {
 
+      fileIO.load should be( game )
+
+    }
+  }
 }

@@ -1,14 +1,14 @@
 {
   "game" : {
     "state" : {
-      "stateVal" : "FightingState"
+      "stateVal" : "DesicionState"
     },
     "player1" : {
       "name" : "Luis",
       "pokemons" : {
         "contents" : [ {
           "pType" : "Glurak",
-          "hp" : 150,
+          "hp" : 140,
           "isDead" : false,
           "maxHp" : 150
         } ],
@@ -21,7 +21,7 @@
       "pokemons" : {
         "contents" : [ {
           "pType" : "Simsala",
-          "hp" : 130,
+          "hp" : 50,
           "isDead" : false,
           "maxHp" : 130
         } ],
@@ -29,7 +29,7 @@
       },
       "currentPoke" : 0
     },
-    "turn" : 1,
+    "turn" : 2,
     "winner" : "None"
   }
 }

@@ -2,7 +2,7 @@ package controller.commands
 
 import model.GameInterface
 import scala.util.Try
-import model.FileIOInterface
+import fileIo.FileIOInterface
 import scala.util.Success
 import scala.util.Failure
 import util.CanNotUndoLoad

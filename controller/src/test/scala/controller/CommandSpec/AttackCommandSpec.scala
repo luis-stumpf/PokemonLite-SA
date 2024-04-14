@@ -1,4 +1,4 @@
-package model.CommandSpec
+package controller.CommandSpec
 
 import controller.commands.AttackCommand
 import model.impl.game.Game

@@ -1,4 +1,4 @@
-package model.CommandSpec
+package controller.CommandSpec
 
 import model.PokemonType.{ Glurak, Simsala }
 import controller.commands.SwitchPokemonCommand

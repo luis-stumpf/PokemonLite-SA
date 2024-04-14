@@ -1,4 +1,4 @@
-package model.CommandSpec
+package controller.CommandSpec
 
 import util.NoInput
 import controller.commands.AddPlayerCommand

@@ -25,6 +25,10 @@ lazy val commonSettings = Seq(
   }
 )
 
+lazy val persistence = ( project in file( "persistence" ) )
+  .settings( commonSettings, name := "PokemonLitePersistence" )
+  .dependsOn( model )
+
 lazy val util = ( project in file( "util" ) )
   .settings( commonSettings, name := "PokemonLiteUtil" )
 
@@ -43,7 +47,9 @@ lazy val model = ( project in file( "model" ) )
 lazy val controller = ( project in file( "controller" ) )
   .settings( commonSettings, name := "PokemonLiteController" )
   .dependsOn( model )
+  .dependsOn( persistence )
   .aggregate( model )
+  .aggregate( persistence )
 
 lazy val tui = ( project in file( "tui" ) )
   .settings( commonSettings, name := "PokemonLiteTUI" )
@@ -59,8 +65,8 @@ lazy val root = ( project in file( "." ) )
     name := "PokemonLite",
     mainClass := Some( "PokemonLite" )
   )
-  .dependsOn( util, model, controller, tui, gui )
-  .aggregate( util, model, controller, tui, gui )
+  .dependsOn( util, model, controller, tui, gui, persistence )
+  .aggregate( util, model, controller, tui, gui, persistence )
 
 libraryDependencies ++= {
   // Determine OS version of JavaFX binaries

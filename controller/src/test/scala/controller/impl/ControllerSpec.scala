@@ -7,7 +7,7 @@ import model.impl.pokePlayer.*
 import model.State.*
 import util.{ Observer, UndoManager }
 import model.GameInterface
-import model.FileIOInterface
+import fileIo.FileIOInterface
 
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec

@@ -1,4 +1,6 @@
-package model
+package fileIo
+
+import model.GameInterface
 
 trait FileIOInterface {
   def load: GameInterface

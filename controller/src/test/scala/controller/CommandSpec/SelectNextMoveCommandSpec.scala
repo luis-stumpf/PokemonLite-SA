@@ -1,4 +1,4 @@
-package model.CommandSpec
+package controller.CommandSpec
 
 import controller.commands.SelectNextMoveCommand
 import model.impl.game.Game

@@ -1,7 +1,8 @@
-package model.impl.fileIo.json
+package fileIo.json
 
 import model.impl.game.Game
-import model.{ FileIOInterface, GameInterface }
+import fileIo.FileIOInterface
+import model.GameInterface
 
 import play.api.libs.json.Json
 
