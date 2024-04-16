@@ -35,3 +35,6 @@ classes/
 # Visual Studio Code
 
 .metals
+
+game.xml
+game.json

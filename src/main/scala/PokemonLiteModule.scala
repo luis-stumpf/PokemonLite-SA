@@ -1,3 +1,4 @@
+package main
 import com.google.inject.AbstractModule
 import com.google.inject.name.Names
 import controller.*

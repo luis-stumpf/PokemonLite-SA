@@ -1,8 +1,8 @@
 # PokemonLite
 
-![MAIN status](https://github.com/luis-stumpf/PokemonLite/actions/workflows/scala.yml/badge.svg)
+![MAIN status](https://github.com/luis-stumpf/PokemonLite-SA/actions/workflows/scala.yml/badge.svg)
 
-[![codecov](https://codecov.io/gh/luis-stumpf/PokemonLite/undo-pokepack-refactor/development/graph/badge.svg?token=XIYI73J361)](https://codecov.io/gh/luis-stumpf/PokemonLite)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/63df787ecca548c69a32f317b3c0949b)](https://app.codacy.com/gh/luis-stumpf/PokemonLite-SA/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 
 Welcome to PokemonLite. This game works like the battle phase in a classic Pokemon game
 
