@@ -1,21 +1,18 @@
-package de.htwg.se.pokelite
-
-import aview.TUI
-import aview.gui.GUI
-import controller.impl
-import controller.impl.Controller
-
 import com.google.inject.{ Guice, Injector }
 import scalafx.application.Platform
 
 import javax.inject.Inject
 import scala.io.StdIn.readLine
 import java.io.IOException
+import controller.ControllerInterface
+import tui.TUI
+import gui.GUI
 
 object PokemonLite {
   val inject: Injector = Guice.createInjector( new PokemonLiteModule )
-  val controller: Controller = inject.getInstance( classOf[Controller] )
-  val gui: GUI = GUI( controller )
+  val controller =
+    inject.getInstance( classOf[ControllerInterface] )
+  val gui = GUI( controller )
   val tui = TUI( controller )
   var input = ""
 
