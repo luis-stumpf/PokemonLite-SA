@@ -1,3 +1,4 @@
+import com.github.sbt.jacoco.report.JacocoReportFormats
 val scala3Version = "3.4.1"
 
 lazy val commonSettings = Seq(
@@ -22,7 +23,14 @@ lazy val commonSettings = Seq(
     }
     Seq( "base", "controls", "fxml", "graphics", "media", "swing", "web" )
       .map( m => "org.openjfx" % s"javafx-$m" % "20" )
-  }
+  },
+  jacocoExcludes := Seq(
+    "*gui*",
+    "*tui.TUI*",
+    "*util.Observable*",
+    "*util.UndoManager*",
+    "*main*"
+  )
 )
 
 lazy val persistence = ( project in file( "persistence" ) )
@@ -63,7 +71,11 @@ lazy val root = ( project in file( "." ) )
   .settings(
     commonSettings,
     name := "PokemonLite",
-    mainClass := Some( "PokemonLite" )
+    mainClass := Some( "PokemonLite" ),
+    jacocoAggregateReportSettings := JacocoReportSettings(
+      title = "Project Coverage",
+      formats = Seq( JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML )
+    )
   )
   .dependsOn( util, model, controller, tui, gui, persistence )
   .aggregate( util, model, controller, tui, gui, persistence )
@@ -89,13 +101,6 @@ jacocoReportSettings := JacocoReportSettings(
     JacocoReportFormats.XML
   ), // note XML formatter
   "utf-8"
-)
-
-jacocoExcludes := Seq(
-  "de.htwg.se.pokelite.aview*",
-  "de.htwg.se.pokelite.util.Observable*",
-  "de.htwg.se.pokelite.model.FieldInterface",
-  "de.htwg.se.pokelite.PokemonLite*"
 )
 
 assemblyMergeStrategy in assembly := {

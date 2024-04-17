@@ -1,3 +1,4 @@
+package main
 import com.google.inject.{ Guice, Injector }
 import scalafx.application.Platform
 
