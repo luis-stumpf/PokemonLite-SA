@@ -50,6 +50,10 @@ case class PokePack( contents: List[Option[Pokemon]], size: Int ):
 
   def toJson: JsValue =
     Json.obj(
-      "contents" -> Json.toJson( contents.map( e => e.get.toJson ) ),
+      "contents" -> Json.toJson(
+        contents.map( e =>
+          e.map( _.toJson ).getOrElse( Json.toJson( "None" ) )
+        )
+      ),
       "size" -> Json.toJson( size )
     )

@@ -45,6 +45,29 @@ case class Controller @Inject() () extends ControllerInterface:
     .getInstance( classOf[FileIOInterface] )
    */
 
+  def handleRequest(
+    doThis: String => Try[GameInterface],
+    input: String
+  ): Try[GameInterface] = {
+    doThis( input ) match {
+      case Success( newGame ) =>
+        game = newGame
+        Success( newGame )
+      case Failure( x ) =>
+        Failure( x )
+    }
+  }
+
+  def handleRequest( doThis: () => Try[GameInterface] ): Try[GameInterface] = {
+    doThis() match
+      case Success( newGame ) =>
+        game = newGame
+        Success( newGame )
+      case Failure( x ) =>
+        Failure( x )
+
+  }
+
   def doAndPublish( doThis: String => Try[GameInterface], input: String ) = {
     game = doThis( input ) match {
       case Success( newGame ) =>
@@ -83,6 +106,12 @@ case class Controller @Inject() () extends ControllerInterface:
 
   def addPokemons( list: String ): Try[GameInterface] =
     undoManager.doStep( game, AddPokemonCommand( list, game.state ) )
+
+  def addPokemons( list: List[Int] ): Try[GameInterface] =
+    undoManager.doStep(
+      game,
+      AddPokemonCommand( list.mkString( "" ), game.state )
+    )
 
   def nextMove( input: String ): Try[GameInterface] =
     undoManager.doStep( game, SelectNextMoveCommand( input, game.state ) )

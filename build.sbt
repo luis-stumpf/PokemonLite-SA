@@ -1,17 +1,24 @@
 import com.github.sbt.jacoco.report.JacocoReportFormats
 val scala3Version = "3.4.1"
+val AkkaVersion = "2.9.2"
+val AkkaHttpVersion = "10.6.2"
 
 lazy val commonSettings = Seq(
   version := "0.1.0-SNAPSHOT",
   scalaVersion := scala3Version,
   organization := "de.htwg.se",
+  resolvers += "Akka library repository".at( "https://repo.akka.io/maven" ),
   libraryDependencies ++= Seq(
     "org.scalactic" %% "scalactic" % "3.2.18",
     "org.scalatest" %% "scalatest" % "3.2.18" % "test",
     "com.google.inject.extensions" % "guice-assistedinject" % "5.1.0",
     ( "org.scala-lang.modules" %% "scala-swing" % "3.0.0" )
       .cross( CrossVersion.for3Use2_13 ),
-    "org.scalafx" %% "scalafx" % "20.0.0-R31"
+    "org.scalafx" %% "scalafx" % "20.0.0-R31",
+    "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
+    "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
+    "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
+    "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion
   ),
   libraryDependencies ++= {
     // Determine OS version of JavaFX binaries
@@ -35,7 +42,7 @@ lazy val commonSettings = Seq(
 
 lazy val persistence = ( project in file( "persistence" ) )
   .settings( commonSettings, name := "PokemonLitePersistence" )
-  .dependsOn( model )
+  .dependsOn( model, util )
 
 lazy val util = ( project in file( "util" ) )
   .settings( commonSettings, name := "PokemonLiteUtil" )

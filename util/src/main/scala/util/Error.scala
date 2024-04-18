@@ -27,6 +27,9 @@ case object NoSaveGameFound extends Error:
   override def toString: String = "Error: Could not find Command."
  */
 
+case object WrongState extends Error:
+  override def toString: String = "Error: The Game is in the wrong state."
+
 case object NoInput extends Error:
   override def toString: String = "Error: Please Enter a valid input."
 
@@ -73,3 +76,7 @@ case object CanNotUndoSave extends Error:
 case object CanNotUndoLoad extends Error:
   override def toString: String =
     "You cant undo a load command."
+
+case object CouldNotLoadGame extends Error:
+  override def toString: String =
+    "Could not load the game."
