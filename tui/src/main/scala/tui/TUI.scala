@@ -7,7 +7,7 @@ import util.*
 import scala.io.StdIn.readLine
 import scala.util.{ Failure, Success, Try }
 
-class TUI( controller: ControllerInterface ) extends Observer:
+class TUI( using controller: ControllerInterface ) extends Observer:
 
   controller.add( this )
 
@@ -19,6 +19,7 @@ class TUI( controller: ControllerInterface ) extends Observer:
       controller.doAndPublish( controller.redoMove )
     else if input == "save" then controller.doAndPublish( controller.save )
     else if input == "load" then controller.doAndPublish( controller.load )
+    else if input == "get" then controller.doAndPublish( controller.getGame )
     else
       controller.game.state match
         case InitState =>
@@ -62,8 +63,9 @@ class TUI( controller: ControllerInterface ) extends Observer:
     "Enter name of Player " + controller.game.turn + ": "
 
   def getCurrentPlayerName: String =
-    if controller.game.turn == 1 then controller.game.player1.get.name
-    else controller.game.player2.get.name
+    if controller.game.turn == 1 then
+      controller.game.player1.map( _.name ).getOrElse( "" )
+    else controller.game.player2.map( _.name ).getOrElse( "" )
 
   def availablePokemon: String =
     "Choose your Pokemon " + getCurrentPlayerName + ": \n" +

@@ -7,14 +7,22 @@ import controller.ControllerInterface
 import tui.TUI
 import gui.GUI
 import di.PokemonLiteModule.given_ControllerInterface as Controller
+import controller.ControllerRestApi
+import persistence.PersistenceRestApi
+import service.TuiService
+import service.TuiRestService
 
 object PokemonLite {
   val controller = Controller
-  val gui = GUI( controller )
-  val tui = TUI( controller )
+  val controllerService = ControllerRestApi.run()
+  val persistenceService = PersistenceRestApi.run()
+
+  // val gui = GUI( controller )
   var input = ""
 
   def main( args: Array[String] ): Unit = {
+    TuiRestService
+    /*
     val guiTread = new Thread( () => {
       gui.main( Array.empty )
       System.exit( 0 )
@@ -23,13 +31,9 @@ object PokemonLite {
     guiTread.start()
 
     processInput()
-    /*
-    while (input != "quit")
-      input = readLine()
-      tui.processInputLine( input )
      */
   }
-
+  /*
   def processInput(): Unit = {
     try {
       val input = readLine()
@@ -41,4 +45,5 @@ object PokemonLite {
       case e: IOException => e.printStackTrace()
     }
   }
+   */
 }

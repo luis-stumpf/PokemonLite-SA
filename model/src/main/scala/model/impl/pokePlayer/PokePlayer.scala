@@ -23,9 +23,13 @@ object PokePlayer {
     )
 
   def fromJson( json: JsValue ): Option[PokePlayer] =
+    if (json == Json.obj()) return None
     Some(
       PokePlayer(
-        name = ( json \ "name" ).get.toString.replace( "\"", "" ),
+        name = ( json \ "name" )
+          .getOrElse( Json.parse( "" ) )
+          .toString
+          .replace( "\"", "" ),
         pokemons = PokePack.fromJson( ( json \\ "pokemons" ).head ),
         currentPoke = ( json \ "currentPoke" ).as[Int]
       )

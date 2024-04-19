@@ -51,12 +51,12 @@ class PersistenceRestService() {
     )
 
   def start(): Unit = {
-    val binding = Http().newServerAt( "localhost", 9002 ).bind( route )
+    val binding = Http().newServerAt( "localhost", 4002 ).bind( route )
 
     binding.onComplete {
       case Success( binding ) =>
         println(
-          s"PokemonLite PersistenceAPI service online at http://localhost:9002/"
+          s"PokemonLite PersistenceAPI service online at http://localhost:4002/"
         )
       case Failure( exception ) =>
         println(

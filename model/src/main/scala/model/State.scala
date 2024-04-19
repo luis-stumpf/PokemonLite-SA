@@ -40,8 +40,9 @@ object State {
       case "FightingState"          => FightingState
       case "GameOverState"          => GameOverState
       case "InitPlayerPokemonState" => InitPlayerPokemonState
-      case "InitPlayerState"        => InitPlayerPokemonState
+      case "InitPlayerState"        => InitPlayerState
       case "SwitchPokemonState"     => SwitchPokemonState
+      case "InitState"              => InitState
     }
     state
 }

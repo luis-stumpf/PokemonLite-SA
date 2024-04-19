@@ -20,13 +20,6 @@ trait ControllerInterface extends Observable with Publisher:
 
   def doAndPublish( doThis: () => Try[GameInterface] ): Unit
 
-  def handleRequest(
-    doThis: String => Try[GameInterface],
-    command: String
-  ): Try[GameInterface]
-
-  def handleRequest( doThis: () => Try[GameInterface] ): Try[GameInterface]
-
   def undoMove(): Try[GameInterface]
 
   def redoMove(): Try[GameInterface]
@@ -48,6 +41,8 @@ trait ControllerInterface extends Observable with Publisher:
   def save(): Try[GameInterface]
 
   def load(): Try[GameInterface]
+
+  def getGame(): Try[GameInterface]
 
 class PlayerChanged extends Event
 

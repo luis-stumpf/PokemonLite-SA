@@ -7,6 +7,7 @@ import play.api.libs.json.{ JsValue, Json }
 
 import scala.xml.Node
 import scala.xml.NodeSeq.fromSeq
+import play.api.libs.json.JsNull
 
 object PokePack {
   def apply( contents: List[Option[Pokemon]] ): PokePack =
@@ -24,7 +25,9 @@ object PokePack {
     val contentNodes = ( json \ "contents" ).validate[List[JsValue]].get
 
     PokePack(
-      contents = contentNodes.map( n => Pokemon.fromJson( n ) ).toList,
+      contents = contentNodes
+        .map( n => if (n == JsNull) None else Pokemon.fromJson( n ) )
+        .toList,
       size = ( json \ "size" ).as[Int]
     )
 }
@@ -50,10 +53,6 @@ case class PokePack( contents: List[Option[Pokemon]], size: Int ):
 
   def toJson: JsValue =
     Json.obj(
-      "contents" -> Json.toJson(
-        contents.map( e =>
-          e.map( _.toJson ).getOrElse( Json.toJson( "None" ) )
-        )
-      ),
+      "contents" -> Json.toJson( contents.map( e => e.map( _.toJson ) ) ),
       "size" -> Json.toJson( size )
     )

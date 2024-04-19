@@ -37,32 +37,42 @@ class ControllerRestService( using controller: ControllerInterface ) {
           )
         }
       },
+      get {
+        path( "controller" / "game" ) {
+          complete(
+            HttpEntity(
+              ContentTypes.`application/json`,
+              controller.game.toJson.toString()
+            )
+          )
+        }
+      },
       post {
         path( "controller" / Segment ) { command =>
           parameter( "input" ) { input =>
-            val gameTry = command match {
+            command match {
               case "initPlayers" =>
-                controller.handleRequest( controller.initPlayers )
+                controller.doAndPublish( controller.initPlayers )
               case "addPlayer" =>
-                controller.handleRequest( controller.addPlayer, input )
+                controller.doAndPublish( controller.addPlayer, input )
               case "addPokemons" =>
-                controller.handleRequest( controller.addPokemons, input )
+                controller.doAndPublish( controller.addPokemons, input )
               case "next" =>
-                controller.handleRequest( controller.nextMove, input )
+                controller.doAndPublish( controller.nextMove, input )
               case "attack" =>
-                controller.handleRequest( controller.attackWith, input )
+                controller.doAndPublish( controller.attackWith, input )
               case "switchPokemon" =>
-                controller.handleRequest( controller.selectPokemon, input )
+                controller.doAndPublish( controller.selectPokemon, input )
               case "gameOver" =>
-                controller.handleRequest( controller.restartTheGame )
-              case "save" => controller.handleRequest( controller.save )
-              case "load" => controller.handleRequest( controller.load )
-              case "undo" => controller.handleRequest( controller.undoMove )
-              case "redo" => controller.handleRequest( controller.redoMove )
+                controller.doAndPublish( controller.restartTheGame )
+              case "save" => controller.doAndPublish( controller.save )
+              case "load" => controller.doAndPublish( controller.load )
+              case "undo" => controller.doAndPublish( controller.undoMove )
+              case "redo" => controller.doAndPublish( controller.redoMove )
               case _      => ""
             }
 
-            gameTry match {
+            controller.getGame() match {
               case Success( game ) =>
                 complete(
                   HttpEntity(
@@ -79,13 +89,6 @@ class ControllerRestService( using controller: ControllerInterface ) {
                       .toString()
                   )
                 )
-              case _: String =>
-                complete(
-                  HttpEntity(
-                    ContentTypes.`application/json`,
-                    "Invalid command"
-                  )
-                )
             }
 
           }
@@ -94,12 +97,12 @@ class ControllerRestService( using controller: ControllerInterface ) {
     )
 
   def start(): Unit = {
-    val binding = Http().newServerAt( "localhost", 9001 ).bind( route )
+    val binding = Http().newServerAt( "localhost", 4001 ).bind( route )
 
     binding.onComplete {
       case Success( binding ) =>
         println(
-          s"PokemonLite ControllerAPI service online at http://localhost:9001/"
+          s"PokemonLite ControllerAPI service online at http://localhost:4001/"
         )
       case Failure( exception ) =>
         println(

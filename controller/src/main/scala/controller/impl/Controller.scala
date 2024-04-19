@@ -35,33 +35,14 @@ import controller.commands.{
 
 class Controller( using val fileIO: FileIOInterface )
     extends ControllerInterface:
+
   val undoManager = new UndoManager[GameInterface]
   var game: GameInterface = Game()
 
-  def handleRequest(
+  def doAndPublish(
     doThis: String => Try[GameInterface],
     input: String
-  ): Try[GameInterface] = {
-    doThis( input ) match {
-      case Success( newGame ) =>
-        game = newGame
-        Success( newGame )
-      case Failure( x ) =>
-        Failure( x )
-    }
-  }
-
-  def handleRequest( doThis: () => Try[GameInterface] ): Try[GameInterface] = {
-    doThis() match
-      case Success( newGame ) =>
-        game = newGame
-        Success( newGame )
-      case Failure( x ) =>
-        Failure( x )
-
-  }
-
-  def doAndPublish( doThis: String => Try[GameInterface], input: String ) = {
+  ): Unit = {
     game = doThis( input ) match {
       case Success( newGame ) =>
         newGame
@@ -73,7 +54,7 @@ class Controller( using val fileIO: FileIOInterface )
     notifyObservers()
   }
 
-  def doAndPublish( doThis: () => Try[GameInterface] ) = {
+  def doAndPublish( doThis: () => Try[GameInterface] ): Unit = {
     game = doThis() match {
       case Success( newGame ) =>
         newGame
@@ -140,3 +121,5 @@ class Controller( using val fileIO: FileIOInterface )
 
   def load(): Try[GameInterface] =
     undoManager.doStep( game, LoadCommand( fileIO ) )
+
+  def getGame(): Try[GameInterface] = Success( game )

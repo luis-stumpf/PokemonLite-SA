@@ -1,3 +1,5 @@
+package persistence
+
 import service.PersistenceRestService
 
 object PersistenceRestApi {
