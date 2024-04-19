@@ -8,7 +8,7 @@ import scala.xml.{ Elem, Node, PrettyPrinter }
 import play.api.libs.json.JsValue
 import play.api.libs.json.Json
 
-class FileIO extends FileIOInterface {
+class FileIOXml extends FileIOInterface {
   override def load: GameInterface = {
     val xml = scala.xml.XML.loadFile( "game.xml" )
     Game.fromXML( xml )

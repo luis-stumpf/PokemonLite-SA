@@ -1,18 +1,15 @@
 package main
-import com.google.inject.{ Guice, Injector }
 import scalafx.application.Platform
 
-import javax.inject.Inject
 import scala.io.StdIn.readLine
 import java.io.IOException
 import controller.ControllerInterface
 import tui.TUI
 import gui.GUI
+import di.PokemonLiteModule.given_ControllerInterface as Controller
 
 object PokemonLite {
-  val inject: Injector = Guice.createInjector( new PokemonLiteModule )
-  val controller =
-    inject.getInstance( classOf[ControllerInterface] )
+  val controller = Controller
   val gui = GUI( controller )
   val tui = TUI( controller )
   var input = ""

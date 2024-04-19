@@ -16,7 +16,7 @@ import play.api.libs.json.Json
 
 class ControllerRestService( using controller: ControllerInterface ) {
 
-  implicit val system: ActorSystem[_] =
+  implicit val system: ActorSystem[?] =
     ActorSystem( Behaviors.empty, "SprayExample" )
   implicit val executionContext: ExecutionContext = system.executionContext
 

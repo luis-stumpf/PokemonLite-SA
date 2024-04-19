@@ -1,6 +1,5 @@
 package controller.impl
 
-import com.google.inject.{ CreationException, Guice, Inject }
 import controller.{
   AttackEvent,
   ControllerInterface,
@@ -34,16 +33,10 @@ import controller.commands.{
   GameOverCommand
 }
 
-case class Controller @Inject() () extends ControllerInterface:
+class Controller( using val fileIO: FileIOInterface )
+    extends ControllerInterface:
   val undoManager = new UndoManager[GameInterface]
   var game: GameInterface = Game()
-
-  private val fileIO = new fileIo.json.FileIO
-
-  /*Guice
-    .createInjector( new PokemonLiteModule )
-    .getInstance( classOf[FileIOInterface] )
-   */
 
   def handleRequest(
     doThis: String => Try[GameInterface],
