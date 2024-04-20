@@ -25,8 +25,11 @@ class FileIOXml extends FileIOInterface {
 
   override def save( gameJson: JsValue ): Unit = {
     val pw = new PrintWriter( new File( "game.json" ) )
-    // val prettyPrinter = new PrettyPrinter( 120, 4 )
-    val xml = Json.prettyPrint( gameJson )
+
+    val asGame = Game.fromJson( gameJson )
+
+    val prettyPrinter = new PrettyPrinter( 120, 4 )
+    val xml = prettyPrinter.format( asGame.toXML )
     pw.write( xml )
     pw.close()
   }
