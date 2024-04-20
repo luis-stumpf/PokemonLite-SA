@@ -31,6 +31,17 @@ lazy val commonSettings = Seq(
     Seq( "base", "controls", "fxml", "graphics", "media", "swing", "web" )
       .map( m => "org.openjfx" % s"javafx-$m" % "20" )
   },
+  libraryDependencies ++= {
+    // Determine OS version of JavaFX binaries
+    lazy val osName = System.getProperty( "os.name" ) match {
+      case n if n.startsWith( "Linux" )   => "linux"
+      case n if n.startsWith( "Mac" )     => "mac"
+      case n if n.startsWith( "Windows" ) => "win"
+      case _ => throw new Exception( "Unknown platform!" )
+    }
+    Seq( "base", "controls", "fxml", "graphics", "media", "swing", "web" )
+      .map( m => "org.openjfx" % s"javafx-$m" % "20" )
+  },
   jacocoExcludes := Seq(
     "*gui*",
     "*tui.TUI*",
@@ -86,18 +97,6 @@ lazy val root = ( project in file( "." ) )
   )
   .dependsOn( util, model, controller, tui, gui, persistence )
   .aggregate( util, model, controller, tui, gui, persistence )
-
-libraryDependencies ++= {
-  // Determine OS version of JavaFX binaries
-  lazy val osName = System.getProperty( "os.name" ) match {
-    case n if n.startsWith( "Linux" )   => "linux"
-    case n if n.startsWith( "Mac" )     => "mac"
-    case n if n.startsWith( "Windows" ) => "win"
-    case _ => throw new Exception( "Unknown platform!" )
-  }
-  Seq( "base", "controls", "fxml", "graphics", "media", "swing", "web" )
-    .map( m => "org.openjfx" % s"javafx-$m" % "20" )
-}
 
 jacocoReportSettings := JacocoReportSettings(
   "Jacoco Coverage Report",

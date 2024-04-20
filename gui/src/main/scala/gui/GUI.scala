@@ -26,7 +26,9 @@ import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.{ Font, FontWeight, Text }
 import scalafx.scene.{ Node, Scene }
 
-class GUI( val controller: ControllerInterface ) extends JFXApp3 with Observer {
+class GUI( using controller: ControllerInterface )
+    extends JFXApp3
+    with Observer {
 
   controller.add( this )
 
