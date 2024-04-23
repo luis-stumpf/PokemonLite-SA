@@ -9,6 +9,11 @@ object ControllerModule:
     PersistenceModule.given_FileIOInterface
   )
 
+object ControllerRestServerModule:
+  given ControllerInterface = Controller( using
+    PersistenceRestModule.given_FileIOInterface
+  )
+
 object ControllerRestModule:
   given ControllerInterface = ControllerRestClient( using
     PersistenceModule.given_FileIOInterface

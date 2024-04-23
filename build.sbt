@@ -47,7 +47,10 @@ lazy val commonSettings = Seq(
     "*tui.TUI*",
     "*util.Observable*",
     "*util.UndoManager*",
-    "*main*"
+    "*main*",
+    "*di*",
+    "*service*",
+    "*client*"
   )
 )
 

@@ -15,9 +15,9 @@ import play.api.libs.json.Json
 import model.GameInterface
 import model.impl.game.Game
 
-import di.PersistenceModule.given_FileIOInterface as fileIO
+import fileIo.FileIOInterface
 
-class PersistenceRestService() {
+class PersistenceRestService( using fileIO: FileIOInterface ) {
 
   implicit val system: ActorSystem[?] =
     ActorSystem( Behaviors.empty, "SprayExample" )
@@ -40,6 +40,7 @@ class PersistenceRestService() {
       },
       get {
         path( "load" ) {
+          println( "test" )
           complete(
             HttpEntity(
               ContentTypes.`application/json`,

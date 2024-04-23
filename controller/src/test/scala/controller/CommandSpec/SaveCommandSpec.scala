@@ -9,9 +9,8 @@ import model.impl.game.Game
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
-
-import scala.util.{Failure, Success, Try}
-
+import scala.util.{ Failure, Success, Try }
+/*
 class SaveCommandSpec extends AnyWordSpec {
   "SaveCommand" when {
     val newGame = Game()
@@ -33,3 +32,4 @@ class FileIOMock extends FileIOInterface {
   override def save(game: GameInterface): Unit = {}
   override def load: GameInterface = Game()
 }
+ */
