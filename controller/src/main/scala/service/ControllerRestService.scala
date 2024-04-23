@@ -20,11 +20,38 @@ class ControllerRestService( using controller: ControllerInterface ) {
     ActorSystem( Behaviors.empty, "SprayExample" )
   implicit val executionContext: ExecutionContext = system.executionContext
 
+  val routes = """<!DOCTYPE html>
+<html>
+<head>
+    <title>ControllerRestService API Documentation</title>
+</head>
+<body>
+    <h1>ControllerRestService API Documentation</h1>
+
+    <h2>Endpoints</h2>
+
+    <h3>POST /controller/command</h3>
+    <p>This endpoint allows you to execute a command.</p>
+
+    <h4>Request Parameters</h4>
+    <ul>
+        <li><strong>command</strong> (path parameter): The command to execute.</li>
+        <li><strong>input</strong> (query parameter): Additional input for the command.</li>
+    </ul>
+
+    <h4>Response</h4>
+    <p>The response is a JSON object. If the command is executed successfully, the JSON object represents the game state. If there's an error, the JSON object contains an "error" field with a description of the error.</p>
+
+    <h4>Example</h4>
+    <p>POST /controller/command?input=someInput</p>
+</body>
+</html>"""
+
   val route: Route =
     concat(
       get {
         pathSingleSlash {
-          complete( "PokemonLite ControllerAPI" )
+          complete( HttpEntity( ContentTypes.`text/html(UTF-8)`, routes ) )
         }
       },
       get {
