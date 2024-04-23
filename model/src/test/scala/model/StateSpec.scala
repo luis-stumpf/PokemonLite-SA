@@ -66,7 +66,7 @@ class StateSpec extends AnyWordSpec {
       "have a JSON fromJson method with InitPlayerState" in {
         val json = "{\"stateVal\":\"InitPlayerState\"}"
 
-        State.fromJson( Json.parse( json ) ) should be( InitPlayerPokemonState )
+        State.fromJson( Json.parse( json ) ) should be( InitPlayerState )
       }
 
       "have a JSON fromJson method with InitPlayerPokemonState" in {

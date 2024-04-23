@@ -1,23 +1,25 @@
 package controller.impl
 
+import controller.CommandSpec.FileIOMock
 import model.PokemonType.Glurak
 import controller.commands.ChangeStateCommand
 import model.impl.game.Game
 import model.impl.pokePlayer.*
 import model.State.*
-import util.{ Observer, UndoManager }
+import util.{Observer, UndoManager}
 import model.GameInterface
 import fileIo.FileIOInterface
-
+import fileIo.json.FileIOJson
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
+
 import scala.util.Success
 import scala.util.Failure
 
 class ControllerSpec extends AnyWordSpec {
   "The Controller" should {
-
-    val controller = Controller()
+    val fileIO: FileIOInterface = FileIOMock()
+    val controller = Controller()(using fileIO)
     "have a Undo Manager" in {
       assert( controller.undoManager.isInstanceOf[UndoManager[GameInterface]] )
     }
