@@ -13,11 +13,12 @@ import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 import scala.util.Success
 import scala.util.Failure
+import di.PersistenceModule
 
 class ControllerSpec extends AnyWordSpec {
   "The Controller" should {
 
-    val controller = Controller()
+    val controller = Controller( using PersistenceModule.given_FileIOInterface )
     "have a Undo Manager" in {
       assert( controller.undoManager.isInstanceOf[UndoManager[GameInterface]] )
     }
