@@ -40,7 +40,6 @@ class PersistenceRestService( using fileIO: FileIOInterface ) {
       },
       get {
         path( "load" ) {
-          println( "test" )
           complete(
             HttpEntity(
               ContentTypes.`application/json`,

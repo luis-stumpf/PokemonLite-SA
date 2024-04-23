@@ -58,7 +58,6 @@ class FileIORestClient extends FileIOInterface {
   def makeGetRequest( command: String ): GameInterface = {
     implicit val system = ActorSystem( Behaviors.empty, "SingleRequest" )
     implicit val executionContext = system.executionContext
-    print( "do load" )
 
     val responseFuture = Http().singleRequest(
       HttpRequest( uri = s"$persistenceServiceUrl/load" )
