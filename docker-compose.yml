@@ -1,0 +1,40 @@
+version: "3.9"
+
+name: "pokemonlite"
+
+services:
+  gui:
+    container_name: "gui"
+    network_mode: "host"
+    depends_on:
+      - controller
+    image: "${GITHUB_USERNAME}/gui:latest"
+    volumes:
+      - ~/.ivy2/local:/root/.ivy2/local
+    environment:
+      - DISPLAY=host.docker.internal:0.0
+  tui:
+    container_name: "tui"
+    depends_on:
+      - controller
+    image: "${GITHUB_USERNAME}/tui:latest"
+    stdin_open: true
+    environment:
+      - HOST=controller
+  controller:
+    container_name: "controller"
+    depends_on:
+      - persistence
+    image: "${GITHUB_USERNAME}/controller:latest"
+    ports:
+      - "9090:9090"
+    environment:
+      - HOST=persistence
+  persistence:
+    container_name: "persistence"
+    image: "${GITHUB_USERNAME}/persistence:latest"
+    working_dir: /fileio
+    ports:
+      - "9091:9091"
+    volumes:
+      - ./:/fileio:xro
