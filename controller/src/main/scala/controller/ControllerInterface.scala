@@ -42,6 +42,8 @@ trait ControllerInterface extends Observable with Publisher:
 
   def load(): Try[GameInterface]
 
+  def getGame(): Try[GameInterface]
+
 class PlayerChanged extends Event
 
 class StateChanged extends Event

@@ -7,11 +7,13 @@ import util.NoInput
 import util.WrongInput
 
 import scala.util.{ Failure, Success, Try }
+import util.WrongState
 
 case class SelectNextMoveCommand( input: String, state: State )
     extends Command[GameInterface] {
 
   override def doStep( game: GameInterface ): Try[GameInterface] = {
+    if game.state != DesicionState then return Failure( WrongState )
     if input.isEmpty then Failure( NoInput )
     else
       input.charAt( 0 ).asDigit match

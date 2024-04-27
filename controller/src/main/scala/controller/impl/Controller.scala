@@ -1,6 +1,5 @@
 package controller.impl
 
-import com.google.inject.{ CreationException, Guice, Inject }
 import controller.{
   AttackEvent,
   ControllerInterface,
@@ -34,18 +33,16 @@ import controller.commands.{
   GameOverCommand
 }
 
-case class Controller @Inject() () extends ControllerInterface:
+class Controller( using val fileIO: FileIOInterface )
+    extends ControllerInterface:
+
   val undoManager = new UndoManager[GameInterface]
   var game: GameInterface = Game()
 
-  private val fileIO = new fileIo.json.FileIO
-
-  /*Guice
-    .createInjector( new PokemonLiteModule )
-    .getInstance( classOf[FileIOInterface] )
-   */
-
-  def doAndPublish( doThis: String => Try[GameInterface], input: String ) = {
+  def doAndPublish(
+    doThis: String => Try[GameInterface],
+    input: String
+  ): Unit = {
     game = doThis( input ) match {
       case Success( newGame ) =>
         newGame
@@ -57,7 +54,7 @@ case class Controller @Inject() () extends ControllerInterface:
     notifyObservers()
   }
 
-  def doAndPublish( doThis: () => Try[GameInterface] ) = {
+  def doAndPublish( doThis: () => Try[GameInterface] ): Unit = {
     game = doThis() match {
       case Success( newGame ) =>
         newGame
@@ -83,6 +80,12 @@ case class Controller @Inject() () extends ControllerInterface:
 
   def addPokemons( list: String ): Try[GameInterface] =
     undoManager.doStep( game, AddPokemonCommand( list, game.state ) )
+
+  def addPokemons( list: List[Int] ): Try[GameInterface] =
+    undoManager.doStep(
+      game,
+      AddPokemonCommand( list.mkString( "" ), game.state )
+    )
 
   def nextMove( input: String ): Try[GameInterface] =
     undoManager.doStep( game, SelectNextMoveCommand( input, game.state ) )
@@ -118,3 +121,5 @@ case class Controller @Inject() () extends ControllerInterface:
 
   def load(): Try[GameInterface] =
     undoManager.doStep( game, LoadCommand( fileIO ) )
+
+  def getGame(): Try[GameInterface] = Success( game )

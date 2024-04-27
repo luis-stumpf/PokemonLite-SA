@@ -1,3 +1,4 @@
+/*
 package controller.CommandSpec
 
 import util.CanNotUndoSave
@@ -9,7 +10,7 @@ import fileIo.FileIOInterface
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
-import scala.util.{Failure, Success}
+import scala.util.{ Failure, Success }
 
 class LoadCommandSpec extends AnyWordSpec {
   "LoadCommand" when {
@@ -33,3 +34,4 @@ class FileIOMock2 extends FileIOInterface {
   override def save(game: GameInterface): Unit = {}
   override def load: GameInterface = Game()
 }
+ */

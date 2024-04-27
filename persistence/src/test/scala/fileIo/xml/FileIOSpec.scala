@@ -11,7 +11,7 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class FileIOSpec extends AnyWordSpec {
 
-  val fileIO = FileIO()
+  val fileIO = FileIOXml()
   val game = Game(
     FightingState,
     Some(

@@ -28,8 +28,12 @@ object Game extends GameRules {
   def fromJson( json: JsValue ): Game =
     Game(
       state = State.fromJson( ( json \ "state" ).get ),
-      player1 = PokePlayer.fromJson( ( json \ "player1" ).get ),
-      player2 = PokePlayer.fromJson( ( json \ "player2" ).get ),
+      // player1 = PokePlayer.fromJson( ( json \ "player1" ).get ),
+      player1 =
+        ( json \ "player1" ).asOpt[JsValue].flatMap( PokePlayer.fromJson ),
+      // player2 = PokePlayer.fromJson( ( json \ "player2" ).get ),
+      player2 =
+        ( json \ "player2" ).asOpt[JsValue].flatMap( PokePlayer.fromJson ),
       turn = ( json \ "turn" ).as[Int]
     )
 
@@ -95,16 +99,10 @@ case class Game(
 
   def toJson: JsValue = Json.obj(
     "state" -> Json.toJson( state.toJson ),
-    "player1" -> Json.toJson(
-      player1.map( _.toJson ).getOrElse( Json.toJson( "None" ) )
-    ),
-    "player2" -> Json.toJson(
-      player2.map( _.toJson ).getOrElse( Json.toJson( "None" ) )
-    ),
+    "player1" -> Json.toJson( player1.map( _.toJson ).getOrElse( Json.obj() ) ),
+    "player2" -> Json.toJson( player2.map( _.toJson ).getOrElse( Json.obj() ) ),
     "turn" -> Json.toJson( turn ),
-    "winner" -> Json.toJson(
-      winner.map( _.toJson ).getOrElse( Json.toJson( "None" ) )
-    )
+    "winner" -> Json.toJson( winner.map( _.toJson ).getOrElse( Json.obj() ) )
   )
 
   def setStateTo( newState: State ): Game = copy( state = newState )
