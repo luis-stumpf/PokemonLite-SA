@@ -4,6 +4,9 @@ val scala3Version = "3.4.1"
 val AkkaVersion = "2.9.2"
 val AkkaHttpVersion = "10.6.2"
 
+//ThisBuild / version := "0.1.1-SNAPSHOT"
+//ThisBuild / fork := true
+//ThisBuild / Compile / discoveredMainClasses := Seq()
 // Github Containers Stuff Settings
 ThisBuild / resolvers += "GitHub PokemonLite Packages" at "https://ghcr.io/PokemonLite" // oder muss Luis da auch noch rein
 // ThisBuild / resolvers += Resolver.url("GitHub Packages", url("https://ghcr.io/PokemonLite"))(Resolver.ivyStylePatterns)
@@ -32,8 +35,8 @@ dockerPublishToDockerHub := {
   ThisBuild / dockerUpdateLatest := true
   ThisBuild / dockerBaseImage := "openjdk:17-jdk"
   ThisBuild / Docker / dockerRepository := Some("docker.io")
-  ThisBuild / publishLocal.value
-  ThisBuild / Docker / publish.value
+  //ThisBuild / publishLocal.value
+  //ThisBuild / Docker / publish.value
   ThisBuild / Docker / dockerUsername := Some(docker_username)
 }
 
@@ -41,8 +44,8 @@ dockerPublishToGHCR := {
   ThisBuild / dockerUpdateLatest := true
   ThisBuild / dockerBaseImage := "openjdk:17-jdk"
   ThisBuild / Docker / dockerRepository := Some("ghcr.io")
-  ThisBuild / publishLocal.value
-  ThisBuild / Docker / publish.value
+  //ThisBuild / publishLocal.value
+  //ThisBuild / Docker / publish.value
   ThisBuild / Docker / dockerUsername := Some(docker_username)
 }
 
@@ -163,12 +166,12 @@ lazy val root = ( project in file( "." ) )
       formats = Seq( JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML )
     ),
     publishArtifact := false,
-    /*run := {
+    run := {
       (gui / Compile / run).evaluated
       (tui / Compile / run).evaluated
       (controller / Compile / run).evaluated
       (persistence / Compile / run).evaluated
-    }*/
+    }
   )
   .dependsOn( util, model, controller, tui, gui, persistence )
   .aggregate( util, model, controller, tui, gui, persistence )
