@@ -1,3 +1,4 @@
+/*
 package controller.CommandSpec
 
 import util.CanNotUndoSave
@@ -10,7 +11,7 @@ import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
 import scala.util.{ Failure, Success, Try }
-/*
+
 class SaveCommandSpec extends AnyWordSpec {
   "SaveCommand" when {
     val newGame = Game()
