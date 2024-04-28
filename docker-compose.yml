@@ -5,34 +5,36 @@ name: "pokemonlite"
 services:
   gui:
     container_name: "gui"
-    network_mode: "host"
-    depends_on:
-      - controller
-    image: "${GITHUB_USERNAME}/gui:latest"
-    volumes:
-      - ~/.ivy2/local:/root/.ivy2/local #mounts local ivy2/local directory to root/iv2/local inside the container so container can access dependencies cached in the local iva repo
+    #network_mode: "host"
+    #depends_on:
+     # - controller
+    image: "gui:latest"
+    #volumes:
+     # - ~/.ivy2/local:/root/.ivy2/local #mounts local ivy2/local directory to root/iv2/local inside the container so container can access dependencies cached in the local iva repo
     environment:
-      - DISPLAY=host.docker.internal:0.0 #connect to the X server running on host machine. specifies display server address for GUI rendering.
+      - HOST=controller
+     # - DISPLAY=host.docker.internal:0.0 #connect to the X server running on host machine. specifies display server address for GUI rendering.
   tui:
     container_name: "tui"
-    depends_on:
-      - controller
-    image: "${GITHUB_USERNAME}/tui:latest"
+   # depends_on:
+    #  - controller
+    image: "tui:latest"
     stdin_open: true
     environment:
       - HOST=controller # to communicate with controller service
   controller:
     container_name: "controller"
-    depends_on:
-      - persistence
-    image: "${GITHUB_USERNAME}/controller:latest"
+    #depends_on:
+     # - persistence
+    image: "controller:latest"
     ports:
       - "9090:9090" # port 9090 on Docker host (local machine) is mapped to port 9090 inside controller container
     environment:
       - HOST=persistence
   persistence:
     container_name: "persistence"
-    image: "${GITHUB_USERNAME}/persistence:latest"
+    image: "persistence:latest"
+    #stdin_open: true
     working_dir: /fileio
     ports:
       - "9091:9091"

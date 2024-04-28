@@ -4,14 +4,14 @@ val scala3Version = "3.4.1"
 val AkkaVersion = "2.9.2"
 val AkkaHttpVersion = "10.6.2"
 
-//ThisBuild / version := "0.1.1-SNAPSHOT"
-//ThisBuild / fork := true
 //ThisBuild / Compile / discoveredMainClasses := Seq()
+ThisBuild / fork := true
+
 // Github Containers Stuff Settings
-ThisBuild / resolvers += "GitHub PokemonLite Packages" at "https://ghcr.io/PokemonLite" // oder muss Luis da auch noch rein
+// ThisBuild / resolvers += "GitHub PokemonLite Packages" at "https://ghcr.io/PokemonLite" // oder muss Luis da auch noch rein
 // ThisBuild / resolvers += Resolver.url("GitHub Packages", url("https://ghcr.io/PokemonLite"))(Resolver.ivyStylePatterns)
-ThisBuild / publishTo := Some("GitHub PokemonLite Packages" at "https://ghcr.io/PokemonLite")
-ThisBuild / credentials ++= {
+// ThisBuild / publishTo := Some("GitHub PokemonLite Packages" at "https://ghcr.io/PokemonLite")
+/*ThisBuild / credentials ++= {
   val credentials = Path.userHome / ".sbt" / ".credentials"
   Seq(
     credentials match {
@@ -24,30 +24,38 @@ ThisBuild / credentials ++= {
       )
     }
   )
-}
+}*/
 
 // Docker Settings Stuff
-val dockerPublishToDockerHub = taskKey[Unit]("Publish Docker image to DockerHub")
-val dockerPublishToGHCR = taskKey[Unit]("Publish Docker image to GitHub Container Registry")
-val docker_username = System.getenv("GITHUB_USERNAME") // Wenn github mit docker verbunden
-
-dockerPublishToDockerHub := {
+//val dockerPublishToDockerHub = taskKey[Unit]("Publish Docker image to DockerHub")
+//val dockerPublishToGHCR = taskKey[Unit]("Publish Docker image to GitHub Container Registry")
+//val docker_username = System.getenv("GITHUB_USERNAME") // Wenn github mit docker verbunden
+ThisBuild / Compile / discoveredMainClasses := Seq()
+//ThisBuild / Docker / dockerUsername := Some(docker_username)
+//ThisBuild / Docker / dockerRepository := Some("docker.io")
+ThisBuild / dockerUpdateLatest := true
+ThisBuild / dockerBaseImage := "openjdk:17-jdk"
+//ThisBuild / publishLocal.value
+Global / excludeLintKeys += Docker / dockerBaseImage
+Global / excludeLintKeys += Docker / dockerUpdateLatest
+Global / excludeLintKeys += Docker / packageName
+/*dockerPublishToDockerHub := {
   ThisBuild / dockerUpdateLatest := true
   ThisBuild / dockerBaseImage := "openjdk:17-jdk"
   ThisBuild / Docker / dockerRepository := Some("docker.io")
   //ThisBuild / publishLocal.value
   //ThisBuild / Docker / publish.value
   ThisBuild / Docker / dockerUsername := Some(docker_username)
-}
+}*/
 
-dockerPublishToGHCR := {
+/*dockerPublishToGHCR := {
   ThisBuild / dockerUpdateLatest := true
   ThisBuild / dockerBaseImage := "openjdk:17-jdk"
   ThisBuild / Docker / dockerRepository := Some("ghcr.io")
   //ThisBuild / publishLocal.value
   //ThisBuild / Docker / publish.value
   ThisBuild / Docker / dockerUsername := Some(docker_username)
-}
+}*/
 
 lazy val commonSettings = Seq(
   version := "0.1.0-SNAPSHOT",
@@ -104,8 +112,9 @@ lazy val persistence = ( project in file( "persistence" ) )
   .settings(
     commonSettings,
     name := "PokemonLitePersistence",
-    Compile / mainClass := Some("service.PersistenceRestService"),
-    dockerExposedPorts ++= Seq(9091)
+    Compile / mainClass := Some("service.PersistenceRestApi"),
+    dockerExposedPorts := Seq(9091),
+    packageName := "persistence"
   )
   .dependsOn( model, util )
   .enablePlugins(DockerPlugin, JavaAppPackaging)
@@ -129,8 +138,9 @@ lazy val controller = ( project in file( "controller" ) )
   .settings(
     commonSettings,
     name := "PokemonLiteController",
-    Compile / mainClass := Some("service.ControllerRestService"), // check paths!!!
-    dockerExposedPorts ++= Seq(9090),
+    Compile / mainClass := Some("service.ControllerRestApi"), // check paths!!!
+    dockerExposedPorts := Seq(9090),
+    packageName := "controller"
   )
   .dependsOn( model )
   .dependsOn( persistence )
@@ -142,8 +152,9 @@ lazy val tui = ( project in file( "tui" ) )
   .settings(
     commonSettings,
     name := "PokemonLiteTUI" ,
-    Compile / mainClass := Some("service.TUIService")
-    // run / connectInput := true,
+    Compile / mainClass := Some("service.TUIService"),
+    run / connectInput := true,
+    packageName := "tui"
   )
   .dependsOn( controller )
   .enablePlugins(DockerPlugin, JavaAppPackaging)
@@ -152,9 +163,11 @@ lazy val gui = ( project in file( "gui" ) )
   .settings(
     commonSettings,
     name := "PokemonLiteGUI",
-    Compile / mainClass := Some("service.GUIService") // check paths!!!
+    Compile / mainClass := Some("service.GUIService"), // check paths!!!
+    packageName := "gui"
   )
   .dependsOn( controller )
+  .enablePlugins(DockerPlugin, JavaAppPackaging)
 
 lazy val root = ( project in file( "." ) )
   .settings(
