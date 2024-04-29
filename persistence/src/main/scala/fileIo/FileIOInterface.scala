@@ -10,4 +10,8 @@ trait FileIOInterface {
   def save( gameSave: GameInterface ): Unit
 
   def save( gameJson: JsValue ): Unit
+
+  def update( gameUpdate: GameInterface ): Unit
+
+  def delete: Unit
 }

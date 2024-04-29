@@ -30,3 +30,9 @@ trait PokePlayerInterface:
   def toXML: Node
 
   def toJson: JsValue
+
+  def currentPokemonDamageWith( attackNumber: Int ): Option[Int]
+
+  def reduceHealthOfCurrentPokemon( amount: Double ): PokePlayerInterface
+
+  def increaseHealthOfCurrentPokemon( amount: Double ): PokePlayerInterface

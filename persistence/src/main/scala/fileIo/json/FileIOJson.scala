@@ -40,4 +40,13 @@ class FileIOJson extends FileIOInterface {
     pw.close()
   }
 
+  override def update( game: GameInterface ): Unit = {
+    save( game )
+  }
+
+  override def delete: Unit = {
+    val file = new File( "game.json" )
+    file.delete()
+  }
+
 }

@@ -120,4 +120,10 @@ class ControllerRestClient( using val fileIo: FileIOInterface )
   override def initPlayers(): Try[GameInterface] =
     makePostRequest( "initPlayers", "" )
 
+  override def updateGame(): Try[GameInterface] =
+    makePostRequest( "update", game.toJson.toString() )
+
+  override def deleteGame(): Try[GameInterface] =
+    makePostRequest( "delete", "" )
+
 }

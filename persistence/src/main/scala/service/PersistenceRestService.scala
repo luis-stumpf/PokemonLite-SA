@@ -16,6 +16,8 @@ import model.GameInterface
 import model.impl.game.Game
 
 import fileIo.FileIOInterface
+import di.PersistenceRestModule.given_DAOInterface as dao
+import database.slick.defaultImpl.SlickDAO.delete
 
 class PersistenceRestService( using fileIO: FileIOInterface ) {
 
@@ -34,18 +36,37 @@ class PersistenceRestService( using fileIO: FileIOInterface ) {
         path( "save" ) {
           entity( as[String] ) { input =>
             fileIO.save( Json.parse( input ) )
+            val game = Game.fromJson( Json.parse( input ) )
+            dao.save( game )
             complete( HttpEntity( ContentTypes.`application/json`, "saved" ) )
           }
         }
       },
       get {
         path( "load" ) {
+          var game: GameInterface = dao.load().get
+
           complete(
             HttpEntity(
               ContentTypes.`application/json`,
-              Json.stringify( fileIO.load.toJson )
+              Json.stringify( game.toJson )
             )
           )
+        }
+      },
+      put {
+        path( "delete" ) {
+          dao.delete( None )
+          complete( HttpEntity( ContentTypes.`application/json`, "deleted" ) )
+        }
+      },
+      put {
+        path( "update" ) {
+          entity( as[String] ) { input =>
+            val game = Game.fromJson( Json.parse( input ) )
+            dao.update( None, game )
+            complete( HttpEntity( ContentTypes.`application/json`, "updated" ) )
+          }
         }
       }
     )

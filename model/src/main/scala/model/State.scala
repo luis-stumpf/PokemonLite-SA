@@ -24,7 +24,7 @@ enum State {
 
 object State {
   def fromXML( node: Node ): State =
-    val state = ( node \\ "state" ).text.replace( " ", "" ) match {
+    ( node \\ "state" ).text.replace( " ", "" ) match {
       case "DesicionState"          => DesicionState
       case "FightingState"          => FightingState
       case "GameOverState"          => GameOverState
@@ -33,11 +33,9 @@ object State {
       case "SwitchPokemonState"     => SwitchPokemonState
       case "InitState"              => InitState
     }
-
-    state
 
   def fromJson( json: JsValue ): State =
-    val state = ( json \ "stateVal" ).get.toString().replace( "\"", "" ) match {
+    ( json \ "stateVal" ).get.toString().replace( "\"", "" ) match {
       case "DesicionState"          => DesicionState
       case "FightingState"          => FightingState
       case "GameOverState"          => GameOverState
@@ -46,5 +44,15 @@ object State {
       case "SwitchPokemonState"     => SwitchPokemonState
       case "InitState"              => InitState
     }
-    state
+
+  def fromString( state: String ): State =
+    state match {
+      case "DesicionState"          => DesicionState
+      case "FightingState"          => FightingState
+      case "GameOverState"          => GameOverState
+      case "InitPlayerPokemonState" => InitPlayerPokemonState
+      case "InitPlayerState"        => InitPlayerState
+      case "SwitchPokemonState"     => SwitchPokemonState
+      case "InitState"              => InitState
+    }
 }

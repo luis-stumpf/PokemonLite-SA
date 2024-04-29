@@ -5,7 +5,7 @@ import model.GameInterface
 import scala.util.Try
 
 /** Interface to store current game field in database. */
-trait DAOInterface[T]:
+trait DAOInterface:
   /** Save current game field to database.
     * @param game
     *   the field to save
@@ -30,7 +30,7 @@ trait DAOInterface[T]:
     * @return
     *   Success if the game was updated successfully, Failure otherwise
     */
-  def update( gameId: Int, game: GameInterface ): Try[Unit]
+  def update( gameId: Option[Int], game: GameInterface ): Try[Unit]
 
   /** Delete game field from database.
     * @param gameId
