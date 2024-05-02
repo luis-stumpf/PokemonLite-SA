@@ -1,13 +1,15 @@
 import com.github.sbt.jacoco.report.JacocoReportFormats
-val scala3Version = "3.4.1"
-val AkkaVersion = "2.9.2"
-val AkkaHttpVersion = "10.6.2"
+import com.typesafe.sbt.packager.docker._
+val scala3Version = "3.3.3"
+val AkkaVersion = "2.8.0"
+val AkkaHttpVersion = "10.5.2"
 
 lazy val commonSettings = Seq(
   version := "0.1.0-SNAPSHOT",
   scalaVersion := scala3Version,
   organization := "de.htwg.se",
   resolvers += "Akka library repository".at( "https://repo.akka.io/maven" ),
+  dockerBaseImage := "openjdk:19",
   libraryDependencies ++= Seq(
     "org.scalactic" %% "scalactic" % "3.2.18",
     "org.scalatest" %% "scalatest" % "3.2.18" % "test",
@@ -55,8 +57,14 @@ lazy val commonSettings = Seq(
 )
 
 lazy val persistence = ( project in file( "persistence" ) )
-  .settings( commonSettings, name := "PokemonLitePersistence" )
+  .settings(
+    commonSettings,
+    name := "PokemonLitePersistence",
+    version := "1.0.0",
+    dockerExposedPorts := Seq( 4002 )
+  )
   .dependsOn( model, util )
+  .enablePlugins( DockerPlugin, JavaAppPackaging )
 
 lazy val util = ( project in file( "util" ) )
   .settings( commonSettings, name := "PokemonLiteUtil" )
@@ -74,19 +82,44 @@ lazy val model = ( project in file( "model" ) )
   .dependsOn( util )
 
 lazy val controller = ( project in file( "controller" ) )
-  .settings( commonSettings, name := "PokemonLiteController" )
+  .settings(
+    commonSettings,
+    name := "PokemonLiteController",
+    dockerExposedPorts := Seq( 4001 ),
+    version := "1.0.0"
+  )
   .dependsOn( model )
   .dependsOn( persistence )
   .aggregate( model )
   .aggregate( persistence )
+  .enablePlugins( DockerPlugin, JavaAppPackaging )
 
 lazy val tui = ( project in file( "tui" ) )
-  .settings( commonSettings, name := "PokemonLiteTUI" )
-  .dependsOn( controller )
+  .settings(
+    commonSettings,
+    name := "PokemonLiteTUI",
+    dockerExposedPorts := Seq( 4003 ),
+    version := "1.0.0"
+  )
+  .dependsOn( controller, model, util )
+  .enablePlugins( DockerPlugin, JavaAppPackaging )
 
 lazy val gui = ( project in file( "gui" ) )
-  .settings( commonSettings, name := "PokemonLiteGUI" )
+  .settings(
+    commonSettings,
+    name := "PokemonLiteGUI",
+    dockerExposedPorts := Seq( 4004 ),
+    version := "1.0.0",
+    dockerBaseImage := "openjdk:21-jdk-bullseye",
+    dockerCommands ++= Seq(
+      ExecCmd(
+        "RUN",
+        "apt-get update && apt-get install -y libxrender1 libxtst6 libxi6 libgl1-mesa-glx libgtk-3-0 openjfx libgl1-mesa-dri libgl1-mesa-dev libcanberra-gtk-module libcanberra-gtk3-module"
+      )
+    )
+  )
   .dependsOn( controller )
+  .enablePlugins( DockerPlugin, JavaAppPackaging )
 
 lazy val root = ( project in file( "." ) )
   .settings(

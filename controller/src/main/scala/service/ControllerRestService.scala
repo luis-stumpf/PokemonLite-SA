@@ -124,7 +124,7 @@ class ControllerRestService( using controller: ControllerInterface ) {
     )
 
   def start(): Unit = {
-    val binding = Http().newServerAt( "localhost", 4001 ).bind( route )
+    val binding = Http().newServerAt( "0.0.0.0", 4001 ).bind( route )
 
     binding.onComplete {
       case Success( binding ) =>

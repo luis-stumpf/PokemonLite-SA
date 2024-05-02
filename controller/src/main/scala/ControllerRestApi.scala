@@ -7,10 +7,10 @@ import di.ControllerRestServerModule
 
 object ControllerRestApi {
 
-  val controllerService = new ControllerRestService( using
-    ControllerRestServerModule.given_ControllerInterface
-  )
   @main() def run() = {
+    val controllerService = new ControllerRestService( using
+      ControllerRestServerModule.given_ControllerInterface
+    )
     controllerService.start()
   }
 }

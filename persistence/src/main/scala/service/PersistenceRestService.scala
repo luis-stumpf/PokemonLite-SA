@@ -51,7 +51,7 @@ class PersistenceRestService( using fileIO: FileIOInterface ) {
     )
 
   def start(): Unit = {
-    val binding = Http().newServerAt( "localhost", 4002 ).bind( route )
+    val binding = Http().newServerAt( "0.0.0.0", 4002 ).bind( route )
 
     binding.onComplete {
       case Success( binding ) =>
