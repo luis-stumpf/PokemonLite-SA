@@ -25,47 +25,47 @@ services:
     depends_on:
       - persistence
 
-  #tui:
-  #  image: pokemonlitetui:1.0.0
-  #  ports:
-  #    - "4003:4003"
-  #  stdin_open: true
-  #  tty: true
-  #  read_only: false
-  #  container_name: pokemonlite-tui
-  #  depends_on:
-  #    - persistence
-  #    - controller
-  #  environment:
-  #    UNO_SERVICE_HOST: uno
-  #    UNO_SERVICE_PORT: 8082
-  #    PERSISTENCE_SERVICE_HOST: uno-persistence-service
-  #    PERSISTENCE_SERVICE_PORT: 8081
-  #    PERSISTENCE_SERVE_PATH: /persistence/
-  #    CORE_SERVICE_HOST: uno-core-service
-  #    CORE_SERVICE_PORT: 8080
-  #    CORE_SERVICE_PATH: /controller/
-  #
-  #
-  #uno-gui:
-  #  image: pokemonlitegui:1.0.0
-  #  ports:
-  #    - "4004:4004"
-  #  container_name: pokemonlite-gui
-  #  depends_on:
-  #    - persistence
-  #    - controller
-  #  network_mode: "host"
-  #  volumes:
-  #    - /tmp/.X11-unix:/tmp/.X11-unix
-  #    - ~/.Xauthority:/root/.Xauthority
-  #  environment:
-  #    - DISPLAY=ip$0
-  #    - UNO_SERVICE_HOST=uno
-  #    - UNO_SERVICE_PORT=8082
-  #    - PERSISTENCE_SERVICE_HOST=uno-persistence-service
-  #    - PERSISTENCE_SERVICE_PORT=8081
-  #    - PERSISTENCE_SERVE_PATH=/persistence/
-  #    - CORE_SERVICE_HOST=uno-core-service
-  #    - CORE_SERVICE_PORT=8080
-  #    - CORE_SERVICE_PATH=/controller/
+  tui:
+    image: pokemonlitetui:1.0.0
+    ports:
+      - "4003:4003"
+    stdin_open: true
+    tty: true
+    read_only: false
+    container_name: pokemonlite-tui
+    depends_on:
+      - persistence
+      - controller
+    environment:
+      UNO_SERVICE_HOST: uno
+      UNO_SERVICE_PORT: 8082
+      PERSISTENCE_SERVICE_HOST: uno-persistence-service
+      PERSISTENCE_SERVICE_PORT: 8081
+      PERSISTENCE_SERVE_PATH: /persistence/
+      CORE_SERVICE_HOST: uno-core-service
+      CORE_SERVICE_PORT: 8080
+      CORE_SERVICE_PATH: /controller/
+  
+  
+  uno-gui:
+    image: pokemonlitegui:latest
+    ports:
+      - "4004:4004"
+    container_name: pokemonlite-gui
+    depends_on:
+      - persistence
+      - controller
+    network_mode: "host"
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ~/.Xauthority:/root/.Xauthority
+    environment:
+      - DISPLAY=host.docker.internal:0.0
+      - UNO_SERVICE_HOST=uno
+      - UNO_SERVICE_PORT=8082
+      - PERSISTENCE_SERVICE_HOST=uno-persistence-service
+      - PERSISTENCE_SERVICE_PORT=8081
+      - PERSISTENCE_SERVE_PATH=/persistence/
+      - CORE_SERVICE_HOST=uno-core-service
+      - CORE_SERVICE_PORT=8080
+      - CORE_SERVICE_PATH=/controller/

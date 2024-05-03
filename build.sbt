@@ -109,22 +109,16 @@ lazy val gui = ( project in file( "gui" ) )
     commonSettings,
     name := "PokemonLiteGUI",
     dockerExposedPorts := Seq( 4004 ),
-    version := "1.0.0",
-    dockerBaseImage := "openjdk:21-jdk-bullseye",
-    dockerCommands ++= Seq(
-      ExecCmd(
-        "RUN",
-        "apt-get update && apt-get install -y libxrender1 libxtst6 libxi6 libgl1-mesa-glx libgtk-3-0 openjfx libgl1-mesa-dri libgl1-mesa-dev libcanberra-gtk-module libcanberra-gtk3-module"
-      )
-    )
+    version := "1.0.0"
   )
   .dependsOn( controller )
-  .enablePlugins( DockerPlugin, JavaAppPackaging )
 
 lazy val root = ( project in file( "." ) )
   .settings(
     commonSettings,
     name := "PokemonLite",
+    version := "1.0.0",
+    dockerExposedPorts := Seq( 4003 ),
     mainClass := Some( "PokemonLite" ),
     jacocoAggregateReportSettings := JacocoReportSettings(
       title = "Project Coverage",
@@ -133,6 +127,7 @@ lazy val root = ( project in file( "." ) )
   )
   .dependsOn( util, model, controller, tui, gui, persistence )
   .aggregate( util, model, controller, tui, gui, persistence )
+  .enablePlugins( DockerPlugin, JavaAppPackaging )
 
 jacocoReportSettings := JacocoReportSettings(
   "Jacoco Coverage Report",

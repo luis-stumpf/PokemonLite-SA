@@ -11,9 +11,9 @@ object PokemonLite extends App {
   // val persistenceService = PersistenceRestApi.run()
 
   // TuiService
-  TuiRestService
+  // TuiRestService
 
   // GuiService
-  GuiRestService
+  GuiRestService.main( Array.empty )
 
 }
