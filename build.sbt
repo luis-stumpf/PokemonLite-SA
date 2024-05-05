@@ -52,7 +52,8 @@ lazy val commonSettings = Seq(
     "*main*",
     "*di*",
     "*service*",
-    "*client*"
+    "*client*",
+    "*controller.ControllerRestApi*"
   )
 )
 
