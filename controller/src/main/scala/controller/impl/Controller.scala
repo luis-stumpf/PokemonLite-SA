@@ -71,12 +71,6 @@ class Controller( using val fileIO: FileIOInterface )
   def addPokemons( list: String ): Try[GameInterface] =
     undoManager.doStep( game, AddPokemonCommand( list, game.state ) )
 
-  def addPokemons( list: List[Int] ): Try[GameInterface] =
-    undoManager.doStep(
-      game,
-      AddPokemonCommand( list.mkString( "" ), game.state )
-    )
-
   def nextMove( input: String ): Try[GameInterface] =
     undoManager.doStep( game, SelectNextMoveCommand( input, game.state ) )
 
