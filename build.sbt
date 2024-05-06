@@ -20,7 +20,8 @@ lazy val commonSettings = Seq(
     "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
     "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
     "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
-    "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion
+    "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
+    "org.slf4j" % "slf4j-nop" % "2.0.5"
   ),
   libraryDependencies ++= {
     // Determine OS version of JavaFX binaries
@@ -52,8 +53,7 @@ lazy val commonSettings = Seq(
     "*main*",
     "*di*",
     "*service*",
-    "*client*",
-    "*controller.ControllerRestApi*"
+    "*client*"
   )
 )
 

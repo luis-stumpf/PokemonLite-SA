@@ -21,6 +21,19 @@ class FileIOSpec extends AnyWordSpec {
 
     }
 
+    "load a game an its stats from game.json" in {
+      val res = fileIO.load
+      res should be( game )
+
+    }
+
+    "save from json" in {
+      fileIO.save( game.toJson )
+      val res = fileIO.load
+      res should be( game )
+
+    }
+
   }
 
 }

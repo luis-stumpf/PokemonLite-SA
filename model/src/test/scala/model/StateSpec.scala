@@ -39,7 +39,7 @@ class StateSpec extends AnyWordSpec {
 
       "have a XML fromXML method with InitPlayerState" in {
         val xml = <state>InitPlayerState</state>
-        State.fromXML( xml ) should be( InitPlayerPokemonState )
+        State.fromXML( xml ) should be( InitPlayerState )
       }
 
       "have a XML fromXML method with InitPlayerPokemonState" in {

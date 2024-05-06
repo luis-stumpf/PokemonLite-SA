@@ -22,7 +22,7 @@ import scala.concurrent.duration.DurationInt
 class ControllerRestClient( using val fileIo: FileIOInterface )
     extends ControllerInterface {
 
-  private val controllerServiceUrl = "http://localhost:4001/controller"
+  private val controllerServiceUrl = "http://0.0.0.0:4001/controller"
   var game: GameInterface = Game()
 
   val undoManager: UndoManager[GameInterface] = new UndoManager[GameInterface]
