@@ -12,8 +12,6 @@ import model.impl.game.Game
 case class MatrixField( width: Int, height: Int = 15, game: GameInterface )
     extends FieldInterface {
 
-  def this() = this( width = 80, height = 100, game = Game() )
-
   def base(): Array[Array[String]] = {
     Array
       .ofDim[String]( height, width )
@@ -119,8 +117,8 @@ case class MatrixField( width: Int, height: Int = 15, game: GameInterface )
   def replaceWithCharRecursive(
     arr: Array[Array[String]],
     string: String,
-    row: Int = 0,
-    index: Int = 0,
+    row: Int,
+    index: Int,
     charIndex: Int = 0
   ): Array[Array[String]] = {
     if (index >= arr( row ).length || charIndex >= string.length) {

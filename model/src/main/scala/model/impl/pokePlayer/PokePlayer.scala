@@ -14,6 +14,8 @@ import scala.util.Try
 
 object PokePlayer {
   def fromXML( node: Node ): Option[PokePlayer] =
+    if (( node \\ "player1" ).text.trim == "None") return None
+    if (( node \\ "player2" ).text.trim == "None") return None
     Some(
       PokePlayer(
         name = ( node \\ "name" ).text.toString.trim,
