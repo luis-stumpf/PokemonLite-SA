@@ -168,7 +168,7 @@ case class Game(
       }
       case _ => Failure( NoValidAttackSelected( input ) )
 
-  private def currentPokemonIsDead = ( player1, player2, turn ) match {
+  def currentPokemonIsDead: Boolean = ( player1, player2, turn ) match {
     case ( Some( p1 ), Some( p2 ), 1 ) =>
       p1.currentPokemon.exists( _.isDead )
     case ( Some( p1 ), Some( p2 ), 2 ) =>
@@ -223,7 +223,7 @@ case class Game(
       }
       checkSizeOf( pokeList )
 
-  private def checkSizeOf(
+  def checkSizeOf(
     pokeList: List[Option[Pokemon]]
   ): Try[List[Option[Pokemon]]] =
     val validPokemonCount = pokeList.count( x => x.nonEmpty )
@@ -231,7 +231,7 @@ case class Game(
       Failure( NotEnoughPokemonSelected( validPokemonCount ) )
     else Success( pokeList )
 
-  private def assignTheCorrectPlayerA( name: String ): Try[Game] =
+  def assignTheCorrectPlayerA( name: String ): Try[Game] =
     ( player1, player2 ) match {
       case ( _, Some( _ ) ) if player1.isEmpty =>
         Failure( HorriblePlayerNameError )
@@ -253,12 +253,17 @@ case class Game(
         )
     }
 
-  private def assignTheCorrectPlayerA(
+  def assignTheCorrectPlayerA(
     listOfPokemon: List[Option[Pokemon]]
   ): Try[Game] = {
     val pokePack = PokePack( listOfPokemon )
 
     ( player1, player2 ) match {
+      case (Some(p1), Some(p2))
+        if p1.pokemons == PokePack(List(None)) && p2.pokemons != PokePack(
+          List(None)
+        ) =>
+        Failure(HorriblePokemonSelectionError)
       case ( Some( p1 ), _ ) if p1.pokemons == PokePack( List( None ) ) =>
         Success(
           copy(
@@ -267,11 +272,6 @@ case class Game(
             state = InitPlayerPokemonState
           )
         )
-      case ( Some( p1 ), Some( p2 ) )
-          if p1.pokemons == PokePack( List( None ) ) && p2.pokemons != PokePack(
-            List( None )
-          ) =>
-        Failure( HorriblePokemonSelectionError )
       case ( _, Some( p2 ) ) =>
         Success(
           copy(
@@ -284,7 +284,7 @@ case class Game(
     }
   }
 
-  private def checkForValidNameInput( string: String ): Try[String] =
+  def checkForValidNameInput( string: String ): Try[String] =
     if (string.isEmpty)
       return Failure( NoInput )
     else if (string.length > Game.maxPlayerNameLength)

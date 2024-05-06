@@ -3,6 +3,8 @@ import model.PokemonType.Glurak
 import play.api.libs.json.Json
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
+import org.scalatest.OptionValues.convertOptionToValuable
+
 import model.Pokemon
 import model.PokemonType
 import model.Attack
@@ -25,7 +27,7 @@ class PokemonSpec extends AnyWordSpec {
     "get its HP" in {
       pokemon.getHp should be( 150 )
     }
-    "A Pokemon from XML" should {
+    "A Glurak from XML" should {
       "be properly parsed" in {
         val xml = <pokemon>
           <pType>Glurak</pType> <hp>150</hp> <isDead>false</isDead>
@@ -35,12 +37,119 @@ class PokemonSpec extends AnyWordSpec {
       }
     }
 
-    "A Pokemon from JSON" should {
+    "increase its HP correctly" in {
+      val initialHp = 100
+      val increaseAmount = 20
+      val pokemon = Pokemon(PokemonType.Glurak, initialHp)
+
+      val result = pokemon.increaseHP(increaseAmount)
+
+      result.hp shouldBe (initialHp + increaseAmount)
+    }
+
+    "A Simsala from XML" should {
+      "be properly parsed" in {
+        val xml = <pokemon>
+          <pType>Simsala</pType> <hp>130</hp> <isDead>false</isDead>
+        </pokemon>
+        val parsedPokemon = Pokemon.fromXML(xml).get
+        parsedPokemon shouldBe Pokemon(PokemonType.Simsala)
+      }
+    }
+
+    "A Brutalanda from XML" should {
+      "be properly parsed" in {
+        val xml = <pokemon>
+          <pType>Brutalanda</pType> <hp>170</hp> <isDead>false</isDead>
+        </pokemon>
+        val parsedPokemon = Pokemon.fromXML(xml).get
+        parsedPokemon shouldBe Pokemon(PokemonType.Brutalanda)
+      }
+    }
+
+    "A Bisaflor from XML" should {
+      "be properly parsed" in {
+        val xml = <pokemon>
+          <pType>Bisaflor</pType> <hp>180</hp> <isDead>false</isDead>
+        </pokemon>
+        val parsedPokemon = Pokemon.fromXML(xml).get
+        parsedPokemon shouldBe Pokemon(PokemonType.Bisaflor)
+      }
+    }
+
+    "A Turtok from XML" should {
+      "be properly parsed" in {
+        val xml = <pokemon>
+          <pType>Turtok</pType> <hp>130</hp> <isDead>false</isDead>
+        </pokemon>
+        val parsedPokemon = Pokemon.fromXML(xml).get
+        parsedPokemon shouldBe Pokemon(PokemonType.Turtok)
+      }
+    }
+
+    "A Pokemon's XML representation" should {
+      "be correctly formed" in {
+        val pokemon = Pokemon(PokemonType.Glurak)
+        val expectedResult =
+        <pokemon>
+          <pType>
+            Glurak
+          </pType>
+          <hp>
+            150
+          </hp>
+          <isDead>
+            false
+          </isDead>
+        </pokemon>
+        val xml = pokemon.toXML
+
+        xml.text.replace( " ", "" ) shouldBe expectedResult.text.replace( " ", "" )
+      }
+    }
+
+    "A Glurak from JSON" should {
       "be properly parsed" in {
         val json =
           Json.obj( "pType" -> "Glurak", "hp" -> 150, "isDead" -> false )
         val parsedPokemon = Pokemon.fromJson( json ).get
         parsedPokemon shouldBe Pokemon( PokemonType.Glurak )
+      }
+    }
+
+    "A Simsala from JSON" should {
+      "be properly parsed" in {
+        val json =
+          Json.obj("pType" -> "Simsala", "hp" -> 130, "isDead" -> false)
+        val parsedPokemon = Pokemon.fromJson(json).get
+        parsedPokemon shouldBe Pokemon(PokemonType.Simsala)
+      }
+    }
+
+    "A Brutalanda from JSON" should {
+      "be properly parsed" in {
+        val json =
+          Json.obj("pType" -> "Brutalanda", "hp" -> 170, "isDead" -> false)
+        val parsedPokemon = Pokemon.fromJson(json).get
+        parsedPokemon shouldBe Pokemon(PokemonType.Brutalanda)
+      }
+    }
+
+    "A Bisaflor from JSON" should {
+      "be properly parsed" in {
+        val json =
+          Json.obj("pType" -> "Bisaflor", "hp" -> 180, "isDead" -> false)
+        val parsedPokemon = Pokemon.fromJson(json).get
+        parsedPokemon shouldBe Pokemon(PokemonType.Bisaflor)
+      }
+    }
+
+    "A Turtok from JSON" should {
+      "be properly parsed" in {
+        val json =
+          Json.obj("pType" -> "Turtok", "hp" -> 130, "isDead" -> false)
+        val parsedPokemon = Pokemon.fromJson(json).get
+        parsedPokemon shouldBe Pokemon(PokemonType.Turtok)
       }
     }
 

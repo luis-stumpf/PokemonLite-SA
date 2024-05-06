@@ -11,6 +11,27 @@ class ErrorSpec extends AnyWordSpec {
       }
     }
 
+    "a State is wrong" should {
+      "return correct error message" in {
+        val error = WrongState
+        error.toString shouldBe "Error: The Game is in the wrong state."
+      }
+    }
+
+    "a non valid attack has been selected" should {
+      "return correct error message" in {
+        val error = NoValidAttackSelected("3")
+        error.toString shouldBe "Error: The Input \"3\" is not valid. Select a attack between 1 and 4."
+      }
+    }
+
+    "the game could not be loaded" should {
+      "return correct error message" in {
+        val error = CouldNotLoadGame
+        error.toString shouldBe "Could not load the game."
+      }
+    }
+
     "a Name is too long" should {
       "throw a message with the wrong input" in {
         val error = NameTooLong( "zuLangerName" )

@@ -4,6 +4,7 @@ import model.{ PokePack, Pokemon }
 import model.PokemonType.{ Brutalanda, Glurak, Simsala }
 import model.impl.pokePlayer
 
+import play.api.libs.json.{ JsValue, Json }
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -57,6 +58,65 @@ class PokePlayerSpec extends AnyWordSpec {
     }
     "check if all Pokemon in a pack are dead" in {
       p4.checkForDefeat() should be( true )
+    }
+  }
+  "The PokePlayer object" when {
+    "fromXML is called with a known Node that represents a PokePlayer" should {
+      "return the expected PokePlayer" in {
+        val originalPokePlayer = Some(
+          PokePlayer(
+            name = "Player1",
+            pokemons = PokePack(List(Some(Pokemon(Glurak, 150)))),
+            currentPoke = 0
+          )
+        )
+        val xml = <pokePlayer>
+                    <name>Player1</name>
+                    <pokemons>
+                      <PokePack>
+                        <contents>
+                          <entry>
+                            <pokemon>
+                              <pType>Glurak</pType>
+                              <hp>150</hp>
+                              <isDead>false</isDead>
+                            </pokemon>
+                          </entry>
+                        </contents>
+                        <size>1</size>
+                      </PokePack>
+                    </pokemons>
+                    <currentPoke>0</currentPoke>
+                  </pokePlayer>
+        val result = PokePlayer.fromXML(xml)
+
+        result shouldBe originalPokePlayer
+      }
+    }
+    "fromJson is called with a known JsValue that represents a PokePlayer" should {
+      "return the expected PokePlayer" in {
+        val originalPokePlayer = Some(
+          PokePlayer(
+            name = "Player1",
+            pokemons = PokePack(List(Some(Pokemon(Glurak, 150)))),
+            currentPoke = 0
+          )
+        )
+        val json: JsValue = originalPokePlayer.get.toJson
+        val result = PokePlayer.fromJson(json)
+
+        result shouldBe originalPokePlayer
+      }
+    }
+  }
+  "The PokePlayer case class" when {
+    "constructed with the @Inject constructor" should {
+      "have an empty name and a PokePack with a list containing None" in {
+        val pokePlayer = new PokePlayer()
+
+        pokePlayer.name shouldBe ""
+        pokePlayer.pokemons shouldBe PokePack(List(None))
+      }
     }
   }
 }
