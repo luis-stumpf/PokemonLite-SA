@@ -1,4 +1,3 @@
-/*
 package controller.CommandSpec
 
 import util.CanNotUndoSave
@@ -11,27 +10,21 @@ import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
 import scala.util.{ Failure, Success }
+import fileIo.json.FileIOJson
+import controller.commands.SaveCommand
 
 class LoadCommandSpec extends AnyWordSpec {
   "LoadCommand" when {
-    val newGame = Game()
-    val fileIOMock: FileIOInterface = new FileIOMock2()
-    val loadCommand = LoadCommand(fileIOMock)
+    var newGame: GameInterface = Game()
+    val loadCommand = LoadCommand( new FileIOJson() )
 
-    /*"failure" in {
-      loadCommand.undoStep(newGame) should be(Failure(CanNotUndoSave))
-    }*/
+    val saveCommand = SaveCommand( new FileIOJson() )
+
+    newGame = saveCommand.doStep( newGame ).get
 
     "success" in {
-      val loadedGame = loadCommand.doStep(newGame)
-      loadedGame shouldBe a[Success[?]]
-      loadedGame.get shouldEqual fileIOMock.load
+      val loadedGame =
+        loadCommand.doStep( newGame ) should be( Success( newGame ) )
     }
   }
 }
-
-class FileIOMock2 extends FileIOInterface {
-  override def save(game: GameInterface): Unit = {}
-  override def load: GameInterface = Game()
-}
- */

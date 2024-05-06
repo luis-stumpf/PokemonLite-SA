@@ -13,34 +13,32 @@ import model.impl.pokePlayer.PokePlayer
 import model.PokePack
 import model.Pokemon
 import model.PokemonType
+import org.scalatest.BeforeAndAfterEach
+import util.WrongInput
 
-class SelectNextMoveCommandSpec extends AnyWordSpec {
-  "SelectNextMoveCommand" when {
-    val newGame =
-      Game(
-        DesicionState,
-        Some(
-          PokePlayer(
-            "Luis",
-            PokePack(
-              List(
-                Some(
-                  Some( Pokemon.apply( PokemonType.Glurak ) ).get
-                    .reduceHP( 10.0 )
-                )
-              )
-            )
-          )
-        ),
-        Some(
-          PokePlayer(
-            "Timmy",
-            PokePack( List( Some( Pokemon.apply( PokemonType.Simsala ) ) ) )
-          )
+class SelectNextMoveCommandSpec extends AnyWordSpec with BeforeAndAfterEach {
+  var game: Game = _
+
+  override def beforeEach(): Unit = {
+    game = Game(
+      DesicionState,
+      Some(
+        PokePlayer(
+          "Luis",
+          PokePack( List( Some( Pokemon.apply( PokemonType.Simsala ) ) ) )
+        )
+      ),
+      Some(
+        PokePlayer(
+          "Timmy",
+          PokePack( List( Some( Pokemon.apply( PokemonType.Glurak ) ) ) )
         )
       )
+    )
+    super.beforeEach()
+  }
 
-    val game = newGame.setStateTo( DesicionState )
+  "SelectNextMoveCommand" when {
 
     "failure" in {
       SelectNextMoveCommand( "", game.state ).doStep( game ) should be(
@@ -48,15 +46,11 @@ class SelectNextMoveCommandSpec extends AnyWordSpec {
       )
     }
 
-    // fix
-
-    /*
-    val command = SelectNextMoveCommand( "1", newGame.state )
-    "success" in {
-      val res = command.doStep( newGame )
-      res should be( newGame.interpretAttackSelectionFrom( "1" ) )
+    "failure 3" in {
+      SelectNextMoveCommand( "3", game.state ).doStep( game ) should be(
+        Failure( WrongInput( "3" ) )
+      )
     }
-     */
 
   }
 }

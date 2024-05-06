@@ -10,20 +10,75 @@ import org.scalatest.wordspec.AnyWordSpec
 
 import scala.util.Failure
 import scala.util.Success
+import model.impl.pokePlayer.PokePlayer
+import model.PokePack
+import model.Pokemon
+import model.PokemonType
+import model.State
+import org.scalatest.BeforeAndAfterEach
 
-class AttackCommandSpec extends AnyWordSpec {
+class AttackCommandSpec extends AnyWordSpec with BeforeAndAfterEach {
+
+  var game: Game = _
+
+  override def beforeEach(): Unit = {
+    game = Game(
+      FightingState,
+      Some(
+        PokePlayer(
+          "Luis",
+          PokePack( List( Some( Pokemon.apply( PokemonType.Simsala ) ) ) )
+        )
+      ),
+      Some(
+        PokePlayer(
+          "Timmy",
+          PokePack( List( Some( Pokemon.apply( PokemonType.Glurak ) ) ) )
+        )
+      )
+    )
+    super.beforeEach() // To be stackable, must call super.beforeEach()
+  }
   "AttackCommand" when {
-    val newGame = Game()
-    val state = FightingState
-    val game = newGame.setStateTo( state )
-    "failure" in {
-      AttackCommand( "", state ).doStep( game ) should be( Failure( NoInput ) )
+    "success" in {
+      AttackCommand( "1", game.state ).doStep( game ) should be(
+        Success(
+          game
+            .interpretAttackSelectionFrom( "1" )
+            .get
+            .setStateTo( State.DesicionState )
+        )
+      )
     }
 
-    val command = AttackCommand( "1", state )
-    "success" in {
-      val res = command.doStep( game )
-      res should be( game.interpretAttackSelectionFrom( "1" ) )
+    "success game Over" in {
+      val gameNew = Game(
+        FightingState,
+        Some(
+          PokePlayer(
+            "Luis",
+            PokePack( List( Some( Pokemon.apply( PokemonType.Simsala ) ) ) )
+          )
+        ),
+        Some(
+          PokePlayer(
+            "Timmy",
+            PokePack(
+              List(
+                Some( Pokemon.apply( PokemonType.Glurak ).reduceHP( 140 ) )
+              )
+            )
+          )
+        )
+      )
+      AttackCommand( "1", gameNew.state ).doStep( gameNew ) should be(
+        Success(
+          gameNew
+            .interpretAttackSelectionFrom( "1" )
+            .get
+            .setStateTo( State.GameOverState )
+        )
+      )
     }
 
   }
