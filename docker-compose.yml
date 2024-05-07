@@ -10,8 +10,6 @@ services:
     tty: true
     container_name: pokemonlite-persistence-service
     working_dir: /fileio
-    #depends_on:
-    #  - db
     volumes:
       - ./:/fileio:xro
 
@@ -20,6 +18,7 @@ services:
     ports:
       - "4001:4001"
     stdin_open: true
+    network_mode: "host"
     tty: true
     container_name: pokemonlite-controller-service
     depends_on:
@@ -33,22 +32,14 @@ services:
     tty: true
     read_only: false
     container_name: pokemonlite-tui
+    network_mode: "host"
     depends_on:
       - persistence
       - controller
-    environment:
-      UNO_SERVICE_HOST: uno
-      UNO_SERVICE_PORT: 8082
-      PERSISTENCE_SERVICE_HOST: uno-persistence-service
-      PERSISTENCE_SERVICE_PORT: 8081
-      PERSISTENCE_SERVE_PATH: /persistence/
-      CORE_SERVICE_HOST: uno-core-service
-      CORE_SERVICE_PORT: 8080
-      CORE_SERVICE_PATH: /controller/
   
   
   uno-gui:
-    image: pokemonlitegui:latest
+    image: pokemonlitegui:1.0.0
     ports:
       - "4004:4004"
     container_name: pokemonlite-gui
@@ -61,11 +52,3 @@ services:
       - ~/.Xauthority:/root/.Xauthority
     environment:
       - DISPLAY=host.docker.internal:0.0
-      - UNO_SERVICE_HOST=uno
-      - UNO_SERVICE_PORT=8082
-      - PERSISTENCE_SERVICE_HOST=uno-persistence-service
-      - PERSISTENCE_SERVICE_PORT=8081
-      - PERSISTENCE_SERVE_PATH=/persistence/
-      - CORE_SERVICE_HOST=uno-core-service
-      - CORE_SERVICE_PORT=8080
-      - CORE_SERVICE_PATH=/controller/

@@ -34,17 +34,9 @@ lazy val commonSettings = Seq(
     Seq( "base", "controls", "fxml", "graphics", "media", "swing", "web" )
       .map( m => "org.openjfx" % s"javafx-$m" % "20" )
   },
-  libraryDependencies ++= {
-    // Determine OS version of JavaFX binaries
-    lazy val osName = System.getProperty( "os.name" ) match {
-      case n if n.startsWith( "Linux" )   => "linux"
-      case n if n.startsWith( "Mac" )     => "mac"
-      case n if n.startsWith( "Windows" ) => "win"
-      case _ => throw new Exception( "Unknown platform!" )
-    }
-    Seq( "base", "controls", "fxml", "graphics", "media", "swing", "web" )
-      .map( m => "org.openjfx" % s"javafx-$m" % "20" )
-  },
+  dockerChmodType := DockerChmodType.UserGroupWriteExecute,
+  Docker / daemonUserUid := None,
+  Docker / daemonUser := "root",
   jacocoExcludes := Seq(
     "*gui*",
     "*tui.TUI*",
@@ -111,9 +103,17 @@ lazy val gui = ( project in file( "gui" ) )
     commonSettings,
     name := "PokemonLiteGUI",
     dockerExposedPorts := Seq( 4004 ),
-    version := "1.0.0"
+    version := "1.0.0",
+    dockerCommands ++= Seq(
+      Cmd( "RUN", "apt-get update" ),
+      Cmd(
+        "RUN",
+        "apt-get install -y libxrender1 libxtst6 libxi6 libgl1-mesa-glx libgtk-3-0 openjfx libgl1-mesa-dri libgl1-mesa-dev libcanberra-gtk-module libcanberra-gtk3-module default-jdk"
+      )
+    )
   )
   .dependsOn( controller )
+  .enablePlugins( DockerPlugin, JavaAppPackaging )
 
 lazy val root = ( project in file( "." ) )
   .settings(
