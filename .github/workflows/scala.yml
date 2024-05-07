@@ -50,4 +50,4 @@ jobs:
       - name: Build Docker image (SBT)
         run: sbt clean docker:publishLocal
       - name: push images
-        run: docker push ${{env.REGISTRY}}/luis-stumpf/pokemonlite-controller:latest
+        run: docker push ${{env.REGISTRY}}/luis-stumpf/pokemonlite-controller:latest && docker push ${{env.REGISTRY}}/luis-stumpf/pokemonlite-persistence:latest && docker push ${{env.REGISTRY}}/luis-stumpf/pokemonlite-tui:latest && docker push ${{env.REGISTRY}}/luis-stumpf/pokemonlite-gui:latest
