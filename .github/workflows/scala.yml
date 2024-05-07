@@ -49,9 +49,5 @@ jobs:
           password: ${{ secrets.GH_TOKEN }}
       - name: Build Docker image (SBT)
         run: sbt clean docker:publishLocal
-      - name: Push to Docker Hub
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: ${{env.REGISTRY}}/luis-stumpf/pokemonlite-tui:latest,${{env.REGISTRY}}/luis-stumpf/pokemonlite-persistence:latest,${{env.REGISTRY}}/luis-stumpf/pokemonlite-controller:latest
+      - name: push images
+        run: docker push ${{env.REGISTRY}}/luis-stumpf/pokemonlite-controller:latest
