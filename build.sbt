@@ -2,7 +2,8 @@ import com.github.sbt.jacoco.report.JacocoReportFormats
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 import com.typesafe.sbt.packager.docker.DockerPlugin
 import com.typesafe.sbt.packager.docker.DockerPlugin.autoImport._
-import com.typesafe.sbt.packager.docker.DockerChmodType
+import com.typesafe.sbt.packager.docker.DockerChmodType.UserGroupWriteExecute
+import com.typesafe.sbt.packager.docker.Cmd
 
 val scala3Version = "3.3.3"
 val AkkaVersion = "2.8.0"
@@ -38,7 +39,7 @@ lazy val commonSettings = Seq(
     Seq( "base", "controls", "fxml", "graphics", "media", "swing", "web" )
       .map( m => "org.openjfx" % s"javafx-$m" % "20" )
   },
-  dockerChmodType := DockerChmodType.UserGroupWriteExecute,
+  dockerChmodType := UserGroupWriteExecute,
   Docker / daemonUserUid := None,
   Docker / daemonUser := "root",
   jacocoExcludes := Seq(
@@ -125,8 +126,14 @@ lazy val gui = ( project in file( "gui" ) )
     commonSettings,
     name := "PokemonLiteGUI",
     dockerExposedPorts := Seq( 4004 ),
-    version := "1.0.0"
-    /*
+    version := "1.0.0",
+    dockerBaseImage := "nicolabeghin/liberica-openjdk-with-javafx-debian:17",
+    dockerAlias := DockerAlias(
+      Some( "ghcr.io" ),
+      Some( "luis-stumpf" ),
+      "pokemonlite-gui",
+      Some( "latest" )
+    ),
     dockerCommands ++= Seq(
       Cmd( "RUN", "apt-get update" ),
       Cmd(
@@ -134,10 +141,9 @@ lazy val gui = ( project in file( "gui" ) )
         "apt-get install -y libxrender1 libxtst6 libxi6 libgl1-mesa-glx libgtk-3-0 openjfx libgl1-mesa-dri libgl1-mesa-dev libcanberra-gtk-module libcanberra-gtk3-module default-jdk"
       )
     )
-     */
   )
   .dependsOn( controller )
-//.enablePlugins( DockerPlugin, JavaAppPackaging )
+  .enablePlugins( DockerPlugin, JavaServerAppPackaging )
 
 lazy val root = ( project in file( "." ) )
   .settings(
@@ -152,6 +158,7 @@ lazy val root = ( project in file( "." ) )
   )
   .dependsOn( util, model, controller, tui, gui, persistence )
   .aggregate( util, model, controller, tui, gui, persistence )
+  .enablePlugins( DockerPlugin, JavaAppPackaging )
 
 jacocoReportSettings := JacocoReportSettings(
   "Jacoco Coverage Report",

@@ -39,4 +39,4 @@ classes/
 game.xml
 game.json
 temp
-.env
+.env-data

@@ -48,7 +48,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
       - name: Build Docker image (SBT)
-        run: sbt docker:publishLocal
+        run: sbt clean docker:publishLocal
       - name: Push to Docker Hub
         uses: docker/build-push-action@v3
         with:
