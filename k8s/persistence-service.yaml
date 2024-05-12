@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: persistence
+spec:
+  selector:
+    app: persistence
+  ports:
+    - protocol: TCP
+      port: 4002
+      targetPort: 4002
+  type: LoadBalancer

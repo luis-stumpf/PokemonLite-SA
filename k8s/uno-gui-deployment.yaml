@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uno-gui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uno-gui
+  template:
+    metadata:
+      labels:
+        app: uno-gui
+    spec:
+      containers:
+      - name: uno-gui
+        image: pokemonlitegui:latest
+        ports:
+        - containerPort: 4004

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tui
+  template:
+    metadata:
+      labels:
+        app: tui
+    spec:
+      containers:
+      - name: tui
+        image: pokemonlitetui:1.0.0
+        ports:
+        - containerPort: 4003
