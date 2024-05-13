@@ -1,5 +1,10 @@
 import com.github.sbt.jacoco.report.JacocoReportFormats
-import com.typesafe.sbt.packager.docker._
+import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
+import com.typesafe.sbt.packager.docker.DockerPlugin
+import com.typesafe.sbt.packager.docker.DockerPlugin.autoImport._
+import com.typesafe.sbt.packager.docker.DockerChmodType.UserGroupWriteExecute
+import com.typesafe.sbt.packager.docker.Cmd
+
 val scala3Version = "3.3.3"
 val AkkaVersion = "2.8.0"
 val AkkaHttpVersion = "10.5.2"
@@ -34,7 +39,7 @@ lazy val commonSettings = Seq(
     Seq( "base", "controls", "fxml", "graphics", "media", "swing", "web" )
       .map( m => "org.openjfx" % s"javafx-$m" % "20" )
   },
-  dockerChmodType := DockerChmodType.UserGroupWriteExecute,
+  dockerChmodType := UserGroupWriteExecute,
   Docker / daemonUserUid := None,
   Docker / daemonUser := "root",
   jacocoExcludes := Seq(
@@ -55,7 +60,13 @@ lazy val persistence = ( project in file( "persistence" ) )
     commonSettings,
     name := "PokemonLitePersistence",
     version := "1.0.0",
-    dockerExposedPorts := Seq( 4002 )
+    dockerExposedPorts := Seq( 4002 ),
+    dockerAlias := DockerAlias(
+      Some( "ghcr.io" ),
+      Some( "luis-stumpf" ),
+      "pokemonlite-persistence",
+      Some( "latest" )
+    )
   )
   .dependsOn( model, util )
   .enablePlugins( DockerPlugin, JavaAppPackaging )
@@ -80,7 +91,13 @@ lazy val controller = ( project in file( "controller" ) )
     commonSettings,
     name := "PokemonLiteController",
     dockerExposedPorts := Seq( 4001 ),
-    version := "1.0.0"
+    version := "1.0.0",
+    dockerAlias := DockerAlias(
+      Some( "ghcr.io" ),
+      Some( "luis-stumpf" ),
+      "pokemonlite-controller",
+      Some( "latest" )
+    )
   )
   .dependsOn( model )
   .dependsOn( persistence )
@@ -93,7 +110,13 @@ lazy val tui = ( project in file( "tui" ) )
     commonSettings,
     name := "PokemonLiteTUI",
     dockerExposedPorts := Seq( 4003 ),
-    version := "1.0.0"
+    version := "1.0.0",
+    dockerAlias := DockerAlias(
+      Some( "ghcr.io" ),
+      Some( "luis-stumpf" ),
+      "pokemonlite-tui",
+      Some( "latest" )
+    )
   )
   .dependsOn( controller, model, util )
   .enablePlugins( DockerPlugin, JavaAppPackaging )
@@ -104,6 +127,13 @@ lazy val gui = ( project in file( "gui" ) )
     name := "PokemonLiteGUI",
     dockerExposedPorts := Seq( 4004 ),
     version := "1.0.0",
+    dockerBaseImage := "nicolabeghin/liberica-openjdk-with-javafx-debian:17",
+    dockerAlias := DockerAlias(
+      Some( "ghcr.io" ),
+      Some( "luis-stumpf" ),
+      "pokemonlite-gui",
+      Some( "latest" )
+    ),
     dockerCommands ++= Seq(
       Cmd( "RUN", "apt-get update" ),
       Cmd(
@@ -113,14 +143,13 @@ lazy val gui = ( project in file( "gui" ) )
     )
   )
   .dependsOn( controller )
-  .enablePlugins( DockerPlugin, JavaAppPackaging )
+  .enablePlugins( DockerPlugin, JavaServerAppPackaging )
 
 lazy val root = ( project in file( "." ) )
   .settings(
     commonSettings,
     name := "PokemonLite",
     version := "1.0.0",
-    dockerExposedPorts := Seq( 4003 ),
     mainClass := Some( "PokemonLite" ),
     jacocoAggregateReportSettings := JacocoReportSettings(
       title = "Project Coverage",
