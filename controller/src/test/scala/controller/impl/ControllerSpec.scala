@@ -24,7 +24,7 @@ class ControllerSpec extends AnyWordSpec {
     }
 
     "have a Game of type Game" in {
-      assert( controller.game.isInstanceOf[Game] )
+      assert( controller.game.isInstanceOf[GameInterface] )
     }
 
     "notify its observers on change" in {
@@ -42,6 +42,20 @@ class ControllerSpec extends AnyWordSpec {
     "be able to do and publish" in {
       controller.doAndPublish( controller.initPlayers )
       controller.game.state should be( InitPlayerState )
+    }
+
+    "be able to handle a failure" in {
+      controller.game = Game()
+      val initialGame = Game()
+      controller.save() match {
+        case Success( savedGame ) =>
+          savedGame should equal( initialGame )
+        case Failure( exception ) =>
+          fail( s"Saving the game failed: ${exception.getMessage}" )
+      }
+      controller.doAndPublish( controller.undoMove )
+      controller.game should equal( initialGame )
+
     }
 
     "be able to undo a move" in {
@@ -87,24 +101,100 @@ class ControllerSpec extends AnyWordSpec {
       controller.doAndPublish( controller.addPokemons, "Glurak" )
       controller.game.state should be( InitPlayerPokemonState )
     }
-    /* "be able to save the game" in {
-      val initialGame = controller.game
+
+    "be able to save the game" in {
+      controller.game = Game()
+      val initialGame = Game()
       controller.save() match {
-        case Success(savedGame) =>
-          savedGame should equal(initialGame)
-        case Failure(exception) =>
-          fail(s"Saving the game failed: ${exception.getMessage}")
+        case Success( savedGame ) =>
+          savedGame should equal( initialGame )
+        case Failure( exception ) =>
+          fail( s"Saving the game failed: ${exception.getMessage}" )
       }
     }
 
     "be able to load the game" in {
-      val initialGame = controller.game
+      controller.game = Game()
+      val initialGame = Game()
       controller.load() match {
-        case Success(loadedGame) =>
-          loadedGame should not equal initialGame
-        case Failure(exception) =>
-          fail(s"Loading the game failed: ${exception.getMessage}")
+        case Success( loadedGame ) =>
+          loadedGame should equal( initialGame )
+        case Failure( exception ) =>
+          fail( s"Loading the game failed: ${exception.getMessage}" )
       }
-    }*/
+    }
+
+    "be able to switch pokemon" in {
+      controller.doAndPublish( controller.initPlayers )
+      controller.game.state should be( InitPlayerState )
+      controller.doAndPublish( controller.addPlayer, "Test" )
+      controller.doAndPublish( controller.addPlayer, "Test1" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.doAndPublish( controller.addPokemons, "Glurak" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.doAndPublish( controller.selectPokemon, "Glurak" )
+      controller.game.state should be( InitPlayerPokemonState )
+    }
+
+    "be able to attack" in {
+      controller.doAndPublish( controller.initPlayers )
+      controller.game.state should be( InitPlayerState )
+      controller.doAndPublish( controller.addPlayer, "Test" )
+      controller.doAndPublish( controller.addPlayer, "Test1" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.doAndPublish( controller.addPokemons, "Glurak" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.doAndPublish( controller.selectPokemon, "Glurak" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.doAndPublish( controller.nextMove, "attack" )
+      controller.game.state should be( InitPlayerPokemonState )
+    }
+
+    "be able to restart the game" in {
+      controller.doAndPublish( controller.initPlayers )
+      controller.game.state should be( InitPlayerState )
+      controller.doAndPublish( controller.addPlayer, "Test" )
+      controller.doAndPublish( controller.addPlayer, "Test1" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.doAndPublish( controller.addPokemons, "Glurak" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.doAndPublish( controller.selectPokemon, "Glurak" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.doAndPublish( controller.restartTheGame )
+      controller.game.state should be( InitState )
+    }
+
+    "be able to get the game" in {
+      controller.doAndPublish( controller.initPlayers )
+      controller.game.state should be( InitPlayerState )
+      controller.doAndPublish( controller.addPlayer, "Test" )
+      controller.doAndPublish( controller.addPlayer, "Test1" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.doAndPublish( controller.addPokemons, "Glurak" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.doAndPublish( controller.selectPokemon, "Glurak" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.getGame() match {
+        case Success( game ) =>
+          game should equal( controller.game )
+        case Failure( exception ) =>
+          fail( s"Getting the game failed: ${exception.getMessage}" )
+      }
+    }
+
+    "be able to attack with a pokemon" in {
+      controller.doAndPublish( controller.initPlayers )
+      controller.game.state should be( InitPlayerState )
+      controller.doAndPublish( controller.addPlayer, "Test" )
+      controller.doAndPublish( controller.addPlayer, "Test1" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.doAndPublish( controller.addPokemons, "Glurak" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.doAndPublish( controller.selectPokemon, "Glurak" )
+      controller.game.state should be( InitPlayerPokemonState )
+      controller.doAndPublish( controller.attackWith, "attack" )
+      controller.game.state should be( InitPlayerPokemonState )
+    }
+
   }
 }

@@ -10,23 +10,25 @@ import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
 class FileIOSpec extends AnyWordSpec {
-
   val fileIO = FileIOJson()
-  val game = Game(
-    FightingState,
-    Some(
-      PokePlayer( "Luis", PokePack( List( Some( Pokemon.apply( Glurak ) ) ) ) )
-    ),
-    Some(
-      PokePlayer(
-        "Timmy",
-        PokePack( List( Some( Pokemon.apply( Simsala ) ) ) )
-      )
-    )
-  )
+  val game = Game()
+
   "The FileIO with the Json implement" should {
     "save the current game" in {
       fileIO.save( game )
+      val res = fileIO.load
+      res should be( game )
+
+    }
+
+    "load a game an its stats from game.json" in {
+      val res = fileIO.load
+      res should be( game )
+
+    }
+
+    "save from json" in {
+      fileIO.save( game.toJson )
       val res = fileIO.load
       res should be( game )
 

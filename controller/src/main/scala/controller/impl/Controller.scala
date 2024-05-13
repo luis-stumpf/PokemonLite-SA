@@ -1,14 +1,6 @@
 package controller.impl
 
-import controller.{
-  AttackEvent,
-  ControllerInterface,
-  GameOver,
-  PlayerChanged,
-  PokemonChanged,
-  StateChanged,
-  UnknownCommand
-}
+import controller.ControllerInterface
 
 import model.impl.game.Game
 import model.State.*
@@ -50,7 +42,6 @@ class Controller( using val fileIO: FileIOInterface )
         notifyObservers( x.toString )
         game
     }
-    //  usePublisher( undoManager.lastCommand )
     notifyObservers()
   }
 
@@ -62,7 +53,6 @@ class Controller( using val fileIO: FileIOInterface )
         notifyObservers( x.toString )
         game
     }
-    // usePublisher( undoManager.lastCommand )
     notifyObservers()
   }
 
@@ -81,12 +71,6 @@ class Controller( using val fileIO: FileIOInterface )
   def addPokemons( list: String ): Try[GameInterface] =
     undoManager.doStep( game, AddPokemonCommand( list, game.state ) )
 
-  def addPokemons( list: List[Int] ): Try[GameInterface] =
-    undoManager.doStep(
-      game,
-      AddPokemonCommand( list.mkString( "" ), game.state )
-    )
-
   def nextMove( input: String ): Try[GameInterface] =
     undoManager.doStep( game, SelectNextMoveCommand( input, game.state ) )
 
@@ -98,23 +82,6 @@ class Controller( using val fileIO: FileIOInterface )
 
   def restartTheGame(): Try[GameInterface] =
     undoManager.doStep( game, GameOverCommand( game, game.state ) )
-
-  private def usePublisher( command: Option[Command[GameInterface]] ) = {
-    command match
-      case None =>
-        notifyObservers( "Unknown Command" ); publish( new UnknownCommand )
-      case Some( c ) =>
-        c.getClass.getSimpleName match {
-          case "ChangeStateCommand"    => publish( new StateChanged )
-          case "AddPokemonCommand"     => publish( new PlayerChanged )
-          case "AddPlayerCommand"      => publish( new PlayerChanged )
-          case "GameOverCommand"       => publish( new GameOver )
-          case "SelectNextMoveCommand" => publish( new StateChanged )
-          case "SwitchPokemonCommand"  => publish( new PokemonChanged )
-          case "AttackCommand"         => publish( new AttackEvent )
-          case _                       => publish( new UnknownCommand )
-        }
-  }
 
   def save(): Try[GameInterface] =
     undoManager.doStep( game, SaveCommand( fileIO ) )

@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+
+  persistence:
+    image: ghcr.io/luis-stumpf/pokemonlite-persistence:latest
+    ports:
+      - "4002:4002"
+    stdin_open: true
+    tty: true
+    container_name: pokemonlite-persistence
+    working_dir: /fileio
+    volumes:
+      - ./:/fileio:xro
+
+  controller:
+    image: ghcr.io/luis-stumpf/pokemonlite-controller:latest
+    ports:
+      - "4001:4001"
+    stdin_open: true
+    network_mode: "host"
+    tty: true
+    container_name: pokemonlite-controller
+    depends_on:
+      - persistence
+
+  tui:
+    image: ghcr.io/luis-stumpf/pokemonlite-tui:latest
+    ports:
+      - "4003:4003"
+    stdin_open: true
+    tty: true
+    read_only: false
+    container_name: pokemonlite-tui
+    network_mode: "host"
+    depends_on:
+      - persistence
+      - controller
+  
+  
+  uno-gui:
+    image: ghcr.io/luis-stumpf/pokemonlite-gui:latest
+    ports:
+      - "4004:4004"
+    container_name: pokemonlite-gui
+    depends_on:
+      - persistence
+      - controller
+    network_mode: "host"
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ~/.Xauthority:/root/.Xauthority
+    environment:
+      - DISPLAY=host.docker.internal:0

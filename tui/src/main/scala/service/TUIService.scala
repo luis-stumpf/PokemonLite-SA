@@ -5,8 +5,11 @@ import java.io.IOException
 import di.ControllerModule
 import di.ControllerRestModule
 
+/*
 object TuiService extends App:
   Starter( TUI( using ControllerModule.given_ControllerInterface ) ).start()
+
+ */
 
 object TuiRestService extends App:
   Starter( TUI( using ControllerRestModule.given_ControllerInterface ) ).start()

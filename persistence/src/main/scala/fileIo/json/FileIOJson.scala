@@ -35,7 +35,8 @@ class FileIOJson extends FileIOInterface {
 
   override def save( gameJson: JsValue ): Unit = {
     val pw = new PrintWriter( new File( "game.json" ) )
-    pw.write( Json.prettyPrint( gameJson ) )
+    val save = Json.obj( "game" -> gameJson )
+    pw.write( Json.prettyPrint( save ) )
     pw.close()
   }
 
