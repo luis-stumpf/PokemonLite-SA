@@ -12,7 +12,7 @@ import slick.dbio.Effect
 trait SlickBase:
 
   val db = Database.forURL(
-    url = "jdbc:postgresql://localhost:6432/tbl",
+    url = "jdbc:postgresql://0.0.0.0:6432/tbl",
     user = "postgres",
     password = "postgres",
     driver = "org.postgresql.Driver"

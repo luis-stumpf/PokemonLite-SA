@@ -2,11 +2,27 @@ version: "3.9"
 
 services:
 
+  db:
+    image: postgres
+    restart: always
+    container_name: database
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: tbl
+      POSTGRES_HOST: database
+      POSTGRES_PORT: 5432
+    ports:
+      - "6432:5432"
+
   persistence:
     image: ghcr.io/luis-stumpf/pokemonlite-persistence:latest
     ports:
       - "4002:4002"
     stdin_open: true
+    network_mode: "host"
+    depends_on:
+      - db
     tty: true
     container_name: pokemonlite-persistence
     working_dir: /fileio
@@ -52,21 +68,6 @@ services:
       - ~/.Xauthority:/root/.Xauthority
     environment:
       - DISPLAY=host.docker.internal:0
-
-  db:
-    image: postgres
-    restart: always
-    container_name: database
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: tbl
-      POSTGRES_HOST: database
-      POSTGRES_PORT: 5432
-    ports:
-      - "6432:5432"
-    networks:
-      - my_network
 
 networks:
   my_network:

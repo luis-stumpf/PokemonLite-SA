@@ -164,7 +164,6 @@ lazy val root = ( project in file( "." ) )
   )
   .dependsOn( util, model, controller, tui, gui, persistence )
   .aggregate( util, model, controller, tui, gui, persistence )
-  .enablePlugins( DockerPlugin, JavaAppPackaging )
 
 jacocoReportSettings := JacocoReportSettings(
   "Jacoco Coverage Report",
