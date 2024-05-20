@@ -70,7 +70,9 @@ lazy val persistence = ( project in file( "persistence" ) )
     libraryDependencies ++= Seq(
       ( "com.typesafe.slick" %% "slick" % "3.5.0-M3" )
         .cross( CrossVersion.for3Use2_13 ),
-      "org.postgresql" % "postgresql" % "42.2.5"
+      "org.postgresql" % "postgresql" % "42.2.5",
+      ("org.mongodb.scala" %% "mongo-scala-driver" % "4.9.0")
+        .cross(CrossVersion.for3Use2_13)
     ),
     scalacOptions ++= Seq( "-Xignore-scala2-macros" )
   )

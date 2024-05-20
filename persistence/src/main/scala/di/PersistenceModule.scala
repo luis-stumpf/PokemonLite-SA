@@ -5,6 +5,7 @@ import fileIo.json.FileIOJson
 import client.FileIORestClient
 import database.DAOInterface
 import database.slick.defaultImpl.SlickDAO
+import database.mongo.MongoDAO
 
 object PersistenceModule:
   given FileIOInterface = FileIOJson()
@@ -12,4 +13,7 @@ object PersistenceModule:
 object PersistenceRestModule:
   given FileIOInterface = FileIORestClient()
 
-  given DAOInterface = SlickDAO
+  //given DAOInterface = SlickDAO
+
+  given DAOInterface = MongoDAO
+

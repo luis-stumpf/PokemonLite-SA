@@ -22,7 +22,7 @@ services:
     stdin_open: true
     network_mode: "host"
     depends_on:
-      - db
+      - mongo  # db
     tty: true
     container_name: pokemonlite-persistence
     working_dir: /fileio
@@ -68,6 +68,17 @@ services:
       - ~/.Xauthority:/root/.Xauthority
     environment:
       - DISPLAY=host.docker.internal:0
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    container_name: mongo
+    restart: always
+   # environment:
+     # MONGO_INITDB_ROOT_USERNAME: root
+      #MONGO_INITDB_ROOT_PASSWORD: root
+      #MONGO_INITDB_DATABASE: mongo
 
 networks:
   my_network:
