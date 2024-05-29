@@ -26,7 +26,11 @@ lazy val commonSettings = Seq(
     "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
     "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
     "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
-    "org.slf4j" % "slf4j-nop" % "2.0.5"
+    "io.spray" %% "spray-json" % "1.3.6",
+    //"org.slf4j" % "slf4j-nop" % "2.0.5"
+    "org.slf4j" % "slf4j-api" % "2.0.9",
+    "org.slf4j" % "slf4j-simple" % "2.0.9",
+    "ch.qos.logback" % "logback-classic" % "1.2.3",
   ),
   libraryDependencies ++= {
     // Determine OS version of JavaFX binaries
