@@ -19,5 +19,3 @@ object PersistenceRestModule:
   // given DAOInterface = MongoDAO
 
   given DAOInterface = CouchDAO
-
-  // given DAOInterface = MongoDAO
