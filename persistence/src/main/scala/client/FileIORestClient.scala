@@ -29,7 +29,7 @@ class FileIORestClient extends FileIOInterface {
     makePostRequest( "save", gameSave )
   }
 
-  private val persistenceServiceUrl = "http://0.0.0.0:4002"
+  private val persistenceServiceUrl = "http://localhost:4002"
   override def delete: Unit = {
     makePutRequest( "delete", None )
   }
