@@ -19,6 +19,7 @@ import fileIo.FileIOInterface
 import di.PersistenceRestModule.given_DAOInterface as dao
 import database.slick.defaultImpl.SlickDAO.delete
 import database.mongo.MongoDAO.delete
+import database.couch.CouchDAO.delete
 
 class PersistenceRestService( using fileIO: FileIOInterface ) {
 
