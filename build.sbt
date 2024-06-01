@@ -71,8 +71,8 @@ lazy val persistence = ( project in file( "persistence" ) )
       ( "com.typesafe.slick" %% "slick" % "3.5.0-M3" )
         .cross( CrossVersion.for3Use2_13 ),
       "org.postgresql" % "postgresql" % "42.2.5",
-      ("org.mongodb.scala" %% "mongo-scala-driver" % "4.9.0")
-        .cross(CrossVersion.for3Use2_13)
+      ( "org.mongodb.scala" %% "mongo-scala-driver" % "4.9.0" )
+        .cross( CrossVersion.for3Use2_13 )
     ),
     scalacOptions ++= Seq( "-Xignore-scala2-macros" )
   )
@@ -133,8 +133,9 @@ lazy val gui = ( project in file( "gui" ) )
   .settings(
     commonSettings,
     name := "PokemonLiteGUI",
-    dockerExposedPorts := Seq( 4004 ),
-    version := "1.0.0",
+    // dockerExposedPorts := Seq( 4004 ),
+    version := "1.0.0"
+    /*
     dockerBaseImage := "nicolabeghin/liberica-openjdk-with-javafx-debian:17",
     dockerAlias := DockerAlias(
       Some( "ghcr.io" ),
@@ -149,9 +150,10 @@ lazy val gui = ( project in file( "gui" ) )
         "apt-get install -y libxrender1 libxtst6 libxi6 libgl1-mesa-glx libgtk-3-0 openjfx libgl1-mesa-dri libgl1-mesa-dev libcanberra-gtk-module libcanberra-gtk3-module default-jdk"
       )
     )
+     */
   )
   .dependsOn( controller )
-  .enablePlugins( DockerPlugin, JavaServerAppPackaging )
+//.enablePlugins( DockerPlugin, JavaServerAppPackaging )
 
 lazy val root = ( project in file( "." ) )
   .settings(
