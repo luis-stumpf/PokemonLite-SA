@@ -22,7 +22,9 @@ import controller.commands.{
   SelectNextMoveCommand,
   SwitchPokemonCommand,
   SaveCommand,
-  GameOverCommand
+  GameOverCommand,
+  UpdateGameCommand,
+  DeleteGameCommand
 }
 
 class Controller( using val fileIO: FileIOInterface )
@@ -88,5 +90,12 @@ class Controller( using val fileIO: FileIOInterface )
 
   def load(): Try[GameInterface] =
     undoManager.doStep( game, LoadCommand( fileIO ) )
+
+  def updateGame(): Try[GameInterface] =
+    undoManager.doStep( game, UpdateGameCommand( fileIO ) )
+
+  def deleteGame(): Try[GameInterface] = {
+    undoManager.doStep( game, DeleteGameCommand( fileIO ) )
+  }
 
   def getGame(): Try[GameInterface] = Success( game )

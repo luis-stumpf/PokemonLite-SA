@@ -30,6 +30,12 @@ class FileIORestClient extends FileIOInterface {
   }
 
   private val persistenceServiceUrl = "http://0.0.0.0:4002"
+  override def delete: Unit = {
+    makePutRequest( "delete", None )
+  }
+
+  override def update( gameUpdate: GameInterface ): Unit =
+    makePutRequest( "update", Some( gameUpdate ) )
 
   def makePostRequest( command: String, game: GameInterface ): Unit = {
 
@@ -71,5 +77,30 @@ class FileIORestClient extends FileIOInterface {
 
     val responseJson = Await.result( responseJsonFuture, 3.seconds )
     Game.fromJson( responseJson )
+  }
+
+  def makePutRequest( command: String, game: Option[GameInterface] ): Unit = {
+    implicit val system = ActorSystem( Behaviors.empty, "SingleRequest" )
+    implicit val executionContext = system.executionContext
+
+    val responseFuture = Http()
+      .singleRequest(
+        HttpRequest(
+          method = HttpMethods.PUT,
+          uri = s"$persistenceServiceUrl/$command",
+          entity = HttpEntity(
+            ContentTypes.`application/json`,
+            game match {
+              case Some( g ) => g.toJson.toString()
+              case None      => ""
+            }
+          )
+        )
+      )
+      .onComplete( {
+        case Success( response ) => println( response )
+        case Failure( exception ) =>
+          println( exception )
+      } )
   }
 }

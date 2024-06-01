@@ -20,6 +20,10 @@ class TUI( using controller: ControllerInterface ) extends Observer:
     else if input == "save" then controller.doAndPublish( controller.save )
     else if input == "load" then controller.doAndPublish( controller.load )
     else if input == "get" then controller.doAndPublish( controller.getGame )
+    else if input == "update" then
+      controller.doAndPublish( controller.updateGame )
+    else if input == "delete" then
+      controller.doAndPublish( controller.deleteGame )
     else
       controller.game.state match
         case InitState =>

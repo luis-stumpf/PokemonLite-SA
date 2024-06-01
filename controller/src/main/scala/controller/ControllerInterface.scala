@@ -43,3 +43,7 @@ trait ControllerInterface extends Observable with Publisher:
   def load(): Try[GameInterface]
 
   def getGame(): Try[GameInterface]
+
+  def updateGame(): Try[GameInterface]
+
+  def deleteGame(): Try[GameInterface]

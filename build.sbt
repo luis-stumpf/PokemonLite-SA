@@ -7,7 +7,7 @@ import com.typesafe.sbt.packager.docker.Cmd
 
 val scala3Version = "3.3.3"
 val AkkaVersion = "2.8.0"
-val AkkaHttpVersion = "10.5.2"
+val AkkaHttpVersion = "10.5.0"
 
 lazy val commonSettings = Seq(
   version := "0.1.0-SNAPSHOT",
@@ -66,7 +66,13 @@ lazy val persistence = ( project in file( "persistence" ) )
       Some( "luis-stumpf" ),
       "pokemonlite-persistence",
       Some( "latest" )
-    )
+    ),
+    libraryDependencies ++= Seq(
+      ( "com.typesafe.slick" %% "slick" % "3.5.0-M3" )
+        .cross( CrossVersion.for3Use2_13 ),
+      "org.postgresql" % "postgresql" % "42.2.5"
+    ),
+    scalacOptions ++= Seq( "-Xignore-scala2-macros" )
   )
   .dependsOn( model, util )
   .enablePlugins( DockerPlugin, JavaAppPackaging )
@@ -158,7 +164,6 @@ lazy val root = ( project in file( "." ) )
   )
   .dependsOn( util, model, controller, tui, gui, persistence )
   .aggregate( util, model, controller, tui, gui, persistence )
-  .enablePlugins( DockerPlugin, JavaAppPackaging )
 
 jacocoReportSettings := JacocoReportSettings(
   "Jacoco Coverage Report",

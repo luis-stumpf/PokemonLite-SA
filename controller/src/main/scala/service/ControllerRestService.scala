@@ -96,7 +96,10 @@ class ControllerRestService( using controller: ControllerInterface ) {
               case "load" => controller.doAndPublish( controller.load )
               case "undo" => controller.doAndPublish( controller.undoMove )
               case "redo" => controller.doAndPublish( controller.redoMove )
-              case _      => ""
+              case "update" =>
+                controller.doAndPublish( controller.updateGame );
+              case "delete" => controller.doAndPublish( controller.deleteGame )
+              case _        => ""
             }
 
             controller.getGame() match {
