@@ -75,7 +75,7 @@ class FileIORestClient extends FileIOInterface {
       }
     }
 
-    val responseJson = Await.result( responseJsonFuture, 3.seconds )
+    val responseJson = Await.result( responseJsonFuture, 5.seconds )
     Game.fromJson( responseJson )
   }
 

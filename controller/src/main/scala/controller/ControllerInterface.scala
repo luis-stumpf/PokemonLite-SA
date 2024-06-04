@@ -4,12 +4,10 @@ import model.State.*
 import model.{ GameInterface, State }
 import util.{ Observable, UndoManager }
 
-import scala.swing.Publisher
 import scala.util.{ Failure, Success, Try }
 import org.checkerframework.checker.nullness.Opt
-import scala.swing.event.Event
 
-trait ControllerInterface extends Observable with Publisher:
+trait ControllerInterface extends Observable:
   val undoManager: UndoManager[GameInterface]
   var game: GameInterface
 
