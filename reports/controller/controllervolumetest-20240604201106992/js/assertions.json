@@ -1,0 +1,10 @@
+{
+  "simulation": "gatling.ControllerVolumeTest",
+  "simulationId": "controllervolumetest-20240604201106992",
+  "start": 1717531867564,
+  "description": "",
+  "scenarios": ["Scenario 1", "Scenario 2", "Scenario 3"],
+  "assertions": [
+
+  ]
+}

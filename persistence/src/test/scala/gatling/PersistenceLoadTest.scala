@@ -19,7 +19,7 @@ class PersistenceLoadTest extends SimulationSkeleton {
 
     setUp(
       // load test with only one user requesting a normal amount of requests
-      scn1.inject( rampUsers( 1000 ) during ( 20.seconds ) )
+      scn1.inject( rampUsers( 10000 ) during ( 20.seconds ) )
     ).protocols( httpProtocol )
   }
 

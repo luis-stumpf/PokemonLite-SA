@@ -9,7 +9,6 @@ class ControllerSpikeTest extends SimulationSkeleton {
 
   override val operations = List(
     buildOperation( "State", "GET", "/state", StringBody( "" ) ),
-    buildOperation( "State", "GET", "/state", StringBody( "" ) ),
     buildOperation(
       "add player1",
       "POST",
@@ -33,30 +32,6 @@ class ControllerSpikeTest extends SimulationSkeleton {
       "POST",
       "/controller/addPokemons?input=111",
       StringBody( "" )
-    ),
-    buildOperation(
-      "save",
-      "POST",
-      "/controller/save?input=1",
-      StringBody( "" )
-    ),
-    buildOperation(
-      "load",
-      "POST",
-      "/controller/save?input=1",
-      StringBody( "" )
-    ),
-    buildOperation(
-      "load",
-      "POST",
-      "/controller/next?input=1",
-      StringBody( "" )
-    ),
-    buildOperation(
-      "attack",
-      "POST",
-      "/controller/attack?input=1",
-      StringBody( "" )
     )
   )
 
@@ -68,7 +43,7 @@ class ControllerSpikeTest extends SimulationSkeleton {
       // load test with only one user requesting a normal amount of requests
       scn2.inject(
         rampUsers( 10 ) during ( 10.second ),
-        atOnceUsers( 500 ),
+        atOnceUsers( 5000 ),
         rampUsers( 10 ) during ( 10.second )
       )
     ).protocols( httpProtocol )

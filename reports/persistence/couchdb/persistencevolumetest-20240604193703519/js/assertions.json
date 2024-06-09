@@ -1,0 +1,10 @@
+{
+  "simulation": "gatling.PersistenceVolumeTest",
+  "simulationId": "persistencevolumetest-20240604193703519",
+  "start": 1717529824507,
+  "description": "",
+  "scenarios": ["Scenario 1", "Scenario 2", "Scenario 3"],
+  "assertions": [
+
+  ]
+}

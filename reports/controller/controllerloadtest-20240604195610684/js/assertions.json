@@ -1,0 +1,10 @@
+{
+  "simulation": "gatling.ControllerLoadTest",
+  "simulationId": "controllerloadtest-20240604195610684",
+  "start": 1717530971119,
+  "description": "",
+  "scenarios": ["Scenario 1 to much"],
+  "assertions": [
+
+  ]
+}

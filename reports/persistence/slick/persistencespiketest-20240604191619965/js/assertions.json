@@ -1,0 +1,10 @@
+{
+  "simulation": "gatling.PersistenceSpikeTest",
+  "simulationId": "persistencespiketest-20240604191619965",
+  "start": 1717528580374,
+  "description": "",
+  "scenarios": ["Scenario 1 okey"],
+  "assertions": [
+
+  ]
+}

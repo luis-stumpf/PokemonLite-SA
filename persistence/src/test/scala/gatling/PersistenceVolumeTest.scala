@@ -28,7 +28,7 @@ class PersistenceVolumeTest extends SimulationSkeleton {
         .andThen(
           scn2.inject(
             // hold 100 users for 10 seconds
-            constantUsersPerSec( 100 ) during ( 10.second )
+            constantUsersPerSec( 500 ) during ( 10.second )
           )
         )
         .andThen(

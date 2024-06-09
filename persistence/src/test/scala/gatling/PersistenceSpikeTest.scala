@@ -21,7 +21,7 @@ class PersistenceSpikeTest extends SimulationSkeleton {
       // load test with only one user requesting a normal amount of requests
       scn2.inject(
         rampUsers( 10 ) during ( 10.second ),
-        atOnceUsers( 500 ),
+        atOnceUsers( 5000 ),
         rampUsers( 10 ) during ( 10.second )
       )
     ).protocols( httpProtocol )
