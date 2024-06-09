@@ -14,8 +14,8 @@ object PersistenceModule:
 object PersistenceRestModule:
   given FileIOInterface = FileIORestClient()
 
-  // given DAOInterface = SlickDAO
+  given DAOInterface = SlickDAO
 
-  given DAOInterface = MongoDAO
+  // given DAOInterface = MongoDAO
 
   // given DAOInterface = CouchDAO

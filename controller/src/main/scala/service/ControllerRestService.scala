@@ -13,6 +13,28 @@ import scala.concurrent.ExecutionContext
 import akka.http.scaladsl.server.Route
 import scala.util.{ Failure, Success }
 import play.api.libs.json.Json
+import akka.stream.UniformFanInShape
+import akka.stream.UniformFanOutShape
+import akka.stream.scaladsl.Broadcast
+import akka.stream.scaladsl.GraphDSL
+import akka.stream.scaladsl.Merge
+import akka.http.scaladsl.model.HttpRequest
+import akka.http.scaladsl.model.HttpResponse
+import scala.concurrent.Future
+import scala.concurrent.duration.Duration
+import java.util.concurrent.TimeUnit
+import akka.http.scaladsl.unmarshalling.Unmarshal
+import akka.stream.FlowShape
+import akka.stream.scaladsl.GraphDSL.Builder
+import akka.stream.scaladsl.{ Broadcast, Flow, GraphDSL, Merge, Sink, Source }
+import akka.stream.{
+  FlowShape,
+  Materializer,
+  UniformFanInShape,
+  UniformFanOutShape
+}
+import akka.NotUsed
+import scala.collection.immutable.LazyList.cons
 
 class ControllerRestService( using controller: ControllerInterface ) {
 
@@ -20,111 +42,176 @@ class ControllerRestService( using controller: ControllerInterface ) {
     ActorSystem( Behaviors.empty, "SprayExample" )
   implicit val executionContext: ExecutionContext = system.executionContext
 
-  val routes = """<!DOCTYPE html>
-<html>
-<head>
-    <title>ControllerRestService API Documentation</title>
-</head>
-<body>
-    <h1>ControllerRestService API Documentation</h1>
+  val controllerFlow: Flow[HttpRequest, String, NotUsed] =
+    Flow.fromGraph( GraphDSL.create() { implicit builder: Builder[NotUsed] =>
+      import GraphDSL.Implicits.*
 
-    <h2>Endpoints</h2>
+      val bcast: UniformFanOutShape[HttpRequest, HttpRequest] =
+        builder.add( Broadcast[HttpRequest]( 2 ) )
 
-    <h3>POST /controller/command</h3>
-    <p>This endpoint allows you to execute a command.</p>
+      val merge: UniformFanInShape[String, String] =
+        builder.add( Merge[String]( 2 ) )
 
-    <h4>Request Parameters</h4>
-    <ul>
-        <li><strong>command</strong> (path parameter): The command to execute.</li>
-        <li><strong>input</strong> (query parameter): Additional input for the command.</li>
-    </ul>
-
-    <h4>Response</h4>
-    <p>The response is a JSON object. If the command is executed successfully, the JSON object represents the game state. If there's an error, the JSON object contains an "error" field with a description of the error.</p>
-
-    <h4>Example</h4>
-    <p>POST /controller/command?input=someInput</p>
-</body>
-</html>"""
-
-  val route: Route =
-    concat(
-      get {
-        pathSingleSlash {
-          complete( HttpEntity( ContentTypes.`text/html(UTF-8)`, routes ) )
-        }
-      },
-      get {
-        path( "state" ) {
-          complete(
-            HttpEntity(
-              ContentTypes.`application/json`,
-              controller.game.state.toString()
+      val getReqFlow = Flow[HttpRequest].mapAsync( 1 ) { request =>
+        request.uri.path.toString match {
+          case "/state" =>
+            Future.successful(
+              HttpResponse(entity =
+                Json
+                  .obj( "state" -> controller.game.state.toString() )
+                  .toString()
+              )
             )
-          )
-        }
-      },
-      get {
-        path( "controller" / "game" ) {
-          complete(
-            HttpEntity(
-              ContentTypes.`application/json`,
-              controller.game.toJson.toString()
-            )
-          )
-        }
-      },
-      post {
-        path( "controller" / Segment ) { command =>
-          parameter( "input" ) { input =>
-            command match {
-              case "initPlayers" =>
-                controller.doAndPublish( controller.initPlayers )
-              case "addPlayer" =>
-                controller.doAndPublish( controller.addPlayer, input )
-              case "addPokemons" =>
-                controller.doAndPublish( controller.addPokemons, input )
-              case "next" =>
-                controller.doAndPublish( controller.nextMove, input )
-              case "attack" =>
-                controller.doAndPublish( controller.attackWith, input )
-              case "switchPokemon" =>
-                controller.doAndPublish( controller.selectPokemon, input )
-              case "gameOver" =>
-                controller.doAndPublish( controller.restartTheGame )
-              case "save" => controller.doAndPublish( controller.save )
-              case "load" => controller.doAndPublish( controller.load )
-              case "undo" => controller.doAndPublish( controller.undoMove )
-              case "redo" => controller.doAndPublish( controller.redoMove )
-              case "update" =>
-                controller.doAndPublish( controller.updateGame );
-              case "delete" => controller.doAndPublish( controller.deleteGame )
-              case _        => ""
-            }
 
-            controller.getGame() match {
-              case Success( game ) =>
-                complete(
-                  HttpEntity(
-                    ContentTypes.`application/json`,
-                    game.toJson.toString()
-                  )
-                )
-              case Failure( exception ) =>
-                complete(
-                  HttpEntity(
-                    ContentTypes.`application/json`,
-                    Json
-                      .obj( "error" -> Json.toJson( exception.toString ) )
-                      .toString()
-                  )
-                )
-            }
-
-          }
+          case "/controller/game" =>
+            Future.successful( gameResponse )
         }
       }
-    )
+
+      val postReqFlow = Flow[HttpRequest].mapAsync( 1 ) { request =>
+        request.uri.path.toString match {
+          case "/controller/initPlayers" =>
+            request.entity
+              .toStrict( Duration.apply( 3, TimeUnit.SECONDS ) )
+              .map { entity =>
+                controller.doAndPublish( controller.initPlayers )
+                println( "test game:" + controller.game.toJson.toString() )
+                gameResponse
+              }
+          case "/controller/addPlayer" =>
+            request.entity
+              .toStrict( Duration.apply( 3, TimeUnit.SECONDS ) )
+              .map { entity =>
+                val json = Json.parse( entity.data.utf8String )
+                val msg = ( json \ "msg" ).as[String]
+                controller
+                  .doAndPublish( controller.addPlayer, msg )
+                gameResponse
+              }
+          case "/controller/addPokemons" =>
+            request.entity
+              .toStrict( Duration.apply( 3, TimeUnit.SECONDS ) )
+              .map { entity =>
+                val json = Json.parse( entity.data.utf8String )
+                val msg = ( json \ "msg" ).as[String]
+                controller
+                  .doAndPublish( controller.addPokemons, msg )
+                gameResponse
+              }
+          case "/controller/next" =>
+            request.entity
+              .toStrict( Duration.apply( 3, TimeUnit.SECONDS ) )
+              .map { entity =>
+                val json = Json.parse( entity.data.utf8String )
+                val msg = ( json \ "msg" ).as[String]
+                controller
+                  .doAndPublish( controller.nextMove, msg )
+                gameResponse
+              }
+          case "/controller/attack" =>
+            request.entity
+              .toStrict( Duration.apply( 3, TimeUnit.SECONDS ) )
+              .map { entity =>
+                val json = Json.parse( entity.data.utf8String )
+                val msg = ( json \ "msg" ).as[String]
+                controller
+                  .doAndPublish( controller.attackWith, msg )
+                gameResponse
+              }
+          case "/controller/switchPokemon" =>
+            request.entity
+              .toStrict( Duration.apply( 3, TimeUnit.SECONDS ) )
+              .map { entity =>
+                val json = Json.parse( entity.data.utf8String )
+                val msg = ( json \ "msg" ).as[String]
+                controller
+                  .doAndPublish( controller.selectPokemon, msg )
+                gameResponse
+              }
+          case "/controller/gameOver" =>
+            request.entity
+              .toStrict( Duration.apply( 3, TimeUnit.SECONDS ) )
+              .map { entity =>
+                controller.doAndPublish( controller.restartTheGame )
+                gameResponse
+              }
+          case "/controller/save" =>
+            request.entity
+              .toStrict( Duration.apply( 3, TimeUnit.SECONDS ) )
+              .map { entity =>
+                controller.doAndPublish( controller.save )
+                gameResponse
+              }
+          case "/controller/load" =>
+            request.entity
+              .toStrict( Duration.apply( 3, TimeUnit.SECONDS ) )
+              .map { entity =>
+                controller.doAndPublish( controller.load )
+                gameResponse
+              }
+          case "/controller/undo" =>
+            request.entity
+              .toStrict( Duration.apply( 3, TimeUnit.SECONDS ) )
+              .map { entity =>
+                controller.doAndPublish( controller.undoMove )
+                gameResponse
+              }
+          case "/controller/redo" =>
+            request.entity
+              .toStrict( Duration.apply( 3, TimeUnit.SECONDS ) )
+              .map { entity =>
+                controller.doAndPublish( controller.redoMove )
+                gameResponse
+              }
+          case "/controller/update" =>
+            request.entity
+              .toStrict( Duration.apply( 3, TimeUnit.SECONDS ) )
+              .map { entity =>
+                controller.doAndPublish( controller.updateGame )
+                gameResponse
+              }
+          case "/controller/delete" =>
+            request.entity
+              .toStrict( Duration.apply( 3, TimeUnit.SECONDS ) )
+              .map { entity =>
+                controller.doAndPublish( controller.deleteGame )
+                gameResponse
+              }
+        }
+      }
+
+      val getReqFlowShape = builder.add( getReqFlow )
+
+      val getResponseFlow = Flow[HttpResponse].mapAsync( 1 ) { response =>
+        Unmarshal( response.entity ).to[String]
+      }
+
+      val getResFlowShape = builder.add( getResponseFlow )
+      val postRequestFlowShape = builder.add( postReqFlow )
+
+      val postResponseFlow = Flow[HttpResponse].mapAsync( 1 ) { response =>
+        Unmarshal( response.entity ).to[String]
+      }
+      val postResponseFlowShape = builder.add( postResponseFlow )
+
+      bcast.out( 0 ) ~> getReqFlowShape ~> getResFlowShape ~> merge.in( 0 )
+      bcast.out( 1 ) ~> postRequestFlowShape ~> postResponseFlowShape ~> merge
+        .in( 1 )
+
+      FlowShape( bcast.in, merge.out )
+    } )
+
+  val route: Route = {
+    extractRequest { request =>
+      complete(
+        Source
+          .single( request )
+          .via( controllerFlow )
+          .runWith( Sink.head )
+          .map( response => response )
+      )
+    }
+  }
 
   def start(): Unit = {
     val binding = Http().newServerAt( "0.0.0.0", 4001 ).bind( route )
@@ -140,5 +227,13 @@ class ControllerRestService( using controller: ControllerInterface ) {
         )
     }
   }
+
+  def gameResponse =
+    HttpResponse(entity =
+      HttpEntity(
+        ContentTypes.`application/json`,
+        Json.obj( "game" -> controller.game.toJson ).toString()
+      )
+    )
 
 }
