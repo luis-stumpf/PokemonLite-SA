@@ -7,8 +7,8 @@ import com.typesafe.sbt.packager.docker.Cmd
 import sbt.librarymanagement.InclExclRule
 
 val scala3Version = "3.3.3"
-val AkkaVersion = "2.8.0"
-val AkkaHttpVersion = "10.5.0"
+val AkkaVersion = "2.9.3"
+val AkkaHttpVersion = "10.6.3"
 
 /*
 val gatlingExclude = Seq(
@@ -45,8 +45,8 @@ lazy val commonSettings = Seq(
     "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
     "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
     "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
+    "com.typesafe.akka" %% "akka-stream-kafka" % "6.0.0",
     "io.spray" %% "spray-json" % "1.3.6",
-    // "org.slf4j" % "slf4j-nop" % "2.0.5"
     "org.slf4j" % "slf4j-api" % "2.0.9",
     "org.slf4j" % "slf4j-simple" % "2.0.9",
     "ch.qos.logback" % "logback-classic" % "1.2.3"
