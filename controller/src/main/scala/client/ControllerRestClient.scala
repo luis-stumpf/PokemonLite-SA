@@ -18,6 +18,7 @@ import play.api.libs.json.Json
 import scalafx.scene.input.KeyCode.F
 import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
+import play.api.libs.json.JsDefined
 
 class ControllerRestClient( using val fileIo: FileIOInterface )
     extends ControllerInterface {
@@ -34,13 +35,23 @@ class ControllerRestClient( using val fileIo: FileIOInterface )
     val responseFuture = Http().singleRequest(
       HttpRequest(
         method = HttpMethods.POST,
-        uri = s"$controllerServiceUrl/$command?input=$input"
+        uri = s"$controllerServiceUrl/$command",
+        entity = HttpEntity(
+          ContentTypes.`application/json`,
+          Json.obj( "msg" -> input ).toString()
+        )
       )
     )
 
     val responseJsonFuture = responseFuture.flatMap { response =>
       Unmarshal( response.entity ).to[String].map { jsonString =>
-        Json.parse( jsonString )
+        // println( jsonString )
+        val parsedJson = Json.parse( jsonString )
+        parsedJson \ "game" match {
+          case JsDefined( gameJson ) => {
+            gameJson
+          }
+        }
       }
     }
 
