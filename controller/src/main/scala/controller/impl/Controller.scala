@@ -12,7 +12,6 @@ import util.Command
 import util.Observer
 
 import scala.util.{ Failure, Success, Try }
-import scala.swing.Publisher
 import controller.commands.{
   AddPokemonCommand,
   LoadCommand,

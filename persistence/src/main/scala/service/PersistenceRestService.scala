@@ -46,6 +46,7 @@ class PersistenceRestService( using fileIO: FileIOInterface ) {
       },
       get {
         path( "load" ) {
+          println( "loading" )
           var game: GameInterface = dao.load().get
 
           complete(

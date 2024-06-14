@@ -1,0 +1,10 @@
+{
+  "simulation": "gatling.PersistenceStressTest",
+  "simulationId": "persistencestresstest-20240604192605340",
+  "start": 1717529165844,
+  "description": "",
+  "scenarios": ["Scenario 1 to much"],
+  "assertions": [
+
+  ]
+}

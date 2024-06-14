@@ -1,0 +1,10 @@
+{
+  "simulation": "gatling.ControllerSpikeTest",
+  "simulationId": "controllerspiketest-20240604195710966",
+  "start": 1717531031374,
+  "description": "",
+  "scenarios": ["Scenario 1 okey"],
+  "assertions": [
+
+  ]
+}
