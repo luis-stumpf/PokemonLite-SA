@@ -10,18 +10,6 @@ val scala3Version = "3.3.3"
 val AkkaVersion = "2.9.3"
 val AkkaHttpVersion = "10.6.3"
 
-/*
-val gatlingExclude = Seq(
-  ( "com.typesafe.akka", "akka-actor_2.12" ),
-  ( "org.scala-lang.modules", "scala-xml_2.12" ),
-  ( "org.scala-lang.modules", "scala-swing_2.13" ),
-  ( "org.scala-lang.modules", "scala-java8-compat_2.12" ),
-  ( "com.typesafe.akka", "akka-slf4j_2.12" )
-).toVector.map( ( org_name: Tuple2[String, String] ) =>
-  InclExclRule( org_name._1, org_name._2 )
-)
- */
-
 val gatlingExclude = Seq(
   ( "com.typesafe.akka", "akka-actor_2.13" ),
   ( "org.scala-lang.modules", "scala-java8-compat_2.13" ),
@@ -48,8 +36,7 @@ lazy val commonSettings = Seq(
     "com.typesafe.akka" %% "akka-stream-kafka" % "6.0.0",
     "io.spray" %% "spray-json" % "1.3.6",
     "org.slf4j" % "slf4j-api" % "2.0.9",
-    "org.slf4j" % "slf4j-simple" % "2.0.9",
-    "ch.qos.logback" % "logback-classic" % "1.2.3"
+    "org.slf4j" % "slf4j-simple" % "2.0.9"
   ),
   libraryDependencies ++= {
     // Determine OS version of JavaFX binaries

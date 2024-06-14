@@ -4,6 +4,7 @@ import controller.ControllerRestApi
 import persistence.PersistenceRestApi
 import service.TuiRestService
 import service.GuiRestService
+import service.TuiKafkaService
 
 object PokemonLite extends App {
 
@@ -11,7 +12,8 @@ object PokemonLite extends App {
   val persistenceService = PersistenceRestApi.run()
 
   // TuiService
-  TuiRestService
+  // TuiRestService
+  TuiKafkaService
 
   // GuiService
   // GuiRestService.main( Array.empty )

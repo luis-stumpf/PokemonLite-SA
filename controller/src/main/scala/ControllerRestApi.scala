@@ -4,6 +4,7 @@ import service.ControllerRestService
 import controller.impl.Controller
 import controller.ControllerInterface
 import di.ControllerRestServerModule
+import service.ControllerKafkaService
 
 object ControllerRestApi {
 
@@ -11,6 +12,11 @@ object ControllerRestApi {
     val controllerService = new ControllerRestService( using
       ControllerRestServerModule.given_ControllerInterface
     )
-    controllerService.start()
+
+    val controllerKafkaService = new ControllerKafkaService( using
+      ControllerRestServerModule.given_ControllerInterface
+    )
+    // controllerService.start()
+    controllerKafkaService.start()
   }
 }
